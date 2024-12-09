@@ -10,7 +10,7 @@ Title: Grass 02
 import { useGLTF } from '@react-three/drei';
 
 export function Grass(props) {
-  const { nodes, materials } = useGLTF('/models/Grass.glb');
+  const { nodes, materials } = useGLTF('/models/grass.glb');
   return (
     <group {...props} dispose={null}>
       <mesh
@@ -22,4 +22,4 @@ export function Grass(props) {
   );
 }
 
-useGLTF.preload('/models/Grass.glb');
+useGLTF.preload('/models/grass.glb');

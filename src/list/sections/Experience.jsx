@@ -3,7 +3,7 @@ import { workExperiences } from '../../constants';
 import { OrbitControls, SpotLight } from '@react-three/drei';
 import { Suspense, useState } from 'react';
 import CanvasLoader from '../components/CanvasLoader';
-import Developer from '../components/Developer';
+import Avatar from '../components/Avatar';
 
 const Experience = () => {
   const [animationName, setAnimationName] = useState('idle');
@@ -15,12 +15,12 @@ const Experience = () => {
         <div className="work-container">
           <div className="work-canvas">
             <Canvas>
-              <ambientLight intensity={3} />
+              <ambientLight intensity={2} />
               <SpotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
               <directionalLight position={[10, 10, 10]} intensity={2} />
               <OrbitControls enableZoom={false} maxPolarAngle={Math.PI / 2} />
               <Suspense fallback={<CanvasLoader />}>
-                <Developer
+                <Avatar
                   position-y={-3}
                   scale={3}
                   animationName={animationName}

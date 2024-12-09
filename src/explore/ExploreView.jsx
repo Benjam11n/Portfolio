@@ -3,7 +3,6 @@ import { Scroll, ScrollControls } from '@react-three/drei';
 import { config } from '../constants/config.js';
 import { MotionConfig } from 'framer-motion';
 import { Interface } from './components/Interface.jsx';
-import Menu from './components/Menu.jsx';
 import LoadingScreen from './components/LoadingScreen.jsx';
 import { Suspense } from 'react';
 import CameraController from './components/CameraController.jsx';
@@ -37,7 +36,6 @@ const ExploreView = () => {
           </Scroll>
         </ScrollControls>
       </Canvas>
-      {/* <Menu /> */}
     </>
   );
 };

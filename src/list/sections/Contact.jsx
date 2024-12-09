@@ -98,7 +98,7 @@ const Contact = () => {
                 required
                 rows={5}
                 className="field-input"
-                placeholder="Hi, you're hired ..."
+                placeholder="Hi, you're hired!"
               />
             </label>
 
