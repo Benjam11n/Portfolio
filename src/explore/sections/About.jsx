@@ -55,9 +55,9 @@ const About = () => {
         {/* Physics Objects */}
         <Physics>
           <Apple
-            scale={12}
-            position={isMobile ? [-1, -1, 1] : [3.7, 0.85, -0.5]}
-            rotation-y={isMobile ? Math.PI / 6 : -Math.PI / 4}
+            scale={15}
+            position={isMobile ? [-1, 0.8, 0.8] : [3.7, 0.85, -0.5]}
+            rotation-y={-Math.PI / 4}
           />
           <RigidBody type="fixed">
             <Table

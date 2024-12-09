@@ -4,7 +4,7 @@ import HackerRoom from '../components/HackerRoom';
 import { Suspense } from 'react';
 import CanvasLoader from '../components/CanvasLoader';
 import { useMediaQuery } from 'react-responsive';
-import { calculateSizes } from '../constants';
+import { calculateSizes } from '../../constants';
 import Target from '../components/Target';
 import ReactLogo from '../components/ReactLogo';
 import Cube from '../components/Cube';
@@ -19,7 +19,7 @@ const Hero = () => {
   const sizes = calculateSizes(isSmall, isMobile, isTablet);
 
   return (
-    <section className="min-h-screen w-full flex flex-col relative">
+    <section className="min-h-screen w-full flex flex-col relative" id="home">
       <div className="w-full mx-auto flex flex-col sm:mt-36 mt-20 c-space gap-3">
         <p className="sm:text-3xl text-2xl font-medium text-white text-center font-generalsans">
           Hi, I am Benjamin

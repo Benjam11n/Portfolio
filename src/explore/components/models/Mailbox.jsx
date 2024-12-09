@@ -16,12 +16,13 @@ export function Mailbox(props) {
   const [mailBoxHovered, setMailBoxHovered] = useState(false);
 
   useCursor(mailBoxHovered);
+
   useEffect(() => {
     const emissiveColor = new THREE.Color('#ffc527');
     Object.values(materials).forEach((material) => {
       material.emissive = emissiveColor;
     });
-  }, []);
+  }, [materials]);
 
   useFrame(() => {
     Object.values(materials).forEach((material) => {

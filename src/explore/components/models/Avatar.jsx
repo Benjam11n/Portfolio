@@ -12,39 +12,41 @@ import { SkeletonUtils } from 'three-stdlib';
 import { useMobile } from '../../../hooks/useMobile';
 
 export function Avatar(props) {
+  const group = useRef();
   const { isMobile } = useMobile();
   const { scene } = useGLTF('/models/Avatar.glb');
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const { nodes, materials } = useGraph(clone);
-  const { animations: idleAnimation } = useFBX('/animations/Idle.fbx');
-  const { animations: walkingAnimation } = useFBX('/animations/Walking.fbx');
-
-  const group = useRef();
-  idleAnimation[0].name = 'Idle';
-  walkingAnimation[0].name = 'Walking';
+  const { animations: idleAnimation } = useFBX('/models/animations/idle.fbx');
+  const { animations: walkingAnimation } = useFBX(
+    '/models/animations/walking.fbx'
+  );
+  idleAnimation[0].name = 'idle';
+  walkingAnimation[0].name = 'walking';
 
   const { actions } = useAnimations(
     [idleAnimation[0], walkingAnimation[0]],
     group
   );
-  const [currentAnimation, setCurrentAnimation] = useState('Idle');
+
+  const [currentAnimation, setCurrentAnimation] = useState('idle');
   const scrollData = useScroll();
   const lastScroll = useRef(0);
   const animationTimeout = useRef(null);
 
   // Set up animations only once when component mounts
   useEffect(() => {
-    // Start with Idle animation
-    actions['Idle'].play();
-    actions['Walking'].play();
+    // Start with idle animation
+    actions['idle'].play();
+    actions['walking'].play();
 
     // Set initial weights
-    actions['Idle'].setEffectiveWeight(1);
-    actions['Walking'].setEffectiveWeight(0);
+    actions['idle'].setEffectiveWeight(1);
+    actions['walking'].setEffectiveWeight(0);
 
     return () => {
-      actions['Idle'].stop();
-      actions['Walking'].stop();
+      actions['idle'].stop();
+      actions['walking'].stop();
     };
   }, [actions]);
 
@@ -65,19 +67,31 @@ export function Avatar(props) {
           : Math.PI;
 
       // Smoothly transition to walking
-      actions['Idle'].setEffectiveWeight(0);
-      actions['Walking'].setEffectiveWeight(1);
+      actions['idle'].setEffectiveWeight(0);
+      actions['walking'].setEffectiveWeight(1);
 
-      if (currentAnimation !== 'Walking') {
-        setCurrentAnimation('Walking');
+      if (currentAnimation !== 'walking') {
+        setCurrentAnimation('walking');
       }
-    } else if (currentAnimation !== 'Idle') {
+    } else if (currentAnimation !== 'idle') {
       // Add a small delay before transitioning back to idle
       animationTimeout.current = setTimeout(() => {
-        // Smoothly transition back to idle
-        actions['Walking'].setEffectiveWeight(0);
-        actions['Idle'].setEffectiveWeight(1);
-        setCurrentAnimation('Idle');
+        // Smooth weight transitions
+        actions['idle'].setEffectiveWeight(
+          THREE.MathUtils.lerp(
+            actions['idle'].getEffectiveWeight(),
+            isMoving ? 0 : 1,
+            0.1
+          )
+        );
+
+        actions['walking'].setEffectiveWeight(
+          THREE.MathUtils.lerp(
+            actions['walking'].getEffectiveWeight(),
+            isMoving ? 1 : 0,
+            0.1
+          )
+        );
       }, 150); // Small delay to prevent jerky transitions
     }
 
@@ -85,7 +99,7 @@ export function Avatar(props) {
     group.current.rotation.y = THREE.MathUtils.lerp(
       group.current.rotation.y,
       rotationTarget,
-      0.05
+      0.02
     );
     lastScroll.current = scrollData.offset;
   });
@@ -166,5 +180,5 @@ export function Avatar(props) {
 }
 
 useGLTF.preload('/models/Avatar.glb');
-useFBX.preload('/animations/Idle.fbx');
-useFBX.preload('/animations/Walking.fbx');
+useFBX.preload('/models/animations/idle.fbx');
+useFBX.preload('/models/animations/walking.fbx');

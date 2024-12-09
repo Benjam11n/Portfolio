@@ -1,25 +1,17 @@
-import About from './sections/About';
-import Clients from './sections/Clients';
-import Contact from './sections/Contact';
-import Experience from './sections/Experience';
-import Footer from './sections/Footer';
-import Hero from './sections/Hero';
-import Navbar from './Sections/Navbar';
-import Projects from './sections/Projects';
+import { useState } from 'react';
+import ExploreView from './explore/ExploreView.jsx';
+import ListView from './list/ListView.jsx';
+import Navbar from './list/sections/Navbar.jsx';
 
-const App = () => {
+function App() {
+  const [currentView, setCurrentView] = useState(true);
+
   return (
-    <main className="max-w-7xl mx-auto">
-      <Navbar />
-      <Hero />
-      <About />
-      <Projects />
-      <Clients />
-      <Experience />
-      <Contact />
-      <Footer />
-    </main>
+    <>
+      <Navbar currentView={currentView} setCurrentView={setCurrentView} />
+      {currentView === true ? <ExploreView /> : <ListView />}
+    </>
   );
-};
+}
 
 export default App;

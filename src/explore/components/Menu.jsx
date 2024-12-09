@@ -1,11 +1,23 @@
+import { useState } from 'react';
 import ViewToggle from './ViewToggle';
 
-const Menu = () => {
+const Menu = ({ currentView, setCurrentView }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen((prev) => !prev);
+
   return (
     <div className="menu">
-      <img className="menu__logo" src="logo.png" alt="logo" />
+      <a
+        href="/"
+        className="text-neutral-400 font-bold text-xl hover:text-white transition-colors"
+      >
+        Benjamin
+      </a>
+
+      {/* <img className="menu__logo" src="logo.png" alt="logo" /> */}
       <div className="menu__buttons">
-        <ViewToggle />
+        <ViewToggle currentView={currentView} setCurrentView={setCurrentView} />
         <a className="menu__button" href="#home">
           Home
         </a>
@@ -21,6 +33,18 @@ const Menu = () => {
         <a className="menu__button" href="#contact">
           Contact
         </a>
+
+        <button
+          onClick={toggleMenu}
+          className="text-nentral-400 hover:text-white focus:outline-none sm:hidden flex"
+          aria-label="Toggle menu"
+        >
+          <img
+            src={isOpen ? 'assets/close.svg' : 'assets/menu.svg'}
+            alt="toggle"
+            className="w-6 h-6"
+          />
+        </button>
       </div>
     </div>
   );

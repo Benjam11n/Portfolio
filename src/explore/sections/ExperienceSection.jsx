@@ -13,15 +13,15 @@ const ExperienceSection = () => {
   return (
     <motion.group
       position-x={isMobile ? 2 * SECTIONS_DISTANCE : 0}
-      position-z={isMobile ? -3 : 2 * SECTIONS_DISTANCE}
+      position-z={isMobile ? -4 : 2 * SECTIONS_DISTANCE}
       position-y={-5}
       variants={{ experience: { y: 0 } }}
     >
-      <group position-x={isMobile ? -0.25 : 1}>
+      <group position-x={isMobile ? 0 : 1}>
         <SectionTitle
-          position-x={-0.5}
-          position-z={-0.6}
-          rotation-y={-Math.PI / 6}
+          position-x={isMobile ? -0.9 : -0.5}
+          position-z={isMobile ? 1.6 : -0.6}
+          rotation-y={isMobile ? Math.PI / 12 : -Math.PI / 6}
         >
           EXPERIENCE
         </SectionTitle>

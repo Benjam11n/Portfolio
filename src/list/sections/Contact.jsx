@@ -41,7 +41,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="c-space my-20">
+    <section className="c-space my-20" id="contact">
       <h3 className="head-text">Contact Me</h3>
       <div className="relative min-h-screen flex items-center justify-center flex-col">
         <img
@@ -98,7 +98,7 @@ const Contact = () => {
                 required
                 rows={5}
                 className="field-input"
-                placeholder="Hi, I wanna give you a job ..."
+                placeholder="Hi, you're hired ..."
               />
             </label>
 

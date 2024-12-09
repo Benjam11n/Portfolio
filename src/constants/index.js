@@ -11,11 +11,17 @@ export const navLinks = [
   },
   {
     id: 3,
-    name: 'Work',
-    href: '#work',
+    name: 'Experience',
+    href: '#experience',
   },
   {
     id: 4,
+    name: 'Projects',
+    href: '#projects',
+  },
+
+  {
+    id: 5,
     name: 'Contact',
     href: '#contact',
   },
@@ -312,4 +318,19 @@ export const workExperiences = [
     icon: '/assets/notion.svg',
     animation: 'salute',
   },
+];
+
+export const SECTIONS_DISTANCE = 10;
+
+export const leftWhiteboardTexts = [
+  { content: 'Hi! I am Benjamin, a sophomre at' },
+  { content: 'the National University of' },
+  { content: 'Singapore. I specialize in Javascript/' },
+  { content: 'Typescript with a focus on React' },
+  { content: 'and Next.js ecosystems.' },
+];
+
+export const rightWhiteboardTexts = [
+  { content: 'I also have a deep passion for', size: 0.1 },
+  { content: 'AI and Deep Learning.', size: 0.1 },
 ];

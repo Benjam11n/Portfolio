@@ -20,9 +20,17 @@ const WhiteboardSection = ({
       <WhiteboardText
         key={index}
         position={{
-          x: isRight ? position.x - 0.7 : position.x - 0.8,
-          y: isRight ? 1.9 - index * 0.2 : 2 - index * 0.15,
-          z: isRight ? position.z - 0.7 : position.z + 0.8,
+          x: isMobile ? -1.05 : isRight ? position.x - 0.7 : position.x - 0.8,
+          y: isMobile
+            ? 2.9 - index * 0.15
+            : isRight
+            ? 1.9 - index * 0.2
+            : 2 - index * 0.15,
+          z: isMobile
+            ? position.z
+            : isRight
+            ? position.z - 0.7
+            : position.z + 0.8,
           rotationY: rotation,
         }}
         text={text.content}

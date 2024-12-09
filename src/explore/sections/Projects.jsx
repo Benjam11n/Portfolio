@@ -20,13 +20,14 @@ const Projects = () => {
       <group position-x={isMobile ? -0.25 : 1}>
         <SectionTitle
           position-x={-0.5}
+          position-y={isMobile ? 2.2 : 0}
           position-z={0}
-          rotation-y={-Math.PI / 6}
+          rotation-y={isMobile ? 0 : -Math.PI / 6}
         >
           PROJECTS
         </SectionTitle>
         <group
-          position-x={0.5}
+          position-x={isMobile ? 1 : 0.5}
           position-z={0}
           rotation-y={-Math.PI / 6}
           scale={0.8}

@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import { workExperiences } from '../constants';
+import { workExperiences } from '../../constants';
 import { OrbitControls, SpotLight } from '@react-three/drei';
 import { Suspense, useState } from 'react';
 import CanvasLoader from '../components/CanvasLoader';
@@ -9,7 +9,7 @@ const Experience = () => {
   const [animationName, setAnimationName] = useState('idle');
 
   return (
-    <section className="c-space my-20">
+    <section className="c-space my-20" id="experience">
       <div className="w-full text-white-600">
         <h3 className="head-text">My Work Experience</h3>
         <div className="work-container">
@@ -17,7 +17,7 @@ const Experience = () => {
             <Canvas>
               <ambientLight intensity={3} />
               <SpotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-              <directionalLight position={[10, 10, 10]} intensity={6} />
+              <directionalLight position={[10, 10, 10]} intensity={2} />
               <OrbitControls enableZoom={false} maxPolarAngle={Math.PI / 2} />
               <Suspense fallback={<CanvasLoader />}>
                 <Developer
