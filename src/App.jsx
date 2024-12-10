@@ -4,12 +4,17 @@ import ListView from './list/ListView.jsx';
 import Navbar from './list/sections/Navbar.jsx';
 
 function App() {
+  // True for explore view and false for list view
   const [currentView, setCurrentView] = useState(true);
 
   return (
     <>
       <Navbar currentView={currentView} setCurrentView={setCurrentView} />
-      {currentView === true ? <ExploreView /> : <ListView />}
+      {currentView === true ? (
+        <ExploreView setCurrentView={setCurrentView} />
+      ) : (
+        <ListView />
+      )}
     </>
   );
 }

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { navLinks } from '../../constants';
 import ViewToggle from '../../explore/components/ViewToggle';
+import { useActiveSection } from '../../hooks/useActiveSection';
 
 const Navbar = ({ currentView, setCurrentView }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const activeSection = useActiveSection();
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
@@ -12,7 +14,15 @@ const Navbar = ({ currentView, setCurrentView }) => {
       <ul className="nav-ul">
         {navLinks.map(({ id, name, href }) => (
           <li key={id} className="nav-li">
-            <a href={href} className="nav-li_a" onClick={() => {}}>
+            <a
+              href={href}
+              className={`nav-li_a ${
+                !currentView && activeSection === name.toLowerCase()
+                  ? 'text-white'
+                  : ''
+              }`}
+              onClick={() => {}}
+            >
               {name}
             </a>
           </li>

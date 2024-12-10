@@ -14,8 +14,15 @@ export function Pigeon(props) {
   const [animation, setAnimation] = useState('Flying_Idle');
 
   useEffect(() => {
-    actions[animation].reset().fadeIn(0.5).play();
-    return () => actions[animation].fadeOut(0.5);
+    if (actions && actions[animation]) {
+      actions[animation].reset().fadeIn(0.5).play();
+    }
+
+    return () => {
+      if (actions && actions[animation]) {
+        actions[animation].fadeOut(0.5);
+      }
+    };
   }, [animation, actions]);
 
   return (

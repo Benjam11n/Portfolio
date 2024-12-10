@@ -18,8 +18,14 @@ const CameraController = ({ rotationIntensity = 0.1, smoothSpeed = 0.05 }) => {
       mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+
+    // Add passive event listener
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+
+    return () =>
+      window.removeEventListener('mousemove', handleMouseMove, {
+        passive: true,
+      });
   }, []);
 
   useFrame(() => {

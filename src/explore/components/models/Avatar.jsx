@@ -36,72 +36,95 @@ export function Avatar(props) {
 
   // Set up animations only once when component mounts
   useEffect(() => {
-    // Start with idle animation
-    actions['idle'].play();
-    actions['walking'].play();
+    if (!actions) return;
 
-    // Set initial weights
-    actions['idle'].setEffectiveWeight(1);
-    actions['walking'].setEffectiveWeight(0);
+    try {
+      // Start with idle animation
+      if (actions['idle'] && actions['walking']) {
+        actions['idle'].play();
+        actions['walking'].play();
 
-    return () => {
-      actions['idle'].stop();
-      actions['walking'].stop();
-    };
+        actions['idle'].setEffectiveWeight(1);
+        actions['walking'].setEffectiveWeight(0);
+
+        return () => {
+          if (actions['idle']) actions['idle'].stop();
+          if (actions['walking']) actions['walking'].stop();
+        };
+      }
+    } catch (error) {
+      console.warn('Animation initialization error:', error);
+    }
   }, [actions]);
 
   useFrame(() => {
-    const scrollDelta = scrollData.offset - lastScroll.current;
-    const isMoving = Math.abs(scrollDelta) > 0.00001;
-    let rotationTarget = 0;
+    if (!scrollData || !group.current || !actions) return;
 
-    if (isMoving) {
-      clearTimeout(animationTimeout.current);
-      rotationTarget =
-        scrollDelta > 0
-          ? isMobile
-            ? Math.PI / 2
-            : 0
-          : isMobile
-          ? -Math.PI / 2
-          : Math.PI;
+    try {
+      const scrollDelta = scrollData.offset - lastScroll.current;
+      const isMoving = Math.abs(scrollDelta) > 0.00001;
+      let rotationTarget = 0;
 
-      // Smoothly transition to walking
-      actions['idle'].setEffectiveWeight(0);
-      actions['walking'].setEffectiveWeight(1);
+      if (isMoving) {
+        if (animationTimeout.current) {
+          clearTimeout(animationTimeout.current);
+        }
 
-      if (currentAnimation !== 'walking') {
-        setCurrentAnimation('walking');
+        rotationTarget =
+          scrollDelta > 0
+            ? isMobile
+              ? Math.PI / 2
+              : 0
+            : isMobile
+            ? -Math.PI / 2
+            : Math.PI;
+
+        // Smoothly transition to walking
+        if (actions['idle'] && actions['walking']) {
+          actions['idle'].setEffectiveWeight(0);
+          actions['walking'].setEffectiveWeight(1);
+
+          if (currentAnimation !== 'walking') {
+            setCurrentAnimation('walking');
+          }
+        }
+      } else if (currentAnimation !== 'idle') {
+        // Add a small delay before transitioning back to idle
+        animationTimeout.current = setTimeout(() => {
+          if (actions['idle'] && actions['walking']) {
+            // Smooth weight transitions
+            actions['idle'].setEffectiveWeight(
+              THREE.MathUtils.lerp(
+                actions['idle'].getEffectiveWeight(),
+                isMoving ? 0 : 1,
+                0.1
+              )
+            );
+
+            actions['walking'].setEffectiveWeight(
+              THREE.MathUtils.lerp(
+                actions['walking'].getEffectiveWeight(),
+                isMoving ? 1 : 0,
+                0.1
+              )
+            );
+          }
+        }, 150);
       }
-    } else if (currentAnimation !== 'idle') {
-      // Add a small delay before transitioning back to idle
-      animationTimeout.current = setTimeout(() => {
-        // Smooth weight transitions
-        actions['idle'].setEffectiveWeight(
-          THREE.MathUtils.lerp(
-            actions['idle'].getEffectiveWeight(),
-            isMoving ? 0 : 1,
-            0.1
-          )
-        );
 
-        actions['walking'].setEffectiveWeight(
-          THREE.MathUtils.lerp(
-            actions['walking'].getEffectiveWeight(),
-            isMoving ? 1 : 0,
-            0.1
-          )
+      // Smooth rotation
+      if (group.current) {
+        group.current.rotation.y = THREE.MathUtils.lerp(
+          group.current.rotation.y,
+          rotationTarget,
+          0.02
         );
-      }, 150); // Small delay to prevent jerky transitions
+      }
+
+      lastScroll.current = scrollData.offset;
+    } catch (error) {
+      console.warn('Animation frame error:', error);
     }
-
-    // Smooth rotation
-    group.current.rotation.y = THREE.MathUtils.lerp(
-      group.current.rotation.y,
-      rotationTarget,
-      0.02
-    );
-    lastScroll.current = scrollData.offset;
   });
 
   return (

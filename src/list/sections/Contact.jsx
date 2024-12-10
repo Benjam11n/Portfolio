@@ -47,7 +47,7 @@ const Contact = () => {
         <img
           src="/assets/terminal.png"
           alt="terminal background"
-          className="absolute inset-0 min-h-screen"
+          className="absolute inset-0 min-h-screen mt-6"
         />
 
         <div className="contact-container">

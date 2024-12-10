@@ -1,12 +1,15 @@
 import { Canvas } from '@react-three/fiber';
-import { workExperiences } from '../../constants';
+import { myProjects, workExperiences } from '../../constants';
 import { OrbitControls, SpotLight } from '@react-three/drei';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import CanvasLoader from '../components/CanvasLoader';
-import Avatar from '../components/Avatar';
+// import Avatar from '../components/Avatar';
+import { RetroComputer } from '../components/RetroComputer';
+import { useState } from 'react';
 
 const Experience = () => {
-  const [animationName, setAnimationName] = useState('idle');
+  const [selectedWorkIndex, setSelectedWorkIndex] = useState(0);
+  const currentWork = myProjects[selectedWorkIndex];
 
   return (
     <section className="c-space my-20" id="experience">
@@ -17,14 +20,18 @@ const Experience = () => {
             <Canvas>
               <ambientLight intensity={2} />
               <SpotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-              <directionalLight position={[10, 10, 10]} intensity={2} />
+              <OrbitControls
+                maxPolarAngle={Math.PI / 2}
+                minAzimuthAngle={-Math.PI / 4}
+                maxAzimuthAngle={Math.PI / 4}
+                enableZoom={false}
+              />
               <OrbitControls enableZoom={false} maxPolarAngle={Math.PI / 2} />
               <Suspense fallback={<CanvasLoader />}>
-                <Avatar
-                  position-y={-3}
-                  scale={3}
-                  animationName={animationName}
-                />
+                <ambientLight intensity={2} />
+                <group position-y={-1.5} position-x={0} scale={0.055}>
+                  <RetroComputer texture={currentWork.texture} />
+                </group>
               </Suspense>
             </Canvas>
           </div>
@@ -34,12 +41,11 @@ const Experience = () => {
               {workExperiences.map((item, index) => (
                 <div
                   key={index}
-                  onClick={() => setAnimationName(item.animation.toLowerCase())}
-                  onPointerOver={() =>
-                    setAnimationName(item.animation.toLowerCase())
-                  }
-                  onPointerOut={() => setAnimationName('idle')}
-                  className="work-content_container group"
+                  onClick={() => setSelectedWorkIndex(index)}
+                  onPointerOver={() => setSelectedWorkIndex(index)}
+                  className={`work-content_container group ${
+                    index === selectedWorkIndex ? 'bg-black-300 ' : ''
+                  }`}
                 >
                   <div className="flex flex-col h-full justify-start items-center py-2">
                     <div className="work-content_logo">

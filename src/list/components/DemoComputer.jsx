@@ -7,12 +7,12 @@ import { useGLTF, useVideoTexture } from '@react-three/drei';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
-const DemoComputer = (props) => {
+const DemoComputer = ({ texture, ...props }) => {
   const group = useRef();
   const { nodes, materials, _animations } = useGLTF('/models/computer.glb');
 
   const txt = useVideoTexture(
-    props.texture ? props.texture : '/textures/project/project1.mp4'
+    texture ? texture : '/textures/project/project1.mp4'
   );
 
   useEffect(() => {

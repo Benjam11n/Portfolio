@@ -20,32 +20,24 @@ export default function Avatar({ animationName = 'idle', ...props }) {
   const { animations: saluteAnimation } = useFBX(
     '/models/animations/salute.fbx'
   );
-  const { animations: clappingAnimation } = useFBX(
-    '/models/animations/clapping.fbx'
-  );
-  const { animations: victoryAnimation } = useFBX(
-    '/models/animations/victory.fbx'
-  );
-
   idleAnimation[0].name = 'idle';
   saluteAnimation[0].name = 'salute';
-  clappingAnimation[0].name = 'clapping';
-  victoryAnimation[0].name = 'victory';
 
   const { actions } = useAnimations(
-    [
-      idleAnimation[0],
-      saluteAnimation[0],
-      clappingAnimation[0],
-      victoryAnimation[0],
-    ],
+    [idleAnimation[0], saluteAnimation[0]],
     group
   );
 
   useEffect(() => {
-    actions[animationName].reset().fadeIn(0.5).play();
+    if (actions && actions[animationName]) {
+      actions[animationName].reset().fadeIn(0.5).play();
 
-    return () => actions[animationName].fadeOut(0.5);
+      return () => {
+        if (actions[animationName]) {
+          actions[animationName].fadeOut(0.5);
+        }
+      };
+    }
   }, [animationName, actions]);
 
   return (
@@ -119,6 +111,4 @@ export default function Avatar({ animationName = 'idle', ...props }) {
 
 useGLTF.preload('/models/Avatar.glb');
 useFBX.preload('/models/animations/idle.fbx');
-useFBX.preload('/models/animations/clapping.fbx');
 useFBX.preload('/models/animations/salute.fbx');
-useFBX.preload('/models/animations/victory.fbx');
