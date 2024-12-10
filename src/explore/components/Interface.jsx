@@ -44,48 +44,10 @@ export const Interface = () => {
         </section>
 
         {/* ABOUT */}
-        <section className="section section--right mobile--section--left mobile--section--bottom">
-          {/* <motion.div
-            className="skills"
-            whileInView={'visible'}
-            initial={{ opacity: 0 }}
-            variants={{ visible: { opacity: 1 } }}
-            viewport={{ margin: isMobile ? '-70% 0px 0px 0px' : undefined }}
-          >
-            {config.skills.map((skill, idx) => {
-              return (
-                <motion.div
-                  key={skill.name}
-                  className="skill"
-                  initial={{ opacity: 0 }}
-                  variants={{ visible: { opacity: 1 } }}
-                  transition={{ duration: 1, delay: isMobile ? 0 : idx * 0.62 }}
-                >
-                  <div>
-                    <img
-                      className="skill__label__image"
-                      src={skill.icon}
-                      alt={skill.name}
-                    />
-                    <h2 className="skill__label__name">{skill.name}</h2>
-                  </div>
-                  <div className="skill__level">
-                    <motion.div
-                      className="skill__level__bar"
-                      initial={{ width: 0 }}
-                      variants={{ visible: { width: `${skill.level}%` } }}
-                      transition={{ duration: 1, delay: idx * 0.62 }}
-                    ></motion.div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </motion.div> */}
-        </section>
+        <section className="section"></section>
 
-        {/* TODO */}
         {/* Experience */}
-        <section className="section section--right mobile--section--left mobile--section--bottom">
+        <section className="section section--left mobile--section--bottom">
           <motion.div
             className="projects"
             whileInView={'visible'}
@@ -115,6 +77,11 @@ export const Interface = () => {
                     />
                     <div className="project__details">
                       <h2 className="project__details__name">{project.name}</h2>
+                      {project.description && (
+                        <p className="project__details__description">
+                          {project.description}
+                        </p>
+                      )}
                     </div>
                   </a>
                 </motion.div>
@@ -122,7 +89,6 @@ export const Interface = () => {
             })}
           </motion.div>
         </section>
-
         {/* PROJECTS */}
         <section className="section section--left mobile--section--bottom">
           <motion.div
@@ -154,6 +120,11 @@ export const Interface = () => {
                     />
                     <div className="project__details">
                       <h2 className="project__details__name">{project.name}</h2>
+                      {project.description && (
+                        <p className="project__details__description">
+                          {project.description}
+                        </p>
+                      )}
                     </div>
                   </a>
                 </motion.div>
@@ -179,8 +150,8 @@ export const Interface = () => {
                 rel="noreferrer"
               >
                 <img
-                  className="contact__socials__icon"
-                  src="icons/linkedin.png"
+                  className="contact__socials__icon invert"
+                  src="/assets/linkedin.svg"
                   alt="linkedin"
                 />
               </a>
@@ -191,7 +162,18 @@ export const Interface = () => {
               >
                 <img
                   className="contact__socials__icon"
-                  src="icons/twitter.png"
+                  src="/assets/twitter.svg"
+                  alt="twitter"
+                />
+              </a>
+              <a
+                href={config.contact.socials.github}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img
+                  className="contact__socials__icon"
+                  src="/assets/github.svg"
                   alt="github"
                 />
               </a>
@@ -201,8 +183,8 @@ export const Interface = () => {
                 rel="noreferrer"
               >
                 <img
-                  className="contact__socials__icon"
-                  src="icons/email.png"
+                  className="contact__socials__icon invert"
+                  src="/assets/email.svg"
                   alt="email"
                 />
               </a>

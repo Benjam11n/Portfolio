@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Globe from 'react-globe.gl';
 
 import Button from '../components/Button.jsx';
+import { config } from '../../constants/config.js';
 
 const About = () => {
   const [hasCopied, setHasCopied] = useState(false);
@@ -125,7 +126,7 @@ const About = () => {
                   alt="copy"
                 />
                 <p className="lg:text-lg md:text-md font-medium text-gray_gradient text-white">
-                  youcanfindbenjamin@gmail.com
+                  {config.contact.mail}
                 </p>
               </div>
             </div>

@@ -19,9 +19,10 @@ const ExperienceSection = () => {
     >
       <group position-x={isMobile ? 0 : 1}>
         <SectionTitle
-          position-x={isMobile ? -0.9 : -0.5}
-          position-z={isMobile ? 1.6 : -0.6}
-          rotation-y={isMobile ? Math.PI / 12 : -Math.PI / 6}
+          position-x={isMobile ? -1.2 : -0.5}
+          position-y={isMobile ? 2 : 0}
+          position-z={isMobile ? -1.6 : -0.6}
+          rotation-y={isMobile ? 0 : -Math.PI / 6}
         >
           EXPERIENCE
         </SectionTitle>

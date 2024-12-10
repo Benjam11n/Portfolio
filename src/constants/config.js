@@ -5,13 +5,6 @@ export const config = {
     title: 'BENJAMIN',
     subtitle: 'WANG',
   },
-  skills: [
-    { name: 'React', icon: 'icons/react-native.png', level: 80 },
-    { name: 'JavaScript', icon: 'icons/javascript.png', level: 80 },
-    { name: 'Three.js', icon: 'icons/threejs.png', level: 80 },
-    { name: 'Blender', icon: 'icons/blender-3d.png', level: 50 },
-    { name: 'English', icon: 'icons/usa.png', level: 90 },
-  ],
   projects: [
     {
       name: 'Dissolve tutorial',
@@ -43,8 +36,9 @@ export const config = {
     address: 'Singapore, Singapore',
     socials: {
       linkedin: 'https://www.example.com',
+      twitter: '',
       github: 'https://www.example.com',
     },
-    mail: 'test@test.com',
+    mail: 'youcanfindbenjamin@gmail.com',
   },
 };

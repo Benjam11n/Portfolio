@@ -11,8 +11,8 @@ const ListView = () => {
       <Hero />
       <main className="max-w-7xl mx-auto">
         <About />
-        <Projects />
         <Experience />
+        <Projects />
         <Contact />
         <Footer />
       </main>
