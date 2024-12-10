@@ -9,9 +9,9 @@ import {
 } from '../../constants';
 import { useMobile } from '../../hooks/useMobile';
 import { Apple } from '../components/models/Apple';
-import { Table } from '../components/models/Table';
 import { SectionTitle } from '../components/SectionTitle';
 import WhiteboardSection from '../components/WhiteboardSection';
+import { ComputerDesk } from '../components/ComputerDesk';
 
 const About = () => {
   const { isMobile } = useMobile();
@@ -56,14 +56,14 @@ const About = () => {
         <Physics>
           <Apple
             scale={15}
-            position={isMobile ? [-1, 0.8, 0.8] : [3.7, 0.85, -0.5]}
+            position={isMobile ? [-1, 0.9, 1] : [3.7, 0.85, -0.5]}
             rotation-y={-Math.PI / 4}
           />
           <RigidBody type="fixed">
-            <Table
+            <ComputerDesk
               scale={1.2}
-              position-x={isMobile ? -1 : 3.7}
-              position-z={isMobile ? 1 : -0.5}
+              position-x={isMobile ? -1 : 3.9}
+              position-z={isMobile ? 1 : -0.8}
               rotation-y={isMobile ? Math.PI / 6 : -Math.PI / 4}
             />
           </RigidBody>
