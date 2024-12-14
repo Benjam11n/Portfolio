@@ -46,8 +46,8 @@ export const Interface = () => {
         {/* ABOUT */}
         <section className="section"></section>
 
-        {/* Experience */}
-        <section className="section section--left mobile--section--bottom">
+        {/* EXPERIENCE */}
+        <section className="section section--right mobile--section--bottom">
           <motion.div
             className="projects"
             whileInView={'visible'}
@@ -89,6 +89,7 @@ export const Interface = () => {
             })}
           </motion.div>
         </section>
+
         {/* PROJECTS */}
         <section className="section section--left mobile--section--bottom">
           <motion.div

@@ -5,8 +5,9 @@ import * as THREE from 'three';
 import { config } from '../../constants/config';
 import { useMobile } from '../../hooks/useMobile';
 import { MacBookPro } from '../components/models/MacBookPro';
-import { PalmTree } from '../components/models/PalmTree';
 import { SectionTitle } from '../components/SectionTitle';
+import { BirchTree } from '../components/BirchTree';
+import { OrangeBird } from '../components/OrangeBird';
 
 const Home = () => {
   const { isMobile, scaleFactor } = useMobile();
@@ -28,10 +29,15 @@ const Home = () => {
           rotation-y={Math.PI / 4}
         />
       </Float>
-      <PalmTree
-        scale={isMobile ? 0.016 : 0.02}
+      <BirchTree
+        scale={isMobile ? 0.0023 : 0.0038}
         rotation-y={THREE.MathUtils.degToRad(140)}
-        position={isMobile ? [1.2, 0, -4] : [3.5 * scaleFactor, 0, -4]}
+        position={isMobile ? [1.2, -0.1, -3] : [3.5 * scaleFactor, -0.1, -5]}
+      />
+      <OrangeBird
+        scale={isMobile ? 0.15 : 0.25}
+        rotation-y={-Math.PI / 12}
+        position={isMobile ? [1.6, 0, -3] : [3.5 * scaleFactor, 0, -3]}
       />
       <group scale={isMobile ? 0.3 : 1}>
         <Float floatIntensity={0.6}>

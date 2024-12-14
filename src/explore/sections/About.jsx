@@ -55,13 +55,13 @@ const About = () => {
         {/* Physics Objects */}
         <Physics>
           <Apple
-            scale={15}
-            position={isMobile ? [-1, 0.9, 1] : [3.7, 0.85, -0.5]}
+            scale={14}
+            position={isMobile ? [-1, 0.9, 1] : [3.9, 0.85, -0.7]}
             rotation-y={-Math.PI / 4}
           />
           <RigidBody type="fixed">
             <ComputerDesk
-              scale={1.2}
+              scale={1.1}
               position-x={isMobile ? -1 : 3.9}
               position-z={isMobile ? 1 : -0.8}
               rotation-y={isMobile ? Math.PI / 6 : -Math.PI / 4}

@@ -4,11 +4,12 @@ import { motion } from 'framer-motion-3d';
 import { SECTIONS_DISTANCE } from '../../constants';
 import { useMobile } from '../../hooks/useMobile';
 import { Balloon } from '../components/models/Balloon';
-import { Grass } from '../components/models/Grass';
 import { Mailbox } from '../components/models/Mailbox';
 import { ParkBench } from '../components/models/ParkBench';
 import { Pigeon } from '../components/models/Pigeon';
 import { SectionTitle } from '../components/SectionTitle';
+import { Tree } from '../components/Tree';
+import { OrangeBird } from '../components/OrangeBird';
 
 const Contact = () => {
   const { isMobile, scaleFactor } = useMobile();
@@ -34,12 +35,6 @@ const Contact = () => {
           position-z={-2.5}
           rotation-y={-Math.PI / 4}
         />
-        <Grass
-          scale={0.4}
-          position-x={isMobile ? 1.8 : 2.6}
-          position-z={0.55}
-          rotation-y={Math.PI / 2}
-        />
         <group position-y={2.2} position-z={-0.5}>
           <Float floatIntensity={2} rotationIntensity={1.5}>
             <Balloon scale={1.5} position-x={-0.5} color="#71a2d9" />
@@ -53,6 +48,18 @@ const Contact = () => {
         </group>
       </group>
 
+      <Tree
+        scale={0.52}
+        rotation-y={1.25 * Math.PI}
+        position-x={isMobile ? 1.7 : 2.2}
+        position-z={-1.5}
+      />
+      <OrangeBird
+        scale={0.2}
+        rotation-y={-Math.PI / 8}
+        position-x={isMobile ? 1.5 : 2.2}
+        position-z={isMobile ? 0.5 : 0}
+      />
       <Mailbox
         scale={0.25}
         rotation-y={1.25 * Math.PI}
