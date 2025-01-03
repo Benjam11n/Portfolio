@@ -1,13 +1,11 @@
 import { useScroll } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { motion } from 'framer-motion';
-import { atom, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { useState } from 'react';
-
 import { exploreInfo } from '../../constants';
 import { useMobile } from '../../hooks/useMobile';
-
-export const projectAtom = atom(exploreInfo.projects[0]);
+import { projectAtom } from './atoms';
 
 export const Interface = () => {
   const [hasScrolled, setHasScrolled] = useState(false);

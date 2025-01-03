@@ -111,6 +111,11 @@ export const myProjects = [
         name: 'PostgreSQL',
         path: '/assets/pgsql.svg',
       },
+      {
+        id: 5,
+        name: 'Docker',
+        path: '/assets/docker.svg',
+      },
     ],
   },
   {
@@ -166,6 +171,7 @@ export const myProjects = [
   },
 ];
 
+// eslint-disable-next-line no-unused-vars
 export const calculateSizes = (isSmall, isMobile, isTablet) => {
   return {
     labPosition: isMobile ? [0.5, -6, 0] : [0, -5.5, 0],

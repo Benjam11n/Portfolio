@@ -8,14 +8,12 @@ Title: Stylized Tree
 */
 
 import React from 'react';
-import { useGLTF, useAnimations } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
 
 export function Tree(props) {
   const group = React.useRef();
-  const { nodes, materials, animations } = useGLTF('/models/Tree.glb');
-  const { actions } = useAnimations(animations, group);
+  const { nodes, materials } = useGLTF('/models/Tree.glb');
 
-  console.log(animations);
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Sketchfab_Scene">
