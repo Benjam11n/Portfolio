@@ -30,9 +30,9 @@ const About = () => {
             <div>
               <p className="grid-headtext">Hi, I&apos;m Benjamin</p>
               <p className="grid-subtext">
-                With 1 year of experience, I have honed my skills in both
-                frontend and backend development, with a focus on using the
-                power of AI to imrpove user experiences on websites.
+                As a full-stack developer, I combine frontend craftsmanship with
+                backend expertise, focusing on integrating AI to build more
+                intelligent and responsive web applications.
               </p>
             </div>
           </div>
