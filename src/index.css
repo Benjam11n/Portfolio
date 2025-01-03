@@ -276,7 +276,7 @@ body {
 /* experience */
 
 .experiences {
-  @apply p-4 grid grid-cols-[repeat(auto-fit,220px)] w-[500px] max-w-full justify-center gap-4;
+  @apply p-4 flex overflow-x-auto w-full gap-4 md:grid md:grid-cols-[repeat(auto-fit,220px)] md:w-[500px] md:justify-center;
 }
 
 .experience {
