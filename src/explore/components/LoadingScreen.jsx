@@ -1,7 +1,7 @@
 import { useProgress } from '@react-three/drei';
 import { useEffect, useState } from 'react';
 
-import { config } from '../../constants/config';
+import { exploreInfo } from '../../constants';
 
 const LoadingScreen = () => {
   const { progress, active } = useProgress();
@@ -20,7 +20,7 @@ const LoadingScreen = () => {
       className={`loading-screen ${active ? '' : 'loading-screen--fade-out'}`}
     >
       <div className="loading-screen__container">
-        <h1 className="loading-screen__title">{config.title}</h1>
+        <h1 className="loading-screen__title">{exploreInfo.title}</h1>
         <div className="loading-screen__progress-container">
           <div
             className="loading-screen__progress-bar"

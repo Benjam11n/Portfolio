@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Globe from 'react-globe.gl';
 
 import Button from '../components/Button.jsx';
-import { config } from '../../constants/config.js';
+import { exploreInfo } from '../../constants';
 
 const About = () => {
   const [hasCopied, setHasCopied] = useState(false);
@@ -30,8 +30,9 @@ const About = () => {
             <div>
               <p className="grid-headtext">Hi, I&apos;m Benjamin</p>
               <p className="grid-subtext">
-                With 1 year of experience, I have honed my skills in frontend
-                and backend development, with a focus on animated 3D websites.
+                With 1 year of experience, I have honed my skills in both
+                frontend and backend development, with a focus on using the
+                power of AI to imrpove user experiences on websites.
               </p>
             </div>
           </div>
@@ -48,8 +49,9 @@ const About = () => {
             <div>
               <p className="grid-headtext">Tech Stack</p>
               <p className="grid-subtext">
-                I specialize in a variety of languages, frameworks, and tools
-                that allow me to build robust and scalable applications
+                I specialize in a variety of languages and frameworks, including
+                React, Next.js, Node.js, and MongoDB. I am also have experience
+                with machine learning and deep learning.
               </p>
             </div>
           </div>
@@ -59,8 +61,8 @@ const About = () => {
           <div className="grid-container">
             <div className="rounded-3xl w-full sm:h-[326px] h-fit flex justify-center items-center">
               <Globe
-                height={326}
-                width={326}
+                height={386}
+                width={386}
                 backgroundColor="rgba(0, 0, 0, 0)"
                 backgroundImageOpacity={0.5}
                 showAtmosphere
@@ -95,16 +97,16 @@ const About = () => {
             <img
               src="assets/grid3.png"
               alt="grid-3"
-              className="w-full sm:h-[266px] h-fit object-contain"
+              className="w-full sm:h-[340px] h-fit object-contain"
             />
 
             <div>
-              <p className="grid-headtext">My Passion for Coding</p>
+              <p className="grid-headtext"> My Coding Philosophy</p>
               <p className="grid-subtext">
-                To me, coding isn&apos;t just a profession – it&apos;s a
-                creative outlet where logic meets innovation. I find genuine
-                excitement in that moment when elegant code transforms into
-                powerful, user-centric solutions.
+                I am always learning and improving my skills to keep up with the
+                latest technologies. I believe that code has the power to change
+                the world and I am passionate about using my skills to make a
+                positive impact.
               </p>
             </div>
           </div>
@@ -126,7 +128,7 @@ const About = () => {
                   alt="copy"
                 />
                 <p className="lg:text-lg md:text-md font-medium text-gray_gradient text-white">
-                  {config.contact.mail}
+                  {exploreInfo.contact.mail}
                 </p>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import { myProjects, workExperiences } from '../../constants';
+import { workExperiences } from '../../constants';
 import { OrbitControls, SpotLight } from '@react-three/drei';
 import { Suspense } from 'react';
 import CanvasLoader from '../components/CanvasLoader';
@@ -9,14 +9,14 @@ import { useState } from 'react';
 
 const Experience = () => {
   const [selectedWorkIndex, setSelectedWorkIndex] = useState(0);
-  const currentWork = myProjects[selectedWorkIndex];
+  const currentWork = workExperiences[selectedWorkIndex];
 
   return (
     <section className="c-space my-20" id="experience">
       <div className="w-full text-white-600">
         <h3 className="head-text">My Work Experience</h3>
         <div className="work-container">
-          <div className="work-canvas">
+          <div className="border border-black-300 bg-black-200 rounded-lg h-96 md:h-full">
             <Canvas>
               <ambientLight intensity={2} />
               <SpotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />

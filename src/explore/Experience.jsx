@@ -9,8 +9,7 @@ import { Physics, RigidBody } from '@react-three/rapier';
 import { motion } from 'framer-motion-3d';
 import { useEffect, useRef, useState } from 'react';
 
-import { SECTIONS_DISTANCE } from '../constants';
-import { config } from '../constants/config';
+import { exploreInfo, SECTIONS_DISTANCE } from '../constants';
 import { useMobile } from '../hooks/useMobile';
 
 import { Avatar } from './components/models/Avatar';
@@ -21,7 +20,7 @@ import Home from './sections/Home';
 import Projects from './sections/Projects';
 
 export const Experience = () => {
-  const [section, setSection] = useState(config.sections[0]);
+  const [section, setSection] = useState(exploreInfo.sections[0]);
   const sceneContainer = useRef();
   const frontSpotlightRef = useRef();
   const backSpotlightRef = useRef();
@@ -40,7 +39,9 @@ export const Experience = () => {
     }
 
     setSection(
-      config.sections[Math.round(scrollData.offset * (scrollData.pages - 1))]
+      exploreInfo.sections[
+        Math.round(scrollData.offset * (scrollData.pages - 1))
+      ]
     );
 
     // Update spotlights
@@ -71,13 +72,13 @@ export const Experience = () => {
 
   useEffect(() => {
     const handleHashChange = () => {
-      const sectionIndex = config.sections.indexOf(
+      const sectionIndex = exploreInfo.sections.indexOf(
         window.location.hash.replace('#', '')
       );
       if (sectionIndex >= 0) {
         scrollData.el.scrollTo(
           0,
-          (sectionIndex / (config.sections.length - 1)) *
+          (sectionIndex / (exploreInfo.sections.length - 1)) *
             (scrollData.el.scrollHeight - scrollData.el.clientHeight)
         );
       }

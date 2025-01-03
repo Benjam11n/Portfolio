@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber';
 import { PerformanceMonitor, Scroll, ScrollControls } from '@react-three/drei';
-import { config } from '../constants/config.js';
+import { exploreInfo } from '../constants';
 import { MotionConfig } from 'framer-motion';
 import { Interface } from './components/Interface.jsx';
 import LoadingScreen from './components/LoadingScreen.jsx';
@@ -51,7 +51,7 @@ const ExploreView = ({ setCurrentView }) => {
         <CameraController />
         <ambientLight intensity={0.5} />
         <ScrollControls
-          pages={config.sections.length + 0.05}
+          pages={exploreInfo.sections.length + 0.05}
           damping={0.1}
           maxSpeed={0.2}
         >

@@ -62,7 +62,7 @@ export function Avatar(props) {
 
     try {
       const scrollDelta = scrollData.offset - lastScroll.current;
-      const isMoving = Math.abs(scrollDelta) > 0.00001;
+      const isMoving = Math.abs(scrollDelta) > 0.0001;
       let rotationTarget = 0;
 
       if (isMoving) {
@@ -117,7 +117,7 @@ export function Avatar(props) {
         group.current.rotation.y = THREE.MathUtils.lerp(
           group.current.rotation.y,
           rotationTarget,
-          0.02
+          0.07
         );
       }
 

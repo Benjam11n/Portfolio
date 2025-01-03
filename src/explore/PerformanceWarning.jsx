@@ -15,7 +15,7 @@ const PerformanceWarning = ({ onSwitch, onDismiss }) => {
 
         <p className="text-gray-400 text-sm">
           Your device might struggle with 3D view. Consider switching to list
-          mode for better experience.
+          mode for a better experience.
         </p>
 
         <div className="flex justify-end gap-3 mt-2">

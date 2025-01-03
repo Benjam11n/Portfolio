@@ -1,7 +1,7 @@
 import { useTexture } from '@react-three/drei';
 import { useAtom } from 'jotai';
 
-import { config } from '../../../constants/config';
+import { exploreInfo } from '../../../constants';
 import { projectAtom } from '../Interface';
 
 const MonitorScreen = ({ ...props }) => {
@@ -20,6 +20,6 @@ const MonitorScreen = ({ ...props }) => {
 
 export default MonitorScreen;
 
-config.projects.forEach((project) => {
+exploreInfo.projects.forEach((project) => {
   useTexture.preload(project.image);
 });

@@ -29,19 +29,20 @@ export const navLinks = [
 
 export const myProjects = [
   {
-    title: 'Podcastr - AI Podcast Platform',
-    desc: 'Podcastr is a revolutionary Software-as-a-Service platform that transforms the way podcasts are created. With advanced AI-powered features like text-to-multiple-voices functionality, it allows creators to generate diverse voiceovers from a single text input.',
+    title: 'Quickie - AI-Powered Marketplace',
+    desc: 'Quickie is an innovative e-commerce platform that leverages AI technology to provide personalized perfume recommendations to users. It offers a seamless shopping experience, with features like social media sharing and secure payment processing.',
     subdesc:
-      'Built as a unique Software-as-a-Service app with Next.js 14, Tailwind CSS, TypeScript, Framer Motion and Convex, Podcastr is designed for optimal performance and scalability.',
-    href: 'https://www.youtube.com/watch?v=zfAb95tJvZQ',
+      'Built as a unique e-commerce app with Next.js 15, Tailwind CSS, TypeScript, Framer Motion, shadcn/ui, Zustand, React Query and MongoDB, Quickie is designed to be beautiful and memorable yet performant.',
+    // href: 'https://www.youtube.com/watch?v=zfAb95tJvZQ',
     texture: '/textures/project/project1.mp4',
-    logo: '/assets/project-logo1.png',
+    logo: '/projects/project1-logo.png',
     logoStyle: {
-      backgroundColor: '#2A1816',
-      border: '0.2px solid #36201D',
+      backgroundColor: '#170040',
+      border: '0.2px solid #0f0226',
       boxShadow: '0px 0px 60px 0px #AA3C304D',
     },
     spotlight: '/assets/spotlight1.png',
+    // Add Shadcn UI and React Query and Zustand/ MongoDB
     tags: [
       {
         id: 1,
@@ -63,19 +64,29 @@ export const myProjects = [
         name: 'Framer Motion',
         path: '/assets/framer.png',
       },
+      {
+        id: 5,
+        name: 'Zustand',
+        path: '/assets/zustand.png',
+      },
+      {
+        id: 6,
+        name: 'MongoDB',
+        path: '/assets/mongodb.svg',
+      },
     ],
   },
   {
-    title: 'LiveDoc - Real-Time Google Docs Clone',
-    desc: 'LiveDoc is a powerful collaborative app that elevates the capabilities of real-time document editing. As an enhanced version of Google Docs, It supports millions of collaborators simultaneously, ensuring that every change is captured instantly and accurately.',
+    title: 'Birds of a Feather - Community Forum',
+    desc: 'Birds of a Feather is a community forum designed for bird lovers to connect, share knowledge, and discuss their passion for birds. It offers a user-friendly interface, with features like real-time messaging, notifications, and user profiles. With Birds of a Feather, users can create and join groups, share photos and videos, and participate in discussions. ',
     subdesc:
-      'With LiveDoc, users can experience the future of collaboration, where multiple contributors work together in real time without any lag, by using Next.js and Liveblocks newest features.',
-    href: 'https://www.youtube.com/watch?v=y5vE8y_f_OM',
+      'Built with React, Typescript Tailwind CSS, shadcn/ui, React Query and Docker, Birds of a Feather is a modern forum that brings bird enthusiasts together.',
+    // href: 'https://www.youtube.com/watch?v=y5vE8y_f_OM',
     texture: '/textures/project/project2.mp4',
-    logo: '/assets/project-logo2.png',
+    logo: '/projects/project2-logo.png',
     logoStyle: {
-      backgroundColor: '#13202F',
-      border: '0.2px solid #17293E',
+      backgroundColor: '#16015c',
+      border: '0.2px solid #0c0036',
       boxShadow: '0px 0px 60px 0px #2F6DB54D',
     },
     spotlight: '/assets/spotlight2.png',
@@ -97,25 +108,23 @@ export const myProjects = [
       },
       {
         id: 4,
-        name: 'Framer Motion',
-        path: '/assets/framer.png',
+        name: 'PostgreSQL',
+        path: '/assets/pgsql.svg',
       },
     ],
   },
   {
-    title: 'CarePulse - Health Management System',
-    desc: 'An innovative healthcare platform designed to streamline essential medical processes. It simplifies patient registration, appointment scheduling, and medical record management, providing a seamless experience for both healthcare providers and patients.',
+    title: 'CampusQ - Stackoverflow Clone for University Students',
+    desc: 'A practice project to create a Stackoverflow clone for university students. CampusQ is a platform where students can ask questions, get answers, and share knowledge with their peers. It offers a user-friendly interface, with features like real-time messaging, notifications, and user profiles.',
     subdesc:
-      'With a focus on efficiency, CarePulse integrantes complex forms and SMS notifications, by using Next.js, Appwrite, Twillio and Sentry that enhance operational workflows.',
-    href: 'https://www.youtube.com/watch?v=lEflo_sc82g',
+      'Built with Next.js 15, React, Typescript, Tailwind CSS, and MongoDB, CampusQ is a modern forum that brings university students together.',
+    // href: 'https://www.youtube.com/watch?v=lEflo_sc82g',
     texture: '/textures/project/project3.mp4',
-    logo: '/assets/project-logo3.png',
+    logo: '/projects/project3-logo.png',
     logoStyle: {
-      backgroundColor: '#60f5a1',
-      background:
-        'linear-gradient(0deg, #60F5A150, #60F5A150), linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(208, 213, 221, 0.8) 100%)',
-      border: '0.2px solid rgba(208, 213, 221, 1)',
-      boxShadow: '0px 0px 60px 0px rgba(35, 131, 96, 0.3)',
+      backgroundColor: '#913800',
+      border: '0.2px solid #36201D',
+      boxShadow: '0px 0px 60px 0px #AA3C304D',
     },
     spotlight: '/assets/spotlight3.png',
     tags: [
@@ -136,84 +145,24 @@ export const myProjects = [
       },
       {
         id: 4,
-        name: 'Framer Motion',
-        path: '/assets/framer.png',
+        name: 'MongoDB',
+        path: '/assets/mongodb.svg',
       },
     ],
   },
   {
-    title: 'Horizon - Online Banking Platform',
-    desc: 'Horizon is a comprehensive online banking platform that offers users a centralized finance management dashboard. It allows users to connect multiple bank accounts, monitor real-time transactions, and seamlessly transfer money to other users.',
-    subdesc:
-      'Built with Next.js 14 Appwrite, Dwolla and Plaid, Horizon ensures a smooth and secure banking experience, tailored to meet the needs of modern consumers.',
-    href: 'https://www.youtube.com/watch?v=PuOVqP_cjkE',
+    title: 'WorldQuant NUS Alphathon - 4th Place Winner',
+    desc: 'WorldQuant NUS Alphathon is a prestigious competition that challenges students to develop quantitative trading strategies using machine learning and statistical models. Horizon is a banking app that offers a seamless and secure banking experience, with features like real-time messaging, notifications, and user profiles.',
+    // href: 'https://www.youtube.com/watch?v=PuOVqP_cjkE',
     texture: '/textures/project/project4.mp4',
-    logo: '/assets/project-logo4.png',
+    logo: '/projects/project4-logo.png',
     logoStyle: {
       backgroundColor: '#0E1F38',
       border: '0.2px solid #0E2D58',
       boxShadow: '0px 0px 60px 0px #2F67B64D',
     },
     spotlight: '/assets/spotlight4.png',
-    tags: [
-      {
-        id: 1,
-        name: 'React.js',
-        path: '/assets/react.svg',
-      },
-      {
-        id: 2,
-        name: 'TailwindCSS',
-        path: 'assets/tailwindcss.png',
-      },
-      {
-        id: 3,
-        name: 'TypeScript',
-        path: '/assets/typescript.png',
-      },
-      {
-        id: 4,
-        name: 'Framer Motion',
-        path: '/assets/framer.png',
-      },
-    ],
-  },
-  {
-    title: 'Imaginify - AI Photo Manipulation App',
-    desc: 'Imaginify is a groundbreaking Software-as-a-Service application that empowers users to create stunning photo manipulations using AI technology. With features like AI-driven image editing, a payments system, and a credits-based model.',
-    subdesc:
-      'Built with Next.js 14, Cloudinary AI, Clerk, and Stripe, Imaginify combines cutting-edge technology with a user-centric approach. It can be turned into a side income or even a full-fledged business.',
-    href: 'https://www.youtube.com/watch?v=Ahwoks_dawU',
-    texture: '/textures/project/project5.mp4',
-    logo: '/assets/project-logo5.png',
-    logoStyle: {
-      backgroundColor: '#1C1A43',
-      border: '0.2px solid #252262',
-      boxShadow: '0px 0px 60px 0px #635BFF4D',
-    },
-    spotlight: '/assets/spotlight5.png',
-    tags: [
-      {
-        id: 1,
-        name: 'React.js',
-        path: '/assets/react.svg',
-      },
-      {
-        id: 2,
-        name: 'TailwindCSS',
-        path: 'assets/tailwindcss.png',
-      },
-      {
-        id: 3,
-        name: 'TypeScript',
-        path: '/assets/typescript.png',
-      },
-      {
-        id: 4,
-        name: 'Framer Motion',
-        path: '/assets/framer.png',
-      },
-    ],
+    tags: [],
   },
 ];
 
@@ -228,33 +177,23 @@ export const calculateSizes = (isSmall, isMobile, isTablet) => {
 export const workExperiences = [
   {
     id: 1,
-    name: 'Framer',
-    pos: 'Lead Web Developer',
-    duration: '2022 - Present',
+    name: 'WorldQuant BRAIN',
+    pos: 'Research Consultant',
+    duration: '2024 - Present',
     title:
-      'Framer serves as my go-to tool for creating interactive prototypes. I use it to bring designs to  life, allowing stakeholders to experience the user flow and interactions before development.',
-    icon: '/assets/framer.svg',
-    animation: 'victory',
+      'Creating and testing quantitative trading strategies using machine learning and statistical models. Conducting research on financial markets and developing new trading strategies.',
+    icon: '/experiences/experience1-logo.png',
+    texture: '/textures/experience/experience1.mp4',
   },
   {
     id: 2,
-    name: 'Figma',
-    pos: 'Web Developer',
-    duration: '2020 - 2022',
+    name: 'Computing for Voluntary Welfare Organizations',
+    pos: 'Full stack Software Engineer',
+    duration: 'May 2024 - Aug 2024',
     title:
-      'Figma is my collaborative design platform of choice. I utilize it to work seamlessly with team members and clients, facilitating real-time feedback and design iterations. Its cloud-based.',
-    icon: '/assets/figma.svg',
-    animation: 'clapping',
-  },
-  {
-    id: 3,
-    name: 'Notion',
-    pos: 'Junior Web Developer',
-    duration: '2019 - 2020',
-    title:
-      'Notion helps me keep my projects organized. I use it for project management, task tracking, and as a central hub for documentation, ensuring that everything from design notes to.',
-    icon: '/assets/notion.svg',
-    animation: 'salute',
+      'I collaborated in a 10-member cross-functional team to develop and scale an enterprise IT management system for Voluntary Welfare Organizations (VWOs). I also designed and created an automated appointment management system with SMS integration, enabling 20+ VWOs to reduce missed appointments.',
+    icon: '/experiences/experience2-logo.png',
+    texture: '/textures/experience/experience2.mp4',
   },
 ];
 
@@ -272,3 +211,62 @@ export const rightWhiteboardTexts = [
   { content: 'I also have a deep passion for', size: 0.1 },
   { content: 'AI and Deep Learning.', size: 0.1 },
 ];
+
+export const exploreInfo = {
+  title: "Benjamin's portfolio",
+  sections: ['home', 'about', 'experience', 'projects', 'contact'],
+  home: {
+    title: 'BENJAMIN',
+    subtitle: 'WANG',
+  },
+  experiences: [
+    {
+      name: 'Computing for Voluntary Welfare Organisations',
+      description:
+        'Full stack software development for non-profit organisations',
+      image: 'experiences/experience1.png',
+    },
+    {
+      name: 'WorldQuant Research Consultant',
+      description: 'Creating and testing quantitative trading strategies',
+      image: 'experiences/experience2.png',
+    },
+  ],
+  projects: [
+    {
+      name: 'Perfume Marketplace',
+      description:
+        'An innovative perfume merketplace featuring AI recommendations',
+      image: 'projects/project1.png',
+      link: 'example.com',
+    },
+    {
+      name: 'Birds of a Feather Forum',
+      description: 'A forum for all bird lovers to flock together!',
+      image: 'projects/project2.jpg',
+      link: 'example.com',
+    },
+    {
+      name: 'CampusQ',
+      description:
+        'A practice project to create a stackoverflow clone for university students',
+      image: 'projects/project3.png',
+      // link: 'example.com',
+    },
+    {
+      name: 'World Quant NUS Alphathon',
+      description: '4th place winner in the World Quant NUS Alphathon 2024',
+      image: 'projects/project4.png',
+      link: 'example.com',
+    },
+  ],
+  contact: {
+    name: 'Benjamin Wang',
+    address: 'Singapore, Singapore',
+    socials: {
+      linkedin: 'https://www.linkedin.com/in/benjaminwang-sg/',
+      github: 'https://github.com/Benjam11n',
+    },
+    mail: 'youcanfindbenjamin@gmail.com',
+  },
+};

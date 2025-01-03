@@ -2,7 +2,7 @@ import { Center, Float } from '@react-three/drei';
 import { motion } from 'framer-motion-3d';
 import * as THREE from 'three';
 
-import { config } from '../../constants/config';
+import { exploreInfo } from '../../constants';
 import { useMobile } from '../../hooks/useMobile';
 import { MacBookPro } from '../components/models/MacBookPro';
 import { SectionTitle } from '../components/SectionTitle';
@@ -49,7 +49,7 @@ const Home = () => {
               bevelEnabled
               bevelThickness={0.3}
             >
-              {config.home.title}
+              {exploreInfo.home.title}
             </SectionTitle>
           </Center>
         </Float>
@@ -62,7 +62,7 @@ const Home = () => {
             bevelThickness={0.3}
             rotation-y={Math.PI / 10}
           >
-            {config.home.subtitle}
+            {exploreInfo.home.subtitle}
           </SectionTitle>
         </Center>
       </group>

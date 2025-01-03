@@ -9,7 +9,7 @@ import { useFrame } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import * as THREE from 'three';
 
-import { config } from '../../../constants/config';
+import { exploreInfo } from '../../../constants';
 
 export function Mailbox(props) {
   const { nodes, materials } = useGLTF('/models/Mailbox v2.glb');
@@ -40,7 +40,7 @@ export function Mailbox(props) {
       dispose={null}
       onPointerEnter={() => setMailBoxHovered(true)}
       onPointerLeave={() => setMailBoxHovered(false)}
-      onClick={() => window.open(`mailto:${config.contact.mail}`)}
+      onClick={() => window.open(`mailto:${exploreInfo.contact.mail}`)}
     >
       <mesh
         geometry={nodes.group2028911354.geometry}

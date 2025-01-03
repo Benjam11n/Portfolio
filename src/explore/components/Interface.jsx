@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import { atom, useAtom } from 'jotai';
 import { useState } from 'react';
 
-import { config } from '../../constants/config';
+import { exploreInfo } from '../../constants';
 import { useMobile } from '../../hooks/useMobile';
 
-export const projectAtom = atom(config.projects[0]);
+export const projectAtom = atom(exploreInfo.projects[0]);
 
 export const Interface = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -49,41 +49,43 @@ export const Interface = () => {
         {/* EXPERIENCE */}
         <section className="section section--right mobile--section--bottom">
           <motion.div
-            className="projects"
+            className="experiences"
             whileInView={'visible'}
             initial={{ opacity: 0 }}
             variants={{ visible: { opacity: 1 } }}
             viewport={{ margin: isMobile ? '-70% 0px 0px 0px' : undefined }}
           >
-            {config.projects.map((project, idx) => {
+            {exploreInfo.experiences.map((experience, idx) => {
               return (
                 <motion.div
-                  className="project"
-                  key={project.name}
+                  className="experience"
+                  key={experience.name}
                   initial={{ opacity: 0 }}
-                  onMouseEnter={() => setProject(project)}
+                  onMouseEnter={() => setProject(experience)}
                   variants={{ visible: { opacity: 1 } }}
                   transition={{ duration: 1, delay: isMobile ? 0 : idx * 0.5 }}
                 >
-                  <a
-                    href={project.link}
+                  {/* <a
+                    href={experience.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                  >
-                    <img
-                      className="project__image"
-                      src={project.image}
-                      alt={project.name}
-                    />
-                    <div className="project__details">
-                      <h2 className="project__details__name">{project.name}</h2>
-                      {project.description && (
-                        <p className="project__details__description">
-                          {project.description}
-                        </p>
-                      )}
-                    </div>
-                  </a>
+                  > */}
+                  <img
+                    className="project__image"
+                    src={experience.image}
+                    alt={experience.name}
+                  />
+                  <div className="project__details">
+                    <h2 className="project__details__name">
+                      {experience.name}
+                    </h2>
+                    {experience.description && (
+                      <p className="project__details__description">
+                        {experience.description}
+                      </p>
+                    )}
+                  </div>
+                  {/* </a> */}
                 </motion.div>
               );
             })}
@@ -99,7 +101,7 @@ export const Interface = () => {
             variants={{ visible: { opacity: 1 } }}
             viewport={{ margin: isMobile ? '-70% 0px 0px 0px' : undefined }}
           >
-            {config.projects.map((project, idx) => {
+            {exploreInfo.projects.map((project, idx) => {
               return (
                 <motion.div
                   className="project"
@@ -109,25 +111,47 @@ export const Interface = () => {
                   variants={{ visible: { opacity: 1 } }}
                   transition={{ duration: 1, delay: isMobile ? 0 : idx * 0.5 }}
                 >
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      className="project__image"
-                      src={project.image}
-                      alt={project.name}
-                    />
-                    <div className="project__details">
-                      <h2 className="project__details__name">{project.name}</h2>
-                      {project.description && (
-                        <p className="project__details__description">
-                          {project.description}
-                        </p>
-                      )}
-                    </div>
-                  </a>
+                  {project.link ? (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        className="project__image"
+                        src={project.image}
+                        alt={project.name}
+                      />
+                      <div className="project__details">
+                        <h2 className="project__details__name">
+                          {project.name}
+                        </h2>
+                        {project.description && (
+                          <p className="project__details__description">
+                            {project.description}
+                          </p>
+                        )}
+                      </div>
+                    </a>
+                  ) : (
+                    <>
+                      <img
+                        className="project__image"
+                        src={project.image}
+                        alt={project.name}
+                      />
+                      <div className="project__details">
+                        <h2 className="project__details__name">
+                          {project.name}
+                        </h2>
+                        {project.description && (
+                          <p className="project__details__description">
+                            {project.description}
+                          </p>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </motion.div>
               );
             })}
@@ -142,11 +166,11 @@ export const Interface = () => {
             initial={{ opacity: 0 }}
             variants={{ visible: { opacity: 1 } }}
           >
-            <h1 className="contact__name">{config.contact.name}</h1>
-            <p className="contact__address">{config.contact.address}</p>
+            <h1 className="contact__name">{exploreInfo.contact.name}</h1>
+            <p className="contact__address">{exploreInfo.contact.address}</p>
             <div className="contact__socials">
               <a
-                href={config.contact.socials.linkedin}
+                href={exploreInfo.contact.socials.linkedin}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -156,8 +180,8 @@ export const Interface = () => {
                   alt="linkedin"
                 />
               </a>
-              <a
-                href={config.contact.socials.github}
+              {/* <a
+                href={exploreInfo.contact.socials.github}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -166,9 +190,9 @@ export const Interface = () => {
                   src="/assets/twitter.svg"
                   alt="twitter"
                 />
-              </a>
+              </a> */}
               <a
-                href={config.contact.socials.github}
+                href={exploreInfo.contact.socials.github}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -179,7 +203,7 @@ export const Interface = () => {
                 />
               </a>
               <a
-                href={`mailto:${config.contact.mail}`}
+                href={`mailto:${exploreInfo.contact.mail}`}
                 target="_blank"
                 rel="noreferrer"
               >

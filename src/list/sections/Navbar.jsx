@@ -10,18 +10,24 @@ const Navbar = ({ currentView, setCurrentView }) => {
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   const NavItems = () => {
+    const handleClick = (href) => {
+      window.location.href = href;
+    };
+
     return (
       <ul className="nav-ul">
         {navLinks.map(({ id, name, href }) => (
-          <li key={id} className="nav-li">
+          <li
+            key={id}
+            className="nav-li cursor-pointer"
+            onClick={() => handleClick(href)}
+          >
             <a
-              href={href}
               className={`nav-li_a ${
                 !currentView && activeSection === name.toLowerCase()
                   ? 'text-white'
                   : ''
               }`}
-              onClick={() => {}}
             >
               {name}
             </a>

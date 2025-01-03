@@ -21,7 +21,7 @@ const Hero = () => {
           <span className="waving-hand z-20">👋</span>
         </p>
         <p className="hero_tag text-white_gradient z-20">
-          Engineering Dreams into Reality
+          Crafting Digital Experiences
         </p>
         <div className="w-full h-full absolute inset-0">
           <Canvas>

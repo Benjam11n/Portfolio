@@ -6,7 +6,6 @@ import { useMobile } from '../../hooks/useMobile';
 import { Balloon } from '../components/models/Balloon';
 import { Mailbox } from '../components/models/Mailbox';
 import { ParkBench } from '../components/models/ParkBench';
-import { Pigeon } from '../components/models/Pigeon';
 import { SectionTitle } from '../components/SectionTitle';
 import { Tree } from '../components/Tree';
 import { OrangeBird } from '../components/OrangeBird';
@@ -67,14 +66,6 @@ const Contact = () => {
         position-y={0.25}
         position-z={0.5}
       />
-      <Float>
-        <Pigeon
-          position-x={isMobile ? 0 : 2 * scaleFactor}
-          position-y={isMobile ? 2.2 : 1.5}
-          position-z={-0.05}
-          scale={0.3}
-        />
-      </Float>
     </motion.group>
   );
 };
