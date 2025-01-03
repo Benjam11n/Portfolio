@@ -1,5 +1,5 @@
 import { Whiteboard } from './Whiteboard';
-import WhiteboardText from './WhiteBoardText';
+import WhiteboardText from './WhiteboardText';
 
 const WhiteboardSection = ({
   position,

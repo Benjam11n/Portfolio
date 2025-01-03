@@ -12,7 +12,7 @@ export const projectAtom = atom(exploreInfo.projects[0]);
 export const Interface = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
   const scrollData = useScroll();
-  const [_project, setProject] = useAtom(projectAtom);
+  const [, setProject] = useAtom(projectAtom);
   const { isMobile } = useMobile();
 
   useFrame(() => {

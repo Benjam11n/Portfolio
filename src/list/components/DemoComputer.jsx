@@ -9,7 +9,7 @@ import gsap from 'gsap';
 
 const DemoComputer = ({ texture, ...props }) => {
   const group = useRef();
-  const { nodes, materials, _animations } = useGLTF('/models/computer.glb');
+  const { nodes, materials } = useGLTF('/models/computer.glb');
 
   const txt = useVideoTexture(
     texture ? texture : '/textures/project/project1.mp4'
