@@ -238,13 +238,13 @@ export const exploreInfo = {
       description:
         'An innovative perfume merketplace featuring AI recommendations',
       image: 'projects/project1.png',
-      link: 'example.com',
+      // link: 'example.com',
     },
     {
       name: 'Birds of a Feather Forum',
       description: 'A forum for all bird lovers to flock together!',
       image: 'projects/project2.jpg',
-      link: 'example.com',
+      // link: 'example.com',
     },
     {
       name: 'CampusQ',
@@ -257,7 +257,7 @@ export const exploreInfo = {
       name: 'World Quant NUS Alphathon',
       description: '4th place winner in the World Quant NUS Alphathon 2024',
       image: 'projects/project4.png',
-      link: 'example.com',
+      // link: 'example.com',
     },
   ],
   contact: {
