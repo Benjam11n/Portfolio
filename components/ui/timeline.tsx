@@ -1,4 +1,5 @@
 'use client';
+
 import { useScroll, useTransform, motion } from 'framer-motion';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -31,10 +32,10 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
   return (
     <div className="w-full md:px-10" ref={containerRef}>
       <div className="max-w-7xl mx-auto pt-20 px-4 md:px-8 lg:px-10 font-comic">
-        <h2 className="text-3xl md:text-4xl mb-4 max-w-4xl">
+        <h2 className="text-3xl md:text-5xl mb-4 max-w-4xl">
           My Professional Journey
         </h2>
-        <p className="text-sm md:text-base max-w-sm text-muted-foreground">
+        <p className="text-md md:text-lg max-w-sm text-muted-foreground">
           Here's a timeline of my career progression and key achievements.
         </p>
       </div>
@@ -49,8 +50,8 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full flex items-center justify-center">
                 <div className="h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
               </div>
-              <div classname="flex flex-col">
-                <h4 className="hidden md:block text-lg mb-4 text-left font-bold font-comic text-muted-foreground">
+              <div className="flex flex-col">
+                <h4 className="hidden md:block text-lg md:pl-20 md:text-lg font-bold font-comic text-muted-foreground">
                   {item.subtitle}
                 </h4>
                 <h3 className="hidden md:block text-lg md:pl-20 md:text-5xl font-bold font-comic">
@@ -59,7 +60,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               </div>
             </div>
 
-            <div className="relative pl-20 pr-4 md:pl-4 w-full font-nohemi">
+            <div className="relative pl-20 pr-4 md:pl-4 w-full">
               <h3 className="md:hidden block text-lg mb-4 text-left font-bold font-comic">
                 {item.title}
               </h3>

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { TextShimmer } from "@/components/ui/text-shimmer";
-import { AuroraBackground } from "@/components/ui/aurora-background";
+import { TextShimmer } from '@/components/ui/text-shimmer';
+import { AuroraBackground } from '@/components/ui/aurora-background';
 
 export default function Loading() {
   return (

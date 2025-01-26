@@ -13,7 +13,6 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        nohemi: ['var(--font-nohemi)'],
         comic: ['var(--font-cat)'],
       },
       backgroundImage: {
