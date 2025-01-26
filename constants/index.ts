@@ -49,7 +49,7 @@ export const myProjects: Project[] = [
     desc: 'Quickie is an innovative e-commerce platform that leverages AI technology to provide personalized perfume recommendations to users. It offers a seamless shopping experience, with features like social media sharing and secure payment processing.',
     subdesc:
       'Built as a unique e-commerce app with Next.js 15, Tailwind CSS, TypeScript, Framer Motion, shadcn/ui, Zustand, React Query and MongoDB, Quickie is designed to be beautiful and memorable yet performant.',
-    href: '/projects/quickie',
+    href: '/list/projects/quickie',
     texture: '/textures/project/project1.mp4',
     logo: '/projects/project1-logo.png',
     logoStyle: {

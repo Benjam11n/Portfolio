@@ -221,10 +221,10 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
         }}
         className="relative flex flex-col items-center justify-center px-4 z-10 h-[80vh]"
       >
-        <h1 className="text-4xl md:text-7xl font-bold dark:text-white text-center mb-6">
+        <h1 className="text-4xl md:text-7xl font-bold text-center mb-6">
           {project.title}
         </h1>
-        <p className="text-lg md:text-2xl dark:text-neutral-200 max-w-2xl text-center mb-8">
+        <p className="text-lg md:text-2xl max-w-2xl text-center mb-8">
           {project.description}
         </p>
         <RainbowButton onClick={handleDemoClick}>View Live Demo</RainbowButton>
@@ -261,7 +261,10 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             <h2 className="text-3xl font-bold mb-6">Key Features</h2>
             <ul className="space-y-3">
               {project.features.map((feature, index) => (
-                <li key={index} className="flex items-center">
+                <li
+                  key={index}
+                  className="flex items-center text-muted-foreground"
+                >
                   <span className="h-2 w-2 rounded-full bg-primary mr-3" />
                   {feature}
                 </li>
