@@ -11,13 +11,13 @@ export function ExperienceTimeline() {
       content: (
         <div>
           <div className="space-y-4">
-            <p className="text-xs md:text-sm">
+            <p className="text-xs md:text-lg">
               • Led development of cloud-native microservices architecture
             </p>
-            <p className="text-xs md:text-sm">
+            <p className="text-xs md:text-lg">
               • Mentored junior developers and conducted technical interviews
             </p>
-            <p className="text-xs md:text-sm">
+            <p className="text-xs md:text-lg">
               • Implemented CI/CD pipelines reducing deployment time by 60%
             </p>
           </div>

@@ -1,18 +1,28 @@
-"use client";
+'use client';
 
-import { useRef, useEffect } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import * as THREE from "three";
+import { useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import * as THREE from 'three';
 
-function FloatingShape({ position, color, speed = 1 }) {
-  const mesh = useRef();
+function FloatingShape({
+  position,
+  color,
+  speed = 1,
+}: {
+  position: [number, number, number];
+  color: string;
+  speed?: number;
+}) {
+  const mesh = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    mesh.current.position.y = position[1] + Math.sin(time * speed) * 0.3;
-    mesh.current.rotation.x = time * 0.5;
-    mesh.current.rotation.y = time * 0.2;
+    if (mesh.current) {
+      mesh.current.position.y = position[1] + Math.sin(time * speed) * 0.3;
+      mesh.current.rotation.x = time * 0.5;
+      mesh.current.rotation.y = time * 0.2;
+    }
   });
 
   return (
