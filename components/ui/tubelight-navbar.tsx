@@ -159,7 +159,7 @@ export function NavBar({
               <div className="flex items-center gap-3 bg-background/5 border border-border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
                 <ViewToggle />
               </div>
-              {pathname === '/list' && (
+              {pathname.startsWith('/list') && (
                 <div className="flex items-center gap-3 bg-background/5 border border-border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
                   <ThemeToggle />
                 </div>

@@ -7,27 +7,214 @@ import { exploreInfo } from '@/constants';
 import { Gravity, MatterBody } from '@/components/ui/gravity';
 import { cn } from '@/lib/utils';
 import { TextShimmer } from '@/components/ui/text-shimmer';
+import {
+  Box,
+  Braces,
+  Cloud,
+  Code2,
+  Container,
+  Database,
+  Server,
+} from 'lucide-react';
+import Image from 'next/image';
 
-const skills = [
-  { name: 'React', color: '#61DAFB', size: 'lg' },
-  { name: 'TypeScript', color: '#3178C6', size: 'xl' },
-  { name: 'Next.js', color: '#000000', size: 'lg' },
-  { name: 'Node.js', color: '#339933', size: 'xl' },
-  { name: 'Python', color: '#3776AB', size: 'lg' },
-  { name: 'GraphQL', color: '#E10098', size: 'md' },
-  { name: 'Docker', color: '#2496ED', size: 'lg' },
-  { name: 'AWS', color: '#FF9900', size: 'xl' },
-  { name: 'PostgreSQL', color: '#336791', size: 'lg' },
-  { name: 'MongoDB', color: '#47A248', size: 'md' },
-  { name: 'Redis', color: '#DC382D', size: 'lg' },
-  { name: 'Tailwind', color: '#38B2AC', size: 'xl' },
+interface Skill {
+  name: string;
+  color: string;
+  size: 'sm' | 'md' | 'lg' | 'xl';
+  icon: (props: { className: string }) => JSX.Element;
+}
+
+const skills: Skill[] = [
+  {
+    name: 'React',
+    color: '#001b59', // Darker React blue for better contrast
+    size: 'xl',
+    icon: (props) => (
+      <Image
+        src="/assets/react.svg"
+        alt="React"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'TypeScript',
+    color: '#3178C6', // Already good contrast
+    size: 'xl',
+    icon: (props) => (
+      <Image
+        src="/assets/typescript.svg"
+        alt="TypeScript"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'Next.js',
+    color: '#FFFFFF', // Slightly lighter than pure black
+    size: 'lg',
+    icon: (props) => (
+      <Image
+        src="/assets/nextjs.svg"
+        alt="Next.js"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'Node.js',
+    color: '#215732', // Darker Node.js green for better contrast
+    size: 'lg',
+    icon: (props) => (
+      <Image
+        src="/assets/node.svg"
+        alt="Node.js"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'Python',
+    color: '#306998', // Darker Python blue
+    size: 'xl',
+    icon: (props) => (
+      <Image
+        src="/assets/python.svg"
+        alt="Python"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'Java',
+    color: '#FFFFFF', // Slightly darker Java orange
+    size: 'xl',
+    icon: (props) => (
+      <Image
+        src="/assets/java.svg"
+        alt="Java"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'Golang',
+    color: '#FFFFFF', // Darker Go blue
+    size: 'md',
+    icon: (props) => (
+      <Image
+        src="/assets/golang.svg"
+        alt="Golang"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'Zustand',
+    color: '#E67E22', // Adjusted orange for better contrast
+    size: 'lg',
+    icon: (props) => (
+      <Image
+        src="/assets/zustand.png"
+        alt="Zustand"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'Docker',
+    color: '#1D63ED', // Slightly darker Docker blue
+    size: 'md',
+    icon: (props) => (
+      <Image
+        src="/assets/docker.svg"
+        alt="Docker"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'PostgreSQL',
+    color: '#2F5E8D', // Darker PostgreSQL blue
+    size: 'lg',
+    icon: (props) => (
+      <Image
+        src="/assets/pgsql.svg"
+        alt="PostgreSQL"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'MongoDB',
+    color: '#023430', // Dark MongoDB green
+    size: 'lg',
+    icon: (props) => (
+      <Image
+        src="/assets/mongodb.svg"
+        alt="MongoDB"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'Tailwind',
+    color: '#0F766E', // Darker Tailwind teal
+    size: 'xl',
+    icon: (props) => (
+      <Image
+        src="/assets/tailwindcss.png"
+        alt="Tailwind"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: 'Framer Motion',
+    color: '#2e00a1', // Darker coral for Framer Motion
+    size: 'lg',
+    icon: (props) => (
+      <Image
+        src="/assets/framer.png"
+        alt="Framer Motion"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
 ];
 
 const sizeClasses = {
-  sm: 'text-sm md:text-base',
-  md: 'text-base md:text-lg',
-  lg: 'text-lg md:text-xl',
-  xl: 'text-xl md:text-2xl',
+  sm: 'h-12 w-12 md:h-14 md:w-14',
+  md: 'h-14 w-14 md:h-16 md:w-16',
+  lg: 'h-16 w-16 md:h-18 md:w-18',
+  xl: 'h-18 w-18 md:h-20 md:w-20',
 };
 
 const About = () => {
@@ -119,7 +306,7 @@ const About = () => {
             {/* Add min-height for mobile and adjust height based on screen size */}
             <div className="relative min-h-[200px] sm:min-h-[300px]">
               <Gravity
-                gravity={{ x: 0, y: 1 }}
+                gravity={{ x: 0, y: 0.5 }}
                 className="absolute inset-0"
                 resetOnResize={true}
               >
@@ -131,20 +318,35 @@ const About = () => {
                       restitution: 0.7,
                       density: 0.8,
                     }}
-                    // Adjust positioning for better mobile layout
                     x={`${10 + ((index * 20) % 80)}%`}
                     y={`${10 + Math.floor((index * 20) / 80) * 15}%`}
                     angle={Math.random() * 20 - 10}
                   >
                     <div
                       className={cn(
-                        sizeClasses[skill.size as keyof typeof sizeClasses],
-                        'rounded-full hover:cursor-grab px-4 py-2 sm:px-6 sm:py-3 whitespace-nowrap',
-                        'transform-gpu' // Add hardware acceleration
+                        sizeClasses[
+                          skill.size as 'lg' | 'sm' | 'md' | 'lg' | 'xl'
+                        ],
+                        'rounded-full hover:cursor-grab flex items-center justify-center',
+                        'transform-gpu transition-transform hover:scale-110',
+                        'shadow-lg hover:shadow-xl'
                       )}
-                      style={{ backgroundColor: skill.color }}
+                      style={{
+                        backgroundColor: skill.color,
+                        position: 'relative',
+                      }}
                     >
-                      {skill.name}
+                      {skill.icon({
+                        className: 'w-2/3 h-2/3',
+                        color:
+                          skill.color === '#000000' ? '#FFFFFF' : '#000000',
+                        strokeWidth: 1.5,
+                      })}
+                      <div className="opacity-0 hover:opacity-100 absolute inset-0 flex items-center justify-center rounded-full transition-opacity duration-200">
+                        <span className="text-white text-xs font-medium">
+                          {skill.name}
+                        </span>
+                      </div>
                     </div>
                   </MatterBody>
                 ))}
