@@ -1,16 +1,29 @@
-import { useRef, useState } from 'react';
+import React from 'react';
+import { useRef, useState, FormEvent, ChangeEvent } from 'react';
 import emailjs from '@emailjs/browser';
 
-const Contact = () => {
-  const formRef = useRef();
-  const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+interface FormState {
+  name: string;
+  email: string;
+  message: string;
+}
 
-  const handleChange = ({ target: { name, value } }) => {
+const Contact = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState<FormState>({
+    name: '',
+    email: '',
+    message: '',
+  });
+
+  const handleChange = ({
+    target: { name, value },
+  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
