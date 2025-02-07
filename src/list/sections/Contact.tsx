@@ -1,6 +1,4 @@
-import React from 'react';
-import { useRef, useState, FormEvent, ChangeEvent } from 'react';
-import emailjs from '@emailjs/browser';
+import React, { FormEvent, ChangeEvent, useState } from 'react';
 
 interface FormState {
   name: string;
@@ -9,8 +7,6 @@ interface FormState {
 }
 
 const Contact = () => {
-  const formRef = useRef<HTMLFormElement>(null);
-  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState<FormState>({
     name: '',
     email: '',
@@ -23,34 +19,14 @@ const Contact = () => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setLoading(true);
 
-    try {
-      await emailjs.send(
-        'test serviceID',
-        'test templateID',
-        {
-          from_name: form.name,
-          to_name: 'Benjamin',
-          from_email: form.email,
-          to_email: 'youcanfindbenjamin@gmail.com',
-          message: form.message,
-        },
-        'test'
-      );
-      setLoading(false);
+    // Construct the mailto URL with form data
+    const mailtoUrl = `mailto:youcanfindbenjamin@gmail.com?subject=Contact from ${form.name}&body=From: ${form.name}%0D%0AEmail: ${form.email}%0D%0A%0D%0AMessage:%0D%0A${form.message}`;
 
-      // TODO: change to toast notification
-      alert('Your message has been sent!');
-      setForm({ name: '', email: '', message: '' });
-    } catch (error) {
-      setLoading(false);
-      console.log(error);
-      // TODO: change to toast notification
-      alert('Something went wrong!');
-    }
+    // Open default email client
+    window.location.href = mailtoUrl;
   };
 
   return (
@@ -62,7 +38,6 @@ const Contact = () => {
           alt="terminal background"
           className="absolute inset-0 min-h-screen mt-6"
         />
-
         <div className="contact-container">
           <h3 className="head-text">Let&apos;s talk</h3>
           <p className="text-lg text-white-600 mt-3">
@@ -70,9 +45,7 @@ const Contact = () => {
             existing platform, or bring a unique project to life, I&apos;m here
             to help.
           </p>
-
           <form
-            ref={formRef}
             onSubmit={handleSubmit}
             className="mt-12 flex flex-col space-y-7"
           >
@@ -88,7 +61,6 @@ const Contact = () => {
                 placeholder="John Doe"
               />
             </label>
-
             <label className="space-y-3">
               <span className="field-label">Email</span>
               <input
@@ -101,7 +73,6 @@ const Contact = () => {
                 placeholder="johndoe@gmail.com"
               />
             </label>
-
             <label className="space-y-3">
               <span className="field-label">Your message</span>
               <textarea
@@ -114,9 +85,8 @@ const Contact = () => {
                 placeholder="Hi, you're hired!"
               />
             </label>
-
-            <button className="field-btn" type="submit" disabled={loading}>
-              {loading ? 'Sending ...' : 'Send Message'}
+            <button className="field-btn" type="submit">
+              Send Message
               <img
                 src="/assets/arrow-up.png"
                 alt="arrow-up"
