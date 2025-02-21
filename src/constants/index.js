@@ -157,7 +157,7 @@ export const myProjects = [
   },
   {
     title: 'WorldQuant NUS Alphathon - 4th Place Winner',
-    desc: 'WorldQuant NUS Alphathon is a prestigious competition that challenges students to develop quantitative trading strategies using machine learning and statistical models. Horizon is a banking app that offers a seamless and secure banking experience, with features like real-time messaging, notifications, and user profiles.',
+    desc: 'WorldQuant NUS Alphathon is a prestigious competition that challenges students to develop quantitative trading strategies.',
     // href: 'https://www.youtube.com/watch?v=PuOVqP_cjkE',
     texture: '/textures/project/project4.mp4',
     logo: '/projects/project4-logo.png',
