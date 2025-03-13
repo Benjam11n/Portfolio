@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ThemeToggle } from '../ThemeToggle';
 import { usePathname, useRouter } from 'next/navigation';
 import ViewToggle from '../explore/ViewToggle';
 
@@ -16,21 +15,47 @@ interface NavItem {
 interface NavBarProps {
   items: NavItem[];
   className?: string;
-  currentView?: boolean;
-  setCurrentView?: (view: boolean) => void;
 }
 
-export function NavBar({
-  items,
-  className,
-  currentView,
-  setCurrentView,
-}: NavBarProps) {
+export function NavBar({ items, className }: NavBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState(items[0].name);
   const [isMobile, setIsMobile] = useState(false);
   const [showToggles, setShowToggles] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const sectionName = entry.target.id;
+
+          if (entry.isIntersecting) {
+            const matchingItem = items.find(
+              (item) => item.href.replace('#', '') === sectionName
+            );
+            if (matchingItem) {
+              setActiveTab(matchingItem.name);
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '-10% 0px -10% 0px',
+      }
+    );
+
+    items.forEach((item) => {
+      const sectionId = item.href.replace('#', '');
+      const section = document.getElementById(sectionId);
+      if (section) {
+        observer.observe(section);
+      }
+    });
+
+    return () => observer.disconnect();
+  }, [items]);
 
   const handleClick = (href: string) => {
     window.location.href = href;
@@ -54,31 +79,33 @@ export function NavBar({
           <div className="bg-background/10 backdrop-blur-lg rounded-full border border-border p-2">
             <div className="flex items-center gap-2">
               <button
-                onClick={() =>
-                  router.push(pathname === '/list' ? '/explore' : '/list')
-                }
+                onClick={() => router.push('/explore')}
                 className={cn(
                   'text-sm font-medium transition-colors',
-                  currentView ? 'text-primary' : 'text-foreground/60'
+                  pathname === '/explore'
+                    ? 'text-primary'
+                    : 'text-foreground/60'
                 )}
               >
                 Explore
               </button>
               <button
-                onClick={() => router.push('/list')}
+                onClick={() =>
+                  router.push(pathname === '/explore' ? '/list' : '/explore')
+                }
                 className="w-8 h-4 bg-muted rounded-full relative"
               >
                 <motion.div
                   className="absolute top-0.5 left-0.5 w-3 h-3 bg-primary rounded-full"
-                  animate={{ x: currentView ? 0 : 16 }}
+                  animate={{ x: pathname === '/explore' ? 0 : 16 }}
                   transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                 />
               </button>
               <button
-                onClick={() => router.push('/explore')}
+                onClick={() => router.push('/list')}
                 className={cn(
                   'text-sm font-medium transition-colors',
-                  !currentView ? 'text-primary' : 'text-foreground/60'
+                  pathname === '/list' ? 'text-primary' : 'text-foreground/60'
                 )}
               >
                 List
@@ -159,11 +186,6 @@ export function NavBar({
               <div className="flex items-center gap-3 bg-background/5 border border-border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
                 <ViewToggle />
               </div>
-              {pathname.startsWith('/list') && (
-                <div className="flex items-center gap-3 bg-background/5 border border-border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
-                  <ThemeToggle />
-                </div>
-              )}
             </div>
           </motion.div>
         </div>

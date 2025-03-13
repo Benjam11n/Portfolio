@@ -18,8 +18,8 @@ import {
 } from '@/components/ui/form';
 import { Mail, MessageSquare, Phone, MapPin, Send } from 'lucide-react';
 import { TextShimmer } from '@/components/ui/text-shimmer';
+import { EMAIL } from '@/constants';
 
-// Form validation schema
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
@@ -45,7 +45,6 @@ export default function Contact() {
 
   async function onSubmit(data: ContactFormValues) {
     setIsSubmitting(true);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsSubmitting(false);
     setIsSubmitted(true);
@@ -56,26 +55,25 @@ export default function Contact() {
     {
       icon: Mail,
       title: 'Email',
-      value: 'john.doe@example.com',
-      link: 'mailto:john.doe@example.com',
+      value: EMAIL,
+      link: 'mailto:' + EMAIL,
     },
     {
       icon: Phone,
-      title: 'Phone',
-      value: '+1 (555) 123-4567',
-      link: 'tel:+15551234567',
+      title: 'Telegram',
+      value: '@benjaminwjy',
+      link: 'https://t.me/benjaminwjy',
     },
     {
       icon: MapPin,
       title: 'Location',
-      value: 'San Francisco, CA',
-      link: 'https://maps.google.com/?q=San+Francisco,+CA',
+      value: 'Singapore, Singapore',
+      link: 'https://www.google.com/maps?sca_esv=be29cc62fc8e0244&output=search&q=singapore&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpmDtIGL1r84kuKz6yAcD_ivAVmKZxU_UoutG-TG5lqbs6lRwhrq5ZB_F86GMJ9ziSEjGRiIlIm49QFZ29HJnTOtclbEBLRvQNU_hFpwv3LwPOP_-zf-eYJHllGGkzKgeHQLdB6B3-VlFzSxJCns_CBWmxXgHXIh2DMBlpTcTUYuIudKaBVuiYfrixm0RVLzkD2wC-zA&entry=mc&ved=1t:200715&ictx=111',
     },
     {
       icon: MessageSquare,
-      title: 'Social',
-      value: '@johndoe',
-      link: 'https://twitter.com/johndoe',
+      title: 'LinkedIn',
+      link: 'https://www.linkedin.com/in/benjaminwang-sg/',
     },
   ];
 
@@ -214,7 +212,7 @@ export default function Contact() {
                         <FormLabel>Message</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Tell me about your project..."
+                            placeholder="I want to give you a job..."
                             className="min-h-[150px]"
                             {...field}
                           />

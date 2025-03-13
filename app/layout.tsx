@@ -11,7 +11,7 @@ const comicCat = localFont({
 
 export const metadata: Metadata = {
   title: "Benjamin's Portfolio",
-  description: 'Full Stack Developer & 3D Enthusiast Portfolio',
+  description: 'Full Stack Developer & AI Enthusiast Portfolio',
 };
 
 export default function RootLayout({

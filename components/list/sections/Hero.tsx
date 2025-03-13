@@ -2,6 +2,7 @@
 
 import { GithubIcon, LinkedinIcon, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { GITHUB_URL, LINKEDIN_URL } from '@/constants';
 
 const Hero = () => {
   return (
@@ -17,17 +18,23 @@ const Hero = () => {
           Benjamin
         </h1>
         <p className="text-xl text-muted-foreground mb-8 text-center font-comic">
-          Full Stack Developer & 3D Enthusiast
+          Full Stack Developer & AI Enthusiast
         </p>
         <div className="flex gap-4 justify-center">
           <Button variant="outline" size="icon">
-            <GithubIcon className="h-5 w-5" />
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+              <GithubIcon className="h-5 w-5" />
+            </a>
           </Button>
           <Button variant="outline" size="icon">
-            <LinkedinIcon className="h-5 w-5" />
+            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
+              <LinkedinIcon className="h-5 w-5" />
+            </a>
           </Button>
           <Button variant="outline" size="icon">
-            <Mail className="h-5 w-5" />
+            <a href="#contact">
+              <Mail className="h-5 w-5" />
+            </a>
           </Button>
         </div>
         {/* <div className="w-full h-full absolute inset-0">

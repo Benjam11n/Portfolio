@@ -80,16 +80,28 @@ const config: Config = {
       },
       keyframes: {
         'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
+          from: {
+            height: '0',
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)',
+          },
         },
         'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
+          from: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          to: {
+            height: '0',
+          },
         },
         rainbow: {
-          '0%': { 'background-position': '0%' },
-          '100%': { 'background-position': '200%' },
+          '0%': {
+            'background-position': '0%',
+          },
+          '100%': {
+            'background-position': '200%',
+          },
         },
         aurora: {
           from: {
