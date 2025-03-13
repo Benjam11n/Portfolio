@@ -16,9 +16,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Mail, MessageSquare, Phone, MapPin, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { TextShimmer } from '@/components/ui/text-shimmer';
-import { EMAIL } from '@/constants';
+import { CONTACT_INFO } from '@/constants';
+import { toast } from 'sonner';
+import { sendEmail } from '@/lib/actions/email';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -45,37 +47,27 @@ export default function Contact() {
 
   async function onSubmit(data: ContactFormValues) {
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    form.reset();
-  }
 
-  const contactInfo = [
-    {
-      icon: Mail,
-      title: 'Email',
-      value: EMAIL,
-      link: 'mailto:' + EMAIL,
-    },
-    {
-      icon: Phone,
-      title: 'Telegram',
-      value: '@benjaminwjy',
-      link: 'https://t.me/benjaminwjy',
-    },
-    {
-      icon: MapPin,
-      title: 'Location',
-      value: 'Singapore, Singapore',
-      link: 'https://www.google.com/maps?sca_esv=be29cc62fc8e0244&output=search&q=singapore&source=lnms&fbs=ABzOT_CWdhQLP1FcmU5B0fn3xuWpmDtIGL1r84kuKz6yAcD_ivAVmKZxU_UoutG-TG5lqbs6lRwhrq5ZB_F86GMJ9ziSEjGRiIlIm49QFZ29HJnTOtclbEBLRvQNU_hFpwv3LwPOP_-zf-eYJHllGGkzKgeHQLdB6B3-VlFzSxJCns_CBWmxXgHXIh2DMBlpTcTUYuIudKaBVuiYfrixm0RVLzkD2wC-zA&entry=mc&ved=1t:200715&ictx=111',
-    },
-    {
-      icon: MessageSquare,
-      title: 'LinkedIn',
-      link: 'https://www.linkedin.com/in/benjaminwang-sg/',
-    },
-  ];
+    try {
+      const result = await sendEmail(data);
+
+      if (result.error) {
+        throw new Error(result.error);
+      }
+
+      setIsSubmitted(true);
+      form.reset();
+    } catch (error) {
+      toast.error('Error sending message', {
+        description:
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <section className="c-space my-20" id="contact">
@@ -102,7 +94,7 @@ export default function Contact() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="space-y-6"
           >
-            {contactInfo.map((item, index) => (
+            {CONTACT_INFO.map((item, index) => (
               <motion.a
                 key={index}
                 href={item.link}
@@ -140,9 +132,9 @@ export default function Contact() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="h-full flex flex-col items-center justify-center text-center"
               >
-                <TextShimmer className="text-2xl font-bold mb-4">
+                <p className="text-2xl font-bold mb-4">
                   Thank you for your message!
-                </TextShimmer>
+                </p>
                 <p className="text-muted-foreground mb-8">
                   I'll get back to you as soon as possible.
                 </p>

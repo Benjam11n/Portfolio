@@ -74,6 +74,7 @@
     "react-resizable-panels": "^2.1.7",
     "react-responsive": "^10.0.0",
     "recharts": "^2.15.0",
+    "resend": "^4.1.2",
     "sonner": "^1.7.2",
     "svg-path-commander": "^1.0.5",
     "tailwind-merge": "^2.6.0",
