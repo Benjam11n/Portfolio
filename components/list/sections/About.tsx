@@ -3,19 +3,10 @@
 import { useState } from 'react';
 import Globe from 'react-globe.gl';
 import Button from '../Button';
-import { exploreInfo } from '@/constants';
+import { EMAIL, exploreInfo } from '@/constants';
 import { Gravity, MatterBody } from '@/components/ui/gravity';
 import { cn } from '@/lib/utils';
 import { TextShimmer } from '@/components/ui/text-shimmer';
-import {
-  Box,
-  Braces,
-  Cloud,
-  Code2,
-  Container,
-  Database,
-  Server,
-} from 'lucide-react';
 import Image from 'next/image';
 
 interface Skill {
@@ -28,7 +19,7 @@ interface Skill {
 const skills: Skill[] = [
   {
     name: 'React',
-    color: '#001b59', // Darker React blue for better contrast
+    color: '#001b59',
     size: 'xl',
     icon: (props) => (
       <Image
@@ -42,7 +33,7 @@ const skills: Skill[] = [
   },
   {
     name: 'TypeScript',
-    color: '#3178C6', // Already good contrast
+    color: '#3178C6',
     size: 'xl',
     icon: (props) => (
       <Image
@@ -56,7 +47,7 @@ const skills: Skill[] = [
   },
   {
     name: 'Next.js',
-    color: '#FFFFFF', // Slightly lighter than pure black
+    color: '#FFFFFF',
     size: 'lg',
     icon: (props) => (
       <Image
@@ -70,7 +61,7 @@ const skills: Skill[] = [
   },
   {
     name: 'Node.js',
-    color: '#215732', // Darker Node.js green for better contrast
+    color: '#215732',
     size: 'lg',
     icon: (props) => (
       <Image
@@ -84,7 +75,7 @@ const skills: Skill[] = [
   },
   {
     name: 'Python',
-    color: '#306998', // Darker Python blue
+    color: '#306998',
     size: 'xl',
     icon: (props) => (
       <Image
@@ -98,7 +89,7 @@ const skills: Skill[] = [
   },
   {
     name: 'Java',
-    color: '#FFFFFF', // Slightly darker Java orange
+    color: '#FFFFFF',
     size: 'xl',
     icon: (props) => (
       <Image
@@ -112,7 +103,7 @@ const skills: Skill[] = [
   },
   {
     name: 'Golang',
-    color: '#FFFFFF', // Darker Go blue
+    color: '#FFFFFF',
     size: 'md',
     icon: (props) => (
       <Image
@@ -126,7 +117,7 @@ const skills: Skill[] = [
   },
   {
     name: 'Zustand',
-    color: '#E67E22', // Adjusted orange for better contrast
+    color: '#E67E22',
     size: 'lg',
     icon: (props) => (
       <Image
@@ -140,7 +131,7 @@ const skills: Skill[] = [
   },
   {
     name: 'Docker',
-    color: '#1D63ED', // Slightly darker Docker blue
+    color: '#1D63ED',
     size: 'md',
     icon: (props) => (
       <Image
@@ -154,7 +145,7 @@ const skills: Skill[] = [
   },
   {
     name: 'PostgreSQL',
-    color: '#2F5E8D', // Darker PostgreSQL blue
+    color: '#2F5E8D',
     size: 'lg',
     icon: (props) => (
       <Image
@@ -168,7 +159,7 @@ const skills: Skill[] = [
   },
   {
     name: 'MongoDB',
-    color: '#023430', // Dark MongoDB green
+    color: '#023430',
     size: 'lg',
     icon: (props) => (
       <Image
@@ -182,7 +173,7 @@ const skills: Skill[] = [
   },
   {
     name: 'Tailwind',
-    color: '#0F766E', // Darker Tailwind teal
+    color: '#0F766E',
     size: 'xl',
     icon: (props) => (
       <Image
@@ -195,8 +186,22 @@ const skills: Skill[] = [
     ),
   },
   {
+    name: 'Supabase',
+    color: '#525252',
+    size: 'lg',
+    icon: (props) => (
+      <Image
+        src="/assets/supabase.svg"
+        alt="Framer Motion"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
     name: 'Framer Motion',
-    color: '#2e00a1', // Darker coral for Framer Motion
+    color: '#2e00a1',
     size: 'lg',
     icon: (props) => (
       <Image
@@ -211,17 +216,17 @@ const skills: Skill[] = [
 ];
 
 const sizeClasses = {
-  sm: 'h-12 w-12 md:h-14 md:w-14',
-  md: 'h-14 w-14 md:h-16 md:w-16',
-  lg: 'h-16 w-16 md:h-18 md:w-18',
-  xl: 'h-18 w-18 md:h-20 md:w-20',
+  sm: 'h-10 w-10 lg:h-14 lg:w-14',
+  md: 'h-12 w-12 lg:h-16 lg:w-16',
+  lg: 'h-14 w-14 lg:h-20 lg:w-20',
+  xl: 'h-16 w-16 lg:h-24 lg:w-24',
 };
 
 const About = () => {
   const [hasCopied, setHasCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(' youcanfindbenjamin@gmail.com');
+    navigator.clipboard.writeText(EMAIL);
     setHasCopied(true);
 
     setTimeout(() => {
@@ -259,11 +264,11 @@ const About = () => {
             />
 
             <div>
-              <p className="grid-headtext">Tech Stack</p>
+              <p className="grid-headtext">What I’m Currently Learning</p>
               <p className="grid-subtext">
-                I specialize in a variety of languages and frameworks, including
-                React, Next.js, Node.js, and MongoDB. I am also have experience
-                with machine learning and deep learning.
+                I’m always expanding my skill set and exploring new
+                technologies. Right now, I’m diving deep into AI-powered
+                applications, and 3D web experiences with Three.js.
               </p>
             </div>
           </div>
@@ -285,7 +290,7 @@ const About = () => {
                     lng: 103.851959,
                     text: 'Singapore',
                     color: 'white',
-                    size: 30,
+                    size: 40,
                   },
                 ]}
               />
@@ -296,6 +301,7 @@ const About = () => {
               </p>
               <p className="grid-subtext">
                 I&apos;m based in Singapore and open to remote work worldwide.
+                Feel free to reach out—let’s build something great together!
               </p>
               <Button name="Contact Me" isBeam containerClass="w-full mt-10" />
             </div>
@@ -303,7 +309,6 @@ const About = () => {
         </div>
         <div className="xl:col-span-2 xl:row-span-3">
           <div className="relative grid-container">
-            {/* Add min-height for mobile and adjust height based on screen size */}
             <div className="relative min-h-[200px] sm:min-h-[300px]">
               <Gravity
                 gravity={{ x: 0, y: 0.5 }}
@@ -338,9 +343,6 @@ const About = () => {
                     >
                       {skill.icon({
                         className: 'w-2/3 h-2/3',
-                        color:
-                          skill.color === '#000000' ? '#FFFFFF' : '#000000',
-                        strokeWidth: 1.5,
                       })}
                       <div className="opacity-0 hover:opacity-100 absolute inset-0 flex items-center justify-center rounded-full transition-opacity duration-200">
                         <span className="text-white text-xs font-medium">
@@ -357,9 +359,7 @@ const About = () => {
               <p className="grid-headtext font-comic">My Tech Stack</p>
               <p className="grid-subtext">
                 I am always learning and improving my skills to keep up with the
-                latest technologies. I believe that code has the power to change
-                the world and I am passionate about using my skills to make a
-                positive impact.
+                latest technologies.
               </p>
             </div>
           </div>

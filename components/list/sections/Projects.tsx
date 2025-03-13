@@ -1,16 +1,17 @@
 'use client';
 
 import { Suspense, useState } from 'react';
-import { myProjects } from '../../../constants';
+import { PROJECTS } from '../../../constants';
 import { Canvas } from '@react-three/fiber';
 import { Center, OrbitControls } from '@react-three/drei';
 import CanvasLoader from '../CanvasLoader';
 import { DemoComputer } from '../DemoComputer';
-const projectCount = myProjects.length;
 
 const Projects = () => {
+  const projectKeys = Object.keys(PROJECTS);
+  const projectCount = projectKeys.length;
   const [selectedProjectIndex, setSelectedProjectIndex] = useState(0);
-  const currentProject = myProjects[selectedProjectIndex];
+  const currentProject = PROJECTS[projectKeys[selectedProjectIndex]];
 
   const handleNavigation = (direction: 'previous' | 'next') => {
     setSelectedProjectIndex((prev) => {
@@ -52,13 +53,13 @@ const Projects = () => {
             <p className="text-2xl font-semibold animatedText">
               {currentProject.title}
             </p>
-            <p className="animatedText">{currentProject.desc}</p>
+            <p className="animatedText">{currentProject.description}</p>
             <p className="animatedText">{currentProject.subdesc}</p>
           </div>
 
           <div className="flex items-center justify-between flex-wrap gap-5">
             <div className="flex items-center gap-3">
-              {currentProject.tags.map((tag, index) => (
+              {currentProject.techStack.map((tag, index) => (
                 <div key={index} className="tech-logo">
                   <img src={tag.path} alt={tag.name} />
                 </div>

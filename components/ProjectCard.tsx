@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Card } from "@/components/ui/card";
-import Image from "next/image";
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Card } from '@/components/ui/card';
+import Image from 'next/image';
 
 interface ProjectCardProps {
   title: string;
@@ -12,14 +12,19 @@ interface ProjectCardProps {
   link: string;
 }
 
-export default function ProjectCard({ title, description, image, link }: ProjectCardProps) {
+export default function ProjectCard({
+  title,
+  description,
+  image,
+  link,
+}: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
       className="w-full"
       whileHover={{ scale: 1.05, rotateY: 10 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
@@ -30,7 +35,7 @@ export default function ProjectCard({ title, description, image, link }: Project
             alt={title}
             fill
             className="object-cover transition-transform duration-300"
-            style={{ transform: isHovered ? "scale(1.1)" : "scale(1)" }}
+            style={{ transform: isHovered ? 'scale(1.1)' : 'scale(1)' }}
           />
         </div>
         <div className="p-6">

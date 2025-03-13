@@ -8,7 +8,6 @@ const ViewToggle = () => {
   const router = useRouter();
   const pathname = usePathname();
   const theme = useTheme();
-  const currentView = pathname === '/explore';
 
   return (
     <div className="toggle-container">
@@ -19,24 +18,28 @@ const ViewToggle = () => {
         }}
         className={cn(
           'text-sm font-medium transition-colors',
-          !currentView ? 'text-primary' : 'text-foreground/60'
+          pathname == '/explore' ? 'text-primary' : 'text-foreground/60'
         )}
       >
         Explore
       </button>
 
       <button
-        onClick={() => router.push(currentView ? '/explore' : 'list')}
+        onClick={() =>
+          router.push(pathname == '/explore' ? '/explore' : 'list')
+        }
         className="toggle-switch"
       >
-        <div className={`toggle-handle ${currentView ? '' : 'switched'}`} />
+        <div
+          className={`toggle-handle ${pathname == '/explore' ? '' : 'switched'}`}
+        />
       </button>
 
       <button
         onClick={() => router.push('/list')}
         className={cn(
           'text-sm font-medium transition-colors',
-          !currentView ? 'text-primary' : 'text-foreground/60'
+          pathname == '/list' ? 'text-primary' : 'text-foreground/60'
         )}
       >
         List

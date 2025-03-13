@@ -24,7 +24,6 @@ const ExplorePage = () => {
 
   const handlePerformanceDecline = ({ fps }: { fps: number }) => {
     if (fps < 30 && shouldShowWarning()) {
-      console.log('Declined');
       setShowWarning(true);
     }
   };

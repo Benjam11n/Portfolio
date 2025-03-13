@@ -1,10 +1,11 @@
+'use client';
+
 import { useProgress } from '@react-three/drei';
 import { useEffect, useState } from 'react';
-
-import { exploreInfo } from '../../constants';
+import { TextShimmer } from '@/components/ui/text-shimmer';
 
 const LoadingScreen = () => {
-  const { progress, active } = useProgress();
+  const { active } = useProgress();
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
   useEffect(() => {
@@ -16,23 +17,14 @@ const LoadingScreen = () => {
   if (!showLoadingScreen) return null;
 
   return (
-    <div
-      className={`loading-screen ${active ? '' : 'loading-screen--fade-out'}`}
-    >
-      <div className="loading-screen__container">
-        <h1 className="loading-screen__title">{exploreInfo.title}</h1>
-        <div className="loading-screen__progress-container">
-          <div
-            className="loading-screen__progress-bar"
-            style={{ width: `${progress}%` }}
-          >
-            <div className="loading-screen__progress-glow" />
-          </div>
-          <span className="loading-screen__progress-text">
-            {Math.round(progress)}%
-          </span>
-        </div>
-      </div>
+    <div className="fixed inset-0 flex items-center justify-center bg-[#0a0a0a] z-[1000] transition-opacity duration-500 ease-out">
+      <TextShimmer
+        as="h1"
+        className="text-xl md:text-2xl font-bold tracking-wide"
+        duration={1.5}
+      >
+        Loading...
+      </TextShimmer>
     </div>
   );
 };

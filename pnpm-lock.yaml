@@ -140,9 +140,6 @@ importers:
       embla-carousel-react:
         specifier: ^8.5.2
         version: 8.5.2(react@18.2.0)
-      fiber@8.2.2:
-        specifier: link:react-three/fiber@8.2.2
-        version: link:react-three/fiber@8.2.2
       framer-motion:
         specifier: ^11.18.2
         version: 11.18.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)

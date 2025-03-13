@@ -21,7 +21,7 @@ export const Interface = () => {
     <div className="interface">
       <div className="sections">
         {/* HOME */}
-        <section className="section section--bottom">
+        <section className="section section--bottom" id="home">
           <motion.div
             className="scroll-down"
             initial={{ opacity: 0 }}
@@ -42,10 +42,13 @@ export const Interface = () => {
         </section>
 
         {/* ABOUT */}
-        <section className="section"></section>
+        <section className="section" id="about"></section>
 
         {/* EXPERIENCE */}
-        <section className="section section--right mobile--section--bottom">
+        <section
+          className="section section--right mobile--section--bottom"
+          id="experience"
+        >
           <motion.div
             className="experiences"
             whileInView={'visible'}
@@ -91,7 +94,10 @@ export const Interface = () => {
         </section>
 
         {/* PROJECTS */}
-        <section className="section section--left mobile--section--bottom">
+        <section
+          className="section section--left mobile--section--bottom"
+          id="projects"
+        >
           <motion.div
             className="projects"
             whileInView={'visible'}
@@ -109,7 +115,7 @@ export const Interface = () => {
                   variants={{ visible: { opacity: 1 } }}
                   transition={{ duration: 1, delay: isMobile ? 0 : idx * 0.5 }}
                 >
-                  {project.link ? (
+                  {project.href ? (
                     <a
                       href={project.link}
                       target="_blank"
@@ -157,7 +163,10 @@ export const Interface = () => {
         </section>
 
         {/* CONTACT */}
-        <section className="section section--left mobile--section--bottom">
+        <section
+          className="section section--left mobile--section--bottom"
+          id="contact"
+        >
           <motion.div
             className="contact"
             whileInView={'visible'}
