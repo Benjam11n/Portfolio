@@ -37,42 +37,6 @@ const Hero = () => {
             </a>
           </Button>
         </div>
-        {/* <div className="w-full h-full absolute inset-0">
-          <Canvas>
-            <Suspense fallback={<CanvasLoader />}>
-              <Environment preset="sunset" />
-              <PerspectiveCamera makeDefault position={[0, 0, 20]} />
-              <HeroCamera>
-                <SpotLight
-                  position={sizes.spotlightPosition as [number, number, number]}
-                  angle={0.7}
-                  intensity={10}
-                  penumbra={0.5}
-                  color="#ffb885"
-                  castShadow
-                  distance={10}
-                  target-position={[0, -5, 0.1]}
-                />
-                <Lab
-                  position={sizes.labPosition}
-                  scale={0.008}
-                  rotation={[0, -Math.PI / 4, 0]}
-                />
-                <Avatar scale={3.5} position={sizes.avatarPosition} />
-              </HeroCamera>
-            </Suspense>
-          </Canvas>
-        </div> */}
-
-        {/* <div className="absolute bottom-7 left-0 right-0 w-full z-10 c-space">
-          <a href="#about" className="w-fit">
-            <Button
-              name="Let's work together"
-              isBeam
-              containerClass="sm:w-fit w-full sm:min-w-96"
-            />
-          </a>
-        </div> */}
       </div>
     </section>
   );
