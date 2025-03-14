@@ -6,8 +6,6 @@ const Footer = () => {
       <div className="flex gap-2">
         <p>Terms & Conditions</p>
         <p>|</p>
-        <p>Privacy Policy</p>
-        <p>|</p>
         <Link href="/credits" className="transition-colors hover:text-primary">
           Credits
         </Link>
