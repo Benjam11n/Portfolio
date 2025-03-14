@@ -12,6 +12,9 @@ const comicCat = localFont({
 
 export const metadata: Metadata = {
   title: "Benjamin's Portfolio",
+  icons: {
+    icon: '/assets/logo.png',
+  },
   description: 'Full Stack Developer & AI Enthusiast Portfolio',
 };
 
