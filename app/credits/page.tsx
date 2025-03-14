@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { MODEL_CREDITS } from '@/constants';
+
 export default function CreditsPage() {
   return (
     <div className="c-space py-16">
@@ -9,81 +11,42 @@ export default function CreditsPage() {
         <div className="mb-12">
           <h2 className="mb-4 text-2xl font-semibold">3D Models</h2>
           <ul className="space-y-4">
-            {/* Add your 3D model credits here */}
-            <li className="rounded-lg bg-white/5 p-4">
-              <h3 className="text-lg font-medium">Model Name</h3>
-              <p className="text-muted-foreground">
-                Created by{' '}
-                <a
-                  href="https://example.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Creator Name
-                </a>
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                License: CC BY 4.0
-              </p>
-            </li>
-
-            <li className="rounded-lg bg-white/5 p-4">
-              <h3 className="text-lg font-medium">Another 3D Asset</h3>
-              <p className="text-muted-foreground">
-                Created by{' '}
-                <a
-                  href="https://example.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Another Creator
-                </a>
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">License: MIT</p>
-            </li>
-
-            {/* Add more models as needed */}
-          </ul>
-        </div>
-
-        <div className="mb-12">
-          <h2 className="mb-4 text-2xl font-semibold">
-            Libraries & Frameworks
-          </h2>
-          <ul className="space-y-4">
-            <li className="rounded-lg bg-white/5 p-4">
-              <h3 className="text-lg font-medium">Three.js</h3>
-              <p className="text-muted-foreground">
-                <a
-                  href="https://threejs.org/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  https://threejs.org/
-                </a>
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">License: MIT</p>
-            </li>
-
-            <li className="rounded-lg bg-white/5 p-4">
-              <h3 className="text-lg font-medium">React Three Fiber</h3>
-              <p className="text-muted-foreground">
-                <a
-                  href="https://docs.pmnd.rs/react-three-fiber"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  https://docs.pmnd.rs/react-three-fiber
-                </a>
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">License: MIT</p>
-            </li>
-
-            {/* Add more libraries as needed */}
+            {MODEL_CREDITS.map((model, index) => (
+              <li key={index} className="rounded-lg bg-white/5 p-4">
+                <h3 className="text-lg font-medium">
+                  <a
+                    href={model.source}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline"
+                  >
+                    {model.title}
+                  </a>
+                </h3>
+                <p className="text-muted-foreground">
+                  Created by
+                  <a
+                    href={model.authorLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    {` ${model.author}`}
+                  </a>
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  License:
+                  <a
+                    href={model.licenseLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline"
+                  >
+                    {` ${model.license}`}
+                  </a>
+                </p>
+              </li>
+            ))}
           </ul>
         </div>
 

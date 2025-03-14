@@ -5,6 +5,7 @@
  * Source: https://sketchfab.com/3d-models/bird-orange-0d31748606c2499fb652c0c1052b7cfa
  * Title: Bird Orange
  */
+
 import { useGLTF, useAnimations } from '@react-three/drei';
 import { useGraph } from '@react-three/fiber';
 import React, { useEffect } from 'react';

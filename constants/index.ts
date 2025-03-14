@@ -80,6 +80,71 @@ export interface Project {
   features?: string[];
 }
 
+export const MODEL_CREDITS = [
+  {
+    title: 'Low-Poly Red Apple',
+    author: 'Jawlex',
+    authorLink: 'https://sketchfab.com/jawlex3d',
+    source:
+      'https://sketchfab.com/3d-models/low-poly-red-apple-365819e9c1de43e6ab24147ee25d4833',
+    license: 'Sketchfab Standard',
+    licenseLink: 'https://sketchfab.com/licenses',
+  },
+  {
+    title: 'Balloon',
+    author: 'Poly by Google',
+    authorLink: 'https://poly.pizza/m/d1gDDhM7pTf',
+    source: 'https://poly.pizza/m/d1gDDhM7pTf',
+    license: 'CC-BY 3.0',
+    licenseLink: 'https://creativecommons.org/licenses/by/3.0/',
+  },
+  {
+    title: 'Birch Tree - Low Poly',
+    author: 'Alan Zimmerman',
+    authorLink: 'https://sketchfab.com/nenjo',
+    source:
+      'https://sketchfab.com/3d-models/birch-tree-low-poly-1d7f142738604975bbf1b03338a024dd',
+    license: 'CC-BY-NC-4.0',
+    licenseLink: 'http://creativecommons.org/licenses/by-nc/4.0/',
+  },
+  {
+    title: 'Computer Desk',
+    author: 'draakon_4d',
+    authorLink: 'https://sketchfab.com/draakon_4d',
+    source:
+      'https://sketchfab.com/3d-models/computer-desk-98c5bd86d7bb4ca98dbc26dabb5e7196',
+    license: 'CC-BY-4.0',
+    licenseLink: 'http://creativecommons.org/licenses/by/4.0/',
+  },
+  {
+    title: 'Bird Orange',
+    author: 'Wen Yeh',
+    authorLink: 'https://sketchfab.com/wenyeh1110',
+    source:
+      'https://sketchfab.com/3d-models/bird-orange-0d31748606c2499fb652c0c1052b7cfa',
+    license: 'CC-BY-NC-SA-4.0',
+    licenseLink: 'http://creativecommons.org/licenses/by-nc-sa/4.0/',
+  },
+  {
+    title: 'Stylized Tree',
+    author: 'Coco Jinjo',
+    authorLink: 'https://sketchfab.com/CocoJinjo',
+    source:
+      'https://sketchfab.com/3d-models/stylized-tree-843278c62cb9494bafda67e7c14c5707',
+    license: 'CC-BY-4.0',
+    licenseLink: 'http://creativecommons.org/licenses/by/4.0/',
+  },
+  {
+    title: 'Whiteboard Low-poly',
+    author: 'MaX3Dd',
+    authorLink: 'https://sketchfab.com/MaX3Dd',
+    source:
+      'https://sketchfab.com/3d-models/whiteboard-low-poly-f69949960b5049f0b7a733e47d9da489',
+    license: 'CC-BY-4.0',
+    licenseLink: 'http://creativecommons.org/licenses/by/4.0/',
+  },
+];
+
 export const PROJECTS: Record<string, Project> = {
   twinAI: {
     id: 'twinAI',
