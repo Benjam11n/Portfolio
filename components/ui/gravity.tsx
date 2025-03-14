@@ -1,14 +1,3 @@
-import {
-  createContext,
-  forwardRef,
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
 import { debounce } from 'lodash';
 import Matter, {
   Bodies,
@@ -22,10 +11,20 @@ import Matter, {
   Runner,
   World,
 } from 'matter-js';
+import {
+  createContext,
+  forwardRef,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
+import SVGPathCommander from 'svg-path-commander';
 
 import { cn } from '@/lib/utils';
-
-import SVGPathCommander from 'svg-path-commander';
 
 // Function to convert SVG path "d" to vertices
 function parsePathToVertices(path: string, sampleLength = 15) {

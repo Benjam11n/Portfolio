@@ -1,8 +1,9 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import { useTheme } from 'next-themes';
 import { usePathname, useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
+
+import { cn } from '@/lib/utils';
 
 const ViewToggle = () => {
   const router = useRouter();

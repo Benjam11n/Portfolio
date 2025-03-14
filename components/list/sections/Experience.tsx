@@ -1,21 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { useState } from 'react';
 import { useScroll, useTransform, motion } from 'framer-motion';
 import Image from 'next/image';
-import { workExperiences } from '@/constants';
-import { TextShimmer } from '@/components/ui/text-shimmer';
+import { useEffect, useRef } from 'react';
+import { useState } from 'react';
 
-interface WorkExperience {
-  id: number;
-  name: string;
-  pos: string;
-  duration: string;
-  title: string;
-  icon: string;
-  texture: string;
-}
+import { TextShimmer } from '@/components/ui/text-shimmer';
+import { workExperiences } from '@/constants';
 
 const Experience = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -40,62 +31,63 @@ const Experience = () => {
   return (
     <section className="c-space my-20" id="experience">
       <div className="w-full" ref={containerRef}>
-        <div className="max-w-7xl mx-auto pt-20 font-comic">
-          <h2 className="text-3xl md:text-5xl mb-4 max-w-4xl">
+        <div className="mx-auto max-w-7xl pt-20 font-comic">
+          <h2 className="mb-4 max-w-4xl text-3xl md:text-5xl">
             My Professional Journey
           </h2>
-          <p className="text-md md:text-lg max-w-lg text-muted-foreground">
-            Here's a timeline of my career progression and key achievements.
+          <p className="max-w-lg text-muted-foreground md:text-lg">
+            Here&apos;s a timeline of my career progression and key
+            achievements.
           </p>
         </div>
 
-        <div ref={ref} className="relative max-w-7xl mx-auto pb-20 md:px-10">
+        <div ref={ref} className="relative mx-auto max-w-7xl pb-20 md:px-10">
           {workExperiences.map((experience) => (
             <div
               key={experience.id}
-              className="flex justify-start pt-10 md:pt-40 md:gap-10"
+              className="flex justify-start pt-10 md:gap-10 md:pt-40"
             >
-              <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
-                <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full flex items-center justify-center">
-                  <div className="h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
+              <div className="sticky top-40 z-40 flex max-w-xs flex-col items-center self-start md:w-full md:flex-row lg:max-w-sm">
+                <div className="absolute left-3 flex size-10 items-center justify-center rounded-full md:left-3">
+                  <div className="size-4 rounded-full border border-neutral-300 bg-neutral-200 p-2 dark:border-neutral-700 dark:bg-neutral-800" />
                 </div>
                 <div className="flex flex-col">
-                  <h4 className="hidden md:block text-lg md:pl-20 md:text-lg font-bold font-comic text-muted-foreground">
+                  <h4 className="hidden font-comic text-lg font-bold text-muted-foreground md:block md:pl-20 md:text-lg">
                     {experience.duration}
                   </h4>
-                  <h3 className="hidden md:block text-lg md:pl-20 md:text-4xl font-bold font-comic">
+                  <h3 className="hidden font-comic text-lg font-bold md:block md:pl-20 md:text-4xl">
                     {experience.name}
                   </h3>
                 </div>
               </div>
 
-              <div className="relative pl-20 pr-4 md:pl-4 w-full">
-                <h3 className="md:hidden block text-lg mb-4 text-left font-bold font-comic">
+              <div className="relative w-full pl-20 pr-4 md:pl-4">
+                <h3 className="mb-4 block text-left font-comic text-lg font-bold md:hidden">
                   {experience.name}
                 </h3>
-                <h4 className="md:hidden block text-lg mb-4 text-left font-bold font-comic text-muted-foreground">
+                <h4 className="mb-4 block text-left font-comic text-lg font-bold text-muted-foreground md:hidden">
                   {experience.duration}
                 </h4>
                 <div>
                   <TextShimmer
                     as="h4"
-                    className="text-xl md:text-xl font-semibold mb-4 [--base-color:theme(colors.primary.DEFAULT)] [--base-gradient-color:theme(colors.primary.foreground)]"
+                    className="mb-4 text-xl font-semibold [--base-color:theme(colors.primary.DEFAULT)] [--base-gradient-color:theme(colors.primary.foreground)] md:text-xl"
                     duration={2.5}
                   >
                     {experience.pos}
                   </TextShimmer>
 
-                  <p className="text-base md:text-md text-muted-foreground leading-relaxed mb-8">
+                  <p className="mb-8 text-base leading-relaxed text-muted-foreground">
                     {experience.title}
                   </p>
 
-                  <div className="grid grid-cols-2 gap-6 mt-12">
+                  <div className="mt-12 grid grid-cols-2 gap-6">
                     <Image
                       src={experience.icon}
                       alt={`${experience.name} logo`}
                       width={500}
                       height={500}
-                      className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
+                      className="h-20 w-full rounded-lg object-cover shadow-lg md:h-44 lg:h-60"
                     />
                     {experience.texture.endsWith('.mp4') ? (
                       <video
@@ -104,7 +96,7 @@ const Experience = () => {
                         loop
                         muted
                         playsInline
-                        className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
+                        className="h-20 w-full rounded-lg object-cover shadow-lg md:h-44 lg:h-60"
                       />
                     ) : (
                       <Image
@@ -112,7 +104,7 @@ const Experience = () => {
                         alt={`${experience.name} texture`}
                         width={500}
                         height={500}
-                        className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg"
+                        className="h-20 w-full rounded-lg object-cover shadow-lg md:h-44 lg:h-60"
                       />
                     )}
                   </div>
@@ -123,14 +115,14 @@ const Experience = () => {
 
           <div
             style={{ height: height + 'px' }}
-            className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px]"
+            className="absolute left-8 top-0 w-[2px] overflow-hidden md:left-8"
           >
             <motion.div
               style={{
                 height: heightTransform,
                 opacity: opacityTransform,
               }}
-              className="absolute inset-x-0 top-0  w-[2px] bg-gradient-to-t from-purple-500 via-blue-500 to-transparent from-[0%] via-[10%] rounded-full"
+              className="absolute inset-x-0 top-0  w-[2px] rounded-full bg-gradient-to-t from-purple-500 from-0% via-blue-500 via-10% to-transparent"
             />
           </div>
         </div>

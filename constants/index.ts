@@ -52,7 +52,7 @@ interface ProjectTechnology {
   color: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
   icon?: (props: { className: string }) => JSX.Element;
-  path?: string;
+  path: string;
 }
 
 interface GalleryItem {
@@ -79,9 +79,9 @@ export interface Project {
 
   // Visual elements
   texture?: string;
-  logo?: string;
+  logo: string;
   logoStyle?: React.CSSProperties;
-  spotlight?: string;
+  spotlight: string;
 
   // Technologies used
   techStack: ProjectTechnology[];
@@ -405,12 +405,7 @@ export const getProjectsForDisplay = () =>
     })),
   }));
 
-// eslint-disable-next-line no-unused-vars
-export const calculateSizes = (
-  isSmall: boolean,
-  isMobile: boolean,
-  isTablet: boolean
-) => {
+export const calculateSizes = (isMobile: boolean) => {
   return {
     labPosition: isMobile ? [0.5, -6, 0] : [0, -5.5, 0],
     spotlightPosition: isMobile ? [0, 7, 3] : [0, 5, 3],
@@ -456,7 +451,37 @@ export const rightWhiteboardTexts = [
   { content: 'AI and Deep Learning.', size: 0.1 },
 ];
 
-export const exploreInfo = {
+interface ExploreInfo {
+  title: string;
+  sections: string[];
+  home: {
+    title: string;
+    subtitle: string;
+  };
+  experiences: {
+    name: string;
+    description: string;
+    image: string;
+  }[];
+  projects: {
+    name: string;
+    description: string;
+    image: string;
+    link?: string;
+    href?: string;
+  }[];
+  contact: {
+    name: string;
+    address: string;
+    socials: {
+      linkedin: string;
+      github: string;
+    };
+    mail: string;
+  };
+}
+
+export const exploreInfo: ExploreInfo = {
   title: "Benjamin's portfolio",
   sections: ['home', 'about', 'experience', 'projects', 'contact'],
   home: {

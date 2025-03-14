@@ -1,24 +1,26 @@
 'use client';
 
-import { exploreInfo, SECTIONS_DISTANCE } from '@/constants';
-import { useMobile } from '@/hooks/use-mobile';
 import {
   ContactShadows,
   Environment,
   SpotLight,
   useScroll,
 } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import { GroupProps, useFrame } from '@react-three/fiber';
 import { Physics, RigidBody } from '@react-three/rapier';
 import { motion } from 'framer-motion-3d';
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import * as THREE from 'three';
+
+import { exploreInfo, SECTIONS_DISTANCE } from '@/constants';
+import { useMobile } from '@/hooks/use-mobile';
+
 import { Avatar } from './models/Avatar';
-import Home from './sections/Home';
 import About from './sections/About';
-import ExperienceSection from './sections/ExperienceSection';
-import Projects from './sections/Projects';
 import Contact from './sections/Contact';
+import ExperienceSection from './sections/ExperienceSection';
+import Home from './sections/Home';
+import Projects from './sections/Projects';
 
 export const Experience = () => {
   const [section, setSection] = useState(exploreInfo.sections[0]);
@@ -136,7 +138,10 @@ export const Experience = () => {
           </mesh>
         </RigidBody>
       </Physics>
-      <motion.group ref={sceneContainer} animate={section}>
+      <motion.group
+        ref={sceneContainer as unknown as RefObject<GroupProps>}
+        animate={section}
+      >
         {/* HOME */}
         <Home />
         {/* ABOUT */}

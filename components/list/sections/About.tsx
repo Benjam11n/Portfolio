@@ -1,13 +1,15 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import Globe from 'react-globe.gl';
-import Button from '../Button';
-import { EMAIL, exploreInfo } from '@/constants';
+
 import { Gravity, MatterBody } from '@/components/ui/gravity';
-import { cn } from '@/lib/utils';
 import { TextShimmer } from '@/components/ui/text-shimmer';
-import Image from 'next/image';
+import { EMAIL, exploreInfo } from '@/constants';
+import { cn } from '@/lib/utils';
+
+import Button from '../Button';
 
 interface Skill {
   name: string;
@@ -236,13 +238,15 @@ const About = () => {
 
   return (
     <section className="c-space my-20" id="about">
-      <div className="grid xl:grid-cols-3 xl:grid-rows-6 md:grid-cols-2 grid-cols-1 gap-5 h-full">
+      <div className="grid h-full grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3 xl:grid-rows-6">
         <div className="col-span-1 xl:row-span-3">
           <div className="grid-container">
-            <img
+            <Image
               src="assets/grid1.png"
               alt="grid-1"
-              className="w-full sm:h-[276px] h-fit object-contain"
+              width={500}
+              height={276}
+              className="h-fit w-full object-contain sm:h-[276px]"
             />
 
             <div>
@@ -257,10 +261,12 @@ const About = () => {
         </div>
         <div className="col-span-1 xl:row-span-3">
           <div className="grid-container">
-            <img
+            <Image
               src="assets/grid2.png"
               alt="grid-2"
-              className="w-full sm:h-[276px] h-fit object-contain"
+              width={500}
+              height={276}
+              className="h-fit w-full object-contain sm:h-[276px]"
             />
 
             <div>
@@ -275,7 +281,7 @@ const About = () => {
         </div>
         <div className="col-span-1 xl:row-span-4">
           <div className="grid-container">
-            <div className="rounded-3xl w-full sm:h-[326px] h-fit flex justify-center items-center">
+            <div className="flex h-fit w-full items-center justify-center rounded-3xl sm:h-[326px]">
               <Globe
                 height={386}
                 width={386}
@@ -308,7 +314,7 @@ const About = () => {
           </div>
         </div>
         <div className="xl:col-span-2 xl:row-span-3">
-          <div className="relative grid-container">
+          <div className="grid-container relative">
             <div className="relative min-h-[200px] sm:min-h-[300px]">
               <Gravity
                 gravity={{ x: 0, y: 0.5 }}
@@ -344,8 +350,8 @@ const About = () => {
                       {skill.icon({
                         className: 'w-2/3 h-2/3',
                       })}
-                      <div className="opacity-0 hover:opacity-100 absolute inset-0 flex items-center justify-center rounded-full transition-opacity duration-200">
-                        <span className="text-white text-xs font-medium">
+                      <div className="absolute inset-0 flex items-center justify-center rounded-full opacity-0 transition-opacity duration-200 hover:opacity-100">
+                        <span className="text-xs font-medium text-white">
                           {skill.name}
                         </span>
                       </div>
@@ -366,20 +372,24 @@ const About = () => {
         </div>
         <div className="xl:col-span-1 xl:row-span-2">
           <div className="grid-container">
-            <img
-              src="assets/grid4.png"
+            <Image
+              src="/assets/grid4.png"
               alt="grid-4"
-              className="w-full md:h-[126px] sm:h-[276px] h-fit object-cover sm:object-top"
+              width={500}
+              height={276}
+              className="object-cover sm:object-top md:h-[126px]"
             />
 
             <div className="space-y-2">
               <p className="grid-subtext text-center">Contact me</p>
               <div className="copy-container" onClick={handleCopy}>
-                <img
-                  src={hasCopied ? 'assets/tick.svg' : 'assets/copy.svg'}
+                <Image
+                  src={hasCopied ? '/assets/tick.svg' : '/assets/copy.svg'}
                   alt="copy"
+                  width={24}
+                  height={24}
                 />
-                <TextShimmer className="lg:text-lg md:text-md font-medium">
+                <TextShimmer className="font-medium lg:text-lg">
                   {exploreInfo.contact.mail}
                 </TextShimmer>
               </div>

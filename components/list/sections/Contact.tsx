@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { motion } from 'framer-motion';
+import { Send } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import * as z from 'zod';
+
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -16,10 +17,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Send } from 'lucide-react';
-import { TextShimmer } from '@/components/ui/text-shimmer';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { CONTACT_INFO } from '@/constants';
-import { toast } from 'sonner';
 import { sendEmail } from '@/lib/actions/email';
 
 const formSchema = z.object({
@@ -76,17 +76,17 @@ export default function Contact() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-12 max-w-7xl mx-auto pt-20 font-comic"
+          className="mx-auto mb-12 max-w-7xl pt-20 font-comic"
         >
-          <h2 className="text-3xl md:text-5xl mb-4 max-w-4xl">Contact Me</h2>
-          <p className="text-md md:text-lg max-w-lg text-muted-foreground">
-            Have a project in mind or just want to chat? I'd love to hear from
-            you. Drop me a message and I'll try to get back to you as soon as
-            possible.
+          <h2 className="mb-4 max-w-4xl text-3xl md:text-5xl">Contact Me</h2>
+          <p className="max-w-lg text-muted-foreground md:text-lg">
+            Have a project in mind or just want to chat? I&apos;d love to hear
+            from you. Drop me a message and I&apos;ll try to get back to you as
+            soon as possible.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
           {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -100,13 +100,13 @@ export default function Contact() {
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block p-6 rounded-lg bg-card hover:bg-accent transition-colors"
+                className="block rounded-lg bg-card p-6 transition-colors hover:bg-accent"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="flex items-center space-x-4">
-                  <div className="p-2 rounded-full bg-primary/10">
-                    <item.icon className="w-6 h-6 text-primary" />
+                  <div className="rounded-full bg-primary/10 p-2">
+                    <item.icon className="size-6 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-medium">{item.title}</h3>
@@ -124,19 +124,19 @@ export default function Contact() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="md:col-span-2 p-8 rounded-lg bg-card"
+            className="rounded-lg bg-card p-8 md:col-span-2"
           >
             {isSubmitted ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="h-full flex flex-col items-center justify-center text-center"
+                className="flex h-full flex-col items-center justify-center text-center"
               >
-                <p className="text-2xl font-bold mb-4">
+                <p className="mb-4 text-2xl font-bold">
                   Thank you for your message!
                 </p>
-                <p className="text-muted-foreground mb-8">
-                  I'll get back to you as soon as possible.
+                <p className="mb-8 text-muted-foreground">
+                  I&apos;ll get back to you as soon as possible.
                 </p>
                 <Button onClick={() => setIsSubmitted(false)} variant="outline">
                   Send Another Message
@@ -148,7 +148,7 @@ export default function Contact() {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-6"
                 >
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid gap-6 md:grid-cols-2">
                     <FormField
                       control={form.control}
                       name="name"
@@ -220,14 +220,14 @@ export default function Contact() {
                   >
                     {isSubmitting ? (
                       <div className="flex items-center">
-                        <span className="animate-spin mr-2">
-                          <Send className="w-4 h-4" />
+                        <span className="mr-2 animate-spin">
+                          <Send className="size-4" />
                         </span>
                         Sending...
                       </div>
                     ) : (
                       <div className="flex items-center">
-                        <Send className="w-4 h-4 mr-2" />
+                        <Send className="mr-2 size-4" />
                         Send Message
                       </div>
                     )}

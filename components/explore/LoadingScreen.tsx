@@ -2,6 +2,7 @@
 
 import { useProgress } from '@react-three/drei';
 import { useEffect, useState } from 'react';
+
 import { TextShimmer } from '@/components/ui/text-shimmer';
 
 const LoadingScreen = () => {
@@ -17,10 +18,10 @@ const LoadingScreen = () => {
   if (!showLoadingScreen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#0a0a0a] z-[1000] transition-opacity duration-500 ease-out">
+    <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-[#0a0a0a] transition-opacity duration-500 ease-out">
       <TextShimmer
         as="h1"
-        className="text-xl md:text-2xl font-bold tracking-wide"
+        className="text-xl font-bold tracking-wide md:text-2xl"
         duration={1.5}
       >
         Loading...

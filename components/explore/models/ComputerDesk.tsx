@@ -6,9 +6,9 @@ Source: https://sketchfab.com/3d-models/computer-desk-98c5bd86d7bb4ca98dbc26dabb
 Title: Computer Desk
 */
 
-import * as THREE from 'three';
-import React from 'react';
 import { useGLTF } from '@react-three/drei';
+import React from 'react';
+import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {

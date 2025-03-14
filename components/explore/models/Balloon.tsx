@@ -4,11 +4,11 @@ Command: npx gltfjsx@6.2.3 public/models/Balloon.glb -o src/components/Balloon.j
 Balloon by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/d1gDDhM7pTf)
 */
 
-import * as THREE from 'three';
-import React, { useRef, useState } from 'react';
 import { useGLTF } from '@react-three/drei';
-import { GLTF } from 'three-stdlib';
 import { useFrame } from '@react-three/fiber';
+import React, { useRef, useState } from 'react';
+import * as THREE from 'three';
+import { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
   nodes: {

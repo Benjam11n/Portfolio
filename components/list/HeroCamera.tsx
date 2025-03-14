@@ -1,11 +1,12 @@
 'use client';
 
 import { useFrame } from '@react-three/fiber';
-import { useRef } from 'react';
 import { easing } from 'maath';
+import { useRef } from 'react';
+import { ReactNode } from 'react';
+
 import { useMobile } from '@/hooks/use-mobile';
 
-import { ReactNode } from 'react';
 
 const HeroCamera = ({ children }: { children: ReactNode }) => {
   const { isMobile } = useMobile();

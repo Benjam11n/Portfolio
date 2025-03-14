@@ -2,13 +2,15 @@ import { Float } from '@react-three/drei';
 import { motion } from 'framer-motion-3d';
 
 import { SECTIONS_DISTANCE } from '@/constants';
-import { SectionTitle } from '../SectionTitle';
-import { ParkBench } from '../models/ParkBench';
-import { Balloon } from '../models/Balloon';
-import { Tree } from '../models/Tree';
-import { OrangeBird } from '../models/OrangeBird';
-import { Mailbox } from '../models/Mailbox';
 import { useMobile } from '@/hooks/use-mobile';
+
+import { Balloon } from '../models/Balloon';
+import { Mailbox } from '../models/Mailbox';
+import { OrangeBird } from '../models/OrangeBird';
+import { ParkBench } from '../models/ParkBench';
+import { Tree } from '../models/Tree';
+import { SectionTitle } from '../SectionTitle';
+
 
 const Contact = () => {
   const { isMobile, scaleFactor } = useMobile();

@@ -1,14 +1,15 @@
 'use client';
-import { Canvas } from '@react-three/fiber';
 import { PerformanceMonitor, Scroll, ScrollControls } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
 import { MotionConfig } from 'framer-motion';
-import { Suspense, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import LoadingScreen from '@/components/explore/LoadingScreen';
-import PerformanceWarning from '@/components/explore/PerformanceWarning';
+import { Suspense, useState } from 'react';
+
 import CameraController from '@/components/explore/CameraController';
 import { Experience } from '@/components/explore/Experience';
 import { Interface } from '@/components/explore/Interface';
+import LoadingScreen from '@/components/explore/LoadingScreen';
+import PerformanceWarning from '@/components/explore/PerformanceWarning';
 import { exploreInfo } from '@/constants';
 
 const ExplorePage = () => {
@@ -29,7 +30,7 @@ const ExplorePage = () => {
   };
 
   return (
-    <div className="w-full h-screen relative">
+    <div className="relative h-screen w-full">
       <LoadingScreen />
       {showWarning && (
         <PerformanceWarning
@@ -39,7 +40,7 @@ const ExplorePage = () => {
       )}
       <Canvas
         camera={{ position: [0, 0.5, 5], fov: 42 }}
-        className="w-full h-screen relative"
+        className="relative h-screen w-full"
       >
         <PerformanceMonitor
           onDecline={handlePerformanceDecline}

@@ -1,9 +1,11 @@
 'use client';
 
-import { Suspense, useState } from 'react';
-import { PROJECTS } from '../../../constants';
-import { Canvas } from '@react-three/fiber';
 import { Center, OrbitControls } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import Image from 'next/image';
+import { Suspense, useState } from 'react';
+
+import { PROJECTS } from '../../../constants';
 import CanvasLoader from '../CanvasLoader';
 import { DemoComputer } from '../DemoComputer';
 
@@ -25,89 +27,93 @@ const Projects = () => {
 
   return (
     <section className="c-space my-20" id="projects">
-      <h2 className="text-3xl md:text-5xl mb-4 max-w-4xl font-comic">
+      <h2 className="mb-4 max-w-4xl font-comic text-3xl md:text-5xl">
         My Projects
       </h2>
-      <div className="grid lg:grid-cols-2 grid-cols-1 mt-12 gap-5 w-full">
-        <div className="flex flex-col gap-5 relative sm:p-10 py-10 px-5 shadow-2xl shadow-black-200 rounded-md">
-          <div className="absolute top-0 right-0">
-            <img
+      <div className="mt-12 grid w-full grid-cols-1 gap-5 lg:grid-cols-2">
+        <div className="relative flex flex-col gap-5 rounded-md px-5 py-10 shadow-2xl sm:p-10">
+          <div className="absolute right-0 top-0 h-96 w-full">
+            <Image
               src={currentProject.spotlight}
               alt="spotlight"
-              className="w-full h-96 object-cover rounded-md"
+              className="rounded-md object-cover"
+              fill
             />
           </div>
 
           <div
-            className="p-3 backdrop-filter backdrop-blur-3xl w-fit rounded-lg"
+            className="w-fit rounded-lg p-3 backdrop-blur-3xl"
             style={currentProject.logoStyle}
           >
-            <img
+            <Image
               src={currentProject.logo}
               alt="logo"
-              className="w-10 h-10 shadow-sm rounded-md"
+              className="size-10 rounded-md shadow-sm"
+              width={40}
+              height={40}
             />
           </div>
 
-          <div className="flex flex-col gap-5 text-white-600 my-5">
-            <p className="text-2xl font-semibold animatedText">
-              {currentProject.title}
-            </p>
-            <p className="animatedText">{currentProject.description}</p>
-            <p className="animatedText">{currentProject.subdesc}</p>
+          <div className="my-5 flex flex-col gap-5">
+            <p className="text-2xl font-semibold">{currentProject.title}</p>
+            <p>{currentProject.description}</p>
+            <p>{currentProject.subdesc}</p>
           </div>
 
-          <div className="flex items-center justify-between flex-wrap gap-5">
+          <div className="flex flex-wrap items-center justify-between gap-5">
             <div className="flex items-center gap-3">
               {currentProject.techStack.map((tag, index) => (
                 <div key={index} className="tech-logo">
-                  <img src={tag.path} alt={tag.name} />
+                  <Image src={tag.path} alt={tag.name} width={24} height={24} />
                 </div>
               ))}
             </div>
 
             {currentProject?.href && (
               <a
-                className="flex items-center gap-2 cursor-pointer text-white-600"
+                className="flex cursor-pointer items-center gap-2"
                 href={currentProject.href}
                 target="_blank"
                 rel="noreferrer"
               >
                 <p>View Project</p>
-                <img
+                <Image
                   src="/assets/arrow-up.png"
-                  className="w-3 h-3"
                   alt="arrow"
+                  width={12}
+                  height={12}
                 />
               </a>
             )}
           </div>
 
-          <div className="flex justify-between items-center mt-7">
+          <div className="mt-7 flex items-center justify-between">
             <button
               className="arrow-btn"
               onClick={() => handleNavigation('previous')}
             >
-              <img
+              <Image
                 src="/assets/left-arrow.png"
                 alt="left arrow"
-                className="w-4 h-4"
+                width={16}
+                height={16}
               />
             </button>
             <button
               className="arrow-btn"
               onClick={() => handleNavigation('next')}
             >
-              <img
+              <Image
                 src="/assets/right-arrow.png"
                 alt="right arrow"
-                className="w-4 h-4"
+                width={16}
+                height={16}
               />
             </button>
           </div>
         </div>
 
-        <div className="border border-black-300 bg-black-200 rounded-lg h-96 md:h-full">
+        <div className="h-96 rounded-lg border md:h-full">
           <Canvas className="rounded-md">
             <ambientLight intensity={Math.PI} />
             <directionalLight position={[10, 10, 5]} />

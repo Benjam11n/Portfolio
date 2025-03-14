@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { useRef } from 'react';
 import * as THREE from 'three';
 
 function FloatingShape({
@@ -45,7 +45,7 @@ function Shapes() {
 
 export default function Scene() {
   return (
-    <div className="h-screen w-full absolute top-0 left-0 -z-10">
+    <div className="absolute left-0 top-0 -z-10 h-screen w-full">
       <Canvas>
         <PerspectiveCamera makeDefault position={[0, 0, 10]} />
         <OrbitControls
