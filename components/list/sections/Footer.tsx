@@ -10,7 +10,7 @@ const Footer = () => {
           Credits
         </Link>
       </div>
-      <p>© 2024 Benjamin. All rights reserved</p>
+      <p>© 2025 Benjamin. All rights reserved</p>
     </section>
   );
 };
