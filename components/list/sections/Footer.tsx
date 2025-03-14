@@ -4,7 +4,13 @@ const Footer = () => {
       <div className="flex gap-2">
         <p>Terms & Conditions</p>
         <p>|</p>
-        <p>Privacy Policy</p>
+        <Link href="/privacy" className="transition-colors hover:text-primary">
+          Privacy Policy
+        </Link>
+        <p>|</p>
+        <Link href="/credits" className="transition-colors hover:text-primary">
+          Credits
+        </Link>
       </div>
       <p>© 2024 Benjamin. All rights reserved</p>
     </section>
