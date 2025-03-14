@@ -1,12 +1,11 @@
 import { Text3D } from '@react-three/drei';
-
 import { ReactNode } from 'react';
 
 interface SectionTitleProps {
   children: ReactNode;
   font?: string;
   color?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export const SectionTitle = ({

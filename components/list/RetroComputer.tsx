@@ -6,9 +6,9 @@ Source: https://sketchfab.com/3d-models/old-pc-low-poly-game-model-14b057db85944
 Title: old PC low poly game model
 */
 
-import * as THREE from 'three';
-import React from 'react';
 import { useGLTF } from '@react-three/drei';
+import React from 'react';
+import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {

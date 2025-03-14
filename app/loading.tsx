@@ -4,10 +4,10 @@ import { TextShimmer } from '@/components/ui/text-shimmer';
 
 export default function Loading() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-full gap-8">
+    <div className="flex h-screen w-full flex-col items-center justify-center gap-8">
       <TextShimmer
         as="h1"
-        className="text-xl md:text-2xl font-bold [--base-color:theme(colors.primary.DEFAULT)] [--base-gradient-color:theme(colors.primary.foreground)]"
+        className="text-xl font-bold [--base-color:theme(colors.primary.DEFAULT)] [--base-gradient-color:theme(colors.primary.foreground)] md:text-2xl"
         duration={1.5}
       >
         Loading...

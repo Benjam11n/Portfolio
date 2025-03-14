@@ -6,10 +6,10 @@ Source: https://sketchfab.com/3d-models/low-poly-red-apple-365819e9c1de43e6ab241
 Title: Low-Poly Red Apple
 */
 
-import * as THREE from 'three';
-import React, { useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { RigidBody } from '@react-three/rapier';
+import React, { useRef } from 'react';
+import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {

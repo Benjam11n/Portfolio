@@ -1,17 +1,19 @@
 import { SpotLight } from '@react-three/drei';
-import { motion } from 'framer-motion-3d';
 import { Physics, RigidBody } from '@react-three/rapier';
+import { motion } from 'framer-motion-3d';
 
-import { Apple } from '../models/Apple';
-import { SectionTitle } from '../SectionTitle';
-import WhiteboardSection from '../WhiteboardSection';
-import { useMobile } from '@/hooks/use-mobile';
-import { ComputerDesk } from '../models/ComputerDesk';
 import {
   leftWhiteboardTexts,
   rightWhiteboardTexts,
   SECTIONS_DISTANCE,
 } from '@/constants';
+import { useMobile } from '@/hooks/use-mobile';
+
+import { Apple } from '../models/Apple';
+import { ComputerDesk } from '../models/ComputerDesk';
+import { SectionTitle } from '../SectionTitle';
+import WhiteboardSection from '../WhiteboardSection';
+
 
 const About = () => {
   const { isMobile } = useMobile();

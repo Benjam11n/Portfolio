@@ -6,9 +6,9 @@ Source: https://sketchfab.com/3d-models/stylized-tree-843278c62cb9494bafda67e7c1
 Title: Stylized Tree
 */
 
-import * as THREE from 'three';
-import React, { useRef } from 'react';
 import { useGLTF, useAnimations } from '@react-three/drei';
+import React, { useRef } from 'react';
+import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {

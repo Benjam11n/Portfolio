@@ -1,10 +1,12 @@
-import { SECTIONS_DISTANCE } from '@/constants';
-import { useMobile } from '@/hooks/use-mobile';
 import { RoundedBox } from '@react-three/drei';
 import { motion } from 'framer-motion-3d';
-import { SectionTitle } from '../SectionTitle';
-import MonitorScreen from '../models/MonitorScreen';
+
+import { SECTIONS_DISTANCE } from '@/constants';
+import { useMobile } from '@/hooks/use-mobile';
+
 import { Monitor } from '../models/Monitor';
+import MonitorScreen from '../models/MonitorScreen';
+import { SectionTitle } from '../SectionTitle';
 
 const Projects = () => {
   const { isMobile } = useMobile();

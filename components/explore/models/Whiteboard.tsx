@@ -6,9 +6,9 @@ Source: https://sketchfab.com/3d-models/whiteboard-low-poly-f69949960b5049f0b7a7
 Title: Whiteboard Low-poly
 */
 
-import * as THREE from 'three';
-import React from 'react';
 import { useGLTF } from '@react-three/drei';
+import React from 'react';
+import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {

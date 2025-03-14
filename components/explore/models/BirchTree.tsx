@@ -6,9 +6,9 @@ Source: https://sketchfab.com/3d-models/birch-tree-low-poly-1d7f142738604975bbf1
 Title: Birch Tree - Low Poly
 */
 
-import * as THREE from 'three';
-import React, { useEffect, useRef } from 'react';
 import { useGLTF, useAnimations } from '@react-three/drei';
+import React, { useEffect, useRef } from 'react';
+import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {

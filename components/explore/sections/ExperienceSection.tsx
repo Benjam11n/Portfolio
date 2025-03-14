@@ -1,10 +1,12 @@
+import { motion } from 'framer-motion-3d';
+
 import { SECTIONS_DISTANCE } from '@/constants';
 import { useMobile } from '@/hooks/use-mobile';
-import { motion } from 'framer-motion-3d';
-import { SectionTitle } from '../SectionTitle';
+
 import { BookCase } from '../models/BookCase';
 import { CouchSmall } from '../models/CouchSmall';
 import { Lamp } from '../models/Lamp';
+import { SectionTitle } from '../SectionTitle';
 
 const ExperienceSection = () => {
   const { isMobile } = useMobile();

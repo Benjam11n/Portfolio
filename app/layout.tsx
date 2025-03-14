@@ -1,7 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { ThemeProvider } from '@/components/ThemeProvider';
 import localFont from 'next/font/local';
+
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const comicCat = localFont({
   src: './fonts/Comic_CAT.otf',

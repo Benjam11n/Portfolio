@@ -5,11 +5,11 @@ import Footer from '@/components/list/sections/Footer';
 import Hero from '@/components/list/sections/Hero';
 import Projects from '@/components/list/sections/Projects';
 
-export default function List({ children }: { children: React.ReactNode }) {
+export default function List() {
   return (
     <>
       <Hero />
-      <main className="max-w-7xl mx-auto">
+      <main className="mx-auto max-w-7xl">
         <About />
         <Experience />
         <Projects />

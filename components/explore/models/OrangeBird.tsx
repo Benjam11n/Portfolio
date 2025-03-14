@@ -6,11 +6,11 @@ Source: https://sketchfab.com/3d-models/bird-orange-0d31748606c2499fb652c0c1052b
 Title: Bird Orange
 */
 
-import * as THREE from 'three';
-import React, { useEffect } from 'react';
 import { useGLTF, useAnimations } from '@react-three/drei';
-import { GLTF, SkeletonUtils } from 'three-stdlib';
 import { useGraph } from '@react-three/fiber';
+import React, { useEffect } from 'react';
+import * as THREE from 'three';
+import { GLTF, SkeletonUtils } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
   nodes: {
