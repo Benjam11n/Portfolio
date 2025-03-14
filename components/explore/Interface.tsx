@@ -126,7 +126,7 @@ export const Interface = () => {
                   variants={{ visible: { opacity: 1 } }}
                   transition={{ duration: 1, delay: isMobile ? 0 : idx * 0.5 }}
                 >
-                  {project.href && project.link ? (
+                  {project.link ? (
                     <Link
                       href={project.link}
                       target="_blank"

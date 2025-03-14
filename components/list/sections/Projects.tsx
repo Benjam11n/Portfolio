@@ -1,13 +1,19 @@
 'use client';
 
 import { Center, OrbitControls } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { Suspense, useState } from 'react';
 
 import { PROJECTS } from '../../../constants';
 import CanvasLoader from '../CanvasLoader';
 import { DemoComputer } from '../DemoComputer';
+
+// Dynamically import Canvas to prevent SSR issues
+const DynamicCanvas = dynamic(
+  () => import('@react-three/fiber').then((mod) => mod.Canvas),
+  { ssr: false }
+);
 
 const Projects = () => {
   const projectKeys = Object.keys(PROJECTS);
@@ -69,22 +75,42 @@ const Projects = () => {
               ))}
             </div>
 
-            {currentProject?.href && (
-              <a
-                className="flex cursor-pointer items-center gap-2"
-                href={currentProject.href}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <p>View Project</p>
-                <Image
-                  src="/assets/arrow-up.png"
-                  alt="arrow"
-                  width={12}
-                  height={12}
-                />
-              </a>
-            )}
+            <div className="flex items-center gap-4">
+              {currentProject.github && (
+                <a
+                  className="flex cursor-pointer items-center gap-2"
+                  href={currentProject.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="View GitHub Repository"
+                >
+                  <Image
+                    src="/assets/github.svg"
+                    alt="GitHub"
+                    width={24}
+                    height={24}
+                    className="opacity-80 transition-opacity hover:opacity-100"
+                  />
+                </a>
+              )}
+
+              {currentProject?.href && (
+                <a
+                  className="flex cursor-pointer items-center gap-2"
+                  href={currentProject.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <p>View Project</p>
+                  <Image
+                    src="/assets/arrow-up.png"
+                    alt="arrow"
+                    width={12}
+                    height={12}
+                  />
+                </a>
+              )}
+            </div>
           </div>
 
           <div className="mt-7 flex items-center justify-between">
@@ -114,7 +140,7 @@ const Projects = () => {
         </div>
 
         <div className="h-96 rounded-lg border md:h-full">
-          <Canvas className="rounded-md">
+          <DynamicCanvas className="rounded-md">
             <ambientLight intensity={Math.PI} />
             <directionalLight position={[10, 10, 5]} />
 
@@ -131,7 +157,7 @@ const Projects = () => {
               maxAzimuthAngle={Math.PI / 4}
               enableZoom={false}
             />
-          </Canvas>
+          </DynamicCanvas>
         </div>
       </div>
     </section>

@@ -55,20 +55,10 @@ interface ProjectTechnology {
   path: string;
 }
 
-interface GalleryItem {
-  id: number;
-  type: 'image' | 'video';
-  title: string;
-  desc: string;
-  url: string;
-  span: string;
-}
-
 export interface Project {
   id: string;
   title: string;
   description: string;
-  fullDescription?: string;
   subdesc?: string;
   status?: 'completed' | 'in-development' | 'planned';
 
@@ -88,29 +78,87 @@ export interface Project {
 
   // Features
   features?: string[];
-
-  // Gallery
-  gallery?: GalleryItem[];
 }
 
 export const PROJECTS: Record<string, Project> = {
+  twinAI: {
+    id: 'twinAI',
+    title: 'TwinAI - AI-Powered Digital Twins for Mental Health Therapy',
+    description:
+      'A platform that uses AI-powered digital twins to revolutionize mental health therapy and treatment.',
+    subdesc:
+      'TwinAI creates virtual representations of patients’ psychological states, enabling therapists to simulate interventions, track mood patterns, and develop personalized treatment plans.',
+    href: 'https://twin-ai-one.vercel.app/',
+    github: 'https://github.com/Benjam11n/TwinAI',
+    texture: '/textures/project/project1.mp4',
+    logo: '/projects/project1-logo.png',
+    logoStyle: {
+      backgroundColor: '#151a11',
+      border: '0.2px solid #233814',
+      boxShadow: '0px 0px 60px 0px #324d1f',
+    },
+    spotlight: '/assets/spotlight4.png',
+    techStack: [
+      {
+        name: 'React',
+        color: '#001b59',
+        size: 'xl',
+        path: '/assets/react.svg',
+      },
+      {
+        name: 'Tailwind',
+        color: '#0F766E',
+        size: 'xl',
+        path: '/assets/tailwindcss.png',
+      },
+      {
+        name: 'TypeScript',
+        color: '#3178C6',
+        size: 'xl',
+        path: '/assets/typescript.svg',
+      },
+      {
+        name: 'MongoDB',
+        color: '#023430',
+        size: 'lg',
+        path: '/assets/mongodb.svg',
+      },
+      {
+        name: 'Google Gemini',
+        color: '#0D4C87',
+        size: 'lg',
+        path: '/assets/google-gemini.svg',
+      },
+      {
+        name: 'Pytorch',
+        color: '#0D4C87',
+        size: 'lg',
+        path: '/assets/pytorch.svg',
+      },
+    ],
+    features: [
+      'Real-time voice-based therapy sessions',
+      'Interactive AI patient simulations',
+      'Contextual, condition-specific responses',
+      'Learning from therapeutic techniques',
+      'Voice processing for seamless interaction',
+    ],
+  },
   quickie: {
     id: 'quickie',
     title: 'Quickie - AI-Powered Marketplace',
     description:
       'Quickie is an innovative e-commerce platform that leverages AI technology to provide personalized perfume recommendations to users.',
-    fullDescription:
-      'It offers a seamless shopping experience, with features like social media sharing and a comprehensive review system.',
     subdesc:
       'Built as a unique e-commerce app with Next.js 15, Tailwind CSS, TypeScript, Framer Motion, shadcn/ui, Zustand, React Query and MongoDB, Quickie is designed to be beautiful and memorable yet performant.',
     status: 'in-development',
     github: 'https://github.com/Benjam11n/Quickie',
-    texture: '/textures/project/project1.mp4',
-    logo: '/projects/project1-logo.png',
+    texture: '/textures/project/project2.mp4',
+    logo: '/projects/project2-logo.png',
     logoStyle: {
       backgroundColor: '#170040',
       border: '0.2px solid #0f0226',
-      boxShadow: '0px 0px 60px 0px #AA3C304D',
+      boxShadow: '0px 0px 60px 0px #4f248f',
     },
     spotlight: '/assets/spotlight1.png',
     techStack: [
@@ -158,36 +206,23 @@ export const PROJECTS: Record<string, Project> = {
       'User authentication and profiles',
       'Email confirmation and notifications',
     ],
-    gallery: [
-      {
-        id: 1,
-        type: 'image',
-        title: 'Dashboard Overview',
-        desc: 'Main admin dashboard showing key metrics and analytics',
-        url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
-        span: 'md:col-span-2 md:row-span-2',
-      },
-    ],
   },
   chip: {
     id: 'chip',
     title: 'Chip - Play poker anytime, anywhere',
     description:
       'A digital poker chip tracker that lets you and your friends enjoy poker games without physical chips. Perfect for casual games anywhere.',
-    fullDescription:
-      "Chip is a user-friendly digital solution for poker enthusiasts who want to play without carrying physical chips. The app manages chip counts, tracks bets, and handles all the calculations, letting players focus on the game. Whether you're playing at home, traveling, or just want a quick game with friends, Chip makes it possible.",
     subdesc:
       'Built with Next.js, React, TypeScript, Framer motion, TailwindCSS and Supabase, Chip provides a seamless and reliable poker experience with real-time updates and easy chip management.',
     href: 'https://chip-sg.vercel.app/',
     status: 'completed',
-    link: 'https://chip-sg.vercel.app/',
     github: 'https://github.com/Benjam11n/Chip',
     texture: '/textures/project/project3.mp4',
     logo: '/projects/project3-logo.png',
     logoStyle: {
-      backgroundColor: '#913800',
-      border: '0.2px solid #36201D',
-      boxShadow: '0px 0px 60px 0px #AA3C304D',
+      backgroundColor: '#000000',
+      border: '0.2px solid #24020b',
+      boxShadow: '0px 0px 60px 0px #380310',
     },
     spotlight: '/assets/spotlight3.png',
     techStack: [
@@ -229,29 +264,17 @@ export const PROJECTS: Record<string, Project> = {
       'Blind timer and level management',
       'Game history and statistics',
     ],
-    gallery: [
-      {
-        id: 1,
-        type: 'image',
-        title: 'Dashboard Overview',
-        desc: 'Main admin dashboard showing key metrics and analytics',
-        url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
-        span: 'md:col-span-2 md:row-span-2',
-      },
-    ],
   },
   'birds-of-a-feather': {
     id: 'birds-of-a-feather',
     title: 'Birds of a Feather - Community Forum',
     description:
       'Birds of a Feather is a community forum designed for bird lovers to connect, share knowledge, and discuss their passion for birds.',
-    fullDescription:
-      'Birds of a Feather was the first project I have tackled, so that I can learn the basics of web development. It offers a user-friendly interface, with features like real-time discussions and user profiles. With Birds of a Feather, users can create and join groups and share photos and videos. Built with React, Typescript Tailwind CSS, shadcn/ui, React Query and Docker, Birds of a Feather is a modern forum that brings bird enthusiasts together.',
     subdesc:
       'Built with React, Typescript Tailwind CSS, shadcn/ui, React Query and Docker, Birds of a Feather is a modern forum that brings bird enthusiasts together.',
     github: 'https://github.com/Benjam11n/Birds-of-a-Feather-frontend',
-    texture: '/textures/project/project2.mp4',
-    logo: '/projects/project2-logo.png',
+    texture: '/textures/project/project4.mp4',
+    logo: '/projects/project4-logo.png',
     logoStyle: {
       backgroundColor: '#16015c',
       border: '0.2px solid #0c0036',
@@ -297,85 +320,14 @@ export const PROJECTS: Record<string, Project> = {
       'User profiles with bird watching history',
       'Bird species identification assistance',
     ],
-    gallery: [
-      {
-        id: 1,
-        type: 'image',
-        title: 'Dashboard Overview',
-        desc: 'Main admin dashboard showing key metrics and analytics',
-        url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
-        span: 'md:col-span-2 md:row-span-2',
-      },
-    ],
-  },
-  campusQ: {
-    id: 'campusQ',
-    title: 'CampusQ - Stackoverflow Clone for University Students',
-    description:
-      'A practice project to create a Stackoverflow clone for university students.',
-    fullDescription:
-      ' CampusQ is a platform where students can ask questions, get answers, and share knowledge with their peers. It offers a user-friendly interface, with features like real-time messaging, notifications, and user profiles.',
-    subdesc:
-      'Built with Next.js 15, React, Typescript, Tailwind CSS, and MongoDB, CampusQ is a modern forum that brings university students together.',
-    texture: '/textures/project/project3.mp4',
-    logo: '/projects/project3-logo.png',
-    logoStyle: {
-      backgroundColor: '#913800',
-      border: '0.2px solid #36201D',
-      boxShadow: '0px 0px 60px 0px #AA3C304D',
-    },
-    spotlight: '/assets/spotlight3.png',
-    techStack: [
-      {
-        name: 'React',
-        color: '#001b59',
-        size: 'xl',
-        path: '/assets/react.svg',
-      },
-      {
-        name: 'Tailwind',
-        color: '#0F766E',
-        size: 'xl',
-        path: '/assets/tailwindcss.png',
-      },
-      {
-        name: 'TypeScript',
-        color: '#3178C6',
-        size: 'xl',
-        path: '/assets/typescript.svg',
-      },
-      {
-        name: 'MongoDB',
-        color: '#023430',
-        size: 'lg',
-        path: '/assets/mongodb.svg',
-      },
-    ],
-    features: [
-      'Question and answer system',
-      'Topic-based categorization',
-      'Reputation and badge system',
-      'Answer acceptance and voting',
-      'Student profile customization',
-    ],
-    gallery: [
-      {
-        id: 1,
-        type: 'image',
-        title: 'Dashboard Overview',
-        desc: 'Main admin dashboard showing key metrics and analytics',
-        url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
-        span: 'md:col-span-2 md:row-span-2',
-      },
-    ],
   },
   worldquant: {
     id: 'worldquant',
     title: 'WorldQuant NUS Alphathon - 4th Place Winner',
     description:
       'WorldQuant NUS Alphathon is a prestigious competition that challenges students to develop quantitative trading strategies.',
-    texture: '/textures/project/project4.mp4',
-    logo: '/projects/project4-logo.png',
+    texture: '/textures/project/project5.mp4',
+    logo: '/projects/project5-logo.png',
     logoStyle: {
       backgroundColor: '#0E1F38',
       border: '0.2px solid #0E2D58',
@@ -468,7 +420,6 @@ interface ExploreInfo {
     description: string;
     image: string;
     link?: string;
-    href?: string;
   }[];
   contact: {
     name: string;
@@ -503,30 +454,33 @@ export const exploreInfo: ExploreInfo = {
   ],
   projects: [
     {
+      name: 'TwinAI',
+      description: 'AI-Powered Digital Twins for Mental Health Therapy',
+      image: 'projects/project1.png',
+      link: 'https://twin-ai-one.vercel.app/',
+    },
+    {
       name: 'Perfume Marketplace',
       description:
         'An innovative perfume merketplace featuring AI recommendations',
-      image: 'projects/project1.png',
-      // link: 'example.com',
+      image: 'projects/project2.png',
+    },
+    {
+      name: 'Chip',
+      description:
+        'A digital poker chip tracker that lets you play poker anywhere!',
+      image: 'projects/project3.png',
+      link: 'https://chip-sg.vercel.app/',
     },
     {
       name: 'Birds of a Feather Forum',
       description: 'A forum for all bird lovers to flock together!',
-      image: 'projects/project2.jpg',
-      // link: 'example.com',
-    },
-    {
-      name: 'CampusQ',
-      description:
-        'A practice project to create a stackoverflow clone for university students',
-      image: 'projects/project3.png',
-      // link: 'example.com',
+      image: 'projects/project4.jpg',
     },
     {
       name: 'World Quant NUS Alphathon',
       description: '4th place winner in the World Quant NUS Alphathon 2024',
-      image: 'projects/project4.png',
-      // link: 'example.com',
+      image: 'projects/project5.png',
     },
   ],
   contact: {
