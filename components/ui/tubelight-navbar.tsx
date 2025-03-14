@@ -60,7 +60,9 @@ export function NavBar({ items, className }: NavBarProps) {
   }, [items]);
 
   const handleClick = (href: string) => {
-    window.location.href = href;
+    if (typeof window !== 'undefined') {
+      window.location.href = href;
+    }
   };
 
   useEffect(() => {

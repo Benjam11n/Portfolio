@@ -25,7 +25,7 @@ type ActionName = 'Armature|ArmatureAction';
 type GLTFActions = Record<ActionName, THREE.AnimationAction>;
 
 export function BirchTree(props: JSX.IntrinsicElements['group']) {
-  const group = useRef<THREE.Group>();
+  const group = useRef<THREE.Group>(null);
   const { nodes, materials, animations } = useGLTF(
     '/models/BirchTree.glb'
   ) as GLTFResult;

@@ -1,12 +1,12 @@
+import Link from 'next/link';
+
 const Footer = () => {
   return (
     <section className="c-space flex flex-wrap items-center justify-between gap-5 border-t pb-24 pt-8">
       <div className="flex gap-2">
         <p>Terms & Conditions</p>
         <p>|</p>
-        <Link href="/privacy" className="transition-colors hover:text-primary">
-          Privacy Policy
-        </Link>
+        <p>Privacy Policy</p>
         <p>|</p>
         <Link href="/credits" className="transition-colors hover:text-primary">
           Credits

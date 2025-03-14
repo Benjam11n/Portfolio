@@ -24,10 +24,10 @@ type GLTFResult = GLTF & {
 };
 
 export function Apple(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/models/Apple.glb');
-  const rigidBody = useRef();
+  const { nodes, materials } = useGLTF('/models/Apple.glb') as GLTFResult;
+  const rigidBody = useRef<any>();
 
-  const applyImpulse = ({ x, y, z }) => {
+  const applyImpulse = ({ x, y, z }: { x: number; y: number; z: number }) => {
     if (rigidBody.current) {
       rigidBody.current.applyImpulse({ x, y, z }, true);
     }
@@ -41,7 +41,6 @@ export function Apple(props: JSX.IntrinsicElements['group']) {
     <RigidBody
       colliders="hull"
       type="dynamic"
-      onClick={handleClick}
       restitution={0.2}
       friction={0.7}
       ref={rigidBody}
@@ -56,6 +55,7 @@ export function Apple(props: JSX.IntrinsicElements['group']) {
         onPointerOut={() => {
           document.body.style.cursor = 'default';
         }}
+        onPointerDown={handleClick}
       >
         <group scale={0.01}>
           <mesh

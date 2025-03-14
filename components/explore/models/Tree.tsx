@@ -6,7 +6,7 @@ Source: https://sketchfab.com/3d-models/stylized-tree-843278c62cb9494bafda67e7c1
 Title: Stylized Tree
 */
 
-import { useGLTF, useAnimations } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
 import React, { useRef } from 'react';
 import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
@@ -92,15 +92,9 @@ type GLTFResult = GLTF & {
   };
 };
 
-type ActionName = 'Take 001';
-type GLTFActions = Record<ActionName, THREE.AnimationAction>;
-
 export function Tree(props: JSX.IntrinsicElements['group']) {
-  const group = useRef<THREE.Group>();
-  const { nodes, materials, animations } = useGLTF(
-    '/models/Tree.glb'
-  ) as GLTFResult;
-  const { actions } = useAnimations(animations, group);
+  const group = useRef<THREE.Group>(null);
+  const { nodes, materials } = useGLTF('/models/Tree.glb') as GLTFResult;
 
   return (
     <group ref={group} {...props} dispose={null}>

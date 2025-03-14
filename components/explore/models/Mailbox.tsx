@@ -89,7 +89,11 @@ export function Mailbox(props: JSX.IntrinsicElements['group']) {
       dispose={null}
       onPointerEnter={() => setMailBoxHovered(true)}
       onPointerLeave={() => setMailBoxHovered(false)}
-      onClick={() => window.open(`mailto:${exploreInfo.contact.mail}`)}
+      onClick={() => {
+        if (typeof window !== 'undefined') {
+          window.open(`mailto:${exploreInfo.contact.mail}`);
+        }
+      }}
     >
       <mesh
         castShadow

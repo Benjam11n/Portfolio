@@ -14,7 +14,6 @@ import { ComputerDesk } from '../models/ComputerDesk';
 import { SectionTitle } from '../SectionTitle';
 import WhiteboardSection from '../WhiteboardSection';
 
-
 const About = () => {
   const { isMobile } = useMobile();
   return (

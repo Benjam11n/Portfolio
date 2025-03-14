@@ -53,12 +53,14 @@ export function Avatar({ animationName = 'idle', ...props }) {
   );
 
   useEffect(() => {
+    // Use the non-null assertion operator (!) to tell TypeScript
+    // that we've already checked this isn't null/undefined
     if (actions && actions[animationName]) {
-      actions[animationName].reset().fadeIn(0.5).play();
+      actions[animationName]!.reset().fadeIn(0.5).play();
 
       return () => {
         if (actions[animationName]) {
-          actions[animationName].fadeOut(0.5);
+          actions[animationName]!.fadeOut(0.5);
         }
       };
     }
