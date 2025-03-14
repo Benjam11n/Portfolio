@@ -4,7 +4,7 @@ import WhiteboardText from './WhiteboardText';
 interface WhiteboardSectionProps {
   position: { x: number; y: number; z: number };
   rotation: number;
-  texts: { content: string; size: number }[];
+  texts: { content: string }[];
   isRight?: boolean;
   isMobile: boolean;
 }
@@ -32,17 +32,16 @@ const WhiteboardSection: React.FC<WhiteboardSectionProps> = ({
           y: isMobile
             ? 2.9 - index * 0.15
             : isRight
-              ? 1.9 - index * 0.2
-              : 2 - index * 0.15,
+            ? 1.9 - index * 0.2
+            : 2 - index * 0.15,
           z: isMobile
             ? position.z
             : isRight
-              ? position.z - 0.7
-              : position.z + 0.8,
+            ? position.z - 0.7
+            : position.z + 0.8,
           rotationY: rotation,
         }}
         text={text.content}
-        size={text.size}
       />
     ))}
   </group>

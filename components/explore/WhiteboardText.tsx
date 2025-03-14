@@ -1,6 +1,23 @@
 import { SectionTitle } from './SectionTitle';
 
-const WhiteboardText = ({ position, text, size = 0.09 }) => (
+interface Position {
+  x: number;
+  y: number;
+  z: number;
+  rotationY: number;
+}
+
+interface WhiteboardTextProps {
+  position: Position;
+  text: string;
+  size?: number;
+}
+
+const WhiteboardText = ({
+  position,
+  text,
+  size = 0.09,
+}: WhiteboardTextProps) => (
   <SectionTitle
     font={'fonts/Inter_Light_Regular.json'}
     size={size}

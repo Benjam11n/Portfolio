@@ -69,7 +69,7 @@ export function Balloon(props: BalloonProps) {
   });
 
   const handleClick = (e: THREE.Event | React.PointerEvent) => {
-    e.stopPropagation();
+    (e as React.PointerEvent).stopPropagation();
     if (!isFlying) {
       setIsFlying(true);
     }
