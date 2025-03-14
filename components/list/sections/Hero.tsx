@@ -15,7 +15,7 @@ const Hero = () => {
         <p className="z-20 text-center font-comic text-2xl font-medium sm:text-3xl">
           Hi, I&apos;m
         </p>
-        <h1 className="mb-6 text-center font-comic text-8xl font-bold">
+        <h1 className="mb-6 text-center font-comic text-6xl font-bold lg:text-8xl">
           Benjamin
         </h1>
         <p className="mb-8 text-center font-comic text-xl text-muted-foreground">
