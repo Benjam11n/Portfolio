@@ -13,11 +13,7 @@ interface WhiteboardTextProps {
   size?: number;
 }
 
-const WhiteboardText = ({
-  position,
-  text,
-  size = 0.09,
-}: WhiteboardTextProps) => (
+const WhiteboardText = ({ position, text, size = 0.09 }: WhiteboardTextProps) => (
   <SectionTitle
     font={'fonts/Inter_Light_Regular.json'}
     size={size}

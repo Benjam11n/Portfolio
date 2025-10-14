@@ -41,16 +41,11 @@ export function Avatar({ animationName = 'idle', ...props }) {
   const { nodes, materials } = useGLTF('/models/Avatar.glb') as GLTFResult;
 
   const { animations: idleAnimation } = useFBX('/models/animations/idle.fbx');
-  const { animations: saluteAnimation } = useFBX(
-    '/models/animations/salute.fbx'
-  );
+  const { animations: saluteAnimation } = useFBX('/models/animations/salute.fbx');
   idleAnimation[0].name = 'idle';
   saluteAnimation[0].name = 'salute';
 
-  const { actions } = useAnimations(
-    [idleAnimation[0], saluteAnimation[0]],
-    group
-  );
+  const { actions } = useAnimations([idleAnimation[0], saluteAnimation[0]], group);
 
   useEffect(() => {
     // Use the non-null assertion operator (!) to tell TypeScript

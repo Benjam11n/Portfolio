@@ -38,13 +38,7 @@ export function Apple(props: JSX.IntrinsicElements['group']) {
   };
 
   return (
-    <RigidBody
-      colliders="hull"
-      type="dynamic"
-      restitution={0.2}
-      friction={0.7}
-      ref={rigidBody}
-    >
+    <RigidBody colliders="hull" type="dynamic" restitution={0.2} friction={0.7} ref={rigidBody}>
       <group
         {...props}
         dispose={null}

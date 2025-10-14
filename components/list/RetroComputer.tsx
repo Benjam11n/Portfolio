@@ -21,9 +21,7 @@ type GLTFResult = GLTF & {
 };
 
 export function RetroComputer(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF(
-    '/models/RetroComputer.glb'
-  ) as GLTFResult;
+  const { nodes, materials } = useGLTF('/models/RetroComputer.glb') as GLTFResult;
   return (
     <group {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>

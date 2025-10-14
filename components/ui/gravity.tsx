@@ -53,10 +53,7 @@ function parsePathToVertices(path: string, sampleLength = 15) {
 
   // Ensure we get the last point
   const finalPoint = commander.getPointAtLength(totalLength);
-  if (
-    lastPoint &&
-    (finalPoint.x !== lastPoint.x || finalPoint.y !== lastPoint.y)
-  ) {
+  if (lastPoint && (finalPoint.x !== lastPoint.x || finalPoint.y !== lastPoint.y)) {
     points.push({ x: finalPoint.x, y: finalPoint.y });
   }
 
@@ -66,15 +63,13 @@ function parsePathToVertices(path: string, sampleLength = 15) {
 function calculatePosition(
   value: number | string | undefined,
   containerSize: number,
-  elementSize: number
+  elementSize: number,
 ) {
   if (typeof value === 'string' && value.endsWith('%')) {
     const percentage = parseFloat(value) / 100;
     return containerSize * percentage;
   }
-  return typeof value === 'number'
-    ? value
-    : elementSize - containerSize + elementSize / 2;
+  return typeof value === 'number' ? value : elementSize - containerSize + elementSize / 2;
 }
 
 type GravityProps = {
@@ -113,11 +108,7 @@ export type GravityRef = {
 };
 
 const GravityContext = createContext<{
-  registerElement: (
-    id: string,
-    element: HTMLElement,
-    props: MatterBodyProps
-  ) => void;
+  registerElement: (id: string, element: HTMLElement, props: MatterBodyProps) => void;
   unregisterElement: (id: string) => void;
 } | null>(null);
 
@@ -173,11 +164,7 @@ const MatterBody = ({
   return (
     <div
       ref={elementRef}
-      className={cn(
-        'absolute',
-        className,
-        isDraggable && 'pointer-events-none'
-      )}
+      className={cn('absolute', className, isDraggable && 'pointer-events-none')}
     >
       {children}
     </div>
@@ -197,7 +184,7 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const canvas = useRef<HTMLDivElement>(null);
     const engine = useRef(Engine.create());
@@ -272,7 +259,7 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
           bodiesMap.current.set(id, { element, body, props });
         }
       },
-      [debug]
+      [debug],
     );
 
     // Unregister Matter.js body from the physics world
@@ -378,7 +365,7 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
       const touchingMouse = () =>
         Query.point(
           engine.current.world.bodies,
-          mouseConstraint.current?.mouse.position || { x: 0, y: 0 }
+          mouseConstraint.current?.mouse.position || { x: 0, y: 0 },
         ).length > 0;
 
       if (grabCursor) {
@@ -387,9 +374,7 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
             if (!mouseDown.current && !touchingMouse()) {
               canvas.current.style.cursor = 'default';
             } else if (touchingMouse()) {
-              canvas.current.style.cursor = mouseDown.current
-                ? 'grabbing'
-                : 'grab';
+              canvas.current.style.cursor = mouseDown.current ? 'grabbing' : 'grab';
             }
           }
         });
@@ -507,16 +492,8 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
       bodiesMap.current.forEach(({ element, body, props }) => {
         body.angle = props.angle || 0;
 
-        const x = calculatePosition(
-          props.x,
-          canvasSize.width,
-          element.offsetWidth
-        );
-        const y = calculatePosition(
-          props.y,
-          canvasSize.height,
-          element.offsetHeight
-        );
+        const x = calculatePosition(props.x, canvasSize.width, element.offsetWidth);
+        const y = calculatePosition(props.y, canvasSize.height, element.offsetHeight);
         body.position.x = x;
         body.position.y = y;
       });
@@ -531,7 +508,7 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
         stop: stopEngine,
         reset,
       }),
-      [startEngine, stopEngine]
+      [startEngine, stopEngine],
     );
 
     useEffect(() => {
@@ -555,14 +532,14 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
       <GravityContext.Provider value={{ registerElement, unregisterElement }}>
         <div
           ref={canvas}
-          className={cn(className, 'absolute top-0 left-0 w-full h-full')}
+          className={cn(className, 'absolute top-0 left-0 h-full w-full')}
           {...props}
         >
           {children}
         </div>
       </GravityContext.Provider>
     );
-  }
+  },
 );
 
 Gravity.displayName = 'Gravity';

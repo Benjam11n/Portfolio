@@ -26,9 +26,7 @@ type GLTFActions = Record<ActionName, THREE.AnimationAction>;
 
 export function BirchTree(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>(null);
-  const { nodes, materials, animations } = useGLTF(
-    '/models/BirchTree.glb'
-  ) as GLTFResult;
+  const { nodes, materials, animations } = useGLTF('/models/BirchTree.glb') as GLTFResult;
   const { actions } = useAnimations(animations, group);
 
   animations[0].name = 'sway';
@@ -49,17 +47,10 @@ export function BirchTree(props: JSX.IntrinsicElements['group']) {
     <group ref={group} {...props} dispose={null}>
       <group name="Sketchfab_Scene">
         <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]}>
-          <group
-            name="0531b0aee76e437286fa1480cfa5eaf0fbx"
-            rotation={[Math.PI / 2, 0, 0]}
-          >
+          <group name="0531b0aee76e437286fa1480cfa5eaf0fbx" rotation={[Math.PI / 2, 0, 0]}>
             <group name="Object_2">
               <group name="RootNode">
-                <group
-                  name="Armature"
-                  rotation={[-Math.PI / 2, 0, 0]}
-                  scale={491.491}
-                >
+                <group name="Armature" rotation={[-Math.PI / 2, 0, 0]} scale={491.491}>
                   <group name="Object_5">
                     <primitive object={nodes._rootJoint} />
                     <skinnedMesh
@@ -68,18 +59,10 @@ export function BirchTree(props: JSX.IntrinsicElements['group']) {
                       material={materials.Tree}
                       skeleton={nodes.Object_11.skeleton}
                     />
-                    <group
-                      name="Object_10"
-                      rotation={[-Math.PI / 2, 0, 0]}
-                      scale={72.086}
-                    />
+                    <group name="Object_10" rotation={[-Math.PI / 2, 0, 0]} scale={72.086} />
                   </group>
                 </group>
-                <group
-                  name="Icosphere001"
-                  rotation={[-Math.PI / 2, 0, 0]}
-                  scale={72.086}
-                />
+                <group name="Icosphere001" rotation={[-Math.PI / 2, 0, 0]} scale={72.086} />
                 <group
                   name="Sun002"
                   position={[755.46, 898.84, 279.323]}

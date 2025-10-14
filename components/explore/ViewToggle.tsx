@@ -19,28 +19,24 @@ const ViewToggle = () => {
         }}
         className={cn(
           'text-sm font-medium transition-colors',
-          pathname == '/explore' ? 'text-primary' : 'text-foreground/60'
+          pathname == '/explore' ? 'text-primary' : 'text-foreground/60',
         )}
       >
         Explore
       </button>
 
       <button
-        onClick={() =>
-          router.push(pathname == '/explore' ? '/explore' : 'list')
-        }
+        onClick={() => router.push(pathname == '/explore' ? '/explore' : 'list')}
         className="toggle-switch"
       >
-        <div
-          className={`toggle-handle ${pathname == '/explore' ? '' : 'switched'}`}
-        />
+        <div className={`toggle-handle ${pathname == '/explore' ? '' : 'switched'}`} />
       </button>
 
       <button
         onClick={() => router.push('/list')}
         className={cn(
           'text-sm font-medium transition-colors',
-          pathname == '/list' ? 'text-primary' : 'text-foreground/60'
+          pathname == '/list' ? 'text-primary' : 'text-foreground/60',
         )}
       >
         List

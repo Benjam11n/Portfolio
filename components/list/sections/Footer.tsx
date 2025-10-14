@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <section className="c-space flex flex-wrap items-center justify-between gap-5 border-t pb-24 pt-8">
+    <section className="c-space flex flex-wrap items-center justify-between gap-5 border-t pt-8 pb-24">
       <div className="flex gap-2">
         <p>Terms & Conditions</p>
         <p>|</p>
-        <Link href="/credits" className="transition-colors hover:text-primary">
+        <Link href="/credits" className="hover:text-primary transition-colors">
           Credits
         </Link>
       </div>

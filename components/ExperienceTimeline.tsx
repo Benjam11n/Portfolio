@@ -12,9 +12,7 @@ export function ExperienceTimeline() {
     subtitle: experience.duration,
     content: (
       <div>
-        <p className="mb-8 text-xs font-normal md:text-sm">
-          {experience.pos}
-        </p>
+        <p className="mb-8 text-xs font-normal md:text-sm">{experience.pos}</p>
         <div className="space-y-4">
           {experience.title.split('. ').map((point, index) => (
             <p key={index} className="text-xs md:text-lg">
@@ -43,7 +41,7 @@ export function ExperienceTimeline() {
   }));
 
   return (
-    <div className="min-h-screen w-full bg-background">
+    <div className="bg-background min-h-screen w-full">
       <Timeline data={data} />
     </div>
   );

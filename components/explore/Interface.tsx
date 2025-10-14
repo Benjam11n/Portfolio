@@ -49,10 +49,7 @@ export const Interface = () => {
         <section className="section" id="about"></section>
 
         {/* EXPERIENCE */}
-        <section
-          className="section section--right mobile--section--bottom"
-          id="experience"
-        >
+        <section className="section section--right mobile--section--bottom" id="experience">
           <motion.div
             className="flex max-w-[90vw] snap-x snap-mandatory flex-nowrap overflow-x-auto pb-4 md:grid md:max-w-[500px] md:grid-cols-[repeat(auto-fit,220px)] md:justify-center md:gap-4 md:overflow-x-visible"
             style={{
@@ -85,9 +82,7 @@ export const Interface = () => {
                     />
                   </div>
                   <div className="space-y-2 p-4">
-                    <h2 className="text-lg font-semibold tracking-tight">
-                      {experience.name}
-                    </h2>
+                    <h2 className="text-lg font-semibold tracking-tight">{experience.name}</h2>
                     {experience.description && (
                       <p className="line-clamp-2 text-sm leading-relaxed">
                         {experience.description}
@@ -101,10 +96,7 @@ export const Interface = () => {
         </section>
 
         {/* PROJECTS */}
-        <section
-          className="section section--left mobile--section--bottom"
-          id="projects"
-        >
+        <section className="section section--left mobile--section--bottom" id="projects">
           <motion.div
             className="flex max-w-[90vw] snap-x snap-mandatory flex-nowrap overflow-x-auto pb-4 md:grid md:max-w-[500px] md:grid-cols-[repeat(auto-fit,220px)] md:justify-center md:gap-4 md:overflow-x-visible"
             style={{
@@ -144,9 +136,7 @@ export const Interface = () => {
                         />
                       </div>
                       <div className="space-y-2 p-4">
-                        <h2 className="text-lg font-semibold tracking-tight">
-                          {project.name}
-                        </h2>
+                        <h2 className="text-lg font-semibold tracking-tight">{project.name}</h2>
                         {project.description && (
                           <p className="line-clamp-2 text-sm leading-relaxed">
                             {project.description}
@@ -167,9 +157,7 @@ export const Interface = () => {
                         />
                       </div>
                       <div className="space-y-2 p-4">
-                        <h2 className="text-lg font-semibold tracking-tight">
-                          {project.name}
-                        </h2>
+                        <h2 className="text-lg font-semibold tracking-tight">{project.name}</h2>
                         {project.description && (
                           <p className="line-clamp-2 text-sm leading-relaxed">
                             {project.description}
@@ -185,10 +173,7 @@ export const Interface = () => {
         </section>
 
         {/* CONTACT */}
-        <section
-          className="section section--left mobile--section--bottom"
-          id="contact"
-        >
+        <section className="section section--left mobile--section--bottom" id="contact">
           <motion.div
             className="contact"
             whileInView={'visible'}

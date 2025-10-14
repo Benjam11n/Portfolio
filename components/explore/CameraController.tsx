@@ -34,25 +34,17 @@ const CameraController = ({ rotationIntensity = 0.1, smoothSpeed = 0.05 }) => {
     camera.position.x = lerp(
       camera.position.x,
       initialPosition.current.x + mouse.current.x * 0.2,
-      smoothSpeed
+      smoothSpeed,
     );
     camera.position.y = lerp(
       camera.position.y,
       initialPosition.current.y + mouse.current.y * 0.02,
-      smoothSpeed
+      smoothSpeed,
     );
 
     // Smoothly interpolate camera rotation
-    camera.rotation.x = lerp(
-      camera.rotation.x,
-      targetRotation.current.x,
-      smoothSpeed
-    );
-    camera.rotation.y = lerp(
-      camera.rotation.y,
-      targetRotation.current.y,
-      smoothSpeed
-    );
+    camera.rotation.x = lerp(camera.rotation.x, targetRotation.current.x, smoothSpeed);
+    camera.rotation.y = lerp(camera.rotation.y, targetRotation.current.y, smoothSpeed);
   });
 
   return null;

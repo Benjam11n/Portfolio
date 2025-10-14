@@ -32,11 +32,7 @@ export function Balloon(props: BalloonProps) {
 
   // Store original position for respawning
   const originalPosition = useRef(
-    new THREE.Vector3(
-      props.position?.[0] || 0,
-      props.position?.[1] || 0,
-      props.position?.[2] || 0
-    )
+    new THREE.Vector3(props.position?.[0] || 0, props.position?.[1] || 0, props.position?.[2] || 0),
   );
 
   useFrame((state, delta) => {
@@ -44,8 +40,7 @@ export function Balloon(props: BalloonProps) {
 
     // Flying away animation
     balloonRef.current.position.y += delta * 2;
-    balloonRef.current.position.x +=
-      delta * (Math.sin(state.clock.elapsedTime) * 2);
+    balloonRef.current.position.x += delta * (Math.sin(state.clock.elapsedTime) * 2);
     balloonRef.current.rotation.z += delta * 2;
 
     // Check if balloon has flown high enough to hide it
@@ -59,7 +54,7 @@ export function Balloon(props: BalloonProps) {
           balloonRef.current.position.set(
             originalPosition.current.x,
             originalPosition.current.y,
-            originalPosition.current.z
+            originalPosition.current.z,
           );
           balloonRef.current.rotation.set(0, 0, 0);
           setIsVisible(true);
@@ -92,10 +87,7 @@ export function Balloon(props: BalloonProps) {
       }}
     >
       <mesh geometry={nodes.Balloon007.geometry} material={materials.phong1SG}>
-        <meshStandardMaterial
-          {...materials.phong1SG}
-          color={props.color || '#ff0000'}
-        />
+        <meshStandardMaterial {...materials.phong1SG} color={props.color || '#ff0000'} />
       </mesh>
     </group>
   );
