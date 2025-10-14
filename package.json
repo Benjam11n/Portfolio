@@ -51,7 +51,7 @@
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.172.0",
     "three-stdlib": "^2.35.12",
-    "typescript": "5.2.2",
+    "typescript": "5.9.3",
     "zod": "^3.24.1"
   },
   "devDependencies": {
