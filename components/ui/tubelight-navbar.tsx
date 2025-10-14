@@ -33,9 +33,7 @@ export function NavBar({ items, className }: NavBarProps) {
           const sectionName = entry.target.id;
 
           if (entry.isIntersecting) {
-            const matchingItem = items.find(
-              (item) => item.href.replace('#', '') === sectionName
-            );
+            const matchingItem = items.find((item) => item.href.replace('#', '') === sectionName);
             if (matchingItem) {
               setActiveTab(matchingItem.name);
             }
@@ -45,7 +43,7 @@ export function NavBar({ items, className }: NavBarProps) {
       {
         threshold: 0.2,
         rootMargin: '-10% 0px -10% 0px',
-      }
+      },
     );
 
     items.forEach((item) => {
@@ -78,29 +76,25 @@ export function NavBar({ items, className }: NavBarProps) {
     <>
       {/* Mobile Menu Toggle */}
       {isMobile && (
-        <div className="pointer-events-auto fixed right-4 top-4 z-50 flex items-center gap-3">
+        <div className="pointer-events-auto fixed top-4 right-4 z-50 flex items-center gap-3">
           {/* View Toggle */}
-          <div className="rounded-full border border-border bg-background/10 p-2 backdrop-blur-lg">
+          <div className="border-border bg-background/10 rounded-full border p-2 backdrop-blur-lg">
             <div className="flex items-center gap-2">
               <button
                 onClick={() => router.push('/explore')}
                 className={cn(
                   'text-sm font-medium transition-colors',
-                  pathname === '/explore'
-                    ? 'text-primary'
-                    : 'text-foreground/60'
+                  pathname === '/explore' ? 'text-primary' : 'text-foreground/60',
                 )}
               >
                 Explore
               </button>
               <button
-                onClick={() =>
-                  router.push(pathname === '/explore' ? '/list' : '/explore')
-                }
-                className="relative h-4 w-8 rounded-full bg-muted"
+                onClick={() => router.push(pathname === '/explore' ? '/list' : '/explore')}
+                className="bg-muted relative h-4 w-8 rounded-full"
               >
                 <motion.div
-                  className="absolute left-0.5 top-0.5 size-3 rounded-full bg-primary"
+                  className="bg-primary absolute top-0.5 left-0.5 size-3 rounded-full"
                   animate={{ x: pathname === '/explore' ? 0 : 16 }}
                   transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                 />
@@ -109,7 +103,7 @@ export function NavBar({ items, className }: NavBarProps) {
                 onClick={() => router.push('/list')}
                 className={cn(
                   'text-sm font-medium transition-colors',
-                  pathname === '/list' ? 'text-primary' : 'text-foreground/60'
+                  pathname === '/list' ? 'text-primary' : 'text-foreground/60',
                 )}
               >
                 List
@@ -121,14 +115,14 @@ export function NavBar({ items, className }: NavBarProps) {
       {/* Main Navigation */}
       <div
         className={cn(
-          'fixed md:top-0 left-1/2 -translate-x-1/2 z-40 mb-6 sm:pt-6 pointer-events-none',
+          'pointer-events-none fixed left-1/2 z-40 mb-6 -translate-x-1/2 sm:pt-6 md:top-0',
           isMobile ? 'bottom-0' : '',
-          className
+          className,
         )}
       >
         <div className="flex flex-col items-center gap-4 sm:flex-row">
           {/* Navigation Items */}
-          <div className="flex items-center gap-3 rounded-full border border-border bg-background/5 p-1 shadow-lg backdrop-blur-lg">
+          <div className="border-border bg-background/5 flex items-center gap-3 rounded-full border p-1 shadow-lg backdrop-blur-lg">
             {items.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.name;
@@ -140,9 +134,9 @@ export function NavBar({ items, className }: NavBarProps) {
                     handleClick(item.href);
                   }}
                   className={cn(
-                    'relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors pointer-events-auto',
+                    'pointer-events-auto relative cursor-pointer rounded-full px-6 py-2 text-sm font-semibold transition-colors',
                     'text-foreground/80 hover:text-primary',
-                    isActive && 'bg-muted text-primary'
+                    isActive && 'bg-muted text-primary',
                   )}
                 >
                   <span className="hidden md:inline">{item.name}</span>
@@ -152,7 +146,7 @@ export function NavBar({ items, className }: NavBarProps) {
                   {isActive && (
                     <motion.div
                       layoutId="lamp"
-                      className="absolute inset-0 -z-10 w-full rounded-full bg-primary/5"
+                      className="bg-primary/5 absolute inset-0 -z-10 w-full rounded-full"
                       initial={false}
                       transition={{
                         type: 'spring',
@@ -160,10 +154,10 @@ export function NavBar({ items, className }: NavBarProps) {
                         damping: 30,
                       }}
                     >
-                      <div className="absolute -top-2 left-1/2 h-1 w-8 -translate-x-1/2 rounded-t-full bg-primary">
-                        <div className="absolute -left-2 -top-2 h-6 w-12 rounded-full bg-primary/20 blur-md" />
-                        <div className="absolute -top-1 h-6 w-8 rounded-full bg-primary/20 blur-md" />
-                        <div className="absolute left-2 top-0 size-4 rounded-full bg-primary/20 blur-sm" />
+                      <div className="bg-primary absolute -top-2 left-1/2 h-1 w-8 -translate-x-1/2 rounded-t-full">
+                        <div className="bg-primary/20 absolute -top-2 -left-2 h-6 w-12 rounded-full blur-md" />
+                        <div className="bg-primary/20 absolute -top-1 h-6 w-8 rounded-full blur-md" />
+                        <div className="bg-primary/20 absolute top-0 left-2 size-4 rounded-full blur-sm" />
                       </div>
                     </motion.div>
                   )}
@@ -175,9 +169,9 @@ export function NavBar({ items, className }: NavBarProps) {
           {/* Toggles Container */}
           <motion.div
             className={cn(
-              'flex gap-4 pointer-events-auto',
-              isMobile && 'fixed right-4 top-16',
-              isMobile && !showToggles && 'opacity-0 pointer-events-none'
+              'pointer-events-auto flex gap-4',
+              isMobile && 'fixed top-16 right-4',
+              isMobile && !showToggles && 'pointer-events-none opacity-0',
             )}
             animate={{
               opacity: isMobile ? (showToggles ? 1 : 0) : 1,
@@ -187,7 +181,7 @@ export function NavBar({ items, className }: NavBarProps) {
           >
             {/* View Toggle */}
             <div className="flex gap-4">
-              <div className="flex items-center gap-3 rounded-full border border-border bg-background/5 p-1 shadow-lg backdrop-blur-lg">
+              <div className="border-border bg-background/5 flex items-center gap-3 rounded-full border p-1 shadow-lg backdrop-blur-lg">
                 <ViewToggle />
               </div>
             </div>

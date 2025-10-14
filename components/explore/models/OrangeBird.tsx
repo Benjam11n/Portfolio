@@ -48,11 +48,7 @@ export function OrangeBird(props: JSX.IntrinsicElements['group']) {
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Sketchfab_Scene">
-        <group
-          name="Sketchfab_model"
-          rotation={[-Math.PI / 2, 0, 0]}
-          scale={46.683}
-        >
+        <group name="Sketchfab_model" rotation={[-Math.PI / 2, 0, 0]} scale={46.683}>
           <group
             name="bfb1ea86655f4c4ab4c6cbbb449cedf4fbx"
             rotation={[Math.PI / 2, 0, 0]}
@@ -61,22 +57,14 @@ export function OrangeBird(props: JSX.IntrinsicElements['group']) {
             <group name="Object_2">
               <group name="RootNode">
                 <group name="BirdOrange_all">
-                  <group
-                    name="Main"
-                    position={[-0.083, 0, 0.451]}
-                    rotation={[0, -0.074, 0]}
-                  >
+                  <group name="Main" position={[-0.083, 0, 0.451]} rotation={[0, -0.074, 0]}>
                     <group name="Object_6">
                       <primitive object={nodes._rootJoint} />
                       <skinnedMesh
                         name="Object_51"
-                        geometry={
-                          (nodes.Object_51 as THREE.SkinnedMesh).geometry
-                        }
+                        geometry={(nodes.Object_51 as THREE.SkinnedMesh).geometry}
                         material={materials.BirdOrange_LMB}
-                        skeleton={
-                          (nodes.Object_51 as THREE.SkinnedMesh).skeleton
-                        }
+                        skeleton={(nodes.Object_51 as THREE.SkinnedMesh).skeleton}
                       />
                       <group name="Object_50" />
                     </group>

@@ -34,7 +34,7 @@ export default function CreditsPage() {
                     {` ${model.author}`}
                   </a>
                 </p>
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="text-muted-foreground mt-1 text-sm">
                   License:
                   <a
                     href={model.licenseLink}
@@ -53,7 +53,7 @@ export default function CreditsPage() {
         <div className="mt-12 flex justify-center">
           <Link
             href="/"
-            className="rounded-md bg-primary/20 px-4 py-2 text-primary transition-colors hover:bg-primary/30"
+            className="bg-primary/20 text-primary hover:bg-primary/30 rounded-md px-4 py-2 transition-colors"
           >
             Back to Home
           </Link>

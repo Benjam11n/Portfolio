@@ -7,7 +7,7 @@ export default function Loading() {
     <div className="flex h-screen w-full flex-col items-center justify-center gap-8">
       <TextShimmer
         as="h1"
-        className="text-xl font-bold [--base-color:theme(colors.primary.DEFAULT)] [--base-gradient-color:theme(colors.primary.foreground)] md:text-2xl"
+        className="[--base-color:theme(colors.primary.DEFAULT)] [--base-gradient-color:theme(colors.primary.foreground)] text-xl font-bold md:text-2xl"
         duration={1.5}
       >
         Loading...

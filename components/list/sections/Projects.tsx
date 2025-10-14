@@ -9,11 +9,9 @@ import { PROJECTS } from '../../../constants';
 import CanvasLoader from '../CanvasLoader';
 import { DemoComputer } from '../DemoComputer';
 
-// Dynamically import Canvas to prevent SSR issues
-const DynamicCanvas = dynamic(
-  () => import('@react-three/fiber').then((mod) => mod.Canvas),
-  { ssr: false }
-);
+const DynamicCanvas = dynamic(() => import('@react-three/fiber').then((mod) => mod.Canvas), {
+  ssr: false,
+});
 
 const Projects = () => {
   const projectKeys = Object.keys(PROJECTS);
@@ -33,12 +31,10 @@ const Projects = () => {
 
   return (
     <section className="c-space my-20" id="projects">
-      <h2 className="mb-4 max-w-4xl font-comic text-3xl md:text-5xl">
-        My Projects
-      </h2>
+      <h2 className="font-comic mb-4 max-w-4xl text-3xl md:text-5xl">My Projects</h2>
       <div className="mt-12 grid w-full grid-cols-1 gap-5 lg:grid-cols-2">
         <div className="relative flex flex-col gap-5 rounded-md px-5 py-10 shadow-2xl sm:p-10">
-          <div className="absolute right-0 top-0 h-96 w-full">
+          <div className="absolute top-0 right-0 h-96 w-full">
             <Image
               src={currentProject.spotlight}
               alt="spotlight"
@@ -47,10 +43,7 @@ const Projects = () => {
             />
           </div>
 
-          <div
-            className="w-fit rounded-lg p-3 backdrop-blur-3xl"
-            style={currentProject.logoStyle}
-          >
+          <div className="w-fit rounded-lg p-3 backdrop-blur-3xl" style={currentProject.logoStyle}>
             <Image
               src={currentProject.logo}
               alt="logo"
@@ -102,39 +95,18 @@ const Projects = () => {
                   rel="noreferrer"
                 >
                   <p>View Project</p>
-                  <Image
-                    src="/assets/arrow-up.png"
-                    alt="arrow"
-                    width={12}
-                    height={12}
-                  />
+                  <Image src="/assets/arrow-up.png" alt="arrow" width={12} height={12} />
                 </a>
               )}
             </div>
           </div>
 
           <div className="mt-7 flex items-center justify-between">
-            <button
-              className="arrow-btn"
-              onClick={() => handleNavigation('previous')}
-            >
-              <Image
-                src="/assets/left-arrow.png"
-                alt="left arrow"
-                width={16}
-                height={16}
-              />
+            <button className="arrow-btn" onClick={() => handleNavigation('previous')}>
+              <Image src="/assets/left-arrow.png" alt="left arrow" width={16} height={16} />
             </button>
-            <button
-              className="arrow-btn"
-              onClick={() => handleNavigation('next')}
-            >
-              <Image
-                src="/assets/right-arrow.png"
-                alt="right arrow"
-                width={16}
-                height={16}
-              />
+            <button className="arrow-btn" onClick={() => handleNavigation('next')}>
+              <Image src="/assets/right-arrow.png" alt="right arrow" width={16} height={16} />
             </button>
           </div>
         </div>

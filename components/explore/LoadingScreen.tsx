@@ -19,11 +19,7 @@ const LoadingScreen = () => {
 
   return (
     <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-[#0a0a0a] transition-opacity duration-500 ease-out">
-      <TextShimmer
-        as="h1"
-        className="text-xl font-bold tracking-wide md:text-2xl"
-        duration={1.5}
-      >
+      <TextShimmer as="h1" className="text-xl font-bold tracking-wide md:text-2xl" duration={1.5}>
         Loading...
       </TextShimmer>
     </div>

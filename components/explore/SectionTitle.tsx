@@ -8,12 +8,7 @@ interface SectionTitleProps {
   [key: string]: unknown;
 }
 
-export const SectionTitle = ({
-  children,
-  font,
-  color = 'white',
-  ...props
-}: SectionTitleProps) => {
+export const SectionTitle = ({ children, font, color = 'white', ...props }: SectionTitleProps) => {
   return (
     <Text3D
       font={font ? font : 'fonts/Inter_Bold.json'}

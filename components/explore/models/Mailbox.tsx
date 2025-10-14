@@ -78,7 +78,7 @@ export function Mailbox(props: JSX.IntrinsicElements['group']) {
       material.emissiveIntensity = THREE.MathUtils.lerp(
         material.emissiveIntensity,
         mailBoxHovered ? 0.32 : 0,
-        0.1
+        0.1,
       );
     });
   });

@@ -30,18 +30,8 @@ const ExperienceSection = () => {
       </group>
       <group position-x={isMobile ? 0 : -2.2}>
         <BookCase position-z={-2} />
-        <CouchSmall
-          scale={0.4}
-          position-z={0}
-          position-x={-0.02}
-          rotation-y={Math.PI / 3}
-        />
-        <Lamp
-          position-z={0.6}
-          position-x={-0.4}
-          position-y={-0.8}
-          rotation-y={-Math.PI}
-        />
+        <CouchSmall scale={0.4} position-z={0} position-x={-0.02} rotation-y={Math.PI / 3} />
+        <Lamp position-z={0.6} position-x={-0.4} position-y={-0.8} rotation-y={-Math.PI} />
       </group>
     </motion.group>
   );

@@ -10,7 +10,6 @@ import { MacBookPro } from '../models/MacBookPro';
 import { OrangeBird } from '../models/OrangeBird';
 import { SectionTitle } from '../SectionTitle';
 
-
 const Home = () => {
   const { isMobile, scaleFactor } = useMobile();
   return (

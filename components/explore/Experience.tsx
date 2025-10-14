@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  ContactShadows,
-  Environment,
-  SpotLight,
-  useScroll,
-} from '@react-three/drei';
+import { ContactShadows, Environment, SpotLight, useScroll } from '@react-three/drei';
 import { GroupProps, useFrame } from '@react-three/fiber';
 import { Physics, RigidBody } from '@react-three/rapier';
 import { motion } from 'framer-motion-3d';
@@ -43,11 +38,7 @@ export const Experience = () => {
       sceneContainer.current.position.x = 0;
     }
 
-    setSection(
-      exploreInfo.sections[
-        Math.round(scrollData.offset * (scrollData.pages - 1))
-      ]
-    );
+    setSection(exploreInfo.sections[Math.round(scrollData.offset * (scrollData.pages - 1))]);
 
     // Update spotlights
     if (frontSpotlightRef.current && backSpotlightRef.current) {
@@ -77,14 +68,12 @@ export const Experience = () => {
 
   useEffect(() => {
     const handleHashChange = () => {
-      const sectionIndex = exploreInfo.sections.indexOf(
-        window.location.hash.replace('#', '')
-      );
+      const sectionIndex = exploreInfo.sections.indexOf(window.location.hash.replace('#', ''));
       if (sectionIndex >= 0) {
         scrollData.el.scrollTo(
           0,
           (sectionIndex / (exploreInfo.sections.length - 1)) *
-            (scrollData.el.scrollHeight - scrollData.el.clientHeight)
+            (scrollData.el.scrollHeight - scrollData.el.clientHeight),
         );
       }
     };
@@ -118,30 +107,17 @@ export const Experience = () => {
         castShadow
         distance={20}
       />
-      <ContactShadows
-        opacity={0.4}
-        scale={[30, 30]}
-        color="#ff5c5c"
-        blur={2.5}
-        far={10}
-      />
+      <ContactShadows opacity={0.4} scale={[30, 30]} color="#ff5c5c" blur={2.5} far={10} />
       {/* Black floor plane */}
       <Physics>
         <RigidBody type="fixed">
           <mesh position-y={-0.001} rotation-x={-Math.PI / 2}>
             <planeGeometry args={[100, 100]} />
-            <meshStandardMaterial
-              color="#0a0a0a"
-              metalness={0}
-              envMapIntensity={0.2}
-            />
+            <meshStandardMaterial color="#0a0a0a" metalness={0} envMapIntensity={0.2} />
           </mesh>
         </RigidBody>
       </Physics>
-      <motion.group
-        ref={sceneContainer as unknown as RefObject<GroupProps>}
-        animate={section}
-      >
+      <motion.group ref={sceneContainer as unknown as RefObject<GroupProps>} animate={section}>
         {/* HOME */}
         <Home />
         {/* ABOUT */}

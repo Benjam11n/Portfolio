@@ -11,7 +11,6 @@ import { ParkBench } from '../models/ParkBench';
 import { Tree } from '../models/Tree';
 import { SectionTitle } from '../SectionTitle';
 
-
 const Contact = () => {
   const { isMobile, scaleFactor } = useMobile();
 
@@ -30,12 +29,7 @@ const Contact = () => {
         CONTACT
       </SectionTitle>
       <group position-x={-2 * scaleFactor}>
-        <ParkBench
-          scale={0.5}
-          position-x={-0.5}
-          position-z={-2.5}
-          rotation-y={-Math.PI / 4}
-        />
+        <ParkBench scale={0.5} position-x={-0.5} position-z={-2.5} rotation-y={-Math.PI / 4} />
         <group position-y={2.2} position-z={-0.5}>
           <Float floatIntensity={2} rotationIntensity={1.5}>
             <Balloon scale={1.5} position-x={-0.5} color="#71a2d9" />

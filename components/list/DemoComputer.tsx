@@ -37,9 +37,7 @@ export function DemoComputer({ texture, ...props }: { texture?: string }) {
   const group = useRef<THREE.Group>(null);
   const { nodes, materials } = useGLTF('/models/computer.glb') as GLTFResult;
 
-  const txt = useVideoTexture(
-    texture ? texture : '/textures/project/project1.mp4'
-  );
+  const txt = useVideoTexture(texture ? texture : '/textures/project/project1.mp4');
 
   useEffect(() => {
     if (txt) {

@@ -10,7 +10,6 @@ import { GLTF, SkeletonUtils } from 'three-stdlib';
 
 import { useMobile } from '@/hooks/use-mobile';
 
-
 type GLTFResult = GLTF & {
   nodes: {
     EyeLeft: THREE.SkinnedMesh & {
@@ -83,17 +82,12 @@ export function Avatar(props: JSX.IntrinsicElements['group']) {
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const { nodes, materials } = useGraph(clone) as GLTFResult;
   const { animations: idleAnimation } = useFBX('/models/animations/idle.fbx');
-  const { animations: walkingAnimation } = useFBX(
-    '/models/animations/walking.fbx'
-  );
+  const { animations: walkingAnimation } = useFBX('/models/animations/walking.fbx');
 
   idleAnimation[0].name = 'idle';
   walkingAnimation[0].name = 'walking';
 
-  const { actions } = useAnimations(
-    [idleAnimation[0], walkingAnimation[0]],
-    group
-  );
+  const { actions } = useAnimations([idleAnimation[0], walkingAnimation[0]], group);
   const [currentAnimation, setCurrentAnimation] = useState('idle');
   const scrollData = useScroll();
   const lastScroll = useRef(0);
@@ -138,13 +132,7 @@ export function Avatar(props: JSX.IntrinsicElements['group']) {
 
         // Use the same rotation logic as the working version
         rotationTarget =
-          scrollDelta > 0
-            ? isMobile
-              ? Math.PI / 2
-              : 0
-            : isMobile
-              ? -Math.PI / 2
-              : Math.PI;
+          scrollDelta > 0 ? (isMobile ? Math.PI / 2 : 0) : isMobile ? -Math.PI / 2 : Math.PI;
 
         if (actions['idle'] && actions['walking']) {
           actions['idle'].setEffectiveWeight(0);
@@ -158,19 +146,11 @@ export function Avatar(props: JSX.IntrinsicElements['group']) {
         animationTimeout.current = setTimeout(() => {
           if (actions['idle'] && actions['walking']) {
             actions['idle'].setEffectiveWeight(
-              THREE.MathUtils.lerp(
-                actions['idle'].getEffectiveWeight(),
-                isMoving ? 0 : 1,
-                0.1
-              )
+              THREE.MathUtils.lerp(actions['idle'].getEffectiveWeight(), isMoving ? 0 : 1, 0.1),
             );
 
             actions['walking'].setEffectiveWeight(
-              THREE.MathUtils.lerp(
-                actions['walking'].getEffectiveWeight(),
-                isMoving ? 1 : 0,
-                0.1
-              )
+              THREE.MathUtils.lerp(actions['walking'].getEffectiveWeight(), isMoving ? 1 : 0, 0.1),
             );
           }
         }, 150);
@@ -181,7 +161,7 @@ export function Avatar(props: JSX.IntrinsicElements['group']) {
         group.current.rotation.y = THREE.MathUtils.lerp(
           group.current.rotation.y,
           rotationTarget,
-          0.07
+          0.07,
         );
       }
 

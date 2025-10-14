@@ -38,23 +38,13 @@ const ExplorePage = () => {
           onDismiss={() => setShowWarning(false)}
         />
       )}
-      <Canvas
-        camera={{ position: [0, 0.5, 5], fov: 42 }}
-        className="relative h-screen w-full"
-      >
-        <PerformanceMonitor
-          onDecline={handlePerformanceDecline}
-          threshold={0.8}
-        />
+      <Canvas camera={{ position: [0, 0.5, 5], fov: 42 }} className="relative h-screen w-full">
+        <PerformanceMonitor onDecline={handlePerformanceDecline} threshold={0.8} />
         <color attach="background" args={['#010103']} />
         <fog attach="fog" args={['#0d0d0d', 10, 50]} />
         <CameraController />
         <ambientLight intensity={0.5} />
-        <ScrollControls
-          pages={exploreInfo.sections.length + 0.05}
-          damping={0.1}
-          maxSpeed={0.2}
-        >
+        <ScrollControls pages={exploreInfo.sections.length + 0.05} damping={0.1} maxSpeed={0.2}>
           <group position-y={-1}>
             <MotionConfig transition={{ duration: 0.6 }}>
               <Suspense>

@@ -1,10 +1,6 @@
 import Navigation from '@/components/Navigation';
 
-export default function ExploreLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ExploreLayout({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <Navigation />

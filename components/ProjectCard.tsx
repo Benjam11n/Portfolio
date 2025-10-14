@@ -6,7 +6,6 @@ import { useState } from 'react';
 
 import { Card } from '@/components/ui/card';
 
-
 interface ProjectCardProps {
   title: string;
   description: string;
@@ -14,12 +13,7 @@ interface ProjectCardProps {
   link: string;
 }
 
-export default function ProjectCard({
-  title,
-  description,
-  image,
-  link,
-}: ProjectCardProps) {
+export default function ProjectCard({ title, description, image, link }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -45,7 +39,7 @@ export default function ProjectCard({
           <p className="text-muted-foreground">{description}</p>
           <a
             href={link}
-            className="mt-4 inline-block text-primary hover:underline"
+            className="text-primary mt-4 inline-block hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
