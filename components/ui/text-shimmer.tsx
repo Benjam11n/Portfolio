@@ -1,4 +1,5 @@
 'use client';
+
 import { motion } from 'framer-motion';
 import React, { useMemo, type JSX } from 'react';
 
@@ -12,13 +13,13 @@ interface TextShimmerProps {
   spread?: number;
 }
 
-export function TextShimmer({
+export const TextShimmer = ({
   children,
   as: Component = 'p',
   className,
   duration = 2,
   spread = 2,
-}: TextShimmerProps) {
+}: TextShimmerProps) => {
   const MotionComponent = motion.create(Component as keyof JSX.IntrinsicElements);
 
   const dynamicSpread = useMemo(() => {

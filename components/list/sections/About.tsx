@@ -4,12 +4,13 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
+import Button from '../Button';
+
 import { Gravity, MatterBody } from '@/components/ui/gravity';
 import { TextShimmer } from '@/components/ui/text-shimmer';
 import { EMAIL, exploreInfo } from '@/constants';
 import { cn } from '@/lib/utils';
 
-import Button from '../Button';
 
 interface Skill {
   name: string;
@@ -314,10 +315,11 @@ const About = () => {
             />
 
             <div>
-              <p className="grid-headtext">What I'm Currently Learning</p>
+              <p className="grid-headtext">What I&apos;m Currently Learning</p>
               <p className="grid-subtext">
-                I'm always expanding my skill set and exploring new technologies. Right now, I'm
-                diving deep into AI-powered applications, and 3D web experiences with Three.js.
+                I&apos;m always expanding my skill set and exploring new technologies. Right now,
+                I&apos;m diving deep into AI-powered applications, and 3D web experiences with
+                Three.js.
               </p>
             </div>
           </div>
@@ -356,7 +358,7 @@ const About = () => {
               </p>
               <p className="grid-subtext">
                 I&apos;m based in Singapore and open to remote work worldwide. Feel free to reach
-                out—let's build something great together!
+                out—let&apos;s build something great together!
               </p>
               <Button name="Contact Me" isBeam containerClass="w-full mt-10" />
             </div>
@@ -365,8 +367,7 @@ const About = () => {
         <div className="xl:col-span-2 xl:row-span-3">
           <div className="grid-container relative">
             <div className="relative min-h-[200px] sm:min-h-[300px]">
-              {isClient && (
-                <Gravity
+              {isClient ? <Gravity
                   gravity={{ x: 0, y: 0.5 }}
                   className="absolute inset-0"
                   resetOnResize={true}
@@ -404,8 +405,7 @@ const About = () => {
                       </div>
                     </MatterBody>
                   ))}
-                </Gravity>
-              )}
+                </Gravity> : null}
             </div>
 
             <div className="mt-4 sm:mt-6">

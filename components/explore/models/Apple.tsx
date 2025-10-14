@@ -9,8 +9,8 @@ Title: Low-Poly Red Apple
 import { useGLTF } from '@react-three/drei';
 import { RigidBody } from '@react-three/rapier';
 import React, { useRef } from 'react';
-import * as THREE from 'three';
-import { GLTF } from 'three-stdlib';
+import type * as THREE from 'three';
+import type { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -23,7 +23,7 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function Apple(props: JSX.IntrinsicElements['group']) {
+export const Apple = (props: JSX.IntrinsicElements['group']) => {
   const { nodes, materials } = useGLTF('/models/Apple.glb') as GLTFResult;
   const rigidBody = useRef<any>();
 

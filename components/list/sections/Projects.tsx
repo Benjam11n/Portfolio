@@ -5,10 +5,11 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { Suspense, useState } from 'react';
 
-import { PROJECTS } from '@/constants';
 
 import CanvasLoader from '../CanvasLoader';
 import { DemoComputer } from '../DemoComputer';
+
+import { PROJECTS } from '@/constants';
 
 const DynamicCanvas = dynamic(() => import('@react-three/fiber').then((mod) => mod.Canvas), {
   ssr: false,
@@ -70,8 +71,7 @@ const Projects = () => {
             </div>
 
             <div className="flex items-center gap-4">
-              {currentProject.github && (
-                <a
+              {currentProject.github ? <a
                   className="flex cursor-pointer items-center gap-2"
                   href={currentProject.github}
                   target="_blank"
@@ -85,11 +85,9 @@ const Projects = () => {
                     height={24}
                     className="opacity-80 transition-opacity hover:opacity-100"
                   />
-                </a>
-              )}
+                </a> : null}
 
-              {currentProject?.href && (
-                <a
+              {currentProject?.href ? <a
                   className="flex cursor-pointer items-center gap-2"
                   href={currentProject.href}
                   target="_blank"
@@ -97,8 +95,7 @@ const Projects = () => {
                 >
                   <p>View Project</p>
                   <Image src="/assets/arrow-up.png" alt="arrow" width={12} height={12} />
-                </a>
-              )}
+                </a> : null}
             </div>
           </div>
 

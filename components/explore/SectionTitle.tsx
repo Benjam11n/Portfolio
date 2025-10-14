@@ -1,5 +1,5 @@
 import { Text3D } from '@react-three/drei';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface SectionTitleProps {
   children: ReactNode;

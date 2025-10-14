@@ -6,10 +6,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
+import { projectAtom } from './atoms';
+
 import { exploreInfo } from '@/constants';
 import { useMobile } from '@/hooks/use-mobile';
 
-import { projectAtom } from './atoms';
 
 export const Interface = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -83,11 +84,9 @@ export const Interface = () => {
                   </div>
                   <div className="space-y-2 p-4">
                     <h2 className="text-lg font-semibold tracking-tight">{experience.name}</h2>
-                    {experience.description && (
-                      <p className="line-clamp-2 text-sm leading-relaxed">
+                    {experience.description ? <p className="line-clamp-2 text-sm leading-relaxed">
                         {experience.description}
-                      </p>
-                    )}
+                      </p> : null}
                   </div>
                 </motion.div>
               );
@@ -137,11 +136,9 @@ export const Interface = () => {
                       </div>
                       <div className="space-y-2 p-4">
                         <h2 className="text-lg font-semibold tracking-tight">{project.name}</h2>
-                        {project.description && (
-                          <p className="line-clamp-2 text-sm leading-relaxed">
+                        {project.description ? <p className="line-clamp-2 text-sm leading-relaxed">
                             {project.description}
-                          </p>
-                        )}
+                          </p> : null}
                       </div>
                     </Link>
                   ) : (
@@ -158,11 +155,9 @@ export const Interface = () => {
                       </div>
                       <div className="space-y-2 p-4">
                         <h2 className="text-lg font-semibold tracking-tight">{project.name}</h2>
-                        {project.description && (
-                          <p className="line-clamp-2 text-sm leading-relaxed">
+                        {project.description ? <p className="line-clamp-2 text-sm leading-relaxed">
                             {project.description}
-                          </p>
-                        )}
+                          </p> : null}
                       </div>
                     </>
                   )}

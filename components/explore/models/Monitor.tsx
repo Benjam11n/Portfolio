@@ -1,7 +1,7 @@
 import { useGLTF } from '@react-three/drei';
 import React from 'react';
-import * as THREE from 'three';
-import { GLTF } from 'three-stdlib';
+import type * as THREE from 'three';
+import type { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -12,7 +12,7 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function Monitor(props: JSX.IntrinsicElements['group']) {
+export const Monitor = (props: JSX.IntrinsicElements['group']) => {
   const { nodes, materials } = useGLTF('/models/Monitor.glb') as GLTFResult;
   return (
     <group {...props} dispose={null}>

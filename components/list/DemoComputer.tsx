@@ -6,8 +6,8 @@ import { useGSAP } from '@gsap/react';
 import { useGLTF, useVideoTexture } from '@react-three/drei';
 import gsap from 'gsap';
 import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
-import { GLTF } from 'three-stdlib';
+import type * as THREE from 'three';
+import type { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -33,7 +33,7 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function DemoComputer({ texture, ...props }: { texture?: string }) {
+export const DemoComputer = ({ texture, ...props }: { texture?: string }) => {
   const group = useRef<THREE.Group>(null);
   const { nodes, materials } = useGLTF('/models/computer.glb') as GLTFResult;
 
@@ -1044,6 +1044,6 @@ export function DemoComputer({ texture, ...props }: { texture?: string }) {
       </group>
     </group>
   );
-}
+};
 
 useGLTF.preload('/models/computer.glb');

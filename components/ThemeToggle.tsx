@@ -7,7 +7,7 @@ import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 
-export function ThemeToggle() {
+export const ThemeToggle = () => {
   const { setTheme, theme, systemTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 

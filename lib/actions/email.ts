@@ -13,7 +13,7 @@ const formSchema = z.object({
 type ContactFormValues = z.infer<typeof formSchema>;
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const fromEmail = process.env.FROM_EMAIL || 'onboarding@resend.dev';
+const fromEmail = process.env.FROM_EMAIL ?? 'onboarding@resend.dev';
 
 export async function sendEmail(formData: ContactFormValues) {
   try {
@@ -146,7 +146,7 @@ Sent on: ${new Date().toLocaleDateString()}
 
     const { data, error } = await resend.emails.send({
       from: fromEmail,
-      to: [process.env.TO_EMAIL || 'ben.wang9000@example.com'],
+      to: [process.env.TO_EMAIL ?? 'ben.wang9000@example.com'],
       subject: `Contact Request: ${subject}`,
       replyTo: email,
       text: textContent,

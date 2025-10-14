@@ -8,8 +8,8 @@ Title: Birch Tree - Low Poly
 
 import { useGLTF, useAnimations } from '@react-three/drei';
 import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
-import { GLTF } from 'three-stdlib';
+import type * as THREE from 'three';
+import type { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -24,7 +24,7 @@ type GLTFResult = GLTF & {
 type ActionName = 'Armature|ArmatureAction';
 type GLTFActions = Record<ActionName, THREE.AnimationAction>;
 
-export function BirchTree(props: JSX.IntrinsicElements['group']) {
+export const BirchTree = (props: JSX.IntrinsicElements['group']) => {
   const group = useRef<THREE.Group>(null);
   const { nodes, materials, animations } = useGLTF('/models/BirchTree.glb') as GLTFResult;
   const { actions } = useAnimations(animations, group);

@@ -1,9 +1,10 @@
 import { useTexture } from '@react-three/drei';
 import { useAtom } from 'jotai';
 
+import { projectAtom } from '../atoms';
+
 import { exploreInfo } from '@/constants';
 
-import { projectAtom } from '../atoms';
 
 const MonitorScreen = ({ ...props }) => {
   const [project] = useAtom(projectAtom);

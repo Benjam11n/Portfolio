@@ -1,12 +1,13 @@
 'use client';
+
 import { motion } from 'framer-motion';
-import { LucideIcon } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-import { cn } from '@/lib/utils';
-
 import ViewToggle from '../explore/ViewToggle';
+
+import { cn } from '@/lib/utils';
 
 interface NavItem {
   name: string;
@@ -19,7 +20,7 @@ interface NavBarProps {
   className?: string;
 }
 
-export function NavBar({ items, className }: NavBarProps) {
+export const NavBar = ({ items, className }: NavBarProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState(items[0].name);
@@ -59,7 +60,7 @@ export function NavBar({ items, className }: NavBarProps) {
 
   const handleClick = (href: string) => {
     if (typeof window !== 'undefined') {
-      window.location.href = href;
+      router.push(href);
     }
   };
 
@@ -75,7 +76,7 @@ export function NavBar({ items, className }: NavBarProps) {
   return (
     <>
       {/* Mobile Menu Toggle */}
-      {isMobile && (
+      {isMobile ? (
         <div className="pointer-events-auto fixed right-4 top-4 z-50 flex items-center gap-3">
           {/* View Toggle */}
           <div className="rounded-full border border-border bg-background/10 p-2 backdrop-blur-lg">
@@ -111,7 +112,7 @@ export function NavBar({ items, className }: NavBarProps) {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
       {/* Main Navigation */}
       <div
         className={cn(
@@ -143,7 +144,7 @@ export function NavBar({ items, className }: NavBarProps) {
                   <span className="md:hidden">
                     <Icon size={18} strokeWidth={2.5} />
                   </span>
-                  {isActive && (
+                  {isActive ? (
                     <motion.div
                       layoutId="lamp"
                       className="absolute inset-0 -z-10 w-full rounded-full bg-primary/5"
@@ -160,7 +161,7 @@ export function NavBar({ items, className }: NavBarProps) {
                         <div className="absolute left-2 top-0 size-4 rounded-full bg-primary/20 blur-sm" />
                       </div>
                     </motion.div>
-                  )}
+                  ) : null}
                 </div>
               );
             })}
@@ -190,4 +191,4 @@ export function NavBar({ items, className }: NavBarProps) {
       </div>
     </>
   );
-}
+};
