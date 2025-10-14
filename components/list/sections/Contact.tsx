@@ -73,10 +73,10 @@ export default function Contact() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="font-comic mx-auto mb-12 max-w-7xl pt-20"
+          className="mx-auto mb-12 max-w-7xl pt-20 font-comic"
         >
           <h2 className="mb-4 max-w-4xl text-3xl md:text-5xl">Contact Me</h2>
-          <p className="text-muted-foreground max-w-lg md:text-lg">
+          <p className="max-w-lg text-muted-foreground md:text-lg">
             Have a project in mind or just want to chat? I&apos;d love to hear from you. Drop me a
             message and I&apos;ll try to get back to you as soon as possible.
           </p>
@@ -96,17 +96,17 @@ export default function Contact() {
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-card hover:bg-accent block rounded-lg p-6 transition-colors"
+                className="block rounded-lg bg-card p-6 transition-colors hover:bg-accent"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="flex items-center space-x-4">
-                  <div className="bg-primary/10 rounded-full p-2">
-                    <item.icon className="text-primary size-6" />
+                  <div className="rounded-full bg-primary/10 p-2">
+                    <item.icon className="size-6 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-medium">{item.title}</h3>
-                    <p className="text-muted-foreground text-sm">{item.value}</p>
+                    <p className="text-sm text-muted-foreground">{item.value}</p>
                   </div>
                 </div>
               </motion.a>
@@ -118,7 +118,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="bg-card rounded-lg p-8 md:col-span-2"
+            className="rounded-lg bg-card p-8 md:col-span-2"
           >
             {isSubmitted ? (
               <motion.div
@@ -127,7 +127,7 @@ export default function Contact() {
                 className="flex h-full flex-col items-center justify-center text-center"
               >
                 <p className="mb-4 text-2xl font-bold">Thank you for your message!</p>
-                <p className="text-muted-foreground mb-8">
+                <p className="mb-8 text-muted-foreground">
                   I&apos;ll get back to you as soon as possible.
                 </p>
                 <Button onClick={() => setIsSubmitted(false)} variant="outline">

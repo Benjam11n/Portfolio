@@ -31,9 +31,9 @@ const Experience = () => {
   return (
     <section className="c-space my-20" id="experience">
       <div className="w-full" ref={containerRef}>
-        <div className="font-comic mx-auto max-w-7xl pt-20">
+        <div className="mx-auto max-w-7xl pt-20 font-comic">
           <h2 className="mb-4 max-w-4xl text-3xl md:text-5xl">My Professional Journey</h2>
-          <p className="text-muted-foreground max-w-lg md:text-lg">
+          <p className="max-w-lg text-muted-foreground md:text-lg">
             Here&apos;s a timeline of my career progression and key achievements.
           </p>
         </div>
@@ -46,32 +46,32 @@ const Experience = () => {
                   <div className="size-4 rounded-full border border-neutral-300 bg-neutral-200 p-2 dark:border-neutral-700 dark:bg-neutral-800" />
                 </div>
                 <div className="flex flex-col">
-                  <h4 className="font-comic text-muted-foreground hidden text-lg font-bold md:block md:pl-20 md:text-lg">
+                  <h4 className="hidden font-comic text-lg font-bold text-muted-foreground md:block md:pl-20 md:text-lg">
                     {experience.duration}
                   </h4>
-                  <h3 className="font-comic hidden text-lg font-bold md:block md:pl-20 md:text-4xl">
+                  <h3 className="hidden font-comic text-lg font-bold md:block md:pl-20 md:text-4xl">
                     {experience.name}
                   </h3>
                 </div>
               </div>
 
-              <div className="relative w-full pr-4 pl-20 md:pl-4">
-                <h3 className="font-comic mb-4 block text-left text-lg font-bold md:hidden">
+              <div className="relative w-full pl-20 pr-4 md:pl-4">
+                <h3 className="mb-4 block text-left font-comic text-lg font-bold md:hidden">
                   {experience.name}
                 </h3>
-                <h4 className="font-comic text-muted-foreground mb-4 block text-left text-lg font-bold md:hidden">
+                <h4 className="mb-4 block text-left font-comic text-lg font-bold text-muted-foreground md:hidden">
                   {experience.duration}
                 </h4>
                 <div>
                   <TextShimmer
                     as="h4"
-                    className="[--base-color:theme(colors.primary.DEFAULT)] [--base-gradient-color:theme(colors.primary.foreground)] mb-4 text-xl font-semibold md:text-xl"
+                    className="mb-4 text-xl font-semibold [--base-color:theme(colors.primary.DEFAULT)] [--base-gradient-color:theme(colors.primary.foreground)] md:text-xl"
                     duration={2.5}
                   >
                     {experience.pos}
                   </TextShimmer>
 
-                  <p className="text-muted-foreground mb-8 text-base leading-relaxed">
+                  <p className="mb-8 text-base leading-relaxed text-muted-foreground">
                     {experience.title}
                   </p>
 
@@ -109,7 +109,7 @@ const Experience = () => {
 
           <div
             style={{ height: height + 'px' }}
-            className="absolute top-0 left-8 w-[2px] overflow-hidden md:left-8"
+            className="absolute left-8 top-0 w-[2px] overflow-hidden md:left-8"
           >
             <motion.div
               style={{
