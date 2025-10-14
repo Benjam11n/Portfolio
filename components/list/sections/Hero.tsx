@@ -7,11 +7,11 @@ import { GITHUB_URL, LINKEDIN_URL } from '@/constants';
 
 const Hero = () => {
   return (
-    <section className="font-comic flex h-screen items-center justify-center px-4" id="home">
+    <section className="flex h-screen items-center justify-center px-4 font-comic" id="home">
       <div className="c-space mx-auto flex w-full flex-col gap-3">
-        <p className="font-comic z-20 text-center text-2xl font-medium sm:text-3xl">Hi, I&apos;m</p>
-        <h1 className="font-comic mb-6 text-center text-6xl font-bold lg:text-8xl">Benjamin</h1>
-        <p className="font-comic text-muted-foreground mb-8 text-center text-xl">
+        <p className="z-20 text-center font-comic text-2xl font-medium sm:text-3xl">Hi, I&apos;m</p>
+        <h1 className="mb-6 text-center font-comic text-6xl font-bold lg:text-8xl">Benjamin</h1>
+        <p className="mb-8 text-center font-comic text-xl text-muted-foreground">
           Full Stack Developer & AI Enthusiast
         </p>
         <div className="flex justify-center gap-4">

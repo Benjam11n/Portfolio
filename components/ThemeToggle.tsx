@@ -41,7 +41,7 @@ export function ThemeToggle() {
           {currentTheme === 'light' ? (
             <Sun className="size-4 text-yellow-500 transition-transform group-hover:scale-110" />
           ) : (
-            <Moon className="text-primary size-4 transition-transform group-hover:scale-110" />
+            <Moon className="size-4 text-primary transition-transform group-hover:scale-110" />
           )}
         </motion.div>
       </AnimatePresence>

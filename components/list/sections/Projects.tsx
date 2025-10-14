@@ -31,10 +31,10 @@ const Projects = () => {
 
   return (
     <section className="c-space my-20" id="projects">
-      <h2 className="font-comic mb-4 max-w-4xl text-3xl md:text-5xl">My Projects</h2>
+      <h2 className="mb-4 max-w-4xl font-comic text-3xl md:text-5xl">My Projects</h2>
       <div className="mt-12 grid w-full grid-cols-1 gap-5 lg:grid-cols-2">
         <div className="relative flex flex-col gap-5 rounded-md px-5 py-10 shadow-2xl sm:p-10">
-          <div className="absolute top-0 right-0 h-96 w-full">
+          <div className="absolute right-0 top-0 h-96 w-full">
             <Image
               src={currentProject.spotlight}
               alt="spotlight"
