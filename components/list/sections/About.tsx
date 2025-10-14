@@ -1,28 +1,28 @@
-'use client';
+"use client";
 
-import dynamic from 'next/dynamic';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
-import { Gravity, MatterBody } from '@/components/ui/gravity';
-import { TextShimmer } from '@/components/ui/text-shimmer';
-import { EMAIL, exploreInfo } from '@/constants';
-import { cn } from '@/lib/utils';
+import { Gravity, MatterBody } from "@/components/ui/gravity";
+import { TextShimmer } from "@/components/ui/text-shimmer";
+import { EMAIL, exploreInfo } from "@/constants";
+import { cn } from "@/lib/utils";
 
-import Button from '../Button';
+import Button from "../Button";
 
 interface Skill {
   name: string;
   color: string;
-  size: 'sm' | 'md' | 'lg' | 'xl';
+  size: "sm" | "md" | "lg" | "xl";
   icon: (props: { className: string }) => JSX.Element;
 }
 
 const skills: Skill[] = [
   {
-    name: 'React',
-    color: '#001b59',
-    size: 'xl',
+    name: "React",
+    color: "#001b59",
+    size: "xl",
     icon: (props) => (
       <Image
         src="/assets/react.svg"
@@ -34,9 +34,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'TypeScript',
-    color: '#3178C6',
-    size: 'xl',
+    name: "TypeScript",
+    color: "#3178C6",
+    size: "xl",
     icon: (props) => (
       <Image
         src="/assets/typescript.svg"
@@ -48,9 +48,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'Next.js',
-    color: '#FFFFFF',
-    size: 'lg',
+    name: "Next.js",
+    color: "#FFFFFF",
+    size: "lg",
     icon: (props) => (
       <Image
         src="/assets/nextjs.svg"
@@ -62,9 +62,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'Node.js',
-    color: '#215732',
-    size: 'lg',
+    name: "Node.js",
+    color: "#215732",
+    size: "lg",
     icon: (props) => (
       <Image
         src="/assets/node.svg"
@@ -76,9 +76,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'Python',
-    color: '#306998',
-    size: 'xl',
+    name: "Python",
+    color: "#306998",
+    size: "xl",
     icon: (props) => (
       <Image
         src="/assets/python.svg"
@@ -90,9 +90,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'Java',
-    color: '#FFFFFF',
-    size: 'xl',
+    name: "Java",
+    color: "#FFFFFF",
+    size: "xl",
     icon: (props) => (
       <Image
         src="/assets/java.svg"
@@ -104,9 +104,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'Golang',
-    color: '#FFFFFF',
-    size: 'md',
+    name: "Golang",
+    color: "#FFFFFF",
+    size: "md",
     icon: (props) => (
       <Image
         src="/assets/golang.svg"
@@ -118,9 +118,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'Zustand',
-    color: '#E67E22',
-    size: 'lg',
+    name: "Zustand",
+    color: "#E67E22",
+    size: "lg",
     icon: (props) => (
       <Image
         src="/assets/zustand.png"
@@ -132,9 +132,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'Docker',
-    color: '#1D63ED',
-    size: 'md',
+    name: "Docker",
+    color: "#1D63ED",
+    size: "md",
     icon: (props) => (
       <Image
         src="/assets/docker.svg"
@@ -146,9 +146,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'PostgreSQL',
-    color: '#2F5E8D',
-    size: 'lg',
+    name: "PostgreSQL",
+    color: "#2F5E8D",
+    size: "lg",
     icon: (props) => (
       <Image
         src="/assets/pgsql.svg"
@@ -160,9 +160,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'MongoDB',
-    color: '#023430',
-    size: 'lg',
+    name: "MongoDB",
+    color: "#023430",
+    size: "lg",
     icon: (props) => (
       <Image
         src="/assets/mongodb.svg"
@@ -174,9 +174,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'Tailwind',
-    color: '#0F766E',
-    size: 'xl',
+    name: "Tailwind",
+    color: "#0F766E",
+    size: "xl",
     icon: (props) => (
       <Image
         src="/assets/tailwindcss.png"
@@ -188,9 +188,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'Supabase',
-    color: '#525252',
-    size: 'lg',
+    name: "Supabase",
+    color: "#525252",
+    size: "lg",
     icon: (props) => (
       <Image
         src="/assets/supabase.svg"
@@ -202,9 +202,9 @@ const skills: Skill[] = [
     ),
   },
   {
-    name: 'Framer Motion',
-    color: '#2e00a1',
-    size: 'lg',
+    name: "Framer Motion",
+    color: "#2e00a1",
+    size: "lg",
     icon: (props) => (
       <Image
         src="/assets/framer.png"
@@ -215,17 +215,59 @@ const skills: Skill[] = [
       />
     ),
   },
+  {
+    name: "PyTorch",
+    color: "#ffdfab",
+    size: "xl",
+    icon: (props) => (
+      <Image
+        src="/assets/pytorch.svg"
+        alt="PyTorch"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: "pandas",
+    color: "#99c0ff",
+    size: "md",
+    icon: (props) => (
+      <Image
+        src="/assets/pandas.svg"
+        alt="pandas"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
+  {
+    name: "NumPy",
+    color: "#013243",
+    size: "md",
+    icon: (props) => (
+      <Image
+        src="/assets/numpy.svg"
+        alt="NumPy"
+        width={24}
+        height={24}
+        className={props.className}
+      />
+    ),
+  },
 ];
 
 const sizeClasses = {
-  sm: 'h-10 w-10 lg:h-14 lg:w-14',
-  md: 'h-12 w-12 lg:h-16 lg:w-16',
-  lg: 'h-14 w-14 lg:h-20 lg:w-20',
-  xl: 'h-16 w-16 lg:h-24 lg:w-24',
+  sm: "h-10 w-10 lg:h-14 lg:w-14",
+  md: "h-12 w-12 lg:h-16 lg:w-16",
+  lg: "h-14 w-14 lg:h-20 lg:w-20",
+  xl: "h-16 w-16 lg:h-24 lg:w-24",
 };
 
 const Globe = dynamic(
-  () => import('react-globe.gl').then((mod) => mod.default),
+  () => import("react-globe.gl").then((mod) => mod.default),
   { ssr: false }
 );
 
@@ -306,8 +348,8 @@ const About = () => {
                     {
                       lat: 1.29027,
                       lng: 103.851959,
-                      text: 'Singapore',
-                      color: 'white',
+                      text: "Singapore",
+                      color: "white",
                       size: 40,
                     },
                   ]}
@@ -354,19 +396,19 @@ const About = () => {
                       <div
                         className={cn(
                           sizeClasses[
-                            skill.size as 'lg' | 'sm' | 'md' | 'lg' | 'xl'
+                            skill.size as "lg" | "sm" | "md" | "lg" | "xl"
                           ],
-                          'rounded-full hover:cursor-grab flex items-center justify-center',
-                          'transform-gpu transition-transform hover:scale-110',
-                          'shadow-lg hover:shadow-xl'
+                          "rounded-full hover:cursor-grab flex items-center justify-center",
+                          "transform-gpu transition-transform hover:scale-110",
+                          "shadow-lg hover:shadow-xl"
                         )}
                         style={{
                           backgroundColor: skill.color,
-                          position: 'relative',
+                          position: "relative",
                         }}
                       >
                         {skill.icon({
-                          className: 'w-2/3 h-2/3',
+                          className: "w-2/3 h-2/3",
                         })}
                         <div className="absolute inset-0 flex items-center justify-center rounded-full opacity-0 transition-opacity duration-200 hover:opacity-100">
                           <span className="text-xs font-medium text-white">
@@ -403,7 +445,7 @@ const About = () => {
               <p className="grid-subtext text-center">Contact me</p>
               <div className="copy-container" onClick={handleCopy}>
                 <Image
-                  src={hasCopied ? '/assets/tick.svg' : '/assets/copy.svg'}
+                  src={hasCopied ? "/assets/tick.svg" : "/assets/copy.svg"}
                   alt="copy"
                   width={24}
                   height={24}
