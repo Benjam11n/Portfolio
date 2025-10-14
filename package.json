@@ -6,7 +6,9 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "bump-deps": "pnpm dlx npm-check-updates --deep -u -x react-day-picker",
+    "bump-ui": "pnpm dlx shadcn@latest add --all"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
