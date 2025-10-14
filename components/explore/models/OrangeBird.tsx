@@ -9,8 +9,9 @@
 import { useGLTF, useAnimations } from '@react-three/drei';
 import { useGraph } from '@react-three/fiber';
 import React, { useEffect } from 'react';
-import * as THREE from 'three';
-import { GLTF, SkeletonUtils } from 'three-stdlib';
+import type * as THREE from 'three';
+import type { GLTF} from 'three-stdlib';
+import { SkeletonUtils } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -25,7 +26,7 @@ type GLTFResult = GLTF & {
 type ActionName = 'anim';
 type GLTFActions = Record<ActionName, THREE.AnimationAction>;
 
-export function OrangeBird(props: JSX.IntrinsicElements['group']) {
+export const OrangeBird = (props: JSX.IntrinsicElements['group']) => {
   const group = React.useRef<THREE.Group>(null);
   const { scene, animations } = useGLTF('/models/OrangeBird.glb') as GLTFResult;
   const clone = React.useMemo(() => SkeletonUtils.clone(scene), [scene]);

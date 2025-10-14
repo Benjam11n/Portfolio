@@ -6,7 +6,8 @@ import { useAnimations, useFBX, useGLTF, useScroll } from '@react-three/drei';
 import { useFrame, useGraph } from '@react-three/fiber';
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { GLTF, SkeletonUtils } from 'three-stdlib';
+import type { GLTF} from 'three-stdlib';
+import { SkeletonUtils } from 'three-stdlib';
 
 import { useMobile } from '@/hooks/use-mobile';
 
@@ -75,7 +76,7 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function Avatar(props: JSX.IntrinsicElements['group']) {
+export const Avatar = (props: JSX.IntrinsicElements['group']) => {
   const group = useRef<THREE.Group>(null);
   const { isMobile } = useMobile();
   const { scene } = useGLTF('/models/Avatar.glb') as GLTFResult;

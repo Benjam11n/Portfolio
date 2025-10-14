@@ -8,7 +8,7 @@ import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import React, { useRef, useState } from 'react';
 import * as THREE from 'three';
-import { GLTF } from 'three-stdlib';
+import type { GLTF } from 'three-stdlib';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -24,7 +24,7 @@ type BalloonProps = {
   position?: [number, number, number];
 } & JSX.IntrinsicElements['group'];
 
-export function Balloon(props: BalloonProps) {
+export const Balloon = (props: BalloonProps) => {
   const { nodes, materials } = useGLTF('/models/Balloon.glb') as GLTFResult;
   const balloonRef = useRef<THREE.Group>(null);
   const [isFlying, setIsFlying] = useState(false);

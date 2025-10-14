@@ -2,13 +2,14 @@ import { Center, Float } from '@react-three/drei';
 import { motion } from 'framer-motion-3d';
 import * as THREE from 'three';
 
-import { exploreInfo } from '@/constants';
-import { useMobile } from '@/hooks/use-mobile';
 
 import { BirchTree } from '../models/BirchTree';
 import { MacBookPro } from '../models/MacBookPro';
 import { OrangeBird } from '../models/OrangeBird';
 import { SectionTitle } from '../SectionTitle';
+
+import { useMobile } from '@/hooks/use-mobile';
+import { exploreInfo } from '@/constants';
 
 const Home = () => {
   const { isMobile, scaleFactor } = useMobile();

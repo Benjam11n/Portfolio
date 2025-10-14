@@ -6,7 +6,7 @@ import { useCursor, useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import React, { useEffect, useState } from 'react';
 import * as THREE from 'three';
-import { GLTF } from 'three-stdlib';
+import type { GLTF } from 'three-stdlib';
 
 import { exploreInfo } from '@/constants';
 
@@ -60,7 +60,7 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function Mailbox(props: JSX.IntrinsicElements['group']) {
+export const Mailbox = (props: JSX.IntrinsicElements['group']) => {
   const { nodes, materials } = useGLTF('/models/Mailbox.glb') as GLTFResult;
   const [mailBoxHovered, setMailBoxHovered] = useState(false);
 

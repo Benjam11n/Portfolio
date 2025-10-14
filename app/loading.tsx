@@ -2,7 +2,7 @@
 
 import { TextShimmer } from '@/components/ui/text-shimmer';
 
-export default function Loading() {
+const Loading = () => {
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center gap-8">
       <TextShimmer
@@ -14,4 +14,6 @@ export default function Loading() {
       </TextShimmer>
     </div>
   );
-}
+};
+
+export default Loading;

@@ -1,5 +1,6 @@
 import { debounce } from 'lodash';
-import Matter, {
+import type Matter from 'matter-js';
+import {
   Bodies,
   Common,
   Engine,
@@ -11,10 +12,10 @@ import Matter, {
   Runner,
   World,
 } from 'matter-js';
+import type { ReactNode } from 'react';
 import {
   createContext,
   forwardRef,
-  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -470,6 +471,7 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
       }
       frameId.current = requestAnimationFrame(updateElements);
       isRunning.current = true;
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateElements, canvasSize]);
 
     const stopEngine = useCallback(() => {
@@ -490,7 +492,7 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
     const reset = useCallback(() => {
       stopEngine();
       bodiesMap.current.forEach(({ element, body, props }) => {
-        body.angle = props.angle || 0;
+        body.angle = props.angle ?? 0;
 
         const x = calculatePosition(props.x, canvasSize.width, element.offsetWidth);
         const y = calculatePosition(props.y, canvasSize.height, element.offsetHeight);
@@ -499,6 +501,7 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
       });
       updateElements();
       handleResize();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useImperativeHandle(
@@ -508,6 +511,7 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
         stop: stopEngine,
         reset,
       }),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [startEngine, stopEngine],
     );
 

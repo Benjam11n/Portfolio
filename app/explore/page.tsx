@@ -1,4 +1,5 @@
 'use client';
+
 import { PerformanceMonitor, Scroll, ScrollControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { MotionConfig } from 'framer-motion';
@@ -32,12 +33,10 @@ const ExplorePage = () => {
   return (
     <div className="relative h-screen w-full">
       <LoadingScreen />
-      {showWarning && (
-        <PerformanceWarning
+      {showWarning ? <PerformanceWarning
           onSwitch={() => router.push('/list')}
           onDismiss={() => setShowWarning(false)}
-        />
-      )}
+        /> : null}
       <Canvas camera={{ position: [0, 0.5, 5], fov: 42 }} className="relative h-screen w-full">
         <PerformanceMonitor onDecline={handlePerformanceDecline} threshold={0.8} />
         <color attach="background" args={['#010103']} />
