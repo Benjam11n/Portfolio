@@ -46,7 +46,7 @@ interface ProjectTechnology {
   path: string;
 }
 
-export interface Project {
+interface Project {
   id: string;
   title: string;
   description: string;
@@ -386,33 +386,6 @@ export const PROJECTS: Record<string, Project> = {
     spotlight: '/assets/spotlight4.png',
     techStack: [],
   },
-};
-
-export const getProjectsArray = () => Object.values(PROJECTS);
-export const getProjectById = (id: string) => PROJECTS[id];
-export const getProjectsForDisplay = () =>
-  Object.values(PROJECTS).map((project) => ({
-    title: project.title,
-    desc: project.description,
-    subdesc: project.subdesc,
-    href: project.href,
-    texture: project.texture,
-    logo: project.logo,
-    logoStyle: project.logoStyle,
-    spotlight: project.spotlight,
-    tags: project.techStack.map((tech, id) => ({
-      id: id + 1,
-      name: tech.name,
-      path: tech.path,
-    })),
-  }));
-
-export const calculateSizes = (isMobile: boolean) => {
-  return {
-    labPosition: isMobile ? [0.5, -6, 0] : [0, -5.5, 0],
-    spotlightPosition: isMobile ? [0, 7, 3] : [0, 5, 3],
-    avatarPosition: isMobile ? [0, -6, 0.3] : [0, -5.5, 0.3],
-  };
 };
 
 export const workExperiences = [
