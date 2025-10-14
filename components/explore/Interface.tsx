@@ -6,10 +6,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
+import { exploreInfo } from '@/constants';
 import { useMobile } from '@/hooks/use-mobile';
 
 import { projectAtom } from './atoms';
-import { exploreInfo } from '../../constants';
 
 export const Interface = () => {
   const [hasScrolled, setHasScrolled] = useState(false);

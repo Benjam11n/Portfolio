@@ -5,7 +5,8 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { Suspense, useState } from 'react';
 
-import { PROJECTS } from '../../../constants';
+import { PROJECTS } from '@/constants';
+
 import CanvasLoader from '../CanvasLoader';
 import { DemoComputer } from '../DemoComputer';
 
