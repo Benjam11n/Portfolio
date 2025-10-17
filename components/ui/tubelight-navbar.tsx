@@ -1,14 +1,12 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useAtom } from 'jotai';
+import React, { useEffect, useState } from 'react';
 
 import ViewToggle from '../explore/ViewToggle';
 
-import { activeSectionAtom } from '@/components/explore/atoms';
 import { cn } from '@/lib/utils';
 
 interface NavItem {
@@ -25,18 +23,40 @@ interface NavBarProps {
 export const NavBar = ({ items, className }: NavBarProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const [activeTab, setActiveTab] = useState(items[0].name);
   const [isMobile, setIsMobile] = useState(false);
   const [showToggles] = useState(false);
-  const [activeSection] = useAtom(activeSectionAtom);
 
-  // Derive active tab name from shared Explore state
-  const activeTabName = useMemo(() => {
-    const match = items.find((item) => {
-      const fragment = item.href.includes('#') ? item.href.split('#').pop() : '';
-      return fragment === activeSection;
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const sectionName = entry.target.id;
+
+          if (entry.isIntersecting) {
+            const matchingItem = items.find((item) => item.href.replace('#', '') === sectionName);
+            if (matchingItem) {
+              setActiveTab(matchingItem.name);
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '-10% 0px -10% 0px',
+      },
+    );
+
+    items.forEach((item) => {
+      const sectionId = item.href.replace('#', '');
+      const section = document.getElementById(sectionId);
+      if (section) {
+        observer.observe(section);
+      }
     });
-    return match?.name ?? items[0].name;
-  }, [activeSection, items]);
+
+    return () => observer.disconnect();
+  }, [items]);
 
   const handleClick = (href: string) => {
     if (typeof window !== 'undefined') {
@@ -106,15 +126,14 @@ export const NavBar = ({ items, className }: NavBarProps) => {
           <div className="flex items-center gap-3 rounded-full border border-border bg-background/5 p-1 shadow-lg backdrop-blur-lg">
             {items.map((item) => {
               const Icon = item.icon;
-              const isActive = activeTabName === item.name;
+              const isActive = activeTab === item.name;
               return (
-                <button
+                <div
                   key={item.name}
                   onClick={() => {
+                    setActiveTab(item.name);
                     handleClick(item.href);
                   }}
-                  type="button"
-                  aria-current={isActive ? 'page' : undefined}
                   className={cn(
                     'pointer-events-auto relative cursor-pointer rounded-full px-6 py-2 text-sm font-semibold transition-colors',
                     'text-foreground/80 hover:text-primary',
@@ -143,7 +162,7 @@ export const NavBar = ({ items, className }: NavBarProps) => {
                       </div>
                     </motion.div>
                   ) : null}
-                </button>
+                </div>
               );
             })}
           </div>
