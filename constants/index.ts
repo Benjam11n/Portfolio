@@ -1,4 +1,14 @@
-import { Briefcase, Hammer, Home, Mail, MapPin, MessageSquare, Phone, User } from 'lucide-react';
+import {
+  Award,
+  Briefcase,
+  Hammer,
+  Home,
+  Mail,
+  MapPin,
+  MessageSquare,
+  Phone,
+  User,
+} from 'lucide-react';
 
 export const GITHUB_URL = 'https://github.com/Benjam11n';
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/benjaminwang-sg/';
@@ -9,6 +19,7 @@ export const NAVITEMS = [
   { name: 'About', href: '#about', icon: User },
   { name: 'Experience', href: '#experience', icon: Briefcase },
   { name: 'Projects', href: '#projects', icon: Hammer },
+  { name: 'Certifications', href: '#certifications', icon: Award },
   { name: 'Contact', href: '#contact', icon: Mail },
 ];
 
@@ -528,3 +539,39 @@ export const exploreInfo: ExploreInfo = {
     mail: EMAIL,
   },
 };
+
+// Certifications data for the 3D card carousel
+export interface Certification {
+  name: string;
+  organization: string;
+  date: string; // e.g. 'Jan 2025'
+  image: string; // path under /public
+  description: string;
+}
+
+export const certifications: Certification[] = [
+  {
+    name: 'AWS Certified Cloud Practitioner',
+    organization: 'Amazon Web Services (AWS)',
+    date: 'Nov 2024',
+    image: '/projects/project3.png',
+    description:
+      'Foundational certification validating cloud fluency and understanding of AWS global cloud infrastructure, services, security, and billing models.',
+  },
+  {
+    name: 'Meta Front-End Developer',
+    organization: 'Meta',
+    date: 'Aug 2024',
+    image: '/projects/project1.png',
+    description:
+      'Hands-on program covering modern front-end development including responsive design, accessibility, React ecosystem, state management, and performance optimization.',
+  },
+  {
+    name: 'Google Data Analytics Professional Certificate',
+    organization: 'Google',
+    date: 'Jan 2025',
+    image: '/projects/project2.png',
+    description:
+      'Comprehensive training in data analytics workflows: data cleaning, analysis, visualization, and decision-making using SQL, spreadsheets, and dashboards.',
+  },
+];
