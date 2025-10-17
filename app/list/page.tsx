@@ -4,8 +4,9 @@ import Experience from '@/components/list/sections/Experience';
 import Footer from '@/components/list/sections/Footer';
 import Hero from '@/components/list/sections/Hero';
 import Projects from '@/components/list/sections/Projects';
+import Certifications from '@/components/list/sections/Certifications';
 
-export default function List() {
+const List = () => {
   return (
     <>
       <Hero />
@@ -13,9 +14,12 @@ export default function List() {
         <About />
         <Experience />
         <Projects />
+        <Certifications />
         <Contact />
         <Footer />
       </main>
     </>
   );
-}
+};
+
+export default List;
