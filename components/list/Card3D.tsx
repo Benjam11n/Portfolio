@@ -1,9 +1,10 @@
 'use client';
 
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { useCallback, useRef, useState } from 'react';
 
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -19,18 +20,32 @@ export interface Card3DProps {
   date: string;
   image: string;
   description: string;
+  showDetailsButton?: boolean;
+  detailsLabel?: string;
+  onViewDetails?: () => void;
 }
 
-export const Card3D = ({ name, organization, date, image, description }: Card3DProps) => {
+export const Card3D = ({
+  name,
+  organization,
+  date,
+  image,
+  description,
+  showDetailsButton = false,
+  detailsLabel = 'View Details',
+  onViewDetails,
+}: Card3DProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const rotX = useMotionValue(0);
   const rotY = useMotionValue(0);
   const sRotX = useSpring(rotX, { stiffness: 200, damping: 20 });
   const sRotY = useSpring(rotY, { stiffness: 200, damping: 20 });
   const [shinePos, setShinePos] = useState({ x: 50, y: 50 });
+  const prefersReducedMotion = useReducedMotion();
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
+      if (prefersReducedMotion) return;
       const el = containerRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
@@ -43,7 +58,7 @@ export const Card3D = ({ name, organization, date, image, description }: Card3DP
       rotX.set(-(percentY - 0.5) * 2 * maxTilt);
       setShinePos({ x: percentX * 100, y: percentY * 100 });
     },
-    [rotX, rotY],
+    [rotX, rotY, prefersReducedMotion],
   );
 
   const handleMouseLeave = useCallback(() => {
@@ -60,18 +75,30 @@ export const Card3D = ({ name, organization, date, image, description }: Card3DP
       onMouseLeave={handleMouseLeave}
     >
       <motion.div
-        style={{ rotateX: sRotX, rotateY: sRotY, transformStyle: 'preserve-3d' as any }}
+        style={{
+          rotateX: prefersReducedMotion ? 0 : (sRotX as unknown as number),
+          rotateY: prefersReducedMotion ? 0 : (sRotY as unknown as number),
+          transformStyle: 'preserve-3d' as any,
+        }}
         className="relative"
       >
         {/* Pokémon-style gradient border wrapper */}
         <div className="relative rounded-[22px] bg-gradient-to-br from-yellow-400 via-rose-500 to-purple-600 p-[3px] shadow-[0_10px_40px_rgba(234,179,8,0.25)]">
           <Card className="relative overflow-hidden rounded-[20px] border border-yellow-200/40 bg-card/90 shadow-2xl">
             <div className="relative h-52 w-full md:h-72" style={{ transform: 'translateZ(30px)' }}>
-              <Image src={image} alt={name} fill className="object-cover" priority />
+              <Image
+                src={image}
+                alt={name}
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 768px) 100vw, 768px"
+              />
               {/* subtle top foil strip */}
               <div
                 className="pointer-events-none absolute left-0 right-0 top-0 h-8 bg-gradient-to-r from-yellow-200/25 via-pink-200/20 to-purple-200/25"
                 style={{ transform: 'translateZ(35px)' }}
+                aria-hidden
               />
             </div>
             <CardHeader className="space-y-1" style={{ transform: 'translateZ(20px)' }}>
@@ -85,6 +112,16 @@ export const Card3D = ({ name, organization, date, image, description }: Card3DP
             </CardContent>
             <CardFooter className="justify-between" style={{ transform: 'translateZ(10px)' }}>
               <div className="text-xs text-muted-foreground">Swipe or drag to navigate</div>
+              {showDetailsButton ? (
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() => onViewDetails?.()}
+                  aria-label={detailsLabel ?? 'View certification details'}
+                >
+                  {detailsLabel ?? 'View Details'}
+                </Button>
+              ) : null}
             </CardFooter>
 
             {/* Shine overlay */}
@@ -93,9 +130,10 @@ export const Card3D = ({ name, organization, date, image, description }: Card3DP
               style={{
                 background: `radial-gradient(80px 80px at ${shinePos.x}% ${shinePos.y}%, rgba(255,255,255,0.25), transparent 60%)`,
                 mixBlendMode: 'overlay',
-                opacity: 0.85,
+                opacity: prefersReducedMotion ? 0.4 : 0.85,
                 transform: 'translateZ(40px)',
               }}
+              aria-hidden
             />
             {/* diagonal foil tint */}
             <div
@@ -104,6 +142,7 @@ export const Card3D = ({ name, organization, date, image, description }: Card3DP
                 background:
                   'linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.08) 60%, rgba(255,255,255,0) 100%)',
               }}
+              aria-hidden
             />
           </Card>
         </div>
