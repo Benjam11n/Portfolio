@@ -60,7 +60,7 @@ export const NavBar = ({ items, className }: NavBarProps) => {
 
   const handleClick = (href: string) => {
     if (typeof window !== 'undefined') {
-      router.push(href);
+      window.location.href = href;
     }
   };
 
