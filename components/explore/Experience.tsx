@@ -1,16 +1,16 @@
 'use client';
+/* eslint-disable react/no-unknown-property */
 
 import { ContactShadows, Environment, SpotLight, useScroll } from '@react-three/drei';
-import type { GroupProps} from '@react-three/fiber';
 import { useFrame } from '@react-three/fiber';
 import { Physics, RigidBody } from '@react-three/rapier';
 import { motion } from 'framer-motion-3d';
-import type { RefObject} from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useAtom } from 'jotai';
 import type * as THREE from 'three';
 
-
 import { Avatar } from './models/Avatar';
+import { activeSectionAtom, navJumpAtom } from './atoms';
 import About from './sections/About';
 import Contact from './sections/Contact';
 import ExperienceSection from './sections/ExperienceSection';
@@ -21,7 +21,8 @@ import { useMobile } from '@/hooks/use-mobile';
 import { exploreInfo, SECTIONS_DISTANCE } from '@/constants';
 
 export const Experience = () => {
-  const [section, setSection] = useState(exploreInfo.sections[0]);
+  const [activeSection, setActiveSection] = useAtom(activeSectionAtom);
+  const [, setNavJump] = useAtom(navJumpAtom);
   const sceneContainer = useRef<THREE.Group>(null);
   const frontSpotlightRef = useRef<THREE.SpotLight>(null);
   const backSpotlightRef = useRef<THREE.SpotLight>(null);
@@ -31,17 +32,28 @@ export const Experience = () => {
   useFrame(() => {
     if (!sceneContainer.current) return;
 
+    const sectionsCount = exploreInfo.sections.length;
+    const span = sectionsCount - 1;
     if (isMobile) {
-      sceneContainer.current.position.x =
-        -scrollData.offset * SECTIONS_DISTANCE * (scrollData.pages - 1);
+      sceneContainer.current.position.x = -scrollData.offset * SECTIONS_DISTANCE * span;
       sceneContainer.current.position.z = 0;
     } else {
-      sceneContainer.current.position.z =
-        -scrollData.offset * SECTIONS_DISTANCE * (scrollData.pages - 1);
+      sceneContainer.current.position.z = -scrollData.offset * SECTIONS_DISTANCE * span;
       sceneContainer.current.position.x = 0;
     }
 
-    setSection(exploreInfo.sections[Math.round(scrollData.offset * (scrollData.pages - 1))]);
+    const index = Math.round(scrollData.offset * span);
+    const nextSection = exploreInfo.sections[index] ?? exploreInfo.sections[0];
+    if (nextSection !== activeSection) {
+      setActiveSection(nextSection);
+      // Update hash without firing a 'hashchange' event to avoid feedback loops
+      try {
+        const url = `${window.location.pathname}#${nextSection}`;
+        window.history.replaceState(null, '', url);
+      } catch (err) {
+        // noop: hash update is non-critical
+      }
+    }
 
     // Update spotlights
     if (frontSpotlightRef.current && backSpotlightRef.current) {
@@ -70,16 +82,34 @@ export const Experience = () => {
   });
 
   useEffect(() => {
-    const handleHashChange = () => {
-      const sectionIndex = exploreInfo.sections.indexOf(window.location.hash.replace('#', ''));
-      if (sectionIndex >= 0) {
-        scrollData.el.scrollTo(
-          0,
-          (sectionIndex / (exploreInfo.sections.length - 1)) *
-            (scrollData.el.scrollHeight - scrollData.el.clientHeight),
-        );
+    if (!scrollData.el) return;
+
+    const scrollToSection = (hash: string) => {
+      const sectionIndex = exploreInfo.sections.indexOf(hash.replace('#', ''));
+      if (sectionIndex < 0) return;
+
+      const { el } = scrollData;
+      const targetTop =
+        (sectionIndex / (exploreInfo.sections.length - 1)) * (el.scrollHeight - el.clientHeight);
+
+      try {
+        // Smoothly animate programmatic scroll to ensure walking animation engages
+        el.scrollTo({ top: targetTop, behavior: 'smooth' });
+        // Nudge avatar to walk visibly during navbar-initiated jumps
+        setNavJump(Date.now());
+      } catch {
+        // Fallback for environments without smooth behavior (no direct mutation)
+        el.scrollTo(0, targetTop);
+        setNavJump(Date.now());
       }
     };
+
+    const handleHashChange = () => scrollToSection(window.location.hash);
+
+    // Sync on mount if a hash is already present
+    if (window.location.hash) {
+      scrollToSection(window.location.hash);
+    }
 
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
@@ -114,23 +144,25 @@ export const Experience = () => {
       {/* Black floor plane */}
       <Physics>
         <RigidBody type="fixed">
-          <mesh position-y={-0.001} rotation-x={-Math.PI / 2}>
+          <mesh position={[0, -0.001, 0]} rotation={[-Math.PI / 2, 0, 0]}>
             <planeGeometry args={[100, 100]} />
-            <meshStandardMaterial color="#0a0a0a" metalness={0} envMapIntensity={0.2} />
+            <meshStandardMaterial color="#0a0a0a" />
           </mesh>
         </RigidBody>
       </Physics>
-      <motion.group ref={sceneContainer as unknown as RefObject<GroupProps>} animate={section}>
-        {/* HOME */}
-        <Home />
-        {/* ABOUT */}
-        <About />
-        {/* EXPERIENCE */}
-        <ExperienceSection />
-        {/* PROJECTS */}
-        <Projects />
-        {/* CONTACT */}
-        <Contact />
+      <motion.group animate={activeSection}>
+        <group ref={sceneContainer}>
+          {/* HOME */}
+          <Home />
+          {/* ABOUT */}
+          <About />
+          {/* EXPERIENCE */}
+          <ExperienceSection />
+          {/* PROJECTS */}
+          <Projects />
+          {/* CONTACT */}
+          <Contact />
+        </group>
       </motion.group>
     </>
   );
