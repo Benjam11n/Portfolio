@@ -2,6 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
+import { Navbar } from '@/components/nue/Navbar';
+import { SmoothScroll } from '@/components/SmoothScroll';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -60,7 +62,10 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased bg-background text-foreground flex justify-center py-6 sm:py-10 min-h-screen`}>
         <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
           <div className="relative w-full max-w-5xl mx-4 sm:mx-8 bg-card rounded-3xl shadow-xl overflow-hidden border border-border/40">
-            {children}
+            <SmoothScroll>
+              {children}
+            </SmoothScroll>
+            <Navbar />
           </div>
         </ThemeProvider>
       </body>
