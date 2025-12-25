@@ -36,7 +36,7 @@ export const Experience = () => {
 
   return (
     <SectionCard
-      className="scroll-mt-24 p-8 sm:p-12"
+      className="scroll-mt-24 p-6 sm:p-8"
       id="experience"
       ref={containerRef}
       title="Experience"
