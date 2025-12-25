@@ -1,5 +1,6 @@
 'use client';
 
+import { SectionCard } from '@/components/nue/SectionCard';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { useRef } from 'react';
@@ -27,7 +28,7 @@ export const Hero = () => {
   );
 
   return (
-    <section ref={containerRef} className="py-24 sm:py-32 px-6 sm:px-12 flex flex-col justify-center min-h-[50vh] bg-muted/30 rounded-3xl border border-border/40 mb-8 mt-8 sm:mt-12">
+    <SectionCard ref={containerRef} className="py-24 sm:py-32 px-6 sm:px-12 flex flex-col justify-center min-h-[50vh] mt-8 sm:mt-12">
       <h1 className="hero-text text-4xl sm:text-6xl font-bold tracking-tight text-primary mb-6">
         Benjamin Wang
       </h1>
@@ -38,6 +39,6 @@ export const Hero = () => {
         I build accessible, pixel-perfect, performant web experiences. 
         Currently exploring the intersection of web development and artificial intelligence.
       </p>
-    </section>
+    </SectionCard>
   );
 };

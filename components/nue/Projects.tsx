@@ -1,6 +1,7 @@
 'use client';
 
 import { PROJECTS } from '@/constants';
+import { SectionCard } from '@/components/nue/SectionCard';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -35,7 +36,7 @@ export const Projects = () => {
   );
 
   return (
-    <section id="projects" ref={containerRef} className="p-8 sm:p-12 mb-8 bg-muted/30 rounded-3xl border border-border/40 scroll-mt-24">
+    <SectionCard id="projects" ref={containerRef} className="p-8 sm:p-12 scroll-mt-24">
       <div className="flex items-center gap-4 mb-12">
         <h2 className="text-2xl font-semibold tracking-tight">Projects</h2>
         <div className="h-px bg-border flex-1" />
@@ -101,6 +102,6 @@ export const Projects = () => {
           </div>
         ))}
       </div>
-    </section>
+    </SectionCard>
   );
 };
