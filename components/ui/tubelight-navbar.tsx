@@ -47,15 +47,36 @@ export const NavBar = ({ items, className }: NavBarProps) => {
       },
     );
 
-    items.forEach((item) => {
-      const sectionId = item.href.replace('#', '');
-      const section = document.getElementById(sectionId);
-      if (section) {
-        observer.observe(section);
-      }
-    });
+    let observedSections: HTMLElement[] = [];
+    const attachObservers = () => {
+      // Detach any previous observed elements
+      observedSections.forEach((el) => observer.unobserve(el));
+      observedSections = [];
 
-    return () => observer.disconnect();
+      items.forEach((item) => {
+        const sectionId = item.href.replace('#', '');
+        const section = document.getElementById(sectionId);
+        if (section) {
+          observer.observe(section);
+          observedSections.push(section);
+        }
+      });
+    };
+
+    // Initial attempt
+    attachObservers();
+
+    // In explore mode, sections may mount after initial render.
+    // Use a MutationObserver to re-attach when DOM changes.
+    const domWatcher = new MutationObserver(() => {
+      attachObservers();
+    });
+    domWatcher.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      domWatcher.disconnect();
+    };
   }, [items]);
 
   const handleClick = (href: string) => {
@@ -130,6 +151,14 @@ export const NavBar = ({ items, className }: NavBarProps) => {
               return (
                 <div
                   key={item.name}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setActiveTab(item.name);
+                      handleClick(item.href);
+                    }
+                  }}
                   onClick={() => {
                     setActiveTab(item.name);
                     handleClick(item.href);
@@ -139,6 +168,8 @@ export const NavBar = ({ items, className }: NavBarProps) => {
                     'text-foreground/80 hover:text-primary',
                     isActive && 'bg-muted text-primary',
                   )}
+                  aria-current={isActive ? 'page' : undefined}
+                  aria-label={`Navigate to ${item.name}`}
                 >
                   <span className="hidden md:inline">{item.name}</span>
                   <span className="md:hidden">

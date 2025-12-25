@@ -478,7 +478,7 @@ interface ExploreInfo {
 
 export const exploreInfo: ExploreInfo = {
   title: "Benjamin's portfolio",
-  sections: ['home', 'about', 'experience', 'projects', 'contact'],
+  sections: ['home', 'about', 'experience', 'projects', 'certifications', 'contact'],
   home: {
     title: 'BENJAMIN',
     subtitle: 'WANG',
