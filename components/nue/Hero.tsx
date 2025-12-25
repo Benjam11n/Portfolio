@@ -27,7 +27,7 @@ export const Hero = () => {
   );
 
   return (
-    <section ref={containerRef} className="py-24 sm:py-32 flex flex-col justify-center min-h-[50vh]">
+    <section ref={containerRef} className="py-24 sm:py-32 px-6 sm:px-12 flex flex-col justify-center min-h-[50vh] bg-muted/30 rounded-3xl border border-border/40 mb-8 mt-8 sm:mt-12">
       <h1 className="hero-text text-4xl sm:text-6xl font-bold tracking-tight text-primary mb-6">
         Benjamin Wang
       </h1>

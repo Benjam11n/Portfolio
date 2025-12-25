@@ -57,9 +57,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased bg-background text-foreground`}>
+      <body className={`${inter.variable} font-sans antialiased bg-background text-foreground flex justify-center py-6 sm:py-10 min-h-screen`}>
         <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
-          {children}
+          <div className="relative w-full max-w-5xl mx-4 sm:mx-8 bg-card rounded-3xl shadow-xl overflow-hidden border border-border/40">
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>

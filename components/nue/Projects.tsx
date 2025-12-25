@@ -35,7 +35,7 @@ export const Projects = () => {
   );
 
   return (
-    <section id="projects" ref={containerRef} className="py-24 scroll-mt-16">
+    <section id="projects" ref={containerRef} className="p-8 sm:p-12 mb-8 bg-muted/30 rounded-3xl border border-border/40 scroll-mt-24">
       <div className="flex items-center gap-4 mb-12">
         <h2 className="text-2xl font-semibold tracking-tight">Projects</h2>
         <div className="h-px bg-border flex-1" />

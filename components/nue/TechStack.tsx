@@ -19,7 +19,7 @@ export const TechStack = () => {
   const technologies = getAllTech();
 
   return (
-    <section className="py-24">
+    <section className="p-8 sm:p-12 mb-8 bg-muted/30 rounded-3xl border border-border/40">
       <div className="flex items-center gap-4 mb-8">
         <h2 className="text-2xl font-semibold tracking-tight">Stack</h2>
         <div className="h-px bg-border flex-1" />
