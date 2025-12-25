@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { SectionCard } from "@/components/section-card";
@@ -70,10 +71,12 @@ export const Projects = () => {
                   className="rounded-xl border border-border/50 bg-background/80 p-2 backdrop-blur-sm"
                   style={project.logoStyle}
                 >
-                  <img
+                  <Image
                     alt="logo"
                     className="h-8 w-8 object-contain"
+                    height={32}
                     src={project.logo}
+                    width={32}
                   />
                 </div>
               </div>

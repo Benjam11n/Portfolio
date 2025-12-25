@@ -3,6 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import { useRef } from "react";
 import { SectionCard } from "@/components/section-card";
 import { certifications } from "@/constants";
@@ -47,9 +48,10 @@ export const Certifications = () => {
           >
             <div className="relative mb-4 aspect-video w-full overflow-hidden rounded-lg bg-secondary">
               {/* Placeholder for actual certificate image if available, using project images as placeholders from constants for now as per data */}
-              <img
+              <Image
                 alt={cert.name}
-                className="h-full w-full object-cover opacity-80 transition-opacity group-hover:opacity-100"
+                className="object-cover opacity-80 transition-opacity group-hover:opacity-100"
+                fill
                 src={cert.image}
               />
             </div>

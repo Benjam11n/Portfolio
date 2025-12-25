@@ -3,6 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import { useRef } from "react";
 import { SectionCard } from "@/components/section-card";
 import { workExperiences } from "@/constants";
@@ -49,10 +50,12 @@ export const Experience = () => {
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
               <div className="flex gap-4">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
-                  <img
+                  <Image
                     alt={item.name}
                     className="h-8 w-8 object-contain"
+                    height={32}
                     src={item.icon}
+                    width={32}
                   />
                 </div>
                 <div>

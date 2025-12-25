@@ -1,6 +1,6 @@
 "use client";
 
-import * as LabelPrimitive from "@radix-ui/react-label";
+import { Root as LabelPrimitiveRoot } from "@radix-ui/react-label";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
   type ComponentPropsWithoutRef,
@@ -15,16 +15,16 @@ const labelVariants = cva(
 );
 
 const Label = forwardRef<
-  ElementRef<typeof LabelPrimitive.Root>,
-  ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
+  ElementRef<typeof LabelPrimitiveRoot>,
+  ComponentPropsWithoutRef<typeof LabelPrimitiveRoot> &
     VariantProps<typeof labelVariants>
 >(({ className, ...props }, ref) => (
-  <LabelPrimitive.Root
+  <LabelPrimitiveRoot
     className={cn(labelVariants(), className)}
     ref={ref}
     {...props}
   />
 ));
-Label.displayName = LabelPrimitive.Root.displayName;
+Label.displayName = LabelPrimitiveRoot.displayName;
 
 export { Label };
