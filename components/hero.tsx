@@ -1,48 +1,58 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { useRef } from "react";
-import { SectionCard } from "@/components/section-card";
+import { BadgeCheck } from "lucide-react";
+import Link from "next/link";
+import { BorderedImage } from "@/components/ui/bordered-image";
+import { SectionCard } from "./section-card";
 
 export const Hero = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      tl.fromTo(
-        ".hero-text",
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, stagger: 0.2 }
-      );
-
-      tl.fromTo(
-        ".hero-subtext",
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, delay: -0.5 }
-      );
-    },
-    { scope: containerRef }
-  );
-
   return (
-    <SectionCard
-      className="scroll-mt-24 p-6 sm:p-8"
-      ref={containerRef}
-    >
-      <h1 className="hero-text mb-6 font-bold text-4xl text-primary tracking-tight sm:text-6xl">
-        Benjamin Wang
-      </h1>
-      <h2 className="hero-text mb-8 font-medium text-muted-foreground text-xl sm:text-2xl">
-        Full Stack Developer &<br className="sm:hidden" /> AI Enthusiast
-      </h2>
-      <p className="hero-subtext max-w-lg text-lg text-muted-foreground leading-relaxed">
-        I build accessible, pixel-perfect, performant web experiences. Currently
-        exploring the intersection of web development and artificial
-        intelligence.
-      </p>
+    <SectionCard className="scroll-mt-24 p-6 sm:p-8" id="hero">
+      <div>
+        {/* Profile Image */}
+        <BorderedImage
+          alt="Benjamin Wang"
+          containerClassName="mb-6 h-[72px] w-[72px]"
+          height={72}
+          src="/me.png"
+          width={72}
+        />
+
+        {/* Name and Badge */}
+        <div className="mb-2 flex items-center gap-2">
+          <h1 className="font-bold text-2xl text-[#0F1419] tracking-tight sm:text-4xl">
+            Benjamin Wang
+          </h1>
+          <BadgeCheck className="h-6 w-6 text-[#1D9BF0]" />
+        </div>
+
+        {/* Role */}
+        <h2 className="mb-6 font-medium text-[#555555] text-md">
+          Web Designer
+        </h2>
+
+        {/* Description */}
+        <p className="mb-8 max-w-sm font-sans text-[#555555] text-md leading-relaxed">
+          Crafting interactive, user-centered experiences that bring ideas to
+          life through thoughtful design and seamless digital execution.
+        </p>
+
+        {/* Buttons */}
+        <div className="flex flex-wrap gap-4">
+          <Link
+            className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 font-bold text-sm text-white transition-transform hover:scale-105"
+            href="#contact"
+          >
+            Contact Me
+          </Link>
+          <Link
+            className="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 font-bold text-[#0F1419] text-sm shadow-sm transition-transform hover:scale-105 hover:bg-gray-50"
+            href="#projects"
+          >
+            View Works
+          </Link>
+        </div>
+      </div>
     </SectionCard>
   );
 };
