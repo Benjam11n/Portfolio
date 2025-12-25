@@ -43,6 +43,7 @@ export const Navbar = () => {
           aria-label="Toggle theme"
           className="group relative flex h-10 w-12 flex-col items-center justify-center rounded-xl transition-all duration-300 hover:bg-white/10"
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          type="button"
         >
           {mounted && theme === "dark" ? (
             <Moon className="h-5 w-5 text-gray-400 transition-colors duration-300 group-hover:text-white" />

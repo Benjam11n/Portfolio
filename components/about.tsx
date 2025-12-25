@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { SectionCard } from "@/components/section-card";
 
@@ -16,17 +17,19 @@ export const About = () => {
         <div className="relative mx-auto mb-4 h-48 w-48 sm:mx-0">
           {/* Image 1 (Back) */}
           <div className="absolute top-0 left-0 h-40 w-32 rotate-[-6deg] overflow-hidden rounded-2xl border border-border bg-secondary shadow-lg">
-            <img
+            <Image
               alt="Profile Background"
-              className="h-full w-full object-cover opacity-60 grayscale"
+              className="object-cover opacity-60 grayscale"
+              fill
               src="/projects/project1.png"
             />
           </div>
           {/* Image 2 (Front) */}
           <div className="absolute top-4 left-12 z-10 h-40 w-32 rotate-[3deg] overflow-hidden rounded-2xl border-4 border-card bg-card shadow-xl">
-            <img
+            <Image
               alt="Profile Foreground"
-              className="h-full w-full object-cover"
+              className="object-cover"
+              fill
               src="/projects/project2.png"
             />
           </div>

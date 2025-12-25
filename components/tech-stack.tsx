@@ -1,18 +1,20 @@
 "use client";
 
+import Image from "next/image";
+
 import { SectionCard } from "@/components/section-card";
 import { PROJECTS } from "@/constants";
 
 // Extract unique technologies from all projects
 const getAllTech = () => {
   const allTech = new Map();
-  Object.values(PROJECTS).forEach((project) => {
-    project.techStack.forEach((tech) => {
+  for (const project of Object.values(PROJECTS)) {
+    for (const tech of project.techStack) {
       if (!allTech.has(tech.name)) {
         allTech.set(tech.name, tech);
       }
-    });
-  });
+    }
+  }
   return Array.from(allTech.values());
 };
 
@@ -34,10 +36,12 @@ export const TechStack = () => {
             key={tech.name}
           >
             <div className="flex h-10 w-10 items-center justify-center grayscale transition-all duration-300 group-hover:grayscale-0">
-              <img
+              <Image
                 alt={tech.name}
                 className="h-8 w-8 object-contain"
+                height={32}
                 src={tech.path}
+                width={32}
               />
             </div>
             <span className="font-medium text-muted-foreground text-xs group-hover:text-foreground">
