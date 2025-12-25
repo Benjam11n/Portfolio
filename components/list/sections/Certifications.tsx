@@ -103,8 +103,7 @@ const Certifications = () => {
         Certifications
       </h2>
       <p className="max-w-2xl text-muted-foreground md:text-lg">
-        Swipe left or right to browse through my certifications. Each card features a high-quality
-        image, issuing organization, and a detailed description.
+        Swipe left or right to browse through my certifications.
       </p>
       {/* Live region for screen reader updates */}
       <p className="sr-only" aria-live="polite" aria-atomic="true">

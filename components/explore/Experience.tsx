@@ -1,14 +1,13 @@
 'use client';
 
 import { ContactShadows, Environment, SpotLight, useScroll } from '@react-three/drei';
-import type { GroupProps} from '@react-three/fiber';
+import type { GroupProps } from '@react-three/fiber';
 import { useFrame } from '@react-three/fiber';
 import { Physics, RigidBody } from '@react-three/rapier';
 import { motion } from 'framer-motion-3d';
-import type { RefObject} from 'react';
+import type { RefObject } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type * as THREE from 'three';
-
 
 import { Avatar } from './models/Avatar';
 import About from './sections/About';
@@ -16,6 +15,7 @@ import Contact from './sections/Contact';
 import ExperienceSection from './sections/ExperienceSection';
 import Home from './sections/Home';
 import Projects from './sections/Projects';
+import Certifications from './sections/Certifications';
 
 import { useMobile } from '@/hooks/use-mobile';
 import { exploreInfo, SECTIONS_DISTANCE } from '@/constants';
@@ -129,6 +129,8 @@ export const Experience = () => {
         <ExperienceSection />
         {/* PROJECTS */}
         <Projects />
+        {/* CERTIFICATIONS */}
+        <Certifications />
         {/* CONTACT */}
         <Contact />
       </motion.group>

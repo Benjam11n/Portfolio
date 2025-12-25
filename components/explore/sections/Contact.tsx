@@ -1,7 +1,6 @@
 import { Float } from '@react-three/drei';
 import { motion } from 'framer-motion-3d';
 
-
 import { Balloon } from '../models/Balloon';
 import { Mailbox } from '../models/Mailbox';
 import { OrangeBird } from '../models/OrangeBird';
@@ -17,8 +16,8 @@ const Contact = () => {
 
   return (
     <motion.group
-      position-x={isMobile ? 4 * SECTIONS_DISTANCE : 0}
-      position-z={isMobile ? -4 : 4 * SECTIONS_DISTANCE}
+      position-x={isMobile ? 5 * SECTIONS_DISTANCE : 0}
+      position-z={isMobile ? -5 : 5 * SECTIONS_DISTANCE}
       position-y={-5}
       variants={{ contact: { y: 0 } }}
     >
