@@ -1,5 +1,6 @@
 'use client';
 
+import { SectionCard } from '@/components/nue/SectionCard';
 import { PROJECTS } from '@/constants';
 
 // Extract unique technologies from all projects
@@ -19,7 +20,7 @@ export const TechStack = () => {
   const technologies = getAllTech();
 
   return (
-    <section className="p-8 sm:p-12 mb-8 bg-muted/30 rounded-3xl border border-border/40">
+    <SectionCard className="p-8 sm:p-12">
       <div className="flex items-center gap-4 mb-8">
         <h2 className="text-2xl font-semibold tracking-tight">Stack</h2>
         <div className="h-px bg-border flex-1" />
@@ -38,6 +39,6 @@ export const TechStack = () => {
           </div>
         ))}
       </div>
-    </section>
+    </SectionCard>
   );
 };
