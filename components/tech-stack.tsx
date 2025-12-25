@@ -1,52 +1,34 @@
 "use client";
 
-import Image from "next/image";
-
 import { SectionCard } from "@/components/section-card";
-import { PROJECTS } from "@/constants";
-
-// Extract unique technologies from all projects
-const getAllTech = () => {
-  const allTech = new Map();
-  for (const project of Object.values(PROJECTS)) {
-    for (const tech of project.techStack) {
-      if (!allTech.has(tech.name)) {
-        allTech.set(tech.name, tech);
-      }
-    }
-  }
-  return Array.from(allTech.values());
-};
+import { BorderedImage } from "@/components/ui/bordered-image";
+import { STACKS } from "@/constants";
 
 export const TechStack = () => {
-  const technologies = getAllTech();
-
   return (
-    <SectionCard className="p-8 sm:p-12">
-      <div className="mb-8">
-        <h2 className="font-bold font-mono text-foreground text-sm uppercase tracking-widest">
-          Stack
-        </h2>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-6">
-        {technologies.map((tech) => (
+    <SectionCard className="scroll-mt-24 p-6 sm:p-8" title="Stacks & Skills">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {STACKS.map((stack) => (
           <div
-            className="group flex flex-col items-center justify-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:bg-secondary/50"
-            key={tech.name}
+            className="group flex items-center gap-4 rounded-2xl bg-white p-3 shadow-sm transition-transform hover:scale-[1.02]"
+            key={stack.name}
           >
-            <div className="flex h-10 w-10 items-center justify-center grayscale transition-all duration-300 group-hover:grayscale-0">
-              <Image
-                alt={tech.name}
-                className="h-8 w-8 object-contain"
-                height={32}
-                src={tech.path}
-                width={32}
-              />
+            <BorderedImage
+              alt={stack.name}
+              containerClassName="h-14 w-14 shrink-0 bg-black"
+              height={32}
+              imageClassName="p-3 object-contain"
+              src={stack.icon}
+              width={32}
+            />
+            <div className="flex flex-col">
+              <span className="font-bold text-gray-900 text-lg">
+                {stack.name}
+              </span>
+              <span className="font-medium text-gray-500 text-sm">
+                {stack.category}
+              </span>
             </div>
-            <span className="font-medium text-muted-foreground text-xs group-hover:text-foreground">
-              {tech.name}
-            </span>
           </div>
         ))}
       </div>

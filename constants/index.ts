@@ -411,3 +411,36 @@ export const certifications: Certification[] = [
       "Comprehensive training in data analytics workflows: data cleaning, analysis, visualization, and decision-making using SQL, spreadsheets, and dashboards.",
   },
 ];
+
+export const STACKS = [
+  {
+    name: "Framer",
+    icon: "/assets/framer.png",
+    category: "Web Design",
+  },
+  {
+    name: "Figma",
+    icon: "/assets/figma.png",
+    category: "Visual Design",
+  },
+  {
+    name: "Webflow",
+    icon: "/assets/webflow.svg",
+    category: "No-code Development",
+  },
+  {
+    name: "React",
+    icon: "/assets/react.svg",
+    category: "Frontend Development",
+  },
+  {
+    name: "TypeScript",
+    icon: "/assets/typescript.svg",
+    category: "Programming Language",
+  },
+  {
+    name: "Tailwind",
+    icon: "/assets/tailwindcss.png",
+    category: "Styling",
+  },
+];
