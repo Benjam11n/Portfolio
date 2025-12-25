@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { Briefcase, FolderOpen, Home, Mail, Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { Briefcase, FolderOpen, Home, Mail, Moon, Sun } from "lucide-react";
+import Link from "next/link";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const navItems = [
-  { name: 'Home', href: '/', icon: Home },
-  { name: 'Experience', href: '#experience', icon: Briefcase },
-  { name: 'Projects', href: '#projects', icon: FolderOpen },
-  { name: 'Contact', href: '#contact', icon: Mail },
+  { name: "Home", href: "/", icon: Home },
+  { name: "Experience", href: "#experience", icon: Briefcase },
+  { name: "Projects", href: "#projects", icon: FolderOpen },
+  { name: "Contact", href: "#contact", icon: Mail },
 ];
 
 export const Navbar = () => {
@@ -21,33 +21,33 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-      <nav className="flex items-center gap-1 p-2 rounded-2xl bg-primary/80 backdrop-blur-lg shadow-2xl border border-white/10 ring-1 ring-black/5">
+    <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
+      <nav className="flex items-center gap-1 rounded-2xl border border-white/10 bg-primary/80 p-2 shadow-2xl ring-1 ring-black/5 backdrop-blur-lg">
         {navItems.map((item) => (
           <Link
-            key={item.name}
+            className="group relative flex h-10 w-12 flex-col items-center justify-center rounded-xl transition-all duration-300 hover:bg-white/10"
             href={item.href}
-            className="flex flex-col items-center justify-center w-12 h-10 rounded-xl transition-all duration-300 hover:bg-white/10 group relative"
+            key={item.name}
           >
-            <item.icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
+            <item.icon className="h-5 w-5 text-gray-400 transition-colors duration-300 group-hover:text-white" />
             <span className="sr-only">{item.name}</span>
-            <div className="absolute -top-8 bg-black/80 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+            <div className="pointer-events-none absolute -top-8 whitespace-nowrap rounded bg-black/80 px-2 py-1 text-[10px] text-white opacity-0 transition-opacity group-hover:opacity-100">
               {item.name}
             </div>
           </Link>
         ))}
-        
-        <div className="w-px h-6 bg-white/10 mx-1" />
+
+        <div className="mx-1 h-6 w-px bg-white/10" />
 
         <button
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="flex flex-col items-center justify-center w-12 h-10 rounded-xl transition-all duration-300 hover:bg-white/10 group relative"
           aria-label="Toggle theme"
+          className="group relative flex h-10 w-12 flex-col items-center justify-center rounded-xl transition-all duration-300 hover:bg-white/10"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
         >
-          {mounted && theme === 'dark' ? (
-            <Moon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
+          {mounted && theme === "dark" ? (
+            <Moon className="h-5 w-5 text-gray-400 transition-colors duration-300 group-hover:text-white" />
           ) : (
-            <Sun className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
+            <Sun className="h-5 w-5 text-gray-400 transition-colors duration-300 group-hover:text-white" />
           )}
         </button>
       </nav>

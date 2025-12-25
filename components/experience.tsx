@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { workExperiences } from '@/constants';
-import { SectionCard } from '@/components/section-card';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useRef } from 'react';
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
+import { SectionCard } from "@/components/section-card";
+import { workExperiences } from "@/constants";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,7 +15,7 @@ export const Experience = () => {
   useGSAP(
     () => {
       gsap.fromTo(
-        '.experience-card',
+        ".experience-card",
         { y: 50, opacity: 0 },
         {
           y: 0,
@@ -24,8 +24,8 @@ export const Experience = () => {
           stagger: 0.1,
           scrollTrigger: {
             trigger: containerRef.current,
-            start: 'top bottom-=100',
-            toggleActions: 'play none none reverse',
+            start: "top bottom-=100",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -34,34 +34,44 @@ export const Experience = () => {
   );
 
   return (
-    <SectionCard id="experience" ref={containerRef} title="Experience" className="p-8 sm:p-12 scroll-mt-24">
-
+    <SectionCard
+      className="scroll-mt-24 p-8 sm:p-12"
+      id="experience"
+      ref={containerRef}
+      title="Experience"
+    >
       <div className="flex flex-col gap-6">
         {workExperiences.map((item) => (
           <div
-            key={item.id}
             className="experience-card group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:bg-secondary/50"
+            key={item.id}
           >
-            <div className="flex flex-col sm:flex-row gap-4 sm:items-start justify-between">
+            <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
               <div className="flex gap-4">
-                <div className="bg-secondary rounded-lg w-12 h-12 flex items-center justify-center shrink-0 border border-border">
-                  <img src={item.icon} alt={item.name} className="w-8 h-8 object-contain" />
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary">
+                  <img
+                    alt={item.name}
+                    className="h-8 w-8 object-contain"
+                    src={item.icon}
+                  />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold leading-none mb-2 group-hover:text-primary transition-colors">
+                  <h3 className="mb-2 font-semibold text-lg leading-none transition-colors group-hover:text-primary">
                     {item.name}
                   </h3>
-                  <p className="text-sm font-medium text-muted-foreground">{item.pos}</p>
+                  <p className="font-medium text-muted-foreground text-sm">
+                    {item.pos}
+                  </p>
                 </div>
               </div>
-              <span className="text-sm text-muted-foreground font-mono bg-secondary/50 px-3 py-1 rounded-full self-start">
+              <span className="self-start rounded-full bg-secondary/50 px-3 py-1 font-mono text-muted-foreground text-sm">
                 {item.duration}
               </span>
             </div>
             <div className="mt-4 pl-16 max-sm:pl-0">
-               <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 group-hover:line-clamp-none transition-all duration-300">
-                  {item.title}
-               </p>
+              <p className="line-clamp-3 text-muted-foreground text-sm leading-relaxed transition-all duration-300 group-hover:line-clamp-none">
+                {item.title}
+              </p>
             </div>
           </div>
         ))}

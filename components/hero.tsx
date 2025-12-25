@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import { SectionCard } from '@/components/section-card';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { useRef } from 'react';
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useRef } from "react";
+import { SectionCard } from "@/components/section-card";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
       tl.fromTo(
-        '.hero-text',
+        ".hero-text",
         { y: 50, opacity: 0 },
         { y: 0, opacity: 1, duration: 1, stagger: 0.2 }
       );
-      
+
       tl.fromTo(
-        '.hero-subtext',
+        ".hero-subtext",
         { y: 30, opacity: 0 },
         { y: 0, opacity: 1, duration: 1, delay: -0.5 }
       );
@@ -28,16 +28,20 @@ export const Hero = () => {
   );
 
   return (
-    <SectionCard ref={containerRef} className="py-24 sm:py-32 px-6 sm:px-12 flex flex-col justify-center min-h-[50vh]">
-      <h1 className="hero-text text-4xl sm:text-6xl font-bold tracking-tight text-primary mb-6">
+    <SectionCard
+      className="flex min-h-[50vh] flex-col justify-center px-6 py-24 sm:px-12 sm:py-32"
+      ref={containerRef}
+    >
+      <h1 className="hero-text mb-6 font-bold text-4xl text-primary tracking-tight sm:text-6xl">
         Benjamin Wang
       </h1>
-      <h2 className="hero-text text-xl sm:text-2xl text-muted-foreground font-medium mb-8">
+      <h2 className="hero-text mb-8 font-medium text-muted-foreground text-xl sm:text-2xl">
         Full Stack Developer &<br className="sm:hidden" /> AI Enthusiast
       </h2>
-      <p className="hero-subtext text-lg text-muted-foreground max-w-lg leading-relaxed">
-        I build accessible, pixel-perfect, performant web experiences. 
-        Currently exploring the intersection of web development and artificial intelligence.
+      <p className="hero-subtext max-w-lg text-lg text-muted-foreground leading-relaxed">
+        I build accessible, pixel-perfect, performant web experiences. Currently
+        exploring the intersection of web development and artificial
+        intelligence.
       </p>
     </SectionCard>
   );
