@@ -28,7 +28,7 @@ export const Hero = () => {
   );
 
   return (
-    <SectionCard ref={containerRef} className="py-24 sm:py-32 px-6 sm:px-12 flex flex-col justify-center min-h-[50vh] mt-8 sm:mt-12">
+    <SectionCard ref={containerRef} className="py-24 sm:py-32 px-6 sm:px-12 flex flex-col justify-center min-h-[50vh]">
       <h1 className="hero-text text-4xl sm:text-6xl font-bold tracking-tight text-primary mb-6">
         Benjamin Wang
       </h1>

@@ -21,9 +21,8 @@ export const TechStack = () => {
 
   return (
     <SectionCard className="p-8 sm:p-12">
-      <div className="flex items-center gap-4 mb-8">
-        <h2 className="text-2xl font-semibold tracking-tight">Stack</h2>
-        <div className="h-px bg-border flex-1" />
+      <div className="mb-8">
+        <h2 className="text-sm font-bold tracking-widest uppercase text-foreground font-mono">Stack</h2>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">

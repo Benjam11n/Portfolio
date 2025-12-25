@@ -5,10 +5,11 @@ import { forwardRef } from 'react';
 
 interface SectionCardProps extends React.HTMLAttributes<HTMLElement> {
     children: React.ReactNode;
+    title?: string;
 }
 
 export const SectionCard = forwardRef<HTMLElement, SectionCardProps>(
-    ({ children, className, ...props }, ref) => {
+    ({ children, title, className, ...props }, ref) => {
         return (
             <section
                 ref={ref}
@@ -18,6 +19,13 @@ export const SectionCard = forwardRef<HTMLElement, SectionCardProps>(
                 )}
                 {...props}
             >
+                {title && (
+                    <div className="mb-12">
+                        <h2 className="text-md font-bold tracking-widest uppercase text-foreground font-mono">
+                            {title}
+                        </h2>
+                    </div>
+                )}
                 {children}
             </section>
         );

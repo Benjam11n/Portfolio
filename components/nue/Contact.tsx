@@ -6,11 +6,7 @@ import { ArrowUpRight } from 'lucide-react';
 
 export const Contact = () => {
   return (
-    <SectionCard id="contact" className="p-8 sm:p-12">
-      <div className="flex items-center gap-4 mb-12">
-        <h2 className="text-2xl font-semibold tracking-tight">Contact</h2>
-        <div className="h-px bg-border flex-1" />
-      </div>
+    <SectionCard id="contact" title="Contact" className="p-8 sm:p-12">
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         <div>
