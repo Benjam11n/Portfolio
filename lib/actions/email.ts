@@ -1,26 +1,28 @@
-'use server';
+"use server";
 
-import { Resend } from 'resend';
-import * as z from 'zod';
+import { Resend } from "resend";
+import { z } from "zod";
+
+// todo: clean up this file
 
 const formSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
-  subject: z.string().min(5, 'Subject must be at least 5 characters'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  subject: z.string().min(5, "Subject must be at least 5 characters"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
 type ContactFormValues = z.infer<typeof formSchema>;
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const fromEmail = process.env.FROM_EMAIL ?? 'onboarding@resend.dev';
+const fromEmail = process.env.FROM_EMAIL ?? "onboarding@resend.dev";
 
 export async function sendEmail(formData: ContactFormValues) {
   try {
     const result = formSchema.safeParse(formData);
     if (!result.success) {
       return {
-        error: 'Invalid form data',
+        error: "Invalid form data",
         details: result.error.format(),
       };
     }
@@ -119,7 +121,7 @@ export async function sendEmail(formData: ContactFormValues) {
       
       <div class="field">
         <div class="field-label">Message:</div>
-        <div class="message-content">${message.replace(/\n/g, '<br/>')}</div>
+        <div class="message-content">${message.replace(/\n/g, "<br/>")}</div>
       </div>
     </div>
     <div class="email-footer">
@@ -146,7 +148,7 @@ Sent on: ${new Date().toLocaleDateString()}
 
     const { data, error } = await resend.emails.send({
       from: fromEmail,
-      to: [process.env.TO_EMAIL ?? 'ben.wang9000@example.com'],
+      to: [process.env.TO_EMAIL ?? "ben.wang9000@example.com"],
       subject: `Contact Request: ${subject}`,
       replyTo: email,
       text: textContent,
@@ -154,17 +156,17 @@ Sent on: ${new Date().toLocaleDateString()}
     });
 
     if (error) {
-      console.error('Resend API error:', error);
+      console.error("Resend API error:", error);
       return {
-        error: 'Failed to send email',
+        error: "Failed to send email",
       };
     }
 
     return { success: true, data };
   } catch (error) {
-    console.error('Server error:', error);
+    console.error("Server error:", error);
     return {
-      error: 'Internal server error',
+      error: "Internal server error",
     };
   }
 }

@@ -1,35 +1,35 @@
-'use client';
+"use client";
 
-import { cn } from '@/lib/utils';
-import { forwardRef } from 'react';
+import { forwardRef } from "react";
+import { cn } from "@/lib/utils";
 
-interface SectionCardProps extends React.HTMLAttributes<HTMLElement> {
-    children: React.ReactNode;
-    title?: string;
-}
+type SectionCardProps = React.HTMLAttributes<HTMLElement> & {
+  children: React.ReactNode;
+  title?: string;
+};
 
 export const SectionCard = forwardRef<HTMLElement, SectionCardProps>(
-    ({ children, title, className, ...props }, ref) => {
-        return (
-            <section
-                ref={ref}
-                className={cn(
-                    "bg-muted rounded-3xl border border-border/40",
-                    className
-                )}
-                {...props}
-            >
-                {title && (
-                    <div className="mb-12">
-                        <h2 className="text-md font-bold tracking-widest uppercase text-foreground font-mono">
-                            {title}
-                        </h2>
-                    </div>
-                )}
-                {children}
-            </section>
-        );
-    }
+  ({ children, title, className, ...props }, ref) => {
+    return (
+      <section
+        className={cn(
+          "rounded-3xl border border-border/40 bg-muted",
+          className
+        )}
+        ref={ref}
+        {...props}
+      >
+        {title && (
+          <div className="mb-12">
+            <h2 className="font-bold font-mono text-foreground text-md uppercase tracking-widest">
+              {title}
+            </h2>
+          </div>
+        )}
+        {children}
+      </section>
+    );
+  }
 );
 
-SectionCard.displayName = 'SectionCard';
+SectionCard.displayName = "SectionCard";

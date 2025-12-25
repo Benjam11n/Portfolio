@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { TextShimmer } from '@/components/ui/text-shimmer';
+import { TextShimmer } from "@/components/ui/text-shimmer";
 
 const Loading = () => {
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center gap-8">
       <TextShimmer
         as="h1"
-        className="text-xl font-bold [--base-color:theme(colors.primary.DEFAULT)] [--base-gradient-color:theme(colors.primary.foreground)] md:text-2xl"
+        className="font-bold text-xl [--base-color:theme(colors.primary.DEFAULT)] [--base-gradient-color:theme(colors.primary.foreground)] md:text-2xl"
         duration={1.5}
       >
         Loading...
