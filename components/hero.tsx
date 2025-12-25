@@ -29,7 +29,7 @@ export const Hero = () => {
 
   return (
     <SectionCard
-      className="flex min-h-[50vh] flex-col justify-center px-6 py-24 sm:px-12 sm:py-32"
+      className="scroll-mt-24 p-6 sm:p-8"
       ref={containerRef}
     >
       <h1 className="hero-text mb-6 font-bold text-4xl text-primary tracking-tight sm:text-6xl">

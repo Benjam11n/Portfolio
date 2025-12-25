@@ -6,7 +6,7 @@ import { CONTACT_INFO } from "@/constants";
 
 export const Contact = () => {
   return (
-    <SectionCard className="p-8 sm:p-12" id="contact" title="Contact">
+    <SectionCard className="scroll-mt-24 p-6 sm:p-8" id="contact" title="Contact">
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
         <div>
           <h3 className="mb-4 font-medium text-lg">Get in touch</h3>
