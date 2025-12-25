@@ -36,11 +36,7 @@ export const Projects = () => {
   );
 
   return (
-    <SectionCard id="projects" ref={containerRef} className="p-8 sm:p-12 scroll-mt-24">
-      <div className="flex items-center gap-4 mb-12">
-        <h2 className="text-2xl font-semibold tracking-tight">Projects</h2>
-        <div className="h-px bg-border flex-1" />
-      </div>
+    <SectionCard id="projects" ref={containerRef} title="Projects" className="p-8 sm:p-12 scroll-mt-24">
 
       <div className="grid grid-cols-1 gap-8">
         {projects.map((project) => (

@@ -29,11 +29,7 @@ export const Certifications = () => {
     }, { scope: containerRef });
 
     return (
-        <SectionCard id="certifications" ref={containerRef} className="p-8 sm:p-12 scroll-mt-24">
-            <div className="flex items-center gap-4 mb-12">
-                <h2 className="text-2xl font-semibold tracking-tight">Certifications</h2>
-                <div className="h-px bg-border flex-1" />
-            </div>
+        <SectionCard id="certifications" ref={containerRef} title="Certifications" className="p-8 sm:p-12 scroll-mt-24">
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {certifications.map((cert) => (

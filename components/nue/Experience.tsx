@@ -34,11 +34,7 @@ export const Experience = () => {
   );
 
   return (
-    <SectionCard id="experience" ref={containerRef} className="p-8 sm:p-12 scroll-mt-24">
-      <div className="flex items-center gap-4 mb-12">
-        <h2 className="text-2xl font-semibold tracking-tight">Experience</h2>
-        <div className="h-px bg-border flex-1" />
-      </div>
+    <SectionCard id="experience" ref={containerRef} title="Experience" className="p-8 sm:p-12 scroll-mt-24">
 
       <div className="flex flex-col gap-6">
         {workExperiences.map((item) => (
