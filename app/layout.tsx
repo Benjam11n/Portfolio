@@ -1,14 +1,10 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { Inter } from 'next/font/google';
 
 import { ThemeProvider } from '@/components/ThemeProvider';
 
-const comicCat = localFont({
-  src: './fonts/Comic_CAT.otf',
-  variable: '--font-cat',
-  weight: '100 200 300 400 500 700 800 900',
-});
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: "Benjamin's Portfolio",
@@ -52,34 +48,20 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: "Benjamin's Portfolio",
-    description: 'Full Stack Developer & AI Enthusiast Portfolio',
-    images: ['/assets/og-cover.png'],
-    creator: '@benjaminwjy',
-  },
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-  ],
 };
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={comicCat.variable}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+      <body className={`${inter.variable} font-sans antialiased bg-background text-foreground`}>
+        <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
           {children}
         </ThemeProvider>
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}
