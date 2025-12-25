@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   Award,
   Briefcase,
@@ -53,7 +55,7 @@ interface ProjectTechnology {
   name: string;
   color: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  icon?: (props: { className: string }) => JSX.Element;
+  icon?: (props: { className: string }) => React.JSX.Element;
   path: string;
 }
 
