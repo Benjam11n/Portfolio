@@ -1,7 +1,7 @@
 'use client';
 
 import { workExperiences } from '@/constants';
-import { SectionCard } from '@/components/nue/SectionCard';
+import { SectionCard } from '@/components/section-card';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';

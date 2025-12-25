@@ -1,6 +1,6 @@
 'use client';
 
-import { SectionCard } from '@/components/nue/SectionCard';
+import { SectionCard } from '@/components/section-card';
 import Link from 'next/link';
 
 export const About = () => {

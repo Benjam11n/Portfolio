@@ -1,6 +1,6 @@
 'use client';
 
-import { SectionCard } from '@/components/nue/SectionCard';
+import { SectionCard } from '@/components/section-card';
 import { PROJECTS } from '@/constants';
 
 // Extract unique technologies from all projects
