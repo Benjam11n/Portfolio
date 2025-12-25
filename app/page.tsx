@@ -1,10 +1,10 @@
-import { Certifications } from '@/components/nue/Certifications';
-import { Contact } from '@/components/nue/Contact';
-import { About } from '@/components/nue/About';
-import { Experience } from '@/components/nue/Experience';
-import { Hero } from '@/components/nue/Hero';
-import { Projects } from '@/components/nue/Projects';
-import { TechStack } from '@/components/nue/TechStack';
+import { Certifications } from '@/components/certification';
+import { Contact } from '@/components/contact';
+import { About } from '@/components/about';
+import { Experience } from '@/components/experience';
+import { Hero } from '@/components/hero';
+import { Projects } from '@/components/projects';
+import { TechStack } from '@/components/tech-stack';
 
 export default function Home() {
   return (

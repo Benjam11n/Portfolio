@@ -1,6 +1,6 @@
 'use client';
 
-import { SectionCard } from '@/components/nue/SectionCard';
+import { SectionCard } from '@/components/section-card';
 import { CONTACT_INFO } from '@/constants';
 import { ArrowUpRight } from 'lucide-react';
 
