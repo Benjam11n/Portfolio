@@ -7,7 +7,7 @@ import { TechStack } from '@/components/nue/TechStack';
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-2xl px-6 py-12 sm:px-12 sm:py-24">
+    <main className="mx-auto px-6 py-12 sm:px-12 sm:py-24">
       <Hero />
       <Experience />
       <Projects />

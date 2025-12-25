@@ -5,7 +5,7 @@ import { ArrowUpRight } from 'lucide-react';
 
 export const Contact = () => {
   return (
-    <section id="contact" className="py-24">
+    <section id="contact" className="p-8 sm:p-12 mb-8 bg-muted/30 rounded-3xl border border-border/40">
       <div className="flex items-center gap-4 mb-12">
         <h2 className="text-2xl font-semibold tracking-tight">Contact</h2>
         <div className="h-px bg-border flex-1" />
