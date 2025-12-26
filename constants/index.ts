@@ -86,7 +86,7 @@ type Project = {
 export const PROJECTS: Record<string, Project> = {
   twinAI: {
     id: "twinAI",
-    title: "TwinAI - AI-Powered Digital Twins for Mental Health Therapy",
+    title: "TwinAI - AI-Powered Digital Twins for Therapy",
     description:
       "A platform that uses AI-powered digital twins to revolutionize mental health therapy and treatment.",
     subdesc:

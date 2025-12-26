@@ -67,7 +67,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
           </div>
         </div>
         <div className="pl-[72px] sm:pl-0">
-          <span className="font-medium font-mono text-[#555555] text-xs">
+          <span className="font-mono font-semibold text-[#555555] text-sm">
             {item.duration}
           </span>
         </div>
