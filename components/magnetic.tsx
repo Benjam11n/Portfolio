@@ -1,16 +1,17 @@
+/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: Interaction is hover-only wrapper */
+/** biome-ignore-all lint/a11y/noStaticElementInteractions: Interaction is hover-only wrapper */
 "use client";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import React, { useRef } from "react";
+import { type ReactElement, useRef } from "react";
 
-export function Magnetic({
-  children,
-  strength = 0.35, // Increased strength slightly for better feel
-}: {
-  children: React.ReactElement; // Enforce single element to clone
+type MagneticProps = {
+  children: ReactElement;
   strength?: number;
-}) {
+};
+
+export function Magnetic({ children, strength = 0.35 }: MagneticProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   const { contextSafe } = useGSAP({ scope: ref });
@@ -54,9 +55,14 @@ export function Magnetic({
     moveY.current?.(0);
   });
 
-  return React.cloneElement(children, {
-    ref,
-    onMouseMove: handleMouseMove,
-    onMouseLeave: handleMouseLeave,
-  });
+  return (
+    <div
+      className="inline-block"
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
+      ref={ref}
+    >
+      {children}
+    </div>
+  );
 }
