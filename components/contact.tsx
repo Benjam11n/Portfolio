@@ -1,10 +1,16 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+
+gsap.registerPlugin(ScrollTrigger);
+
 import { SectionCard } from "@/components/section-card";
 import {
   Form,
@@ -69,9 +75,30 @@ export const Contact = () => {
     });
   }
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      gsap.set(containerRef.current, { autoAlpha: 0, y: 30 });
+
+      gsap.to(containerRef.current, {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.8,
+        ease: "power3.out",
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
     <SectionCard id="contact" title="Contact">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4" ref={containerRef}>
         <div>
           <p className="mb-8 max-w-md font-sans text-md text-muted-foreground">
             I&apos;m always open to new projects, collaborations, or a

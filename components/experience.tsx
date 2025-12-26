@@ -1,15 +1,40 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useRef } from "react";
 import { SectionCard } from "@/components/section-card";
 import { workExperiences } from "@/constants";
 import { ExperienceItem } from "./experience-item";
 
 export const Experience = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      gsap.from(".experience-item", {
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out",
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
     <SectionCard id="experience" title="Experience">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4" ref={containerRef}>
         {workExperiences.map((item) => (
-          <ExperienceItem item={item} key={item.id} />
+          <div className="experience-item" key={item.id}>
+            <ExperienceItem item={item} />
+          </div>
         ))}
       </div>
     </SectionCard>

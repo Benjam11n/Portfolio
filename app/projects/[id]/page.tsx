@@ -1,18 +1,17 @@
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BorderedImage } from "@/components/bordered-image";
 import { PROJECTS } from "@/constants";
 
-// Types
 type Props = {
   params: Promise<{
     id: string;
   }>;
 };
 
-// Generate metadata for the page
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const project = PROJECTS[id];
@@ -64,10 +63,12 @@ export default async function ProjectPage({ params }: Props) {
                 className="flex h-16 w-16 items-center justify-center rounded-2xl bg-card shadow-sm"
                 style={project.logoStyle}
               >
-                <img
+                <Image
                   alt={project.title}
                   className="h-10 w-10 object-contain"
+                  height={40}
                   src={project.logo}
+                  width={40}
                 />
               </div>
               <div>
@@ -141,9 +142,9 @@ export default async function ProjectPage({ params }: Props) {
                 <ul className="grid gap-4 sm:grid-cols-2">
                   {project.features.map((feature, index) => (
                     <li
-                      // biome-ignore lint/suspicious/noArrayIndexKey: Static data
                       className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:bg-secondary/20"
-                      key={index}
+                      // biome-ignore lint/suspicious/noArrayIndexKey: Static features list with guaranteed order
+                      key={`${feature}-${index}`}
                     >
                       <div className="mt-1 h-2 w-2 rounded-full bg-primary" />
                       <span className="text-muted-foreground">{feature}</span>

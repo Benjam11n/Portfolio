@@ -1,3 +1,5 @@
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { About } from "@/components/about";
 import { Certifications } from "@/components/certification";
 import { Contact } from "@/components/contact";
@@ -5,6 +7,8 @@ import { Experience } from "@/components/experience";
 import { Hero } from "@/components/hero";
 import { Projects } from "@/components/projects";
 import { TechStack } from "@/components/tech-stack";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   return (

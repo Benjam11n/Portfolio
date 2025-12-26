@@ -2,13 +2,10 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { SectionCard } from "@/components/section-card";
 import { certifications } from "@/constants";
 import { CertificationCard } from "./certification-card";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export const Certifications = () => {
   const containerRef = useRef<HTMLElement>(null);
