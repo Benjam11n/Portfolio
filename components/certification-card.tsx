@@ -75,7 +75,7 @@ export const CertificationCard = ({ cert }: CertificationCardProps) => {
       style={{ perspective: 1000 }}
     >
       <div
-        className="relative h-full w-full overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-xl"
+        className="relative h-full w-full overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-xl"
         ref={cardRef}
         style={{ transformStyle: "preserve-3d" }}
       >

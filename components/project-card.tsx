@@ -8,12 +8,10 @@ type Project = (typeof PROJECTS)[keyof typeof PROJECTS];
 
 import Link from "next/link";
 
-/* ... imports ... */
-
 export const ProjectCard = ({ project }: { project: Project }) => {
   return (
     <Link
-      className="group block w-full cursor-pointer rounded-2xl bg-card p-2 shadow-sm transition-all duration-300 hover:shadow-lg sm:p-5"
+      className="group block w-full cursor-pointer rounded-2xl bg-card p-2 shadow-sm transition-all duration-300 hover:shadow-lg sm:p-2 sm:pb-4"
       href={`/projects/${project.id}`}
     >
       {/* Visual Part */}
@@ -37,7 +35,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
         {project.logo && (
           <div className="absolute top-4 left-4">
             <div
-              className="rounded-xl bg-card/90 p-2 shadow-sm backdrop-blur-sm"
+              className="rounded-2xl bg-card/90 p-2 shadow-sm backdrop-blur-sm"
               style={project.logoStyle}
             >
               <Image
@@ -54,34 +52,35 @@ export const ProjectCard = ({ project }: { project: Project }) => {
 
       {/* Content Part */}
       <div className="mt-4 flex flex-col items-center gap-4 px-2">
-        <h3 className="font-bold text-foreground text-xl leading-snug">
-          {project.title}
+        <h3 className="font-semibold text-foreground text-lg leading-snug">
+          {project.title.split(" - ")[0]}
+          {project.title.split(" - ")[1] && (
+            <span className="font-semibold text-muted-foreground">
+              {" - "}
+              {project.title.split(" - ")[1]}
+            </span>
+          )}
         </h3>
 
         {/* Tech Stack - Row of Bordered Images */}
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          {project.techStack.map((tech) => (
-            <div key={tech.name}>
-              <BorderedImage
-                alt={tech.name}
-                colorDark={tech.colorDark}
-                colorLight={tech.colorLight}
-                containerClassName="h-10 w-10 shrink-0"
-                height={20}
-                imageClassName="p-[6px]"
-                src={tech.path}
-                width={20}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Links */}
-        <div className="flex gap-2">
-          <div className="flex h-8 items-center justify-center rounded-md border border-transparent bg-secondary px-3 font-medium text-xs transition-colors hover:border-border hover:bg-accent">
-            View Details
+        {!!project.techStack.length && (
+          <div className="flex flex-wrap items-center justify-center gap-2 pb-2">
+            {project.techStack.map((tech) => (
+              <div key={tech.name}>
+                <BorderedImage
+                  alt={tech.name}
+                  colorDark={tech.colorDark}
+                  colorLight={tech.colorLight}
+                  containerClassName="h-10 w-10 shrink-0"
+                  height={20}
+                  imageClassName="p-[6px]"
+                  src={tech.path}
+                  width={20}
+                />
+              </div>
+            ))}
           </div>
-        </div>
+        )}
       </div>
     </Link>
   );

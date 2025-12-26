@@ -71,7 +71,7 @@ export const Contact = () => {
 
   return (
     <SectionCard id="contact" title="Contact">
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-4">
         <div>
           <p className="mb-8 max-w-md font-sans text-md text-muted-foreground">
             I&apos;m always open to new projects, collaborations, or a
@@ -103,7 +103,9 @@ export const Contact = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-medium text-sm">Name</FormLabel>
+                    <FormLabel className="mb-2 block font-medium text-sm">
+                      Name
+                    </FormLabel>
                     <FormControl>
                       <Input
                         className="bg-card"
@@ -121,7 +123,9 @@ export const Contact = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-medium text-sm">Email</FormLabel>
+                    <FormLabel className="mb-2 block font-medium text-sm">
+                      Email
+                    </FormLabel>
                     <FormControl>
                       <Input
                         className="bg-card"
@@ -140,7 +144,9 @@ export const Contact = () => {
               name="subject"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-medium text-sm">Subject</FormLabel>
+                  <FormLabel className="mb-2 block font-medium text-sm">
+                    Subject
+                  </FormLabel>
                   <FormControl>
                     <Input
                       className="bg-card"
@@ -157,11 +163,13 @@ export const Contact = () => {
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-medium text-sm">Message</FormLabel>
+                  <FormLabel className="mb-2 block font-medium text-sm">
+                    Message
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       className="bg-card"
-                      placeholder="Hello..."
+                      placeholder="Hello! I want to give you a job..."
                       rows={8}
                       {...field}
                     />
