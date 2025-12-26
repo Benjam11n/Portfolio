@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { PROJECTS } from "@/constants";
+import { PROJECTS } from "@/constants/projects";
 
 export function ProjectNavigation({ currentId }: { currentId: string }) {
   const projectIds = Object.keys(PROJECTS);

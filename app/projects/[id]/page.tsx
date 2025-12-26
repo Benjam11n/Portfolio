@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProjectNavigation } from "@/components/project-navigation";
-import { SectionCard } from "@/components/section-card";
-import { PROJECTS } from "@/constants";
+import { ProjectNavigation } from "@/components/shared/project-navigation";
+import { SectionCard } from "@/components/shared/section-card";
+import { PROJECTS } from "@/constants/projects";
 import { ProjectDetailsGrid } from "./_components/project-details-grid";
 import { ProjectHero } from "./_components/project-hero";
 import { ProjectOverview } from "./_components/project-overview";

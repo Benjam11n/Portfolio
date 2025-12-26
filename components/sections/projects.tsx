@@ -4,9 +4,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import { SectionCard } from "@/components/section-card";
-import { PROJECTS } from "@/constants";
-import { ProjectCard } from "./project-card";
+import { ProjectCard } from "@/components/shared/project-card";
+import { SectionCard } from "@/components/shared/section-card";
+import { PROJECTS } from "@/constants/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 

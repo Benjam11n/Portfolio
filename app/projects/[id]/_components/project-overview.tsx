@@ -4,9 +4,10 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import { TechStackItem } from "@/components/tech-stack-item";
-import type { Project } from "@/constants";
-import { DEFAULT_FEATURE_ICON, STACKS } from "@/constants";
+import { TechStackItem } from "@/components/shared/tech-stack-item";
+import { DEFAULT_FEATURE_ICON } from "@/constants/projects";
+import { STACKS } from "@/constants/stacks";
+import type { Project } from "@/types";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);

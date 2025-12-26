@@ -2,11 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { BorderedImage } from "@/components/bordered-image";
-import { Magnetic } from "@/components/magnetic";
-import type { PROJECTS } from "@/constants";
-
-type Project = (typeof PROJECTS)[keyof typeof PROJECTS];
+import { Magnetic } from "@/components/effects/magnetic";
+import { BorderedImage } from "@/components/shared/bordered-image";
+import type { Project } from "@/types";
 
 export const ProjectCard = ({ project }: { project: Project }) => {
   return (

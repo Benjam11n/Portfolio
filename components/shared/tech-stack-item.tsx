@@ -5,8 +5,8 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
-import { BorderedImage } from "@/components/bordered-image";
-import type { STACKS } from "@/constants";
+import { BorderedImage } from "@/components/shared/bordered-image";
+import type { STACKS } from "@/constants/stacks";
 import { cn } from "@/lib/utils";
 
 type TechStackItemProps = {

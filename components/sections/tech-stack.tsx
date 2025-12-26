@@ -3,9 +3,9 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
-import { SectionCard } from "@/components/section-card";
-import { STACKS } from "@/constants";
-import { TechStackItem } from "./tech-stack-item";
+import { SectionCard } from "@/components/shared/section-card";
+import { TechStackItem } from "@/components/shared/tech-stack-item";
+import { STACKS } from "@/constants/stacks";
 
 export const TechStack = () => {
   const containerRef = useRef<HTMLDivElement>(null);
