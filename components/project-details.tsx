@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { ShiftButton } from "@/components/ui/shift-button";
+import { ShiftButton } from "@/components/shift-button";
 import type { PROJECTS } from "@/constants";
 
 type Project = (typeof PROJECTS)[keyof typeof PROJECTS];

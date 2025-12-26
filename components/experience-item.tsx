@@ -4,8 +4,8 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef } from "react";
-import { BorderedImage } from "@/components/ui/bordered-image";
+import { useRef, useState } from "react";
+import { BorderedImage } from "@/components/bordered-image";
 import type { workExperiences } from "@/constants";
 
 type ExperienceItemProps = {
@@ -15,40 +15,51 @@ type ExperienceItemProps = {
 export const ExperienceItem = ({ item }: ExperienceItemProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 
-  const onEnter = contextSafe(() => {
-    gsap.to(contentRef.current, {
-      height: "auto",
-      duration: 0.4,
-      ease: "power2.out",
-    });
-    gsap.to(contentRef.current, {
-      opacity: 1,
-      duration: 0.3,
-      delay: 0.1,
-    });
-  });
+  const toggleOpen = contextSafe(() => {
+    const nextState = !isOpen;
+    setIsOpen(nextState);
 
-  const onLeave = contextSafe(() => {
-    gsap.to(contentRef.current, {
-      height: 0,
-      duration: 0.3,
-      ease: "power2.in",
-    });
-    gsap.to(contentRef.current, {
-      opacity: 0,
-      duration: 0.2,
-    });
+    if (nextState) {
+      gsap.to(contentRef.current, {
+        height: "auto",
+        duration: 0.4,
+        ease: "power2.out",
+      });
+      gsap.to(contentRef.current, {
+        opacity: 1,
+        duration: 0.3,
+        delay: 0.1,
+      });
+    } else {
+      gsap.to(contentRef.current, {
+        height: 0,
+        duration: 0.3,
+        ease: "power2.in",
+      });
+      gsap.to(contentRef.current, {
+        opacity: 0,
+        duration: 0.2,
+      });
+    }
   });
 
   return (
     <div
       className="group cursor-pointer rounded-2xl bg-card p-4 shadow-sm transition-transform hover:scale-[1.01]"
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
+      onClick={toggleOpen}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleOpen();
+        }
+      }}
       ref={containerRef}
+      role="button"
+      tabIndex={0}
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">

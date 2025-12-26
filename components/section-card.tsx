@@ -20,8 +20,8 @@ export const SectionCard = forwardRef<HTMLElement, SectionCardProps>(
         {...props}
       >
         {title && (
-          <div className="mb-8">
-            <h2 className="font-bold font-mono text-foreground text-md uppercase tracking-wider">
+          <div className="mb-4">
+            <h2 className="font-bold font-mono text-foreground text-md uppercase">
               {title}
             </h2>
           </div>

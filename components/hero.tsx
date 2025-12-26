@@ -1,8 +1,8 @@
 "use client";
 
 import { BadgeCheck } from "lucide-react";
-import { BorderedImage } from "@/components/ui/bordered-image";
-import { ShiftButton } from "@/components/ui/shift-button";
+import { BorderedImage } from "@/components/bordered-image";
+import { ShiftButton } from "@/components/shift-button";
 import { SectionCard } from "./section-card";
 
 export const Hero = () => {
@@ -23,7 +23,14 @@ export const Hero = () => {
           <h1 className="font-bold text-foreground text-xl tracking-tight sm:text-2xl">
             Benjamin Wang
           </h1>
-          <BadgeCheck className="h-6 w-6 text-primary" />
+          <BadgeCheck
+            className="h-6 w-6"
+            strokeWidth={2.5}
+            style={{
+              fill: "#1DA1F2",
+              color: "white",
+            }}
+          />
         </div>
 
         {/* Role */}

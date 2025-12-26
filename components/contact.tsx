@@ -1,90 +1,180 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 import { SectionCard } from "@/components/section-card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { CONTACT_INFO } from "@/constants";
+import { sendEmailAction } from "@/lib/actions/email";
+import { ShiftSubmitButton } from "./shift-submit-button";
+
+const formSchema = z.object({
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+  subject: z.string().min(5, {
+    message: "Subject must be at least 5 characters.",
+  }),
+  message: z.string().min(10, {
+    message: "Message must be at least 10 characters.",
+  }),
+});
 
 export const Contact = () => {
+  const filteredContactInfo = CONTACT_INFO.filter((item) =>
+    ["Email", "Telegram", "LinkedIn"].includes(item.title)
+  );
+
+  const [isPending, startTransition] = useTransition();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    startTransition(async () => {
+      const result = await sendEmailAction(values);
+
+      if (result.error) {
+        toast.error("Error", {
+          description: result.error,
+        });
+      } else {
+        toast.success("Success", {
+          description: "Message sent! I'll get back to you soon.",
+        });
+        form.reset();
+      }
+    });
+  }
+
   return (
     <SectionCard id="contact" title="Contact">
-      <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
+      <div className="flex flex-col gap-8">
         <div>
-          <h3 className="mb-4 font-medium text-lg">Get in touch</h3>
-          <p className="mb-8 text-muted-foreground leading-relaxed">
-            I'm currently looking for new opportunities. Whether you have a
-            question or just want to say hi, I'll try my best to get back to
-            you!
+          <p className="mb-8 max-w-md font-sans text-md text-muted-foreground">
+            I&apos;m always open to new projects, collaborations, or a
+            conversation about design. If you have an idea in mind or want to
+            connect, feel free to get in touch.
           </p>
 
-          <div className="flex flex-col gap-4">
-            {CONTACT_INFO.map((item) => (
+          <div className="flex items-center gap-4">
+            {filteredContactInfo.map((item) => (
               <a
-                className="group flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition-colors hover:bg-secondary"
+                className="group relative transition-transform hover:scale-110"
                 href={item.link}
                 key={item.title}
                 rel="noreferrer"
                 target="_blank"
               >
-                <item.icon className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-foreground" />
-                <div className="flex-1">
-                  <span className="block font-medium text-foreground text-sm">
-                    {item.title}
-                  </span>
-                  <span className="text-muted-foreground text-sm">
-                    {item.value || "Link"}
-                  </span>
-                </div>
-                <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                <item.icon className="h-5 w-5 text-foreground transition-colors duration-300" />
+                <span className="sr-only">{item.title}</span>
               </a>
             ))}
           </div>
         </div>
 
-        <form className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="font-medium text-sm" htmlFor="name">
-                Name
-              </label>
-              <input
-                className="w-full rounded-lg border border-border bg-background px-4 py-3 transition-all focus:outline-none focus:ring-2 focus:ring-primary/20"
-                id="name"
-                placeholder="John Doe"
-                type="text"
+        <Form {...form}>
+          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-medium text-sm">Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="bg-card"
+                        placeholder="John Doe"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="space-y-2">
-              <label className="font-medium text-sm" htmlFor="email">
-                Email
-              </label>
-              <input
-                className="w-full rounded-lg border border-border bg-background px-4 py-3 transition-all focus:outline-none focus:ring-2 focus:ring-primary/20"
-                id="email"
-                placeholder="john@example.com"
-                type="email"
-              />
-            </div>
-          </div>
 
-          <div className="space-y-2">
-            <label className="font-medium text-sm" htmlFor="message">
-              Message
-            </label>
-            <textarea
-              className="w-full resize-none rounded-lg border border-border bg-background px-4 py-3 transition-all focus:outline-none focus:ring-2 focus:ring-primary/20"
-              id="message"
-              placeholder="Hello..."
-              rows={5}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-medium text-sm">Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="bg-card"
+                        placeholder="johndoe@gmail.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="subject"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-medium text-sm">Subject</FormLabel>
+                  <FormControl>
+                    <Input
+                      className="bg-card"
+                      placeholder="Project Inquiry"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-
-          <button
-            className="w-full rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-opacity hover:opacity-90"
-            type="submit"
-          >
-            Send Message
-          </button>
-        </form>
+            <FormField
+              control={form.control}
+              name="message"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-medium text-sm">Message</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="bg-card"
+                      placeholder="Hello..."
+                      rows={8}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <ShiftSubmitButton isLoading={isPending} type="submit">
+              Submit
+            </ShiftSubmitButton>
+          </form>
+        </Form>
       </div>
     </SectionCard>
   );
