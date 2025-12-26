@@ -104,7 +104,7 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
             loop
             muted
             playsInline
-            src={project.texture}
+            src={project.video_overview}
           />
 
           <MediaPreviewOverlay icon={<Maximize2 className="h-4 w-4" />} />
@@ -113,7 +113,7 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
       <FullscreenMedia
         isOpen={isFullscreen}
         onClose={() => setIsFullscreen(false)}
-        src={project.texture || ""}
+        src={project.video_overview || ""}
         type="video"
       />
     </div>

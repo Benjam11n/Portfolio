@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { Magnetic } from "@/components/effects/magnetic";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { ROUTES } from "@/constants/navigation";
+import { TECH_STACK } from "@/constants/tech-stack";
 import type { Project } from "@/types";
 
 export const ProjectCard = ({ project }: { project: Project }) => {
@@ -56,14 +57,14 @@ export const ProjectCard = ({ project }: { project: Project }) => {
     >
       {/* Visual Part */}
       <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-secondary">
-        {project.texture ? (
+        {project.video_overview ? (
           <video
             autoPlay
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             loop
             muted
             playsInline
-            src={project.texture}
+            src={project.video_overview}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-muted-foreground">
@@ -105,22 +106,31 @@ export const ProjectCard = ({ project }: { project: Project }) => {
 
         {!!project.techStack.length && (
           <div className="flex flex-wrap items-center justify-center gap-2 pb-2">
-            {project.techStack.map((tech) => (
-              <Magnetic key={tech.name}>
-                <div className="cursor-pointer">
-                  <BorderedImage
-                    alt={tech.name}
-                    colorDark={tech.colorDark}
-                    colorLight={tech.colorLight}
-                    containerClassName="h-10 w-10 shrink-0"
-                    height={20}
-                    imageClassName="p-[6px]"
-                    src={tech.path}
-                    width={20}
-                  />
-                </div>
-              </Magnetic>
-            ))}
+            {project.techStack.map((techName) => {
+              const tech = TECH_STACK.find(
+                (t) => t.name.toLowerCase() === techName.toLowerCase()
+              );
+              if (!tech) {
+                return null;
+              }
+
+              return (
+                <Magnetic key={techName}>
+                  <div className="cursor-pointer">
+                    <BorderedImage
+                      alt={tech.name}
+                      colorDark={tech.colorDark}
+                      colorLight={tech.colorLight}
+                      containerClassName="h-10 w-10 shrink-0"
+                      height={20}
+                      imageClassName="p-[6px]"
+                      src={tech.icon}
+                      width={20}
+                    />
+                  </div>
+                </Magnetic>
+              );
+            })}
           </div>
         )}
       </div>

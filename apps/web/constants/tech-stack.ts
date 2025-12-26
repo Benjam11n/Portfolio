@@ -1,4 +1,4 @@
-export const STACKS = [
+export const TECH_STACK = [
   // --- AI/ML ---
   {
     name: "Numpy",
@@ -49,7 +49,7 @@ export const STACKS = [
     icon: "/assets/nextjs.svg",
     category: "Framework",
     colorLight: "#F3F4F6",
-    colorDark: "#3b3b3bff",
+    colorDark: "#F3F4F6",
   },
   {
     name: "Node.js",

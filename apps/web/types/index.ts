@@ -27,13 +27,12 @@ export type Project = {
   github?: string;
 
   // Visual elements
-  texture?: string;
+  video_overview?: string;
   logo: string;
   logoStyle?: React.CSSProperties;
-  spotlight: string;
 
   // Technologies used
-  techStack: ProjectTechnology[];
+  techStack: string[];
 
   // Features
   features?: string[];
@@ -45,9 +44,8 @@ export type Experience = {
   name: string;
   pos: string;
   duration: string;
-  title: string;
+  points: string[];
   icon: string;
-  texture: string;
 };
 
 export type Certification = {

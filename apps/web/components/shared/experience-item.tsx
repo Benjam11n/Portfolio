@@ -84,9 +84,34 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         style={{ willChange: "height, opacity" }}
       >
         <div className="pt-4 pl-[72px]">
-          <p className="text-muted-foreground text-sm leading-relaxed">
-            {item.title}
-          </p>
+          <ul className="flex list-none flex-col gap-2">
+            {item.points.map((point, index) => {
+              // Simple markdown bold parser: **text** -> <strong>text</strong>
+              const parts = point.split(/(\*\*.*?\*\*)/g);
+              return (
+                <li
+                  className="flex items-start gap-2 text-muted-foreground text-sm leading-relaxed"
+                  key={`${item.id}-point-${index}`}
+                >
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/40" />
+                  <span>
+                    {parts.map((part, i) =>
+                      part.startsWith("**") && part.endsWith("**") ? (
+                        <strong
+                          className="font-bold text-foreground/90"
+                          key={`${item.id}-point-${index}-part-${i}`}
+                        >
+                          {part.slice(2, -2)}
+                        </strong>
+                      ) : (
+                        part
+                      )
+                    )}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </button>

@@ -9,10 +9,11 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
-// todo: move these to constants
+import { SITE_METADATA } from "@/constants/metadata";
+
 export const metadata: Metadata = createMetadata({
-  title: "Benjamin's Portfolio",
-  description: "Full Stack Developer & AI Enthusiast Portfolio",
+  title: `${SITE_METADATA.title} | Portfolio`,
+  description: SITE_METADATA.description,
 });
 
 export default function RootLayout({

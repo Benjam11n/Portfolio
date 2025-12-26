@@ -82,36 +82,40 @@ export const CertificationCard = ({ cert }: CertificationCardProps) => {
       style={{ perspective: 1000 }}
     >
       <div
-        className="relative h-full w-full overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm transition-shadow hover:shadow-xl"
+        className="relative flex h-full w-full flex-col overflow-hidden rounded-xl border border-border/40 bg-card p-5 shadow-sm transition-all hover:border-border/80 hover:shadow-md"
         ref={cardRef}
         style={{ transformStyle: "preserve-3d" }}
       >
+        {/* Date Badge */}
+        <span className="translate-z-12 absolute top-4 right-4 z-20 rounded-full border border-border/40 bg-background/60 px-2 py-0.5 font-mono text-[10px] text-muted-foreground uppercase tracking-wider backdrop-blur-md">
+          {cert.date}
+        </span>
+
         {/* Content with parallax */}
         <div
-          className="pointer-events-none relative z-10"
+          className="pointer-events-none relative z-10 flex flex-col"
           ref={contentRef}
           style={{ transform: "translateZ(50px)" }} // Add depth
         >
-          <div className="relative mb-4 aspect-video w-full overflow-hidden rounded-lg bg-secondary shadow-inner">
+          <div className="relative mb-5 aspect-[16/10] w-full overflow-hidden rounded-lg bg-muted shadow-sm">
             <Image
               alt={cert.name}
-              className="object-cover transition-opacity hover:opacity-100"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
               fill
               src={cert.image}
             />
           </div>
-          <h3 className="translate-z-10 mb-1 font-semibold text-foreground">
-            {cert.name}
-          </h3>
-          <p className="translate-z-8 mb-4 text-muted-foreground text-sm">
-            {cert.organization}
-          </p>
-          <p className="translate-z-6 line-clamp-3 text-muted-foreground/80 text-xs">
-            {cert.description}
-          </p>
-          <span className="translate-z-12 absolute top-6 right-6 rounded border border-border bg-background/80 px-2 py-1 font-mono text-xs backdrop-blur">
-            {cert.date}
-          </span>
+          <div className="flex flex-col gap-1.5">
+            <h3 className="translate-z-10 font-bold text-foreground text-md leading-snug tracking-tight">
+              {cert.name}
+            </h3>
+            <p className="translate-z-8 font-medium text-muted-foreground text-sm uppercase tracking-wide">
+              {cert.organization}
+            </p>
+            <p className="translate-z-6 mt-1 line-clamp-3 text-muted-foreground/90 text-sm leading-relaxed">
+              {cert.description}
+            </p>
+          </div>
         </div>
 
         {/* Glare Effect */}
