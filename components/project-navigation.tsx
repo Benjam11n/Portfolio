@@ -14,7 +14,7 @@ export function ProjectNavigation({ currentId }: { currentId: string }) {
   }
 
   return (
-    <div className="mt-20 flex justify-end border-border/10 border-t pt-10">
+    <div className="mt-10 flex justify-end border-border/10 border-t">
       <Link
         className="group flex flex-col items-end gap-1"
         href={`/projects/${nextProjectId}`}

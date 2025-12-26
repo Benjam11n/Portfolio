@@ -1,6 +1,7 @@
 import {
   Award,
   Briefcase,
+  CheckCircle2,
   Hammer,
   Home,
   Linkedin,
@@ -10,6 +11,8 @@ import {
   User,
 } from "lucide-react";
 import type React from "react";
+
+export const DEFAULT_FEATURE_ICON = CheckCircle2;
 
 export const GITHUB_URL = "https://github.com/Benjam11n";
 export const LINKEDIN_URL = "https://www.linkedin.com/in/benjaminwang-sg/";
@@ -86,6 +89,7 @@ export type Project = {
 
   // Features
   features?: string[];
+  featureIcon?: (props: { className: string }) => React.JSX.Element;
 };
 
 export const PROJECTS: Record<string, Project> = {
