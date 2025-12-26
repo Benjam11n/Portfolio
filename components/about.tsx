@@ -12,6 +12,7 @@ export const About = () => {
 
   useGSAP(
     () => {
+      const mm = gsap.matchMedia();
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -21,37 +22,58 @@ export const About = () => {
         defaults: { ease: "power3.out" },
       });
 
-      // Images popup
-      tl.from(".about-image", {
-        scale: 0,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "back.out(1.5)",
-      });
-
-      // Text stagger
-      tl.from(
-        ".about-text",
+      mm.add(
         {
-          y: 30,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.1,
+          isDesktop: "(min-width: 768px)",
+          isMobile: "(max-width: 767px)",
         },
-        "-=0.4"
-      );
+        (context) => {
+          const { isDesktop } = context.conditions as {
+            isDesktop: boolean;
+          };
+          const offset = isDesktop ? -220 : -40;
 
-      // Button pop
-      tl.from(
-        ".about-button",
-        {
-          scale: 0,
-          opacity: 0,
-          duration: 0.6,
-          ease: "back.out(1.5)",
-        },
-        "-=0.4"
+          // Images popup
+          tl.from(".about-image", {
+            scale: 0,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "back.out(1.5)",
+          });
+
+          // Text stagger
+          tl.from(
+            ".about-text",
+            {
+              y: 30,
+              opacity: 0,
+              duration: 0.8,
+              stagger: 0.1,
+            },
+            "-=0.4"
+          );
+
+          // Button pop
+          tl.fromTo(
+            ".about-button",
+            {
+              scale: 0,
+              opacity: 0,
+              x: offset,
+              duration: 0.6,
+              ease: "back.out(1.5)",
+            },
+            {
+              scale: 1,
+              opacity: 1,
+              x: 0,
+              duration: 0.6,
+              ease: "back.out(1.5)",
+            },
+            "-=0.4"
+          );
+        }
       );
     },
     { scope: containerRef }

@@ -56,10 +56,12 @@ export default async function ProjectPage({ params }: Props) {
       </SectionCard>
 
       {/* CONTENT AREA */}
-      <SectionCard title="Overview">
-        <ProjectOverview project={project} />
-        <ProjectNavigation currentId={id} />
-      </SectionCard>
+      {!!project.subdesc && (
+        <SectionCard title="Overview">
+          <ProjectOverview project={project} />
+          <ProjectNavigation currentId={id} />
+        </SectionCard>
+      )}
     </main>
   );
 }
