@@ -1,9 +1,11 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { ArrowLeft, Maximize2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ShiftButton } from "@/components/shift-button";
 import type { Project } from "@/constants";
 import { FullscreenMedia } from "./fullscreen-media";
@@ -14,12 +16,56 @@ type ProjectHeroProps = {
 
 export const ProjectHero = ({ project }: ProjectHeroProps) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      // Set initial states
+      gsap.set(".hero-back", { x: -20, autoAlpha: 0 });
+      gsap.set(".hero-header-item", { y: 40, autoAlpha: 0 });
+      gsap.set(".hero-visual", { scale: 0.95, autoAlpha: 0 });
+
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      // Back button
+      tl.to(".hero-back", {
+        x: 0,
+        autoAlpha: 1,
+        duration: 0.6,
+      });
+
+      // Header items
+      tl.to(
+        ".hero-header-item",
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.8,
+          stagger: 0.1,
+        },
+        "-=0.4"
+      );
+
+      // Hero visual
+      tl.to(
+        ".hero-visual",
+        {
+          scale: 1,
+          autoAlpha: 1,
+          duration: 1,
+          ease: "back.out(1.7)",
+        },
+        "-=0.6"
+      );
+    },
+    { scope: containerRef }
+  );
 
   return (
-    <div className="w-full">
+    <div className="w-full" ref={containerRef}>
       {/* Back Button */}
       <Link
-        className="group mb-8 inline-flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-black"
+        className="hero-back group mb-8 inline-flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-black"
         href="/#projects"
       >
         <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-0.5" />
@@ -27,14 +73,14 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
 
       {/* Header Section */}
       <div className="mb-12">
-        <h1 className="mb-4 font-bold text-lg tracking-tight sm:text-5xl md:text-xl">
+        <h1 className="hero-header-item mb-4 font-bold text-lg tracking-tight sm:text-5xl md:text-xl">
           {project.title.split(" - ")[0]}
         </h1>
-        <p className="mb-8 max-w-md text-muted-foreground text-sm leading-relaxed md:text-lg">
+        <p className="hero-header-item mb-8 max-w-md text-muted-foreground text-sm leading-relaxed md:text-lg">
           {project.description}
         </p>
 
-        <div className="flex flex-wrap gap-4">
+        <div className="hero-header-item flex flex-wrap gap-4">
           {project.href && (
             <ShiftButton
               href={project.href}
@@ -60,7 +106,7 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
 
       {/* Hero Visual (Spotlight) */}
       <button
-        className="group relative w-full cursor-zoom-in overflow-hidden rounded-xl bg-card p-3 shadow-sm"
+        className="hero-visual group relative w-full cursor-zoom-in overflow-hidden rounded-xl bg-card p-3 shadow-sm"
         onClick={() => setIsFullscreen(true)}
         type="button"
       >

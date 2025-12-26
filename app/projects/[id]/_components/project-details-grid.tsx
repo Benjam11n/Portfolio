@@ -1,10 +1,17 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Maximize2 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Project } from "@/constants";
 import { cn } from "@/lib/utils";
 import { FullscreenMedia } from "./fullscreen-media";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type ProjectDetailsGridProps = {
   project: Project;
@@ -12,6 +19,7 @@ type ProjectDetailsGridProps = {
 
 export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const details = [
     { label: "Client", value: project.client, uppercase: false },
@@ -20,12 +28,51 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
     { label: "Location", value: project.location, uppercase: true },
   ];
 
+  useGSAP(
+    () => {
+      // Set initial states
+      gsap.set(".details-card", { scale: 0.9, autoAlpha: 0, y: 20 });
+      gsap.set(".details-video", { autoAlpha: 0, scale: 0.95 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        defaults: { ease: "power3.out" },
+      });
+
+      // Cards stagger pop
+      tl.to(".details-card", {
+        scale: 1,
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.1,
+      });
+
+      // Video scale/fade
+      tl.to(
+        ".details-video",
+        {
+          autoAlpha: 1,
+          scale: 1,
+          duration: 1,
+          ease: "back.out(1.5)",
+        },
+        "-=0.4"
+      );
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" ref={containerRef}>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {details.map((detail) => (
           <div
-            className="rounded-xl border border-border/40 bg-card p-3 shadow-sm"
+            className="details-card rounded-xl border border-border/40 bg-card p-3 shadow-sm"
             key={detail.label}
           >
             <span
@@ -45,7 +92,7 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
       {/* // todo: abstract out this overlay and use it in prject hero as well. */}
       {/* Project Visual Below Grid */}
       <button
-        className="group relative mt-8 w-full cursor-zoom-in overflow-hidden rounded-xl bg-card p-3 shadow-sm"
+        className="details-video group relative mt-8 w-full cursor-zoom-in overflow-hidden rounded-xl bg-card p-3 shadow-sm"
         onClick={() => setIsFullscreen(true)}
         type="button"
       >
