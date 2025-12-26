@@ -23,8 +23,9 @@ export const ShiftButton = ({
   const baseStyles =
     "relative inline-flex items-center justify-center overflow-hidden rounded-full px-4 py-2 font-bold text-sm transition-transform hover:scale-105";
   const variants = {
-    primary: "bg-black text-white",
-    secondary: "bg-white text-[#0F1419] shadow-sm hover:bg-gray-50",
+    primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+    secondary:
+      "bg-secondary text-secondary-foreground shadow-sm hover:bg-accent hover:text-accent-foreground",
   };
 
   return (
