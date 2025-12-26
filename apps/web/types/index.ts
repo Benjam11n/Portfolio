@@ -28,6 +28,7 @@ export type Project = {
 
   // Visual elements
   video_overview?: string;
+  hero_image?: string;
   logo: string;
   logoStyle?: React.CSSProperties;
 

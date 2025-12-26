@@ -5,11 +5,11 @@ import gsap from "gsap";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { Magnetic } from "@/components/effects/magnetic";
-import { BorderedImage } from "@/components/shared/bordered-image";
 import { ROUTES } from "@/constants/navigation";
 import { TECH_STACK } from "@/constants/tech-stack";
 import type { Project } from "@/types";
+import { Magnetic } from "../effects/magnetic";
+import { BorderedImage } from "./bordered-image";
 
 export const ProjectCard = ({ project }: { project: Project }) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
@@ -49,7 +49,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
   return (
     <Link
       aria-label={`View project: ${project.title}`}
-      className="project-card-item group block w-full cursor-pointer rounded-xl bg-card p-2 shadow-sm transition-shadow duration-500 hover:shadow-2xl sm:p-2 sm:pb-4"
+      className="project-card-item group block w-full cursor-pointer rounded-2xl bg-card p-2 shadow-sm transition-all duration-500 hover:shadow-2xl sm:p-3"
       href={ROUTES.PROJECT_DETAIL(project.id)}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
@@ -57,55 +57,64 @@ export const ProjectCard = ({ project }: { project: Project }) => {
     >
       {/* Visual Part */}
       <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-secondary">
-        {project.video_overview ? (
+        {project.hero_image && (
+          <Image
+            alt={project.title}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+            fill
+            src={project.hero_image}
+          />
+        )}
+
+        {project.video_overview && (
           <video
             autoPlay
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100"
             loop
             muted
             playsInline
             src={project.video_overview}
           />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-            No Preview
-          </div>
         )}
 
-        {project.logo && (
-          <div className="absolute top-4 left-4">
-            <Magnetic>
+        {/* Centered Logo and Name Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center bg-black/5 transition-colors group-hover:bg-black/20">
+          <div className="flex items-center gap-3 rounded-2xl bg-black/10 px-6 py-3 backdrop-blur-md transition-transform duration-500 group-hover:scale-110">
+            {project.logo && (
               <div
-                className="rounded-xl bg-card/90 p-2 shadow-sm backdrop-blur-sm"
+                className="flex h-10 w-10 items-center justify-center rounded-xl p-1.5 shadow-lg"
                 style={project.logoStyle}
               >
                 <Image
                   alt="logo"
-                  className="h-6 w-6 object-contain"
-                  height={24}
+                  className="h-full w-full object-contain"
+                  height={32}
                   src={project.logo}
-                  width={24}
+                  width={32}
                 />
               </div>
-            </Magnetic>
+            )}
+            <span className="font-bold text-2xl text-white tracking-tight drop-shadow-md">
+              {project.title.split(" - ")[0]}
+            </span>
           </div>
-        )}
+        </div>
       </div>
 
-      {/* Content Part */}
-      <div className="mt-4 flex flex-col items-center gap-4 px-2">
-        <h3 className="font-semibold text-foreground text-lg leading-snug">
+      {/* Content Part (Matching reference: Title - Subtitle) */}
+      <div className="mt-4 flex flex-col items-center gap-2 px-2 pb-2">
+        <h3 className="font-medium text-foreground text-md">
           {project.title.split(" - ")[0]}
           {project.title.split(" - ")[1] && (
-            <span className="font-semibold text-muted-foreground">
-              {" - "}
+            <span className="text-muted-foreground">
+              {" — "}
               {project.title.split(" - ")[1]}
             </span>
           )}
         </h3>
 
         {!!project.techStack.length && (
-          <div className="flex flex-wrap items-center justify-center gap-2 pb-2">
+          <div className="mt-1 flex flex-wrap items-center justify-center gap-2">
             {project.techStack.map((techName) => {
               const tech = TECH_STACK.find(
                 (t) => t.name.toLowerCase() === techName.toLowerCase()
