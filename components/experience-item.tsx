@@ -13,7 +13,7 @@ type ExperienceItemProps = {
 };
 
 export const ExperienceItem = ({ item }: ExperienceItemProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
