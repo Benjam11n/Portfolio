@@ -22,7 +22,7 @@ export const Navbar = () => {
 
   return (
     <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
-      <nav className="flex items-center gap-1 rounded-2xl border border-border/50 bg-secondary/80 p-2 shadow-2xl ring-1 ring-black/5 backdrop-blur-lg">
+      <nav className="flex items-center gap-1 rounded-2xl border border-border/50 bg-secondary/80 p-2 shadow-xl ring-1 ring-black/5 backdrop-blur-lg">
         {navItems.map((item) => (
           <Link
             className="group relative flex h-10 w-12 flex-col items-center justify-center rounded-xl transition-all duration-300 hover:bg-accent"
