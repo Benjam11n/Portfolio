@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Maximize2 } from "lucide-react";
 import { useRef, useState } from "react";
+import { MediaPreviewOverlay } from "@/components/ui/media-preview-overlay";
 import type { Project } from "@/constants";
 import { cn } from "@/lib/utils";
 import { FullscreenMedia } from "./fullscreen-media";
@@ -89,7 +90,7 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
           </div>
         ))}
       </div>
-      {/* // todo: abstract out this overlay and use it in prject hero as well. */}
+
       {/* Project Visual Below Grid */}
       <button
         className="details-video group relative mt-8 w-full cursor-zoom-in overflow-hidden rounded-xl bg-card p-3 shadow-sm"
@@ -106,15 +107,7 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
             src={project.texture}
           />
 
-          {/* Hover Overlay */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/10">
-            <div className="translate-y-4 opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-              <div className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 font-medium text-black text-sm shadow-lg backdrop-blur-sm">
-                <Maximize2 className="h-4 w-4" />
-                Click to expand
-              </div>
-            </div>
-          </div>
+          <MediaPreviewOverlay icon={<Maximize2 className="h-4 w-4" />} />
         </div>
       </button>
       <FullscreenMedia
