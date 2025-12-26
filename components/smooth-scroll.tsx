@@ -2,9 +2,12 @@
 
 import "lenis/dist/lenis.css";
 import Lenis from "lenis";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
+  const pathname = usePathname();
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -25,6 +28,13 @@ export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
       lenis.destroy();
     };
   }, []);
+
+  // Scroll to top only when navigating to projects routes
+  useEffect(() => {
+    if (pathname.startsWith("/projects")) {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname]);
 
   return <>{children}</>;
 };

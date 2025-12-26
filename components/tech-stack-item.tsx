@@ -7,8 +7,14 @@ import gsap from "gsap";
 import { useRef } from "react";
 import { BorderedImage } from "@/components/bordered-image";
 import type { STACKS } from "@/constants";
+import { cn } from "@/lib/utils";
 
-export const TechStackItem = ({ stack }: { stack: (typeof STACKS)[0] }) => {
+type TechStackItemProps = {
+  stack: (typeof STACKS)[0];
+  small?: boolean;
+};
+
+export const TechStackItem = ({ stack, small = false }: TechStackItemProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
@@ -71,7 +77,10 @@ export const TechStackItem = ({ stack }: { stack: (typeof STACKS)[0] }) => {
       style={{ perspective: 1000 }}
     >
       <div
-        className="group relative flex h-full items-center gap-4 overflow-hidden rounded-2xl border border-border/60 border-dashed bg-card p-3 shadow-sm hover:border-border/80"
+        className={cn(
+          "group relative flex h-full items-center gap-4 overflow-hidden rounded-xl border border-border/60 border-dashed bg-card shadow-sm hover:border-border/80",
+          small ? "gap-2 p-2" : "p-3"
+        )}
         ref={cardRef}
         style={{ transformStyle: "preserve-3d" }}
       >
@@ -79,19 +88,26 @@ export const TechStackItem = ({ stack }: { stack: (typeof STACKS)[0] }) => {
           alt={stack.name}
           colorDark={stack.colorDark}
           colorLight={stack.colorLight}
-          containerClassName="h-14 w-14 shrink-0"
+          containerClassName={cn("shrink-0", small ? "h-10 w-10" : "h-14 w-14")}
           height={32}
-          imageClassName="p-3 object-contain"
+          imageClassName={cn("object-contain", small ? "p-2" : "p-3")}
           src={stack.icon}
           width={32}
         />
         <div className="flex flex-col">
-          <span className="font-semibold text-foreground text-md">
+          <span
+            className={cn(
+              "font-semibold text-foreground leading-tight",
+              small ? "text-sm" : "text-md"
+            )}
+          >
             {stack.name}
           </span>
-          <span className="font-medium text-muted-foreground text-sm">
-            {stack.category}
-          </span>
+          {!small && (
+            <span className="font-medium text-muted-foreground text-sm">
+              {stack.category}
+            </span>
+          )}
         </div>
 
         {/* Glare Effect */}
