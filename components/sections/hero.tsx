@@ -4,9 +4,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { BadgeCheck } from "lucide-react";
 import { useRef } from "react";
-import { BorderedImage } from "./bordered-image";
-import { SectionCard } from "./section-card";
-import { ShiftButton } from "./shift-button";
+import { BorderedImage } from "@/components/shared/bordered-image";
+import { SectionCard } from "@/components/shared/section-card";
+import { ShiftButton } from "@/components/shared/shift-button";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);

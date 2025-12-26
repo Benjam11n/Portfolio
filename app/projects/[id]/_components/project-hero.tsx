@@ -6,8 +6,8 @@ import { ArrowLeft, Maximize2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { ShiftButton } from "@/components/shift-button";
-import type { Project } from "@/constants";
+import { ShiftButton } from "@/components/shared/shift-button";
+import type { Project } from "@/types";
 import { FullscreenMedia } from "./fullscreen-media";
 
 type ProjectHeroProps = {

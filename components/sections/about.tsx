@@ -4,8 +4,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
 import { useRef } from "react";
-import { SectionCard } from "@/components/section-card";
-import { ShiftButton } from "./shift-button";
+import { SectionCard } from "@/components/shared/section-card";
+import { ShiftButton } from "@/components/shared/shift-button";
 
 export const About = () => {
   const containerRef = useRef<HTMLDivElement>(null);

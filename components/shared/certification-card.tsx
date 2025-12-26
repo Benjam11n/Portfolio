@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
 import { useRef } from "react";
-import type { Certification } from "@/constants";
+import type { Certification } from "@/types";
 
 type CertificationCardProps = {
   cert: Certification;

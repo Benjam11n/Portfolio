@@ -1,17 +1,12 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-
-gsap.registerPlugin(ScrollTrigger);
-
-import { SectionCard } from "@/components/section-card";
+import { SectionCard } from "@/components/shared/section-card";
+import { ShiftSubmitButton } from "@/components/shared/shift-submit-button";
 import {
   Form,
   FormControl,
@@ -22,9 +17,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { CONTACT_INFO } from "@/constants";
+import { CONTACT_INFO } from "@/constants/socials";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { sendEmailAction } from "@/lib/actions/email";
-import { ShiftSubmitButton } from "./shift-submit-button";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -77,24 +72,7 @@ export const Contact = () => {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
-      gsap.set(containerRef.current, { autoAlpha: 0, y: 30 });
-
-      gsap.to(containerRef.current, {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-        y: 0,
-        autoAlpha: 1,
-        duration: 0.8,
-        ease: "power3.out",
-      });
-    },
-    { scope: containerRef }
-  );
+  useScrollReveal(containerRef, "div > *");
 
   return (
     <SectionCard id="contact" title="Contact">

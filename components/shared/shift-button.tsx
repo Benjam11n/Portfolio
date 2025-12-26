@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { type ComponentProps, type ReactNode, useRef } from "react";
+import { ShiftText, useShiftAnimation } from "@/components/effects/shift-text";
 import { cn } from "@/lib/utils";
-import { ShiftText, useShiftAnimation } from "./shift-text";
 
 interface ShiftButtonProps extends ComponentProps<typeof Link> {
   children: string;

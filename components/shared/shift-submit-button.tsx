@@ -1,8 +1,8 @@
 "use client";
 
 import { type ComponentProps, useRef } from "react";
+import { ShiftText, useShiftAnimation } from "@/components/effects/shift-text";
 import { cn } from "@/lib/utils";
-import { ShiftText, useShiftAnimation } from "./shift-text";
 
 interface ShiftSubmitButtonProps extends ComponentProps<"button"> {
   children: string;

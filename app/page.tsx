@@ -1,12 +1,12 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { About } from "@/components/about";
-import { Certifications } from "@/components/certification";
-import { Contact } from "@/components/contact";
-import { Experience } from "@/components/experience";
-import { Hero } from "@/components/hero";
-import { Projects } from "@/components/projects";
-import { TechStack } from "@/components/tech-stack";
+import { About } from "@/components/sections/about";
+import { Certifications } from "@/components/sections/certification";
+import { Contact } from "@/components/sections/contact";
+import { Experience } from "@/components/sections/experience";
+import { Hero } from "@/components/sections/hero";
+import { Projects } from "@/components/sections/projects";
+import { TechStack } from "@/components/sections/tech-stack";
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -5,11 +5,11 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef, useState } from "react";
-import { BorderedImage } from "@/components/bordered-image";
-import type { workExperiences } from "@/constants";
+import { BorderedImage } from "@/components/shared/bordered-image";
+import type { Experience } from "@/types";
 
 type ExperienceItemProps = {
-  item: (typeof workExperiences)[0];
+  item: Experience;
 };
 
 export const ExperienceItem = ({ item }: ExperienceItemProps) => {
