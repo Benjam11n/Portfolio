@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
 import { DEFAULT_FEATURE_ICON } from "@/constants/projects";
-import { STACKS } from "@/constants/stacks";
+import { TECH_STACK } from "@/constants/tech-stack";
 import type { Project } from "@/types";
 
 if (typeof window !== "undefined") {
@@ -113,9 +113,9 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
             Built With
           </h3>
           <div className="flex flex-wrap gap-3">
-            {project.techStack.map((tech) => {
-              const stackItem = STACKS.find(
-                (s) => s.name.toLowerCase() === tech.name.toLowerCase()
+            {project.techStack.map((techName) => {
+              const stackItem = TECH_STACK.find(
+                (s) => s.name.toLowerCase() === techName.toLowerCase()
               );
               if (!stackItem) {
                 return null;
@@ -123,7 +123,7 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
               return (
                 <div
                   className="tech-item w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-12px)]"
-                  key={tech.name}
+                  key={techName}
                 >
                   <TechStackItem small stack={stackItem} />
                 </div>

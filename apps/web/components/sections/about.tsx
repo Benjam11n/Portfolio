@@ -112,10 +112,10 @@ export const About = () => {
             <Magnetic strength={0.3}>
               <div className="about-image relative h-20 w-20 rotate-[-6deg] overflow-hidden rounded-xl border border-border bg-secondary shadow-lg sm:h-32 sm:w-32">
                 <Image
-                  alt="Profile Background"
-                  className="object-cover opacity-60 grayscale"
+                  alt="Benjamin Wang"
+                  className="object-cover transition-transform duration-500 hover:scale-110"
                   fill
-                  src="/projects/project1.png"
+                  src="/benjamin.png"
                 />
               </div>
             </Magnetic>
@@ -126,10 +126,10 @@ export const About = () => {
             <Magnetic strength={0.4}>
               <div className="about-image relative h-20 w-20 rotate-[3deg] overflow-hidden rounded-xl border-4 border-card bg-card shadow-xl sm:h-32 sm:w-32">
                 <Image
-                  alt="Profile Foreground"
-                  className="object-cover transition-transform duration-500 hover:scale-110"
+                  alt="Minimal Workspace"
+                  className="object-cover opacity-80"
                   fill
-                  src="/projects/project2.png"
+                  src="/assets/workspace.png"
                 />
               </div>
             </Magnetic>

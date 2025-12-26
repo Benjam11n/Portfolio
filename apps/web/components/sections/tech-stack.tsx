@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { useRef } from "react";
 import { SectionCard } from "@/components/shared/section-card";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
-import { STACKS } from "@/constants/stacks";
+import { TECH_STACK } from "@/constants/tech-stack";
 
 export const TechStack = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -33,7 +33,7 @@ export const TechStack = () => {
   return (
     <SectionCard title="Stacks & Skills">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2" ref={containerRef}>
-        {STACKS.map((stack) => (
+        {TECH_STACK.map((stack) => (
           <TechStackItem key={stack.name} stack={stack} />
         ))}
       </div>
