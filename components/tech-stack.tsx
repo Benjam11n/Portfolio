@@ -6,7 +6,7 @@ import { STACKS } from "@/constants";
 
 export const TechStack = () => {
   return (
-    <SectionCard className="scroll-mt-24 p-6 sm:p-8" title="Stacks & Skills">
+    <SectionCard title="Stacks & Skills">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {STACKS.map((stack) => (
           <div

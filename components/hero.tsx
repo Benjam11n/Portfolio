@@ -7,7 +7,7 @@ import { SectionCard } from "./section-card";
 
 export const Hero = () => {
   return (
-    <SectionCard className="scroll-mt-24 p-6 sm:p-8" id="hero">
+    <SectionCard id="hero">
       <div>
         {/* Profile Image */}
         <BorderedImage
@@ -20,7 +20,7 @@ export const Hero = () => {
 
         {/* Name and Badge */}
         <div className="mb-2 flex items-center gap-2">
-          <h1 className="font-bold text-2xl text-[#0F1419] tracking-tight sm:text-4xl">
+          <h1 className="font-bold text-[#0F1419] text-xl tracking-tight sm:text-2xl">
             Benjamin Wang
           </h1>
           <BadgeCheck className="h-6 w-6 text-[#1D9BF0]" />
@@ -47,9 +47,9 @@ export const Hero = () => {
           </Link>
           <Link
             className="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 font-bold text-[#0F1419] text-sm shadow-sm transition-transform hover:scale-105 hover:bg-gray-50"
-            href="#projects"
+            href={"#projects"}
           >
-            View Works
+            View Projects
           </Link>
         </div>
       </div>

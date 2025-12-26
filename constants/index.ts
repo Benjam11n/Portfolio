@@ -412,6 +412,8 @@ export const certifications: Certification[] = [
   },
 ];
 
+// todo: use my actual tech stack
+
 export const STACKS = [
   {
     name: "Framer",
