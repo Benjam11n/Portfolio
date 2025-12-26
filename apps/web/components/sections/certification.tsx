@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { useRef } from "react";
 import { CertificationCard } from "@/components/shared/certification-card";
 import { SectionCard } from "@/components/shared/section-card";
-import { certifications } from "@/constants/certifications";
+import { CERTIFICATIONS } from "@/constants/certifications";
 
 export const Certifications = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -33,7 +33,7 @@ export const Certifications = () => {
   return (
     <SectionCard id="certifications" ref={containerRef} title="Certifications">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {certifications.map((cert) => (
+        {CERTIFICATIONS.map((cert) => (
           <div className="cert-card" key={cert.name}>
             <CertificationCard cert={cert} />
           </div>
