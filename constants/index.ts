@@ -52,7 +52,8 @@ export const CONTACT_INFO = [
 
 type ProjectTechnology = {
   name: string;
-  color: string;
+  colorLight: string;
+  colorDark: string;
   size?: "sm" | "md" | "lg" | "xl";
   icon?: (props: { className: string }) => React.JSX.Element;
   path: string;
@@ -104,37 +105,43 @@ export const PROJECTS: Record<string, Project> = {
     techStack: [
       {
         name: "React",
-        color: "#001b59",
+        colorLight: "#E0F7FA",
+        colorDark: "#001b59",
         size: "xl",
         path: "/assets/react.svg",
       },
       {
         name: "Tailwind",
-        color: "#0F766E",
+        colorLight: "#E0F2F1",
+        colorDark: "#0F766E",
         size: "xl",
         path: "/assets/tailwindcss.png",
       },
       {
         name: "TypeScript",
-        color: "#3178C6",
+        colorLight: "#E3F2FD",
+        colorDark: "#3178C6",
         size: "xl",
         path: "/assets/typescript.svg",
       },
       {
         name: "MongoDB",
-        color: "#023430",
+        colorLight: "#E8F5E9",
+        colorDark: "#023430",
         size: "lg",
         path: "/assets/mongodb.svg",
       },
       {
         name: "Google Gemini",
-        color: "#0D4C87",
+        colorLight: "#E3F2FD",
+        colorDark: "#0D4C87",
         size: "lg",
         path: "/assets/google-gemini.svg",
       },
       {
         name: "Pytorch",
-        color: "#0D4C87",
+        colorLight: "#E1F5FE",
+        colorDark: "#0D4C87",
         size: "lg",
         path: "/assets/pytorch.svg",
       },
@@ -167,37 +174,43 @@ export const PROJECTS: Record<string, Project> = {
     techStack: [
       {
         name: "React",
-        color: "#001b59",
+        colorLight: "#E0F7FA",
+        colorDark: "#001b59",
         size: "xl",
         path: "/assets/react.svg",
       },
       {
         name: "Tailwind",
-        color: "#0F766E",
+        colorLight: "#E0F2F1",
+        colorDark: "#0F766E",
         size: "xl",
         path: "/assets/tailwindcss.png",
       },
       {
         name: "TypeScript",
-        color: "#3178C6",
+        colorLight: "#E3F2FD",
+        colorDark: "#3178C6",
         size: "xl",
         path: "/assets/typescript.svg",
       },
       {
         name: "Framer Motion",
-        color: "#2e00a1",
+        colorLight: "#F3E5F5",
+        colorDark: "#2e00a1",
         size: "lg",
         path: "/assets/framer.png",
       },
       {
         name: "Zustand",
-        color: "#E67E22",
+        colorLight: "#FFF3E0",
+        colorDark: "#E67E22",
         size: "lg",
         path: "/assets/zustand.png",
       },
       {
         name: "MongoDB",
-        color: "#023430",
+        colorLight: "#E8F5E9",
+        colorDark: "#023430",
         size: "lg",
         path: "/assets/mongodb.svg",
       },
@@ -231,31 +244,36 @@ export const PROJECTS: Record<string, Project> = {
     techStack: [
       {
         name: "React",
-        color: "#001b59",
+        colorLight: "#E0F7FA",
+        colorDark: "#001b59",
         size: "xl",
         path: "/assets/react.svg",
       },
       {
         name: "Tailwind",
-        color: "#0F766E",
+        colorLight: "#E0F2F1",
+        colorDark: "#0F766E",
         size: "xl",
         path: "/assets/tailwindcss.png",
       },
       {
         name: "TypeScript",
-        color: "#3178C6",
+        colorLight: "#E3F2FD",
+        colorDark: "#3178C6",
         size: "xl",
         path: "/assets/typescript.svg",
       },
       {
         name: "Framer Motion",
-        color: "#2e00a1",
+        colorLight: "#F3E5F5",
+        colorDark: "#2e00a1",
         size: "lg",
         path: "/assets/framer.png",
       },
       {
         name: "Supabase",
-        color: "#525252",
+        colorLight: "#E8F5E9",
+        colorDark: "#525252",
         size: "lg",
         path: "/assets/supabase.svg",
       },
@@ -287,31 +305,36 @@ export const PROJECTS: Record<string, Project> = {
     techStack: [
       {
         name: "React",
-        color: "#001b59",
+        colorLight: "#E0F7FA",
+        colorDark: "#001b59",
         size: "xl",
         path: "/assets/react.svg",
       },
       {
         name: "Tailwind",
-        color: "#0F766E",
+        colorLight: "#E0F2F1",
+        colorDark: "#0F766E",
         size: "xl",
         path: "/assets/tailwindcss.png",
       },
       {
         name: "TypeScript",
-        color: "#3178C6",
+        colorLight: "#E3F2FD",
+        colorDark: "#3178C6",
         size: "xl",
         path: "/assets/typescript.svg",
       },
       {
         name: "PostgreSQL",
-        color: "#2F5E8D",
+        colorLight: "#E3F2FD",
+        colorDark: "#2F5E8D",
         size: "lg",
         path: "/assets/pgsql.svg",
       },
       {
         name: "Docker",
-        color: "#1D63ED",
+        colorLight: "#E1F5FE",
+        colorDark: "#1D63ED",
         size: "md",
         path: "/assets/docker.svg",
       },
@@ -412,37 +435,75 @@ export const certifications: Certification[] = [
   },
 ];
 
-// todo: use my actual tech stack
-
 export const STACKS = [
-  {
-    name: "Framer",
-    icon: "/assets/framer.png",
-    category: "Web Design",
-  },
-  {
-    name: "Figma",
-    icon: "/assets/figma.png",
-    category: "Visual Design",
-  },
-  {
-    name: "Webflow",
-    icon: "/assets/webflow.svg",
-    category: "No-code Development",
-  },
   {
     name: "React",
     icon: "/assets/react.svg",
-    category: "Frontend Development",
+    category: "Frontend",
+    colorLight: "#E0F7FA", // Light Cyan
+    colorDark: "#001b59", // Dark Blue
+  },
+  {
+    name: "Next.js",
+    icon: "/assets/nextjs.svg",
+    category: "Framework",
+    colorLight: "#F3F4F6", // Gray 100
+    colorDark: "#000000", // Black
   },
   {
     name: "TypeScript",
     icon: "/assets/typescript.svg",
-    category: "Programming Language",
+    category: "Language",
+    colorLight: "#E3F2FD", // Light Blue
+    colorDark: "#00273F", // Dark Blue
   },
   {
     name: "Tailwind",
     icon: "/assets/tailwindcss.png",
     category: "Styling",
+    colorLight: "#E0F2F1", // Teal 50
+    colorDark: "#0B2830", // Dark Teal
+  },
+  {
+    name: "Framer",
+    icon: "/assets/framer.png",
+    category: "Animation",
+    colorLight: "#F3E5F5", // Purple 50
+    colorDark: "#180036", // Dark Purple
+  },
+  {
+    name: "MongoDB",
+    icon: "/assets/mongodb.svg",
+    category: "Database",
+    colorLight: "#E8F5E9", // Green 50
+    colorDark: "#001E0E", // Dark Green
+  },
+  {
+    name: "PostgreSQL",
+    icon: "/assets/pgsql.svg",
+    category: "Database",
+    colorLight: "#E3F2FD", // Blue 50
+    colorDark: "#0E1A2B", // Dark Navy
+  },
+  {
+    name: "Docker",
+    icon: "/assets/docker.svg",
+    category: "DevOps",
+    colorLight: "#E1F5FE", // Light Blue 50
+    colorDark: "#0D2C4A", // Dark Blue
+  },
+  {
+    name: "Node.js",
+    icon: "/assets/node.svg",
+    category: "Backend",
+    colorLight: "#F1F8E9", // Light Green
+    colorDark: "#162612", // Dark Green
+  },
+  {
+    name: "Python",
+    icon: "/assets/python.svg",
+    category: "Language",
+    colorLight: "#E3F2FD", // Blue 50
+    colorDark: "#1E2D3B", // Dark Blue-Grey
   },
 ];

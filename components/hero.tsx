@@ -20,19 +20,19 @@ export const Hero = () => {
 
         {/* Name and Badge */}
         <div className="mb-2 flex items-center gap-2">
-          <h1 className="font-bold text-[#0F1419] text-xl tracking-tight sm:text-2xl">
+          <h1 className="font-bold text-foreground text-xl tracking-tight sm:text-2xl">
             Benjamin Wang
           </h1>
-          <BadgeCheck className="h-6 w-6 text-[#1D9BF0]" />
+          <BadgeCheck className="h-6 w-6 text-primary" />
         </div>
 
         {/* Role */}
-        <h2 className="mb-6 font-medium text-[#555555] text-md">
+        <h2 className="mb-6 font-medium text-md text-muted-foreground">
           Web Designer
         </h2>
 
         {/* Description */}
-        <p className="mb-8 max-w-sm font-sans text-[#555555] text-md leading-relaxed">
+        <p className="mb-8 max-w-sm font-sans text-foreground text-md leading-relaxed">
           Crafting interactive, user-centered experiences that bring ideas to
           life through thoughtful design and seamless digital execution.
         </p>

@@ -10,22 +10,24 @@ export const TechStack = () => {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {STACKS.map((stack) => (
           <div
-            className="group flex items-center gap-4 rounded-2xl bg-white p-3 shadow-sm transition-transform hover:scale-[1.02]"
+            className="group flex items-center gap-4 rounded-2xl bg-card p-3 shadow-sm transition-transform hover:scale-[1.02]"
             key={stack.name}
           >
             <BorderedImage
               alt={stack.name}
-              containerClassName="h-14 w-14 shrink-0 bg-black"
+              colorDark={stack.colorDark}
+              colorLight={stack.colorLight}
+              containerClassName="h-14 w-14 shrink-0"
               height={32}
               imageClassName="p-3 object-contain"
               src={stack.icon}
               width={32}
             />
             <div className="flex flex-col">
-              <span className="font-bold text-gray-900 text-lg">
+              <span className="font-bold text-foreground text-lg">
                 {stack.name}
               </span>
-              <span className="font-medium text-gray-500 text-sm">
+              <span className="font-medium text-muted-foreground text-sm">
                 {stack.category}
               </span>
             </div>
