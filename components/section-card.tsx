@@ -13,7 +13,7 @@ export const SectionCard = forwardRef<HTMLElement, SectionCardProps>(
     return (
       <section
         className={cn(
-          "rounded-3xl border border-border/40 bg-muted",
+          "scroll-mt-24 rounded-3xl border border-border/40 bg-muted p-4 sm:p-6",
           className
         )}
         ref={ref}

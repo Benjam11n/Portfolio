@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 interface BorderedImageProps extends Omit<ImageProps, "className"> {
   containerClassName?: string;
   imageClassName?: string;
+  backgroundColor?: string;
 }
 
 export const BorderedImage = ({
@@ -13,6 +14,7 @@ export const BorderedImage = ({
   height,
   containerClassName,
   imageClassName,
+  backgroundColor,
   ...props
 }: BorderedImageProps) => {
   return (
@@ -21,6 +23,7 @@ export const BorderedImage = ({
         "overflow-hidden rounded-2xl border-4 border-white shadow-xl",
         containerClassName
       )}
+      style={{ backgroundColor }}
     >
       <Image
         alt={alt}

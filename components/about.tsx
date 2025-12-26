@@ -6,11 +6,7 @@ import { SectionCard } from "@/components/section-card";
 
 export const About = () => {
   return (
-    <SectionCard
-      className="scroll-mt-24 p-6 sm:p-8"
-      id="about"
-      title="About Me"
-    >
+    <SectionCard id="about" title="About Me">
       {/* Content Wrapper */}
       <div className="flex flex-col gap-4">
         {/* Images Stack */}
