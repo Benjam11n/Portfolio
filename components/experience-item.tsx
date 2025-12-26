@@ -45,7 +45,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
 
   return (
     <div
-      className="group cursor-pointer rounded-2xl bg-white p-5 shadow-sm transition-transform hover:scale-[1.01]"
+      className="group cursor-pointer rounded-2xl bg-card p-4 shadow-sm transition-transform hover:scale-[1.01]"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       ref={containerRef}
@@ -58,16 +58,18 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
             height={56}
             imageClassName="p-2 object-contain"
             src={item.icon}
-            style={{ backgroundColor: "#f3f4f6" }} // Slight gray background to make white border visible
+            style={{ backgroundColor: "bg-muted" }}
             width={56}
           />
           <div>
-            <h3 className="font-bold text-[#0F1419] text-base">{item.name}</h3>
-            <p className="font-medium text-[#555555] text-sm">{item.pos}</p>
+            <h3 className="font-bold text-base">{item.name}</h3>
+            <p className="font-medium text-muted-foreground text-sm">
+              {item.pos}
+            </p>
           </div>
         </div>
         <div className="pl-[72px] sm:pl-0">
-          <span className="font-mono font-semibold text-[#555555] text-sm">
+          <span className="font-mono font-semibold text-muted-foreground text-sm">
             {item.duration}
           </span>
         </div>
@@ -79,7 +81,9 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         style={{ willChange: "height, opacity" }}
       >
         <div className="pt-4 pl-[72px]">
-          <p className="text-[#555555] text-sm leading-relaxed">{item.title}</p>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            {item.title}
+          </p>
         </div>
       </div>
     </div>

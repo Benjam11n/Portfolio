@@ -15,7 +15,7 @@ type ProjectCardProps = {
 export const ProjectCard = ({ project, onClick }: ProjectCardProps) => {
   return (
     <button
-      className="group w-full cursor-pointer rounded-[32px] bg-white p-2 shadow-sm transition-all duration-300 hover:shadow-lg sm:p-5"
+      className="group w-full cursor-pointer rounded-2xl bg-card p-2 shadow-sm transition-all duration-300 hover:shadow-lg sm:p-5"
       onClick={onClick}
       type="button"
     >
@@ -40,7 +40,7 @@ export const ProjectCard = ({ project, onClick }: ProjectCardProps) => {
         {project.logo && (
           <div className="absolute top-4 left-4">
             <div
-              className="rounded-xl bg-white/90 p-2 shadow-sm backdrop-blur-sm"
+              className="rounded-xl bg-card/90 p-2 shadow-sm backdrop-blur-sm"
               style={project.logoStyle}
             >
               <Image
@@ -57,23 +57,25 @@ export const ProjectCard = ({ project, onClick }: ProjectCardProps) => {
 
       {/* Content Part */}
       <div className="mt-4 flex flex-col items-center gap-4 px-2">
-        <h3 className="font-bold text-[#0F1419] text-xl leading-snug">
+        <h3 className="font-bold text-foreground text-xl leading-snug">
           {project.title}
         </h3>
 
         {/* Tech Stack - Row of Bordered Images */}
         <div className="flex flex-wrap items-center justify-center gap-2">
           {project.techStack.map((tech) => (
-            <BorderedImage
-              alt={tech.name}
-              backgroundColor={tech.color}
-              containerClassName="w-10 h-10 border-2"
-              height={40} // Small size
-              imageClassName="p-1"
-              key={tech.name} // Smaller border for small icons
-              src={tech.path} // Padding inside the bordered image
-              width={40}
-            />
+            <div key={tech.name}>
+              <BorderedImage
+                alt={tech.name}
+                colorDark={tech.colorDark}
+                colorLight={tech.colorLight}
+                containerClassName="h-10 w-10 shrink-0"
+                height={20}
+                imageClassName="p-[6px]"
+                src={tech.path}
+                width={20}
+              />
+            </div>
           ))}
         </div>
 

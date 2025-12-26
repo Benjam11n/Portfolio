@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { SectionCard } from "@/components/section-card";
+import { ShiftButton } from "./ui/shift-button";
 
 export const About = () => {
   return (
@@ -47,14 +47,10 @@ export const About = () => {
           </p>
         </div>
 
-        {/* Button */}
         <div>
-          <Link
-            className="inline-flex rounded-full bg-foreground px-6 py-2 font-bold text-background text-sm shadow-lg transition-opacity hover:opacity-90"
-            href="#contact"
-          >
+          <ShiftButton href="#contact" variant="primary">
             Get in Touch
-          </Link>
+          </ShiftButton>
         </div>
       </div>
     </SectionCard>
