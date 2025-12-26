@@ -5,15 +5,19 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
+    "lint": "ultracite fix",
+    "lint:check": "ultracite check",
+    "knip": "knip",
     "type-check": "turbo run type-check",
     "clean": "turbo run clean",
-    "format": "biome format --write ."
+    "format": "ultracite format"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.9",
+    "@biomejs/biome": "2.3.10",
+    "knip": "^5.45.0",
     "turbo": "^2.7.2",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "ultracite": "^6.5.0"
   },
   "packageManager": "pnpm@10.18.3",
   "workspaces": [
