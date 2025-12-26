@@ -4,6 +4,46 @@ import type { Project } from "@/types";
 export const DEFAULT_FEATURE_ICON = CheckCircle2;
 
 export const PROJECTS: Record<string, Project> = {
+  disknee: {
+    id: "disknee",
+    title:
+      "DisKnee - Advanced Computer Vision Platform for Sports Medicine & Rehabilitation",
+    description:
+      "Pioneering a tele-rehabilitation platform that combines real-time computer vision with biomechanical analysis.",
+    subdesc:
+      "DisKnee revolutionizes knee recovery by delivering precise movement tracking and instant feedback without expensive hardware. Built with a high-performance WebSocket infrastructure handling 30fps video streams, integrated Google MediaPipe with custom pose smoothing algorithms achieving 99.8% pose detection accuracy.",
+    year: "2025",
+    client: "Hackathon",
+    services: "Computer Vision, Healthcare Tech",
+    location: "Singapore",
+    hero_image: "/projects/disknee/hero.png",
+    logo: "/projects/disknee/logo.png",
+    logoStyle: {
+      backgroundColor: "#0a1628",
+      border: "0.2px solid #1e3a5f",
+      boxShadow: "0px 0px 60px 0px #2563eb4D",
+    },
+    techStack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind",
+      "Python",
+      "PyTorch",
+      "FastAPI",
+      "WebSocket",
+      "MediaPipe",
+      "Supabase",
+    ],
+    features: [
+      "Real-time pose detection with 99.8% accuracy",
+      "High-performance WebSocket infrastructure for 30fps video streams",
+      "Custom pose smoothing algorithms for biomechanical analysis",
+      "Microservices architecture separating ML inference from client experience",
+      "State management engine for complex rehabilitation metrics tracking",
+      "Gamified recovery process with progress visualization",
+    ],
+  },
   twinAI: {
     id: "twinAI",
     title: "TwinAI - AI-Powered Digital Twins for Therapy",
@@ -11,14 +51,15 @@ export const PROJECTS: Record<string, Project> = {
       "A platform that uses AI-powered digital twins to revolutionize mental health therapy and treatment.",
     subdesc:
       "TwinAI creates virtual representations of patients’ psychological states, enabling therapists to simulate interventions, track mood patterns, and develop personalized treatment plans.",
-    year: "2024",
-    client: "Personal Project",
+    year: "2025",
+    client: "Hackathon",
     services: "AI, Web Development",
     location: "Singapore",
-    href: "https://twin-ai-one.vercel.app/",
+    // href: "https://twin-ai-one.vercel.app/",
     github: "https://github.com/Benjam11n/TwinAI",
-    video_overview: "/projects/project1-video_overview.mp4",
-    logo: "/projects/project1-logo.png",
+    video_overview: "/projects/twinAI/video.mp4",
+    hero_image: "/projects/twinAI/hero.png",
+    logo: "/projects/twinAI/logo.png",
     logoStyle: {
       backgroundColor: "#151a11",
       border: "0.2px solid #233814",
@@ -55,8 +96,9 @@ export const PROJECTS: Record<string, Project> = {
     location: "Singapore",
     status: "in-development",
     github: "https://github.com/Benjam11n/Quickie",
-    video_overview: "/projects/project2-video_overview.mp4",
-    logo: "/projects/project2-logo.png",
+    video_overview: "/projects/quickie/video.mp4",
+    hero_image: "/projects/quickie/hero.png",
+    logo: "/projects/quickie/logo.png",
     logoStyle: {
       backgroundColor: "#170040",
       border: "0.2px solid #0f0226",
@@ -94,8 +136,9 @@ export const PROJECTS: Record<string, Project> = {
     href: "https://chip-sg.vercel.app/",
     status: "completed",
     github: "https://github.com/Benjam11n/Chip",
-    video_overview: "/projects/project3-video_overview.mp4",
-    logo: "/projects/project3-logo.png",
+    video_overview: "/projects/chip/video.mp4",
+    hero_image: "/projects/chip/hero.png",
+    logo: "/projects/chip/logo.png",
     logoStyle: {
       backgroundColor: "#000000",
       border: "0.2px solid #24020b",
@@ -130,8 +173,9 @@ export const PROJECTS: Record<string, Project> = {
     services: "Community, Forum",
     location: "Singapore",
     github: "https://github.com/Benjam11n/Birds-of-a-Feather-frontend",
-    video_overview: "/projects/project4-video_overview.mp4",
-    logo: "/projects/project4-logo.png",
+    video_overview: "/projects/birds-of-a-feather/video.mp4",
+    hero_image: "/projects/birds-of-a-feather/hero.png",
+    logo: "/projects/birds-of-a-feather/logo.png",
     logoStyle: {
       backgroundColor: "#16015c",
       border: "0.2px solid #0c0036",
@@ -164,8 +208,9 @@ export const PROJECTS: Record<string, Project> = {
     client: "WorldQuant",
     services: "Quantitative Research, Alpha Design",
     location: "Singapore",
-    video_overview: "/projects/project5-video_overview.mp4",
-    logo: "/projects/project5-logo.png",
+    video_overview: "/projects/worldquant/video.mp4",
+    hero_image: "/projects/worldquant/hero.png",
+    logo: "/projects/worldquant/logo.png",
     logoStyle: {
       backgroundColor: "#0E1F38",
       border: "0.2px solid #0E2D58",

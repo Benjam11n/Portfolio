@@ -92,24 +92,27 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
       </div>
 
       {/* Project Visual Below Grid */}
-      <button
-        className="details-video group relative mt-8 w-full cursor-zoom-in overflow-hidden rounded-xl bg-card p-3 shadow-sm"
-        onClick={() => setIsFullscreen(true)}
-        type="button"
-      >
-        <div className="relative aspect-video w-full overflow-hidden rounded-xl">
-          <video
-            autoPlay
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-            loop
-            muted
-            playsInline
-            src={project.video_overview}
-          />
+      {project.video_overview && (
+        <button
+          className="details-video group relative mt-8 w-full cursor-zoom-in overflow-hidden rounded-xl bg-card p-3 shadow-sm"
+          onClick={() => setIsFullscreen(true)}
+          type="button"
+        >
+          <div className="relative aspect-video w-full overflow-hidden rounded-xl">
+            <video
+              autoPlay
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+              loop
+              muted
+              playsInline
+              src={project.video_overview}
+            />
 
-          <MediaPreviewOverlay icon={<Maximize2 className="h-4 w-4" />} />
-        </div>
-      </button>
+            <MediaPreviewOverlay icon={<Maximize2 className="h-4 w-4" />} />
+          </div>
+        </button>
+      )}
+
       <FullscreenMedia
         isOpen={isFullscreen}
         onClose={() => setIsFullscreen(false)}

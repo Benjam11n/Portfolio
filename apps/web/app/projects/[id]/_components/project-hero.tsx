@@ -2,20 +2,19 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ArrowLeft, ExternalLink, Github, Maximize2 } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { ShiftButton } from "@/components/shared/shift-button";
 import { ROUTES } from "@/constants/navigation";
 import type { Project } from "@/types";
-import { FullscreenMedia } from "./fullscreen-media";
 
 type ProjectHeroProps = {
   project: Project;
 };
 
 export const ProjectHero = ({ project }: ProjectHeroProps) => {
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -106,43 +105,19 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
         </div>
       </div>
 
-      {/* Hero Visual (Video Overview) */}
-      {project.video_overview && (
-        <button
-          className="hero-visual group relative w-full cursor-zoom-in overflow-hidden rounded-xl bg-card p-3 shadow-sm"
-          onClick={() => setIsFullscreen(true)}
-          type="button"
-        >
-          <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-secondary">
-            <video
-              autoPlay
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-              loop
-              muted
-              playsInline
-              src={project.video_overview}
+      {/* Hero Visual (Hero Image) */}
+      {project.hero_image && (
+        <div className="hero-visual mb-12 w-full overflow-hidden rounded-2xl bg-secondary shadow-lg">
+          <div className="relative aspect-video w-full">
+            <Image
+              alt={`${project.title} hero`}
+              className="object-cover"
+              fill
+              priority
+              src={project.hero_image}
             />
-
-            {/* Hover Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/10">
-              <div className="translate-y-4 opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100">
-                <div className="flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 font-medium text-black text-sm shadow-lg backdrop-blur-sm">
-                  <Maximize2 className="h-4 w-4" />
-                  Click to expand
-                </div>
-              </div>
-            </div>
           </div>
-        </button>
-      )}
-
-      {project.video_overview && (
-        <FullscreenMedia
-          isOpen={isFullscreen}
-          onClose={() => setIsFullscreen(false)}
-          src={project.video_overview}
-          type="video"
-        />
+        </div>
       )}
     </div>
   );
