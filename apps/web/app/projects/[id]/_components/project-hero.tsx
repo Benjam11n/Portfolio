@@ -2,7 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ArrowLeft, Maximize2 } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, Maximize2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -85,6 +85,7 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
           {project.href && (
             <ShiftButton
               href={project.href}
+              icon={<ExternalLink className="h-4 w-4" />}
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -95,6 +96,7 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
           {project.github && (
             <ShiftButton
               href={project.github}
+              icon={<Github className="h-4 w-4" />}
               rel="noopener noreferrer"
               target="_blank"
               variant="secondary"
