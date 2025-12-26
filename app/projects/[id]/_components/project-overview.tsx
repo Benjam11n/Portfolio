@@ -1,6 +1,16 @@
+"use client";
+
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
 import { TechStackItem } from "@/components/tech-stack-item";
 import type { Project } from "@/constants";
 import { DEFAULT_FEATURE_ICON, STACKS } from "@/constants";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type ProjectOverviewProps = {
   project: Project;
@@ -8,12 +18,65 @@ type ProjectOverviewProps = {
 
 export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
   const FeatureIcon = project.featureIcon || DEFAULT_FEATURE_ICON;
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      // Set initial states
+      gsap.set(".overview-text", { y: 20, autoAlpha: 0 });
+      gsap.set(".feature-card", { scale: 0.9, autoAlpha: 0, y: 20 });
+      gsap.set(".tech-item", { scale: 0.8, autoAlpha: 0 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+        defaults: { ease: "power3.out" },
+      });
+
+      // Overview text
+      tl.to(".overview-text", {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.8,
+      });
+
+      // Features
+      tl.to(
+        ".feature-card",
+        {
+          scale: 1,
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "back.out(1.5)",
+        },
+        "-=0.4"
+      );
+
+      // Tech stack
+      tl.to(
+        ".tech-item",
+        {
+          scale: 1,
+          autoAlpha: 1,
+          duration: 0.5,
+          stagger: 0.05,
+        },
+        "-=0.4"
+      );
+    },
+    { scope: containerRef }
+  );
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8" ref={containerRef}>
       {/* Row 1: Overview and Description */}
       <div className="space-y-4">
-        <p className="max-w-3xl text-lg text-muted-foreground leading-relaxed">
+        <p className="overview-text max-w-3xl text-lg text-muted-foreground leading-relaxed">
           {project.subdesc}
         </p>
       </div>
@@ -27,7 +90,7 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {project.features.map((feature: string) => (
               <div
-                className="flex items-center gap-4 rounded-xl border border-border/60 border-dashed bg-card p-4 shadow-sm transition-all hover:border-border/80"
+                className="feature-card flex items-center gap-4 rounded-xl border border-border/60 border-dashed bg-card p-4 shadow-sm transition-all hover:border-border/80"
                 key={feature}
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border-4 border-white bg-muted shadow-xl dark:border-black">
@@ -58,7 +121,7 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
               }
               return (
                 <div
-                  className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-12px)]"
+                  className="tech-item w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-12px)]"
                   key={tech.name}
                 >
                   <TechStackItem small stack={stackItem} />
