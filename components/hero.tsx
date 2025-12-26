@@ -1,8 +1,8 @@
 "use client";
 
 import { BadgeCheck } from "lucide-react";
-import Link from "next/link";
 import { BorderedImage } from "@/components/ui/bordered-image";
+import { ShiftButton } from "@/components/ui/shift-button";
 import { SectionCard } from "./section-card";
 
 export const Hero = () => {
@@ -39,18 +39,12 @@ export const Hero = () => {
 
         {/* Buttons */}
         <div className="flex flex-wrap gap-4">
-          <Link
-            className="inline-flex items-center justify-center rounded-full bg-black px-4 py-2 font-bold text-sm text-white transition-transform hover:scale-105"
-            href="#contact"
-          >
+          <ShiftButton href="#contact" variant="primary">
             Contact Me
-          </Link>
-          <Link
-            className="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 font-bold text-[#0F1419] text-sm shadow-sm transition-transform hover:scale-105 hover:bg-gray-50"
-            href={"#projects"}
-          >
+          </ShiftButton>
+          <ShiftButton href="#projects" variant="secondary">
             View Projects
-          </Link>
+          </ShiftButton>
         </div>
       </div>
     </SectionCard>
