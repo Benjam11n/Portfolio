@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { SectionCard } from "@/components/section-card";
-import { ShiftButton } from "./ui/shift-button";
+import { ShiftButton } from "./shift-button";
 
 export const About = () => {
   return (

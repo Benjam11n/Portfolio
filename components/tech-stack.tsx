@@ -1,7 +1,7 @@
 "use client";
 
+import { BorderedImage } from "@/components/bordered-image";
 import { SectionCard } from "@/components/section-card";
-import { BorderedImage } from "@/components/ui/bordered-image";
 import { STACKS } from "@/constants";
 
 export const TechStack = () => {

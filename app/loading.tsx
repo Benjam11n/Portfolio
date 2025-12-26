@@ -1,6 +1,6 @@
 "use client";
 
-import { TextShimmer } from "@/components/ui/text-shimmer";
+import { TextShimmer } from "@/components/text-shimmer";
 
 const Loading = () => {
   return (

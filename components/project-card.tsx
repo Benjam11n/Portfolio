@@ -1,23 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { BorderedImage } from "@/components/ui/bordered-image";
-import { ShiftButton } from "@/components/ui/shift-button";
+import { BorderedImage } from "@/components/bordered-image";
 import type { PROJECTS } from "@/constants";
 
 type Project = (typeof PROJECTS)[keyof typeof PROJECTS];
 
-type ProjectCardProps = {
-  project: Project;
-  onClick: () => void;
-};
+import Link from "next/link";
 
-export const ProjectCard = ({ project, onClick }: ProjectCardProps) => {
+/* ... imports ... */
+
+export const ProjectCard = ({ project }: { project: Project }) => {
   return (
-    <button
-      className="group w-full cursor-pointer rounded-2xl bg-card p-2 shadow-sm transition-all duration-300 hover:shadow-lg sm:p-5"
-      onClick={onClick}
-      type="button"
+    <Link
+      className="group block w-full cursor-pointer rounded-2xl bg-card p-2 shadow-sm transition-all duration-300 hover:shadow-lg sm:p-5"
+      href={`/projects/${project.id}`}
     >
       {/* Visual Part */}
       <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-secondary">
@@ -81,28 +78,11 @@ export const ProjectCard = ({ project, onClick }: ProjectCardProps) => {
 
         {/* Links */}
         <div className="flex gap-2">
-          {project.href && (
-            <ShiftButton
-              className="h-8 border border-transparent bg-secondary px-3 text-xs hover:border-border hover:bg-accent"
-              href={project.href}
-              target="_blank"
-              variant="secondary"
-            >
-              Visit
-            </ShiftButton>
-          )}
-          {project.github && (
-            <ShiftButton
-              className="h-8 border border-transparent bg-secondary px-3 text-xs hover:border-border hover:bg-accent"
-              href={project.github}
-              target="_blank"
-              variant="secondary"
-            >
-              GitHub
-            </ShiftButton>
-          )}
+          <div className="flex h-8 items-center justify-center rounded-md border border-transparent bg-secondary px-3 font-medium text-xs transition-colors hover:border-border hover:bg-accent">
+            View Details
+          </div>
         </div>
       </div>
-    </button>
+    </Link>
   );
 };

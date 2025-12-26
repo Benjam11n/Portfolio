@@ -17,7 +17,7 @@ type ContactFormValues = z.infer<typeof formSchema>;
 const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = process.env.FROM_EMAIL ?? "onboarding@resend.dev";
 
-export async function sendEmail(formData: ContactFormValues) {
+export async function sendEmailAction(formData: ContactFormValues) {
   try {
     const result = formSchema.safeParse(formData);
     if (!result.success) {
