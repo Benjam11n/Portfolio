@@ -48,18 +48,11 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
   });
 
   return (
-    <div
-      className="group cursor-pointer rounded-2xl bg-card p-4 shadow-sm transition-transform hover:scale-[1.01]"
+    <button
+      className="group w-full cursor-pointer rounded-2xl bg-card p-4 text-left shadow-sm transition-transform hover:scale-[1.01]"
       onClick={toggleOpen}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          toggleOpen();
-        }
-      }}
       ref={containerRef}
-      role="button"
-      tabIndex={0}
+      type="button"
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
@@ -96,6 +89,6 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
           </p>
         </div>
       </div>
-    </div>
+    </button>
   );
 };
