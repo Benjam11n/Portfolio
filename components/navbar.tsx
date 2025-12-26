@@ -25,7 +25,7 @@ export const Navbar = () => {
       <nav className="flex items-center gap-1 rounded-2xl border border-border/50 bg-secondary/80 p-2 shadow-xl ring-1 ring-black/5 backdrop-blur-lg">
         {navItems.map((item) => (
           <Link
-            className="group relative flex h-10 w-12 flex-col items-center justify-center rounded-xl transition-all duration-300 hover:bg-accent"
+            className="group relative flex h-10 w-12 flex-col items-center justify-center rounded-2xl transition-all duration-300 hover:bg-accent"
             href={item.href}
             key={item.name}
           >
@@ -41,7 +41,7 @@ export const Navbar = () => {
 
         <button
           aria-label="Toggle theme"
-          className="group relative flex h-10 w-12 flex-col items-center justify-center rounded-xl transition-all duration-300 hover:bg-accent"
+          className="group relative flex h-10 w-12 flex-col items-center justify-center rounded-2xl transition-all duration-300 hover:bg-accent"
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           type="button"
         >

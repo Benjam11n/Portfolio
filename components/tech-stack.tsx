@@ -24,7 +24,7 @@ export const TechStack = () => {
               width={32}
             />
             <div className="flex flex-col">
-              <span className="font-bold text-foreground text-lg">
+              <span className="font-semibold text-foreground text-md">
                 {stack.name}
               </span>
               <span className="font-medium text-muted-foreground text-sm">
