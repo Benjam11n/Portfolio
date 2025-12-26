@@ -7,6 +7,7 @@ import { useRef } from "react";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
+import { ROUTES } from "@/constants/navigation";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -133,10 +134,10 @@ export const Hero = () => {
 
         {/* Buttons */}
         <div className="flex flex-wrap gap-4" ref={buttonsRef}>
-          <ShiftButton href="#contact" variant="primary">
+          <ShiftButton href={ROUTES.CONTACT} variant="primary">
             Contact Me
           </ShiftButton>
-          <ShiftButton href="#projects" variant="secondary">
+          <ShiftButton href={ROUTES.PROJECTS} variant="secondary">
             View Projects
           </ShiftButton>
         </div>

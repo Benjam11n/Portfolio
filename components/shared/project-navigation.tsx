@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { ROUTES } from "@/constants/navigation";
 import { PROJECTS } from "@/constants/projects";
 
 export function ProjectNavigation({ currentId }: { currentId: string }) {
@@ -17,7 +18,7 @@ export function ProjectNavigation({ currentId }: { currentId: string }) {
     <div className="mt-10 flex justify-end border-border/10 border-t">
       <Link
         className="group flex flex-col items-end gap-1"
-        href={`/projects/${nextProjectId}`}
+        href={ROUTES.PROJECT_DETAIL(nextProjectId)}
       >
         <div className="flex items-center gap-2 font-bold text-foreground text-md transition-colors hover:underline group-hover:text-muted-foreground">
           <span>{nextProject.title.split(" - ")[0]}</span>

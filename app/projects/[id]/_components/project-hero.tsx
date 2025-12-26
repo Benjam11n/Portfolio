@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { ShiftButton } from "@/components/shared/shift-button";
+import { ROUTES } from "@/constants/navigation";
 import type { Project } from "@/types";
 import { FullscreenMedia } from "./fullscreen-media";
 
@@ -66,7 +67,7 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
       {/* Back Button */}
       <Link
         className="hero-back group mb-8 inline-flex h-10 w-10 items-center justify-center rounded-full border border-neutral-200 bg-white text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-black"
-        href="/#projects"
+        href={ROUTES.HOME + ROUTES.PROJECTS}
       >
         <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-0.5" />
       </Link>

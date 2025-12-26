@@ -4,12 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Magnetic } from "@/components/effects/magnetic";
 import { BorderedImage } from "@/components/shared/bordered-image";
+import { ROUTES } from "@/constants/navigation";
 import type { Project } from "@/types";
 
 export const ProjectCard = ({ project }: { project: Project }) => {
   return (
     <div className="project-card-item group block w-full cursor-pointer rounded-xl bg-card p-2 shadow-sm transition-all duration-300 hover:scale-102 hover:shadow-lg sm:p-2 sm:pb-4">
-      <Link href={`/projects/${project.id}`}>
+      <Link href={ROUTES.PROJECT_DETAIL(project.id)}>
         {/* Visual Part */}
         <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-secondary">
           {project.texture ? (
