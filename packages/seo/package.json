@@ -1,0 +1,30 @@
+{
+  "name": "@repo/seo",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./metadata.ts",
+  "exports": {
+    ".": {
+      "types": "./metadata.ts",
+      "import": "./metadata.ts"
+    },
+    "./constants": "./constants.ts"
+  },
+  "scripts": {
+    "clean": "rm -rf .cache .turbo dist node_modules",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "lodash.merge": "^4.6.2",
+    "react": "19.0.0",
+    "schema-dts": "^1.1.2"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/lodash.merge": "^4.6.9",
+    "@types/node": "24.7.0",
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "next": "16.1.1"
+  }
+}
