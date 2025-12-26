@@ -69,7 +69,7 @@ export default function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <div className="relative mx-4 w-full max-w-2xl overflow-hidden rounded-3xl border border-border/40 bg-card shadow-2xl sm:mx-8">
+          <div className="relative mx-4 w-full max-w-2xl overflow-hidden rounded-3xl border border-border/40 bg-card shadow-xl sm:mx-8">
             <SmoothScroll>{children}</SmoothScroll>
             <Navbar />
           </div>

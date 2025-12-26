@@ -10,7 +10,7 @@ export const TechStack = () => {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {STACKS.map((stack) => (
           <div
-            className="group flex items-center gap-4 rounded-2xl bg-card p-3 shadow-sm transition-transform hover:scale-[1.02]"
+            className="group flex items-center gap-4 rounded-2xl border border-border/60 border-dashed bg-card p-3 shadow-sm transition-transform hover:scale-[1.02] hover:border-border/80"
             key={stack.name}
           >
             <BorderedImage

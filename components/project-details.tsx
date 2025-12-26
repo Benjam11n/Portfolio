@@ -97,7 +97,7 @@ export const ProjectDetails = ({
 
       {/* Side Panel */}
       <div
-        className="absolute top-0 right-0 h-full w-full max-w-2xl translate-x-full overflow-y-auto bg-background shadow-2xl"
+        className="absolute top-0 right-0 h-full w-full max-w-2xl translate-x-full overflow-y-auto bg-background shadow-xl"
         ref={panelRef}
       >
         <div className="relative p-6 sm:p-10">

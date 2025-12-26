@@ -30,10 +30,9 @@ export const BorderedImage = ({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-2xl border-4 border-white shadow-xl dark:border-white/10",
-        // If colorLight/Dark are provided, apply variable-based background
         (colorLight || colorDark) &&
           "bg-[var(--bg-light)] dark:bg-[var(--bg-dark)]",
+        "overflow-hidden rounded-2xl border-4 border-white shadow-xl dark:border-black",
         containerClassName
       )}
       style={style}
