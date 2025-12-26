@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
+import { ROUTES } from "@/constants/navigation";
 
 export const About = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -122,7 +123,7 @@ export const About = () => {
         </div>
 
         <div className="about-button">
-          <ShiftButton href="#contact" variant="primary">
+          <ShiftButton href={ROUTES.CONTACT} variant="primary">
             Get in Touch
           </ShiftButton>
         </div>
