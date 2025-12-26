@@ -119,7 +119,7 @@ export const Hero = () => {
           <Magnetic strength={0.4}>
             <BorderedImage
               alt="Benjamin Wang"
-              colorDark="#838383ff"
+              colorDark="#464646ff"
               colorLight="#3f3f3fff"
               containerClassName="mb-6 h-[72px] w-[72px]"
               height={72}

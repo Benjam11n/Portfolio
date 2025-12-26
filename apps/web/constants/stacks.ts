@@ -1,10 +1,48 @@
 export const STACKS = [
+  // --- AI/ML ---
   {
-    name: "React",
-    icon: "/assets/react.svg",
-    category: "Frontend",
-    colorLight: "#E0F7FA",
-    colorDark: "#001b59",
+    name: "Numpy",
+    icon: "/assets/numpy.svg",
+    category: "AI/ML",
+    colorLight: "#E1F5FE",
+    colorDark: "#013243",
+  },
+  {
+    name: "Pandas",
+    icon: "/assets/pandas.svg",
+    category: "AI/ML",
+    colorLight: "#F3E5F5",
+    colorDark: "#5533ddff",
+  },
+  {
+    name: "PyTorch",
+    icon: "/assets/pytorch.svg",
+    category: "AI/ML",
+    colorLight: "#FFF3E0",
+    colorDark: "#823a2cff",
+  },
+  {
+    name: "Tensorflow",
+    icon: "/assets/tensorflow.svg",
+    category: "AI/ML",
+    colorLight: "#FFF3E0",
+    colorDark: "#FF6F00",
+  },
+
+  // --- Web Development ---
+  {
+    name: "Framer",
+    icon: "/assets/framer.png",
+    category: "Animation",
+    colorLight: "#F3E5F5",
+    colorDark: "#180036",
+  },
+  {
+    name: "Ionic",
+    icon: "/assets/ionic.svg",
+    category: "Mobile",
+    colorLight: "#E1F5FE",
+    colorDark: "#122f60ff",
   },
   {
     name: "Next.js",
@@ -14,11 +52,25 @@ export const STACKS = [
     colorDark: "#3b3b3bff",
   },
   {
-    name: "TypeScript",
-    icon: "/assets/typescript.svg",
-    category: "Language",
-    colorLight: "#E3F2FD",
-    colorDark: "#00273F",
+    name: "Node.js",
+    icon: "/assets/node.svg",
+    category: "Backend",
+    colorLight: "#F1F8E9",
+    colorDark: "#518742ff",
+  },
+  {
+    name: "React",
+    icon: "/assets/react.svg",
+    category: "Frontend",
+    colorLight: "#E0F7FA",
+    colorDark: "#001b59",
+  },
+  {
+    name: "React Query",
+    icon: "/assets/react-query.svg",
+    category: "Frontend",
+    colorLight: "#FFF1F2",
+    colorDark: "#FF4154",
   },
   {
     name: "Tailwind",
@@ -28,11 +80,41 @@ export const STACKS = [
     colorDark: "#0B2830",
   },
   {
-    name: "Framer",
-    icon: "/assets/framer.png",
-    category: "Animation",
-    colorLight: "#F3E5F5",
-    colorDark: "#180036",
+    name: "TypeScript",
+    icon: "/assets/typescript.svg",
+    category: "Language",
+    colorLight: "#E3F2FD",
+    colorDark: "#00273F",
+  },
+  {
+    name: "Zustand",
+    icon: "/assets/zustand.png",
+    category: "Frontend",
+    colorLight: "#FFFDE7",
+    colorDark: "#443E38",
+  },
+
+  // --- Databases & DevOps ---
+  {
+    name: "Docker",
+    icon: "/assets/docker.svg",
+    category: "DevOps",
+    colorLight: "#E1F5FE",
+    colorDark: "#0D2C4A",
+  },
+  {
+    name: "Go",
+    icon: "/assets/golang.svg",
+    category: "Language",
+    colorLight: "#E0F7FA",
+    colorDark: "#00b9e7ff",
+  },
+  {
+    name: "Java",
+    icon: "/assets/java.svg",
+    category: "Language",
+    colorLight: "#FBE9E7",
+    colorDark: "#002c39ff",
   },
   {
     name: "MongoDB",
@@ -49,24 +131,17 @@ export const STACKS = [
     colorDark: "#0E1A2B",
   },
   {
-    name: "Docker",
-    icon: "/assets/docker.svg",
-    category: "DevOps",
-    colorLight: "#E1F5FE",
-    colorDark: "#0D2C4A",
-  },
-  {
-    name: "Node.js",
-    icon: "/assets/node.svg",
-    category: "Backend",
-    colorLight: "#F1F8E9",
-    colorDark: "#1f3519ff",
-  },
-  {
     name: "Python",
     icon: "/assets/python.svg",
     category: "Language",
     colorLight: "#E3F2FD",
     colorDark: "#1E2D3B",
+  },
+  {
+    name: "Supabase",
+    icon: "/assets/supabase.svg",
+    category: "Database",
+    colorLight: "#E8F5E9",
+    colorDark: "#217e54ff",
   },
 ];

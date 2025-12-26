@@ -286,10 +286,12 @@ export const PROJECTS: Record<string, Project> = {
     id: "worldquant",
     title: "WorldQuant NUS Alphathon - 4th Place Winner",
     description:
-      "WorldQuant NUS Alphathon is a prestigious competition that challenges students to develop quantitative trading strategies.",
+      "Achieved 4th place in the prestigious WorldQuant NUS Alphathon by developing and optimizing alpha-generating quantitative trading strategies.",
+    subdesc:
+      "Utilized Fast Expression Language and quantitative research methodologies to identify market patterns and develop high-performance predictive models on the BRAIN platform.",
     year: "2024",
     client: "WorldQuant",
-    services: "Quantitative Finance",
+    services: "Quantitative Research, Alpha Design",
     location: "Singapore",
     texture: "/textures/project/project5.mp4",
     logo: "/projects/project5-logo.png",
@@ -299,6 +301,28 @@ export const PROJECTS: Record<string, Project> = {
       boxShadow: "0px 0px 60px 0px #2F67B64D",
     },
     spotlight: "/assets/spotlight4.png",
-    techStack: [],
+    techStack: [
+      {
+        name: "Python",
+        colorLight: "#E3F2FD",
+        colorDark: "#1E2D3B",
+        size: "xl",
+        path: "/assets/python.svg",
+      },
+      {
+        name: "Numpy",
+        colorLight: "#E1F5FE",
+        colorDark: "#013243",
+        size: "lg",
+        path: "/assets/numpy.svg",
+      },
+      {
+        name: "Pandas",
+        colorLight: "#F3E5F5",
+        colorDark: "#150458",
+        size: "lg",
+        path: "/assets/pandas.svg",
+      },
+    ],
   },
 };
