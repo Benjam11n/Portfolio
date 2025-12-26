@@ -59,11 +59,15 @@ type ProjectTechnology = {
   path: string;
 };
 
-type Project = {
+export type Project = {
   id: string;
   title: string;
   description: string;
   subdesc?: string;
+  year: string;
+  client: string;
+  services: string;
+  location: string;
   status?: "completed" | "in-development" | "planned";
 
   // Links
@@ -92,6 +96,10 @@ export const PROJECTS: Record<string, Project> = {
       "A platform that uses AI-powered digital twins to revolutionize mental health therapy and treatment.",
     subdesc:
       "TwinAI creates virtual representations of patients’ psychological states, enabling therapists to simulate interventions, track mood patterns, and develop personalized treatment plans.",
+    year: "2024",
+    client: "Personal Project",
+    services: "AI, Web Development",
+    location: "Singapore",
     href: "https://twin-ai-one.vercel.app/",
     github: "https://github.com/Benjam11n/TwinAI",
     texture: "/textures/project/project1.mp4",
@@ -161,6 +169,10 @@ export const PROJECTS: Record<string, Project> = {
       "Quickie is an innovative e-commerce platform that leverages AI technology to provide personalized perfume recommendations to users.",
     subdesc:
       "Built as a unique e-commerce app with Next.js 15, Tailwind CSS, TypeScript, Framer Motion, shadcn/ui, Zustand, React Query and MongoDB, Quickie is designed to be beautiful and memorable yet performant.",
+    year: "2024",
+    client: "Personal Project",
+    services: "E-commerce, AI",
+    location: "Singapore",
     status: "in-development",
     github: "https://github.com/Benjam11n/Quickie",
     texture: "/textures/project/project2.mp4",
@@ -230,6 +242,10 @@ export const PROJECTS: Record<string, Project> = {
       "A digital poker chip tracker that lets you and your friends enjoy poker games without physical chips. Perfect for casual games anywhere.",
     subdesc:
       "Built with Next.js, React, TypeScript, Framer motion, TailwindCSS and Supabase, Chip provides a seamless and reliable poker experience with real-time updates and easy chip management.",
+    year: "2024",
+    client: "Personal Project",
+    services: "Web App, Real-time",
+    location: "Singapore",
     href: "https://chip-sg.vercel.app/",
     status: "completed",
     github: "https://github.com/Benjam11n/Chip",
@@ -293,6 +309,10 @@ export const PROJECTS: Record<string, Project> = {
       "Birds of a Feather is a community forum designed for bird lovers to connect, share knowledge, and discuss their passion for birds.",
     subdesc:
       "Built with React, Typescript Tailwind CSS, shadcn/ui, React Query and Docker, Birds of a Feather is a modern forum that brings bird enthusiasts together.",
+    year: "2024",
+    client: "Personal Project",
+    services: "Community, Forum",
+    location: "Singapore",
     github: "https://github.com/Benjam11n/Birds-of-a-Feather-frontend",
     texture: "/textures/project/project4.mp4",
     logo: "/projects/project4-logo.png",
@@ -352,6 +372,10 @@ export const PROJECTS: Record<string, Project> = {
     title: "WorldQuant NUS Alphathon - 4th Place Winner",
     description:
       "WorldQuant NUS Alphathon is a prestigious competition that challenges students to develop quantitative trading strategies.",
+    year: "2024",
+    client: "WorldQuant",
+    services: "Quantitative Finance",
+    location: "Singapore",
     texture: "/textures/project/project5.mp4",
     logo: "/projects/project5-logo.png",
     logoStyle: {

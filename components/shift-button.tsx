@@ -6,10 +6,12 @@ import { cn } from "@/lib/utils";
 import { ShiftText, useShiftAnimation } from "./shift-text";
 
 interface ShiftButtonProps extends ComponentProps<typeof Link> {
-  children: string; // Enforce string for ShiftText
+  children: string;
   variant?: "primary" | "secondary";
   className?: string;
 }
+
+// todo: allow this to accept icons
 
 export const ShiftButton = ({
   children,

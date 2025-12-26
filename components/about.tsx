@@ -64,7 +64,7 @@ export const About = () => {
         {/* Images Stack */}
         <div className="relative mx-auto mb-4 h-24 w-28 sm:mx-0 sm:h-36 sm:w-36">
           {/* Image 1 (Back) */}
-          <div className="about-image absolute top-0 left-0 h-20 w-20 rotate-[-6deg] overflow-hidden rounded-2xl border border-border bg-secondary shadow-lg sm:h-32 sm:w-32">
+          <div className="about-image absolute top-0 left-0 h-20 w-20 rotate-[-6deg] overflow-hidden rounded-xl border border-border bg-secondary shadow-lg sm:h-32 sm:w-32">
             <Image
               alt="Profile Background"
               className="object-cover opacity-60 grayscale"
@@ -74,7 +74,7 @@ export const About = () => {
           </div>
 
           {/* Image 2 (Front) */}
-          <div className="about-image absolute top-4 left-8 z-10 h-20 w-20 rotate-[3deg] overflow-hidden rounded-2xl border-4 border-card bg-card shadow-xl sm:left-12 sm:h-32 sm:w-32">
+          <div className="about-image absolute top-4 left-8 z-10 h-20 w-20 rotate-[3deg] overflow-hidden rounded-xl border-4 border-card bg-card shadow-xl sm:left-12 sm:h-32 sm:w-32">
             <Image
               alt="Profile Foreground"
               className="object-cover"

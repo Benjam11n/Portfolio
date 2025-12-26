@@ -10,10 +10,10 @@ type Project = (typeof PROJECTS)[keyof typeof PROJECTS];
 
 export const ProjectCard = ({ project }: { project: Project }) => {
   return (
-    <div className="project-card-item group block w-full cursor-pointer rounded-2xl bg-card p-2 shadow-sm transition-all duration-300 hover:scale-102 hover:shadow-lg sm:p-2 sm:pb-4">
+    <div className="project-card-item group block w-full cursor-pointer rounded-xl bg-card p-2 shadow-sm transition-all duration-300 hover:scale-102 hover:shadow-lg sm:p-2 sm:pb-4">
       <Link href={`/projects/${project.id}`}>
         {/* Visual Part */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-secondary">
+        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-secondary">
           {project.texture ? (
             <video
               autoPlay
@@ -33,7 +33,7 @@ export const ProjectCard = ({ project }: { project: Project }) => {
             <div className="absolute top-4 left-4">
               <Magnetic>
                 <div
-                  className="rounded-2xl bg-card/90 p-2 shadow-sm backdrop-blur-sm"
+                  className="rounded-xl bg-card/90 p-2 shadow-sm backdrop-blur-sm"
                   style={project.logoStyle}
                 >
                   <Image
