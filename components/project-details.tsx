@@ -97,14 +97,14 @@ export const ProjectDetails = ({
 
       {/* Side Panel */}
       <div
-        className="absolute top-0 right-0 h-full w-full max-w-2xl translate-x-full overflow-y-auto bg-white shadow-2xl"
+        className="absolute top-0 right-0 h-full w-full max-w-2xl translate-x-full overflow-y-auto bg-background shadow-2xl"
         ref={panelRef}
       >
         <div className="relative p-6 sm:p-10">
           {/* Close Button */}
           <button
             aria-label="Close modal"
-            className="absolute top-6 right-6 z-10 rounded-full bg-white/10 p-2 text-[#0F1419] transition-colors hover:bg-black/5"
+            className="absolute top-6 right-6 z-10 rounded-full bg-muted p-2 text-foreground transition-colors hover:bg-accent"
             onClick={onClose}
             type="button"
           >
@@ -131,7 +131,7 @@ export const ProjectDetails = ({
             {project.logo && (
               <div className="absolute top-4 left-4">
                 <div
-                  className="rounded-xl bg-white/90 p-2 shadow-sm backdrop-blur-sm"
+                  className="rounded-xl bg-card/90 p-2 shadow-sm backdrop-blur-sm"
                   style={project.logoStyle}
                 >
                   <Image
@@ -147,7 +147,7 @@ export const ProjectDetails = ({
           </div>
 
           {/* Content */}
-          <h2 className="mb-2 font-bold text-3xl text-[#0F1419]">
+          <h2 className="mb-2 font-bold text-3xl text-foreground">
             {project.title}
           </h2>
           <div className="mb-6 flex flex-wrap gap-2">
@@ -161,7 +161,7 @@ export const ProjectDetails = ({
             ))}
           </div>
 
-          <p className="mb-8 text-[#555555] text-lg leading-relaxed">
+          <p className="mb-8 text-lg text-muted-foreground leading-relaxed">
             {project.description}
           </p>
 

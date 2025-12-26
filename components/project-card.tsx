@@ -80,10 +80,10 @@ export const ProjectCard = ({ project, onClick }: ProjectCardProps) => {
         </div>
 
         {/* Links */}
-        <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+        <div className="flex gap-2">
           {project.href && (
             <ShiftButton
-              className="h-8 border border-transparent bg-gray-100/50 px-3 text-xs hover:border-gray-200 hover:bg-gray-100"
+              className="h-8 border border-transparent bg-secondary px-3 text-xs hover:border-border hover:bg-accent"
               href={project.href}
               target="_blank"
               variant="secondary"
@@ -93,7 +93,7 @@ export const ProjectCard = ({ project, onClick }: ProjectCardProps) => {
           )}
           {project.github && (
             <ShiftButton
-              className="h-8 border border-transparent bg-gray-100/50 px-3 text-xs hover:border-gray-200 hover:bg-gray-100"
+              className="h-8 border border-transparent bg-secondary px-3 text-xs hover:border-border hover:bg-accent"
               href={project.github}
               target="_blank"
               variant="secondary"
