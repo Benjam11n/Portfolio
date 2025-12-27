@@ -1,15 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import type React from "react";
 
-export type ProjectTechnology = {
-  name: string;
-  colorLight: string;
-  colorDark: string;
-  size?: "sm" | "md" | "lg" | "xl";
-  icon?: (props: { className: string }) => React.JSX.Element;
-  path: string;
-};
-
 export type Project = {
   id: string;
   title: string;
