@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type FullscreenMediaProps = {
   isOpen: boolean;
@@ -18,6 +18,8 @@ export const FullscreenMedia = ({
   src,
   type,
 }: FullscreenMediaProps) => {
+  const [imageError, setImageError] = useState(false);
+
   // Handle escape key
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -70,12 +72,19 @@ export const FullscreenMedia = ({
           >
             {type === "image" ? (
               <div className="relative h-full w-full">
-                <Image
-                  alt="Full screen view"
-                  className="object-contain"
-                  fill
-                  src={src}
-                />
+                {imageError ? (
+                  <div className="flex h-full w-full items-center justify-center text-white">
+                    Image failed to load
+                  </div>
+                ) : (
+                  <Image
+                    alt="Full screen view"
+                    className="object-contain"
+                    fill
+                    onError={() => setImageError(true)}
+                    src={src}
+                  />
+                )}
               </div>
             ) : (
               <video

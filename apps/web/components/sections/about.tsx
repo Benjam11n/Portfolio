@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Mail } from "lucide-react";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Magnetic } from "@/components/effects/magnetic";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
@@ -12,6 +12,8 @@ import { ROUTES } from "@/constants/navigation";
 
 export const About = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [image1Error, setImage1Error] = useState(false);
+  const [image2Error, setImage2Error] = useState(false);
 
   useGSAP(
     () => {
@@ -111,12 +113,19 @@ export const About = () => {
           <div className="about-image-wrapper absolute top-0 left-0">
             <Magnetic strength={0.3}>
               <div className="about-image relative h-20 w-20 rotate-[-6deg] overflow-hidden rounded-xl border border-border bg-secondary shadow-lg sm:h-32 sm:w-32">
-                <Image
-                  alt="Benjamin Wang"
-                  className="object-cover transition-transform duration-500 hover:scale-110"
-                  fill
-                  src="/benjamin.png"
-                />
+                {image1Error ? (
+                  <div className="flex h-full w-full items-center justify-center text-muted-foreground text-xs">
+                    Photo
+                  </div>
+                ) : (
+                  <Image
+                    alt="Benjamin Wang"
+                    className="object-cover transition-transform duration-500 hover:scale-110"
+                    fill
+                    onError={() => setImage1Error(true)}
+                    src="/benjamin.png"
+                  />
+                )}
               </div>
             </Magnetic>
           </div>
@@ -125,12 +134,19 @@ export const About = () => {
           <div className="about-image-wrapper absolute top-4 left-8 z-10 sm:left-12">
             <Magnetic strength={0.4}>
               <div className="about-image relative h-20 w-20 rotate-[3deg] overflow-hidden rounded-xl border-4 border-card bg-card shadow-xl sm:h-32 sm:w-32">
-                <Image
-                  alt="Minimal Workspace"
-                  className="object-cover opacity-80"
-                  fill
-                  src="/assets/workspace.png"
-                />
+                {image2Error ? (
+                  <div className="flex h-full w-full items-center justify-center text-muted-foreground text-xs">
+                    Workspace
+                  </div>
+                ) : (
+                  <Image
+                    alt="Minimal Workspace"
+                    className="object-cover opacity-80"
+                    fill
+                    onError={() => setImage2Error(true)}
+                    src="/assets/workspace.png"
+                  />
+                )}
               </div>
             </Magnetic>
           </div>

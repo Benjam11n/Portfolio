@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ShiftButton } from "@/components/shared/shift-button";
 import { ROUTES } from "@/constants/navigation";
 import type { Project } from "@/types";
@@ -16,6 +16,7 @@ type ProjectHeroProps = {
 
 export const ProjectHero = ({ project }: ProjectHeroProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [heroImageError, setHeroImageError] = useState(false);
 
   useGSAP(
     () => {
@@ -109,13 +110,20 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
       {project.hero_image && (
         <div className="hero-visual mb-12 w-full overflow-hidden rounded-2xl bg-secondary shadow-lg">
           <div className="relative aspect-video w-full">
-            <Image
-              alt={`${project.title} hero`}
-              className="object-cover"
-              fill
-              priority
-              src={project.hero_image}
-            />
+            {heroImageError ? (
+              <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+                Hero image not available
+              </div>
+            ) : (
+              <Image
+                alt={`${project.title} hero`}
+                className="object-cover"
+                fill
+                onError={() => setHeroImageError(true)}
+                priority
+                src={project.hero_image}
+              />
+            )}
           </div>
         </div>
       )}
