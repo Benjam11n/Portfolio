@@ -1,8 +1,7 @@
-"use client";
-
-import Link from "next/link";
+import type Link from "next/link";
 import { type ComponentProps, type ReactNode, useRef } from "react";
 import { ShiftText, useShiftAnimation } from "@/components/effects/shift-text";
+import { ScrollLink } from "@/components/shared/scroll-link";
 import { cn } from "@/lib/utils";
 
 interface ShiftButtonProps extends ComponentProps<typeof Link> {
@@ -31,7 +30,7 @@ export const ShiftButton = ({
   };
 
   return (
-    <Link
+    <ScrollLink
       className={cn(baseStyles, variants[variant], className)}
       onMouseEnter={animateIn}
       onMouseLeave={animateOut}
@@ -40,6 +39,6 @@ export const ShiftButton = ({
     >
       {icon}
       <ShiftText>{children}</ShiftText>
-    </Link>
+    </ScrollLink>
   );
 };
