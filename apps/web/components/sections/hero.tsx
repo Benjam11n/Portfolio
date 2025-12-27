@@ -27,7 +27,7 @@ export const Hero = () => {
         },
         (context) => {
           const { isDesktop } = context.conditions as { isDesktop: boolean };
-          const offset = isDesktop ? -220 : -40;
+          const offset = isDesktop ? 0 : -40;
 
           // Image: Scale up from center, smooth pop
           tl.fromTo(
