@@ -1,8 +1,8 @@
 "use client";
 
-// biome-ignore lint/performance/noNamespaceImport: <explanation>
+// biome-ignore lint/performance/noNamespaceImport: Radix UI primitives are exported as namespaces
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-// biome-ignore lint/performance/noNamespaceImport: <explanation>
+// biome-ignore lint/performance/noNamespaceImport: React is used for types and forwardRef
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
