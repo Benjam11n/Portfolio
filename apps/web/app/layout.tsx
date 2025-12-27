@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { SmoothScroll } from "@/components/effects/smooth-scroll";
 import { Navbar } from "@/components/layout/navbar";
 import { ThemeProvider } from "@/components/shared/theme-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 import "./globals.css";
 
@@ -31,10 +32,12 @@ export default function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <div className="relative mx-4 w-full max-w-2xl overflow-hidden rounded-xl border border-border/40 bg-card shadow-xl sm:mx-8">
-            <SmoothScroll>{children}</SmoothScroll>
-            <Navbar />
-          </div>
+          <TooltipProvider>
+            <div className="relative mx-4 w-full max-w-2xl overflow-hidden rounded-xl border border-border/40 bg-card shadow-xl sm:mx-8">
+              <SmoothScroll>{children}</SmoothScroll>
+              <Navbar />
+            </div>
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

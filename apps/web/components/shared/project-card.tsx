@@ -5,6 +5,11 @@ import gsap from "gsap";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ROUTES } from "@/constants/navigation";
 import { TECH_STACK } from "@/constants/tech-stack";
 import type { Project } from "@/types";
@@ -125,18 +130,25 @@ export const ProjectCard = ({ project }: { project: Project }) => {
 
               return (
                 <Magnetic key={techName}>
-                  <div className="cursor-pointer">
-                    <BorderedImage
-                      alt={tech.name}
-                      colorDark={tech.colorDark}
-                      colorLight={tech.colorLight}
-                      containerClassName="h-10 w-10 shrink-0"
-                      height={20}
-                      imageClassName="p-[6px]"
-                      src={tech.icon}
-                      width={20}
-                    />
-                  </div>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="cursor-pointer">
+                        <BorderedImage
+                          alt={tech.name}
+                          colorDark={tech.colorDark}
+                          colorLight={tech.colorLight}
+                          containerClassName="h-10 w-10 shrink-0"
+                          height={20}
+                          imageClassName="p-[6px]"
+                          src={tech.icon}
+                          width={20}
+                        />
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{tech.name}</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </Magnetic>
               );
             })}
