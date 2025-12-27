@@ -19,7 +19,7 @@ export const TECH_STACK = [
     icon: "/assets/pytorch.svg",
     category: "AI/ML",
     colorLight: "#FFF3E0",
-    colorDark: "#823a2cff",
+    colorDark: "#64271bff",
   },
   {
     name: "Tensorflow",
@@ -91,7 +91,7 @@ export const TECH_STACK = [
     icon: "/assets/zustand.png",
     category: "Frontend",
     colorLight: "#FFFDE7",
-    colorDark: "#443E38",
+    colorDark: "#6f675fff",
   },
 
   // --- Databases & DevOps ---
@@ -107,7 +107,7 @@ export const TECH_STACK = [
     icon: "/assets/golang.svg",
     category: "Language",
     colorLight: "#E0F7FA",
-    colorDark: "#00b9e7ff",
+    colorDark: "#d8f7ffff",
   },
   {
     name: "Java",
@@ -142,6 +142,6 @@ export const TECH_STACK = [
     icon: "/assets/supabase.svg",
     category: "Database",
     colorLight: "#E8F5E9",
-    colorDark: "#217e54ff",
+    colorDark: "#146541ff",
   },
 ];
