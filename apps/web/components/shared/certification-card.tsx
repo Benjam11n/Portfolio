@@ -5,7 +5,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { Certification } from "@/types";
 
 type CertificationCardProps = {
@@ -14,6 +14,7 @@ type CertificationCardProps = {
 
 export const CertificationCard = ({ cert }: CertificationCardProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [imageError, setImageError] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -93,12 +94,19 @@ export const CertificationCard = ({ cert }: CertificationCardProps) => {
           style={{ transform: "translateZ(50px)" }} // Add depth
         >
           <div className="relative mb-4 aspect-video w-full overflow-hidden rounded-lg bg-secondary shadow-inner">
-            <Image
-              alt={cert.name}
-              className="object-cover transition-opacity hover:opacity-100"
-              fill
-              src={cert.image}
-            />
+            {imageError ? (
+              <div className="flex h-full w-full items-center justify-center text-muted-foreground text-sm">
+                Image not available
+              </div>
+            ) : (
+              <Image
+                alt={cert.name}
+                className="object-cover transition-opacity hover:opacity-100"
+                fill
+                onError={() => setImageError(true)}
+                src={cert.image}
+              />
+            )}
           </div>
           <h3 className="translate-z-10 mb-1 font-semibold text-foreground">
             {cert.name}
