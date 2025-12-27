@@ -9,7 +9,11 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 export const Contact = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useScrollReveal(containerRef, "div > *");
+  useScrollReveal(containerRef, "div > *", {
+    duration: 0.4,
+    stagger: 0.08,
+    y: 15,
+  });
 
   return (
     <SectionCard id="contact" title="Contact">
