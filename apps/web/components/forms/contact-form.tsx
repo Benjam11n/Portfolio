@@ -29,6 +29,7 @@ export const ContactForm = () => {
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
+    mode: "onChange",
     defaultValues: {
       name: "",
       email: "",
@@ -138,12 +139,17 @@ export const ContactForm = () => {
                   Message
                 </FormLabel>
                 <FormControl>
-                  <Textarea
-                    className="bg-card"
-                    placeholder="Hello! I want to give you a job..."
-                    rows={8}
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Textarea
+                      className="bg-card"
+                      placeholder="Hello! I want to give you a job..."
+                      rows={8}
+                      {...field}
+                    />
+                    <div className="mt-1 text-right text-muted-foreground text-xs">
+                      {field.value?.length || 0} / 1000
+                    </div>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
