@@ -20,9 +20,9 @@ export const Contact = () => {
       <div className="flex flex-col gap-4" ref={containerRef}>
         <div>
           <p className="mb-8 max-w-md font-sans text-md text-muted-foreground">
-            I&apos;m always open to new projects, collaborations, or a
-            conversation about design. If you have an idea in mind or want to
-            connect, feel free to get in touch.
+            I'm always up for a chat. Whether you have a project in mind, want
+            to collaborate, or just want to say hi, feel free to drop me a
+            message.
           </p>
 
           <div className="flex items-center gap-4">

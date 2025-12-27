@@ -155,15 +155,15 @@ export const About = () => {
         {/* Text */}
         <div className="space-y-6 text-foreground text-md leading-relaxed">
           <p className="about-text">
-            I&apos;m Benjamin Wang, a passionate full-stack developer and AI
-            enthusiast who bridges creativity with technology. Currently
-            exploring new ways to craft meaningful digital experiences, I&apos;m
-            driven by curiosity and a love for clean, purposeful design.
+            I'm Benjamin, a developer building intelligent solutions. My focus
+            lies deep in the AI space, exploring how emerging technologies can
+            reshape the way we solve real-world problems.
           </p>
           <p className="about-text">
-            I thrive on transforming ideas into reality — whether it&apos;s
-            shaping intuitive interfaces, building robust backend systems, or
-            training models that solve real-world problems.
+            For me, code is just a medium. My real passion lies in creating
+            experiences that are helpful and delightful. Whether it's a complex
+            full-stack web app or an experimental AI model, I aim for simplicity
+            and purpose in everything I ship.
           </p>
         </div>
 
