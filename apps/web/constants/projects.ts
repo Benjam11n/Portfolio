@@ -161,9 +161,30 @@ export const PROJECTS: Record<string, Project> = {
       "Game history and statistics",
     ],
   },
+  worldquant: {
+    id: "worldquant",
+    title: "WorldQuant NUS Alphathon - 4th Place Winner",
+    description:
+      "Achieved 4th place in the prestigious WorldQuant NUS Alphathon by developing and optimizing alpha-generating quantitative trading strategies.",
+    subdesc:
+      "Utilized Fast Expression Language and quantitative research methodologies to identify market patterns and develop high-performance predictive models on the BRAIN platform.",
+    year: "2024",
+    client: "WorldQuant",
+    services: "Quantitative Research, Alpha Design",
+    location: "Singapore",
+    video_overview: "/projects/worldquant/video.mp4",
+    hero_image: "/projects/worldquant/hero.png",
+    logo: "/projects/worldquant/logo.png",
+    logoStyle: {
+      backgroundColor: "#0E1F38",
+      border: "0.2px solid #0E2D58",
+      boxShadow: "0px 0px 60px 0px #2F67B64D",
+    },
+    techStack: [],
+  },
   "birds-of-a-feather": {
     id: "birds-of-a-feather",
-    title: "Birds of a Feather - Community Forum",
+    title: "Birds of a Feather - My First React Project",
     description:
       "Birds of a Feather is a community forum designed for bird lovers to connect, share knowledge, and discuss their passion for birds.",
     subdesc:
@@ -196,26 +217,5 @@ export const PROJECTS: Record<string, Project> = {
       "User profiles with bird watching history",
       "Bird species identification assistance",
     ],
-  },
-  worldquant: {
-    id: "worldquant",
-    title: "WorldQuant NUS Alphathon - 4th Place Winner",
-    description:
-      "Achieved 4th place in the prestigious WorldQuant NUS Alphathon by developing and optimizing alpha-generating quantitative trading strategies.",
-    subdesc:
-      "Utilized Fast Expression Language and quantitative research methodologies to identify market patterns and develop high-performance predictive models on the BRAIN platform.",
-    year: "2024",
-    client: "WorldQuant",
-    services: "Quantitative Research, Alpha Design",
-    location: "Singapore",
-    video_overview: "/projects/worldquant/video.mp4",
-    hero_image: "/projects/worldquant/hero.png",
-    logo: "/projects/worldquant/logo.png",
-    logoStyle: {
-      backgroundColor: "#0E1F38",
-      border: "0.2px solid #0E2D58",
-      boxShadow: "0px 0px 60px 0px #2F67B64D",
-    },
-    techStack: [],
   },
 };

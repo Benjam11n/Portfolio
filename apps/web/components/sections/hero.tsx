@@ -156,13 +156,15 @@ export const Hero = () => {
 
         {/* Role */}
         <h2 className="hero-text mb-6 font-medium text-md text-muted-foreground">
-          Web Designer
+          AI Developer | Full Stack Developer
         </h2>
 
         {/* Description */}
         <p className="hero-text mb-8 max-w-sm font-sans text-foreground text-md leading-relaxed">
-          Crafting interactive, user-centered experiences that bring ideas to
-          life through thoughtful design and seamless digital execution.
+          I engineer intelligent solutions that blend advanced AI with robust
+          full-stack architecture. From training models to building seamless
+          interfaces, I bridge the gap between complex algorithms and human
+          experience.
         </p>
 
         {/* Buttons */}
