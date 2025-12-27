@@ -79,7 +79,7 @@ export const FormSuccessModal = ({
   );
 
   // Auto-dismiss after 4 seconds
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We want to set the timeout only when isOpen changes to true
   useEffect(() => {
     if (!isOpen) {
       return;
