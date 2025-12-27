@@ -80,30 +80,33 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
           {project.description}
         </p>
 
-        <div className="hero-header-item flex flex-wrap gap-4">
-          {project.href && (
-            <ShiftButton
-              href={project.href}
-              icon={<ExternalLink className="h-4 w-4" />}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Live Site
-            </ShiftButton>
-          )}
+        {project.href ||
+          (project.github && (
+            <div className="hero-header-item flex flex-wrap gap-4">
+              {project.href && (
+                <ShiftButton
+                  href={project.href}
+                  icon={<ExternalLink className="h-4 w-4" />}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Live Site
+                </ShiftButton>
+              )}
 
-          {project.github && (
-            <ShiftButton
-              href={project.github}
-              icon={<Github className="h-4 w-4" />}
-              rel="noopener noreferrer"
-              target="_blank"
-              variant="secondary"
-            >
-              Source Code
-            </ShiftButton>
-          )}
-        </div>
+              {project.github && (
+                <ShiftButton
+                  href={project.github}
+                  icon={<Github className="h-4 w-4" />}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  variant="secondary"
+                >
+                  Source Code
+                </ShiftButton>
+              )}
+            </div>
+          ))}
       </div>
 
       {/* Hero Visual (Hero Image) */}
