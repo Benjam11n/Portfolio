@@ -6,6 +6,7 @@ import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
+import { BorderedImage } from "@/components/shared/bordered-image";
 import { ShiftButton } from "@/components/shared/shift-button";
 import { ROUTES } from "@/constants/navigation";
 import type { Project } from "@/types";
@@ -73,9 +74,22 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
 
       {/* Header Section */}
       <div className="mb-12">
-        <h1 className="hero-header-item mb-4 font-bold text-lg tracking-tight sm:text-5xl md:text-xl">
-          {project.title.split(" - ")[0]}
-        </h1>
+        <div className="hero-header-item mb-6 flex items-center gap-4">
+          {project.logo && (
+            <BorderedImage
+              alt={`${project.title} logo`}
+              backgroundColor={project.logoStyle?.backgroundColor as string}
+              containerClassName="h-12 w-12 shrink-0"
+              height={48}
+              imageClassName="p-2"
+              src={project.logo}
+              width={48}
+            />
+          )}
+          <h1 className="font-bold text-3xl tracking-tight sm:text-5xl">
+            {project.title.split(" - ")[0]}
+          </h1>
+        </div>
         <p className="hero-header-item mb-8 max-w-md text-muted-foreground text-sm leading-relaxed md:text-lg">
           {project.description}
         </p>
