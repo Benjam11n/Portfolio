@@ -2,6 +2,7 @@ import { createMetadata } from "@repo/seo";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { SmoothScroll } from "@/components/effects/smooth-scroll";
+import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -25,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} flex min-h-screen justify-center bg-background py-24 font-sans text-foreground antialiased`}
+        className={`${inter.variable} flex min-h-screen flex-col items-center justify-center bg-background py-24 font-sans text-foreground antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -36,6 +37,9 @@ export default function RootLayout({
             <div className="relative mx-4 w-full max-w-2xl overflow-hidden rounded-xl border border-border/40 bg-card shadow-xl sm:mx-8">
               <SmoothScroll>{children}</SmoothScroll>
               <Navbar />
+            </div>
+            <div className="mx-4 sm:mx-8">
+              <Footer />
             </div>
           </TooltipProvider>
         </ThemeProvider>

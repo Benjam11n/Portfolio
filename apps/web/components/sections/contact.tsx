@@ -19,10 +19,14 @@ export const Contact = () => {
     <SectionCard id="contact" title="Contact">
       <div className="flex flex-col gap-4" ref={containerRef}>
         <div>
-          <p className="mb-8 max-w-md font-sans text-md text-muted-foreground">
+          <p className="mb-2 max-w-md font-sans text-md text-muted-foreground">
             I'm always up for a chat. Whether you have a project in mind, want
             to collaborate, or just want to say hi, feel free to drop me a
             message.
+          </p>
+          <p className="mb-8 text-muted-foreground/60 text-xs italic">
+            * Your information is not stored. It is sent directly to my personal
+            accounts.
           </p>
 
           <div className="flex items-center gap-4">
