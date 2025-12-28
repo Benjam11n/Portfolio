@@ -29,9 +29,20 @@ export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  // Scroll to top only when navigating to projects routes
+  // Handle hash scrolling on mount or path change
   useEffect(() => {
-    if (pathname.startsWith("/projects")) {
+    if (pathname === "/" && window.location.hash) {
+      // Small timeout to ensure DOM is ready and Lenis is initialized
+      setTimeout(() => {
+        const id = window.location.hash.substring(1);
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 500);
+    }
+    // Scroll to top only when navigating to projects routes or other new pages without hash
+    else if (!window.location.hash) {
       window.scrollTo(0, 0);
     }
   }, [pathname]);
