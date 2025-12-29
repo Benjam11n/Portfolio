@@ -47,6 +47,42 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
     }
   });
 
+  const hasPoints = item.points.length > 0;
+
+  const content = (
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex items-center gap-3">
+        <BorderedImage
+          alt={item.name}
+          containerClassName="h-14 w-14 shrink-0 bg-muted"
+          height={56}
+          imageClassName="p-2 object-contain"
+          src={item.icon}
+          width={56}
+        />
+        <div>
+          <h3 className="font-bold text-base">{item.name}</h3>
+          <p className="font-medium text-muted-foreground text-sm">
+            {item.pos}
+          </p>
+        </div>
+      </div>
+      <div className="pl-[72px] sm:pl-0">
+        <span className="font-mono font-semibold text-muted-foreground text-sm">
+          {item.duration}
+        </span>
+      </div>
+    </div>
+  );
+
+  if (!hasPoints) {
+    return (
+      <div className="group block w-full rounded-xl bg-card p-4 text-left shadow-sm">
+        {content}
+      </div>
+    );
+  }
+
   return (
     <button
       className="group block w-full cursor-pointer rounded-xl bg-card p-4 text-left shadow-sm transition-transform hover:scale-[1.01]"
@@ -54,29 +90,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
       ref={containerRef}
       type="button"
     >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-3">
-          <BorderedImage
-            alt={item.name}
-            containerClassName="h-14 w-14 shrink-0 bg-muted"
-            height={56}
-            imageClassName="p-2 object-contain"
-            src={item.icon}
-            width={56}
-          />
-          <div>
-            <h3 className="font-bold text-base">{item.name}</h3>
-            <p className="font-medium text-muted-foreground text-sm">
-              {item.pos}
-            </p>
-          </div>
-        </div>
-        <div className="pl-[72px] sm:pl-0">
-          <span className="font-mono font-semibold text-muted-foreground text-sm">
-            {item.duration}
-          </span>
-        </div>
-      </div>
+      {content}
 
       <div
         className="h-0 overflow-hidden opacity-0"
