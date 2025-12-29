@@ -46,7 +46,7 @@ export function Footer() {
       tl.from(".footer-title", {
         y: 50,
         opacity: 0,
-        duration: 1,
+        duration: 0.8,
         ease: "power3.out",
       })
         .from(
@@ -54,7 +54,7 @@ export function Footer() {
           {
             scale: 0,
             opacity: 0,
-            duration: 0.8,
+            duration: 0.6,
             ease: "back.out(1.7)",
           },
           "-=0.6"
@@ -64,7 +64,7 @@ export function Footer() {
           {
             y: 30,
             opacity: 0,
-            duration: 0.8,
+            duration: 0.6,
             stagger: 0.1,
             ease: "power2.out",
           },

@@ -50,7 +50,7 @@ export const About = () => {
               scale: 1,
               autoAlpha: 1,
               rotate: (i) => (i === 0 ? -6 : 3),
-              duration: 1.2,
+              duration: 0.8,
               stagger: 0.2,
               ease: "elastic.out(1, 0.75)",
             }
@@ -74,7 +74,7 @@ export const About = () => {
             {
               y: 30,
               autoAlpha: 0,
-              duration: 1,
+              duration: 0.7,
               stagger: 0.15,
             },
             "-=0.8"
@@ -92,7 +92,7 @@ export const About = () => {
               scale: 1,
               autoAlpha: 1,
               x: 0,
-              duration: 0.8,
+              duration: 0.6,
               ease: "back.out(1.5)",
             },
             "-=0.6"

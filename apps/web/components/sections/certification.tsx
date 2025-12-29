@@ -18,7 +18,7 @@ export const Certifications = () => {
         {
           y: 0,
           opacity: 1,
-          duration: 0.8,
+          duration: 0.6,
           stagger: 0.1,
           scrollTrigger: {
             trigger: containerRef.current,
