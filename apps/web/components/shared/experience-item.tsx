@@ -49,7 +49,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
 
   return (
     <button
-      className="group w-full cursor-pointer rounded-xl bg-card p-4 text-left shadow-sm transition-transform hover:scale-[1.01]"
+      className="group block w-full cursor-pointer rounded-xl bg-card p-4 text-left shadow-sm transition-transform hover:scale-[1.01]"
       onClick={toggleOpen}
       ref={containerRef}
       type="button"
