@@ -1,7 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
+import { logger } from "@repo/logger";
+import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ShiftSubmitButton } from "@/components/shared/shift-submit-button";
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useDeferredRecaptcha } from "@/hooks/use-deferred-recaptcha";
 import { sendEmailAction } from "@/lib/actions/email";
 import {
   type ContactFormValues,
@@ -27,6 +29,14 @@ export const ContactForm = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [senderName, setSenderName] = useState("");
 
+  const { loadRecaptcha, executeRecaptcha, isRecaptchaReady } =
+    useDeferredRecaptcha({});
+
+  // Load reCAPTCHA on mount
+  useEffect(() => {
+    loadRecaptcha();
+  }, [loadRecaptcha]);
+
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     mode: "onChange",
@@ -38,20 +48,39 @@ export const ContactForm = () => {
     },
   });
 
-  function onSubmit(values: ContactFormValues) {
-    startTransition(async () => {
-      const result = await sendEmailAction(values);
+  async function onSubmit(values: ContactFormValues) {
+    if (!isRecaptchaReady) {
+      toast.error("Security verification loading...");
+      loadRecaptcha();
+      return;
+    }
 
-      if (result.error) {
-        toast.error("Error", {
-          description: result.error,
-        });
-      } else {
-        setSenderName(values.name);
-        setShowSuccess(true);
-        form.reset();
+    try {
+      const token = await executeRecaptcha();
+
+      if (!token) {
+        toast.error("ReCAPTCHA verification failed");
+        return;
       }
-    });
+
+      startTransition(async () => {
+        // Include the token in the submission
+        const result = await sendEmailAction({ ...values, token });
+
+        if (result.error) {
+          toast.error("Error", {
+            description: result.error,
+          });
+        } else {
+          setSenderName(values.name);
+          setShowSuccess(true);
+          form.reset();
+        }
+      });
+    } catch (error) {
+      toast.error("An error occurred during verification");
+      logger.error(error);
+    }
   }
 
   const handleCloseSuccess = () => {
@@ -155,9 +184,32 @@ export const ContactForm = () => {
               </FormItem>
             )}
           />
+
           <ShiftSubmitButton isLoading={isPending} type="submit">
             Submit
           </ShiftSubmitButton>
+
+          <p className="text-center text-[10px] text-muted-foreground/40">
+            This site is protected by reCAPTCHA and the Google{" "}
+            <a
+              className="hover:underline"
+              href="https://policies.google.com/privacy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>{" "}
+            and{" "}
+            <a
+              className="hover:underline"
+              href="https://policies.google.com/terms"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Terms of Service
+            </a>{" "}
+            apply.
+          </p>
         </form>
       </Form>
     </>

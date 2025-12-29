@@ -54,6 +54,21 @@ export type NavItem = {
   icon: LucideIcon;
 };
 
+export const TechCategory = {
+  AI_ML: "AI/ML",
+  ANIMATION: "Animation",
+  MOBILE: "Mobile",
+  FRAMEWORK: "Framework",
+  BACKEND: "Backend",
+  FRONTEND: "Frontend",
+  STYLING: "Styling",
+  LANGUAGE: "Language",
+  DATABASE: "Database",
+  DEVOPS: "DevOps",
+} as const;
+
+export type TechCategory = (typeof TechCategory)[keyof typeof TechCategory];
+
 export type ContactInfo = {
   icon: LucideIcon;
   title: string;

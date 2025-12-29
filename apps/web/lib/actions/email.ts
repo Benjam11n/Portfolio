@@ -24,7 +24,34 @@ export async function sendEmailAction(formData: ContactFormValues) {
       };
     }
 
-    const { name, email, subject, message } = formData;
+    const { name, email, subject, message, token } = formData;
+
+    if (!token) {
+      return {
+        error: "reCAPTCHA token is missing",
+      };
+    }
+
+    // Verify reCAPTCHA token
+    const verifyResponse = await fetch(
+      "https://www.google.com/recaptcha/api/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `secret=${env.RECAPTCHA_SECRET_KEY}&response=${token}`,
+      }
+    );
+
+    const verifyData = await verifyResponse.json();
+
+    if (!verifyData.success) {
+      logger.error(verifyData, "reCAPTCHA verification failed:");
+      return {
+        error: "reCAPTCHA verification failed",
+      };
+    }
 
     const htmlContent = generateContactEmailHtml(name, email, subject, message);
     const textContent = generateContactEmailText(name, email, subject, message);
