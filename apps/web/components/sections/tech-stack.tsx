@@ -9,7 +9,7 @@ import { TECH_STACK } from "@/constants/tech-stack";
 import { cn } from "@/lib/utils";
 import { TechCategory } from "@/types";
 
-const CATEGORIES = ["All", "Frontend", "Backend", "AI/ML", "Tools"];
+const CATEGORIES = ["All", "Frontend", "Backend", "AI/ML", "Language"];
 
 export const TechStack = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -34,7 +34,7 @@ export const TechStack = () => {
             TechCategory.DEVOPS,
           ],
           "AI/ML": [TechCategory.AI_ML],
-          Tools: [TechCategory.LANGUAGE],
+          Language: [TechCategory.LANGUAGE],
         };
 
         const validCategories = categoryMap[selectedCategory] || [];
