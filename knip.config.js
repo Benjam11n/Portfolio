@@ -2,7 +2,7 @@
 export default {
   workspaces: {
     "apps/web": {
-      entry: ["app/**/*.{ts,tsx}", "proxy.ts"],
+      entry: ["app/**/*.{ts,tsx}"],
       project: ["**/*.{ts,tsx}"],
       ignore: [
         "app/**/layout.tsx",
@@ -11,9 +11,17 @@ export default {
         "app/**/error.tsx",
         "components/ui/**/*.{ts,tsx}",
       ],
+      ignoreDependencies: ["tailwindcss", "ultracite"],
+    },
+    "packages/logger": {
+      ignoreDependencies: ["pino-pretty"],
+    },
+    "packages/typescript-config": {
+      entry: [],
+      project: [],
+      ignoreDependencies: ["next"],
     },
     "packages/*": {
-      entry: ["src/index.ts", "index.ts"],
       project: ["**/*.{ts,tsx}"],
     },
   },
