@@ -38,7 +38,7 @@ export default function RootLayout({
               <SmoothScroll>{children}</SmoothScroll>
               <Navbar />
             </div>
-            <div className="mx-4 sm:mx-8">
+            <div className="mx-4 w-full max-w-2xl sm:mx-8">
               <Footer />
             </div>
           </TooltipProvider>

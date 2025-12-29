@@ -28,21 +28,21 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="relative mt-20 w-full overflow-hidden rounded-[2.5rem] border-border/40 border-t bg-card/60 pt-16 backdrop-blur-md">
+    <footer className="relative mt-20 w-full overflow-hidden rounded-xl border-border/40 border-t bg-card/60 pt-16 backdrop-blur-md">
       <div className="container mx-auto px-4 sm:px-8">
         {/* Top Section: Massive CTA */}
         <div className="mb-16 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
           <div className="flex flex-col gap-2">
-            <h2 className="max-w-xl font-bold font-heading text-5xl uppercase leading-[0.9] tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
+            <h2 className="max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
               Let&apos;s Work <br />
               <span className="text-muted-foreground/50">Together</span>
             </h2>
           </div>
           <ScrollLink
-            className="group relative flex h-20 w-20 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all hover:scale-110 hover:bg-primary/90 md:h-24 md:w-24"
+            className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all hover:scale-110 hover:bg-primary/90 md:h-20 md:w-20"
             href={ROUTES.CONTACT}
           >
-            <ArrowUpRight className="h-10 w-10 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 md:h-12 md:w-12" />
+            <ArrowUpRight className="h-8 w-8 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 md:h-12 md:w-12" />
           </ScrollLink>
         </div>
 
