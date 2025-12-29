@@ -26,7 +26,7 @@ export const Projects = () => {
         },
         scale: 1,
         autoAlpha: 1,
-        duration: 0.8,
+        duration: 0.6,
         stagger: 0.1,
         ease: "back.out(1.2)",
       });

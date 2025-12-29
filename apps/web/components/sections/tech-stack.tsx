@@ -99,7 +99,7 @@ export const TechStack = () => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 key={stack.name}
                 layout
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.15 }}
               >
                 <TechStackItem stack={stack} />
               </motion.div>

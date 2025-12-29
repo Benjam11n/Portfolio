@@ -10,7 +10,7 @@ export const Contact = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useScrollReveal(containerRef, "div > *", {
-    duration: 0.4,
+    duration: 0.3,
     stagger: 0.08,
     y: 15,
   });

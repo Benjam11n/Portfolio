@@ -43,7 +43,7 @@ export const Hero = () => {
               x: 0,
               autoAlpha: 1,
               rotate: 0,
-              duration: 1.2,
+              duration: 0.8,
               ease: "elastic.out(1, 0.75)",
             }
           );
@@ -54,7 +54,7 @@ export const Hero = () => {
             {
               y: 0,
               autoAlpha: 1,
-              duration: 0.8,
+              duration: 0.6,
               stagger: 0.03,
               ease: "power4.out",
             },
@@ -68,7 +68,7 @@ export const Hero = () => {
             {
               scale: 1,
               autoAlpha: 1,
-              duration: 0.5,
+              duration: 0.35,
               ease: "back.out(2)",
             },
             "-=0.4"
@@ -83,7 +83,7 @@ export const Hero = () => {
             {
               y: 0,
               autoAlpha: 1,
-              duration: 1,
+              duration: 0.7,
               stagger: 0.15,
               ease: "power4.out",
             },
@@ -99,7 +99,7 @@ export const Hero = () => {
             {
               y: 0,
               autoAlpha: 1,
-              duration: 0.8,
+              duration: 0.6,
               stagger: 0.1,
               ease: "power3.out",
             },

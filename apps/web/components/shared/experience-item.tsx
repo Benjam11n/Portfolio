@@ -26,23 +26,23 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
     if (nextState) {
       gsap.to(contentRef.current, {
         height: "auto",
-        duration: 0.4,
+        duration: 0.3,
         ease: "power2.out",
       });
       gsap.to(contentRef.current, {
         opacity: 1,
-        duration: 0.3,
+        duration: 0.2,
         delay: 0.1,
       });
     } else {
       gsap.to(contentRef.current, {
         height: 0,
-        duration: 0.3,
+        duration: 0.25,
         ease: "power2.in",
       });
       gsap.to(contentRef.current, {
         opacity: 0,
-        duration: 0.2,
+        duration: 0.15,
       });
     }
   });
