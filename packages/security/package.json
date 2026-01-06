@@ -17,7 +17,7 @@
     "@nosecone/next": "1.0.0-beta.15",
     "@repo/logger": "workspace:*",
     "@t3-oss/env-nextjs": "^0.13.10",
-    "zod": "^4.2.1"
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",

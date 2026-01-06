@@ -55,7 +55,7 @@ importers:
         version: link:../../packages/seo
       '@t3-oss/env-nextjs':
         specifier: ^0.13.10
-        version: 0.13.10(typescript@5.9.3)(zod@4.2.1)
+        version: 0.13.10(typescript@5.9.3)(zod@4.3.5)
       '@tailwindcss/postcss':
         specifier: ^4.1.18
         version: 4.1.18
@@ -105,8 +105,8 @@ importers:
         specifier: ^3.4.0
         version: 3.4.0
       zod:
-        specifier: ^4.2.1
-        version: 4.2.1
+        specifier: ^4.3.5
+        version: 4.3.5
     devDependencies:
       '@repo/typescript-config':
         specifier: workspace:*
@@ -156,10 +156,10 @@ importers:
         version: 16.1.1
       '@t3-oss/env-nextjs':
         specifier: ^0.13.10
-        version: 0.13.10(typescript@5.9.3)(zod@4.2.1)
+        version: 0.13.10(typescript@5.9.3)(zod@4.3.5)
       zod:
-        specifier: ^4.2.1
-        version: 4.2.1
+        specifier: ^4.3.5
+        version: 4.3.5
     devDependencies:
       '@repo/typescript-config':
         specifier: workspace:*
@@ -181,10 +181,10 @@ importers:
         version: link:../logger
       '@t3-oss/env-nextjs':
         specifier: ^0.13.10
-        version: 0.13.10(typescript@5.9.3)(zod@4.2.1)
+        version: 0.13.10(typescript@5.9.3)(zod@4.3.5)
       zod:
-        specifier: ^4.2.1
-        version: 4.2.1
+        specifier: ^4.3.5
+        version: 4.3.5
     devDependencies:
       '@repo/typescript-config':
         specifier: workspace:*
@@ -1964,9 +1964,6 @@ packages:
       utf-8-validate:
         optional: true
 
-  zod@4.2.1:
-    resolution: {integrity: sha512-0wZ1IRqGGhMP76gLqz8EyfBXKk0J2qo2+H3fi4mcUP/KtTocoX08nmIAHl1Z2kJIZbZee8KOpBCSNPRgauucjw==}
-
   zod@4.3.5:
     resolution: {integrity: sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g==}
 
@@ -2634,17 +2631,17 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@t3-oss/env-core@0.13.10(typescript@5.9.3)(zod@4.2.1)':
+  '@t3-oss/env-core@0.13.10(typescript@5.9.3)(zod@4.3.5)':
     optionalDependencies:
       typescript: 5.9.3
-      zod: 4.2.1
+      zod: 4.3.5
 
-  '@t3-oss/env-nextjs@0.13.10(typescript@5.9.3)(zod@4.2.1)':
+  '@t3-oss/env-nextjs@0.13.10(typescript@5.9.3)(zod@4.3.5)':
     dependencies:
-      '@t3-oss/env-core': 0.13.10(typescript@5.9.3)(zod@4.2.1)
+      '@t3-oss/env-core': 0.13.10(typescript@5.9.3)(zod@4.3.5)
     optionalDependencies:
       typescript: 5.9.3
-      zod: 4.2.1
+      zod: 4.3.5
 
   '@tailwindcss/node@4.1.18':
     dependencies:
@@ -3475,7 +3472,5 @@ snapshots:
   wrappy@1.0.2: {}
 
   ws@7.5.10: {}
-
-  zod@4.2.1: {}
 
   zod@4.3.5: {}
