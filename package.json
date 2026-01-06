@@ -13,7 +13,7 @@
     "format": "ultracite format"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.10",
+    "@biomejs/biome": "2.3.11",
     "knip": "^5.79.0",
     "turbo": "^2.7.2",
     "typescript": "5.9.3",
