@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useDeferredRecaptcha } from "@/hooks/use-deferred-recaptcha";
-import { sendEmailAction } from "@/lib/actions/email";
+import { sendEmailAction } from "@/lib/actions/email.actions";
 import {
   type ContactFormValues,
   contactFormSchema,
