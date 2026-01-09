@@ -1,5 +1,5 @@
 import path from "node:path";
-import { createVitestConfig } from "../../packages/testing/vitest.config";
+import { createVitestConfig } from "@repo/testing/vitest.config";
 
 export default createVitestConfig({
   resolve: {
