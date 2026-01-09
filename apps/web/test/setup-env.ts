@@ -30,8 +30,7 @@ HTMLCanvasElement.prototype.getContext = ((type: string) => {
     };
   }
   return null;
-  // biome-ignore lint/suspicious/noExplicitAny: Mocking specific canvas method
-}) as any;
+}) as unknown as HTMLCanvasElement["getContext"];
 
 // Mock requestAnimationFrame
 global.requestAnimationFrame = (callback) => setTimeout(callback, 0);
