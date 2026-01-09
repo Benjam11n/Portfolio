@@ -8,6 +8,7 @@ export default createVitestConfig({
     },
   },
   test: {
+    setupFiles: ["./test/setup-env.ts"],
     exclude: ["**/node_modules/**", "**/dist/**", "**/e2e/**"],
   },
 });
