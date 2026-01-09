@@ -76,7 +76,7 @@ export function Footer() {
 
   return (
     <footer
-      className="relative mt-20 w-full overflow-hidden rounded-xl border-border/40 border-t bg-card/60 pt-16 backdrop-blur-md"
+      className="relative mt-20 w-full overflow-hidden rounded-xl border border-border/40 bg-card pt-16 shadow-xl"
       ref={containerRef}
     >
       <div className="container mx-auto px-4 sm:px-8">
@@ -85,7 +85,7 @@ export function Footer() {
           <div className="flex flex-col gap-2">
             <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
               Let&apos;s Work <br />
-              <span className="text-muted-foreground/50">Together</span>
+              <span className="text-muted-foreground">Together</span>
             </h2>
           </div>
           <div className="footer-cta">
@@ -114,22 +114,34 @@ export function Footer() {
               </ScrollLink>
               <ScrollLink
                 className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
-                href={ROUTES.PROJECTS}
-              >
-                Projects
-              </ScrollLink>
-              <ScrollLink
-                className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
                 href={ROUTES.ABOUT}
               >
                 About
               </ScrollLink>
               <ScrollLink
                 className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
+                href={ROUTES.EXPERIENCE}
+              >
+                Experience
+              </ScrollLink>
+              <ScrollLink
+                className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
+                href={ROUTES.PROJECTS}
+              >
+                Projects
+              </ScrollLink>
+              <ScrollLink
+                className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
+                href={ROUTES.CERTIFICATIONS}
+              >
+                Certifications
+              </ScrollLink>
+              {/* <ScrollLink
+                className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
                 href={ROUTES.BLOG}
               >
                 Blog
-              </ScrollLink>
+              </ScrollLink> */}
             </div>
           </div>
 

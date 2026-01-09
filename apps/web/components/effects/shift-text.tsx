@@ -2,6 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import type React from "react";
 import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 
@@ -17,9 +18,11 @@ export const ShiftText = ({
   as: Component = "span",
 }: ShiftTextProps) => {
   const chars = useMemo(() => children.split(""), [children]);
+  // biome-ignore lint/suspicious/noExplicitAny: Polymorphic component handling
+  const Comp = Component as any;
 
   return (
-    <Component
+    <Comp
       className={cn(
         "relative inline-block overflow-hidden align-top",
         className
@@ -56,7 +59,7 @@ export const ShiftText = ({
 
       {/* Screen reader only text */}
       <span className="sr-only">{children}</span>
-    </Component>
+    </Comp>
   );
 };
 
