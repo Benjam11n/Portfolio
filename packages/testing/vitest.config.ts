@@ -5,12 +5,13 @@ import { defineConfig, type UserConfig } from "vitest/config";
 export const createVitestConfig = (options: UserConfig = {}) =>
   defineConfig({
     plugins: [react()],
+    ...options,
     test: {
       environment: "jsdom",
       globals: true,
       setupFiles: [],
+      ...options.test,
     },
-    ...options,
   });
 
 // biome-ignore lint/performance/noBarrelFile: intentional re-export for shared config

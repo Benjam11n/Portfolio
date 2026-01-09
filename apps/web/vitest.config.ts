@@ -7,4 +7,7 @@ export default createVitestConfig({
       "@": path.resolve(__dirname, "./"),
     },
   },
+  test: {
+    exclude: ["**/node_modules/**", "**/dist/**", "**/e2e/**"],
+  },
 });
