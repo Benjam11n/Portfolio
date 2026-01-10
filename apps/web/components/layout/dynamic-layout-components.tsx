@@ -14,7 +14,10 @@ export const DynamicFooter = dynamic(
 
 export const DynamicDither = dynamic(
   () => import("@/components/bits/dither").then((mod) => mod.Dither),
-  { ssr: false }
+  {
+    ssr: true,
+    loading: () => <div className="h-full w-full bg-muted" />,
+  }
 );
 
 // Wrappers that contain content should typically NOT be ssr: false to preserve SEO and initial render
