@@ -35,6 +35,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} relative flex min-h-screen flex-col items-center justify-center bg-background py-24 font-sans text-foreground antialiased`}
       >
+        <a
+          className="absolute top-4 left-4 z-[100] -translate-y-[150%] rounded bg-background px-4 py-2 font-medium text-primary shadow-lg transition-transform focus:translate-y-0"
+          href="#main-content"
+        >
+          Skip to main content
+        </a>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -66,7 +72,11 @@ export default function RootLayout({
               sparkSize={10}
             >
               <div className="relative z-50 mx-4 w-full max-w-2xl overflow-hidden rounded-xl border border-border/40 bg-card shadow-xl sm:mx-8">
-                <DynamicSmoothScroll>{children}</DynamicSmoothScroll>
+                <DynamicSmoothScroll>
+                  <main className="w-full" id="main-content">
+                    {children}
+                  </main>
+                </DynamicSmoothScroll>
                 <DynamicNavbar />
               </div>
               <div className="relative z-10 mx-4 w-full max-w-2xl sm:mx-8">
