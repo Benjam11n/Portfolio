@@ -14,7 +14,11 @@ import { SITE_METADATA } from "@/constants/metadata";
 
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = createMetadata({
   title: `${SITE_METADATA.title} | Portfolio`,

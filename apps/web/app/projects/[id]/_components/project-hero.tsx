@@ -158,6 +158,7 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
                 fill
                 onError={() => setHeroImageError(true)}
                 priority
+                sizes="100vw"
                 src={project.hero_image}
               />
             )}

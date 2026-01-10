@@ -104,6 +104,7 @@ export const CertificationCard = ({ cert }: CertificationCardProps) => {
                 className="object-cover transition-opacity hover:opacity-100"
                 fill
                 onError={() => setImageError(true)}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 src={cert.image}
               />
             )}
