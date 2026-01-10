@@ -103,7 +103,7 @@ export const ContactForm = () => {
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem>
+                <FormItem id="contact-name">
                   <FormLabel className="mb-2 block font-medium text-sm">
                     Name
                   </FormLabel>
@@ -123,7 +123,7 @@ export const ContactForm = () => {
               control={form.control}
               name="email"
               render={({ field }) => (
-                <FormItem>
+                <FormItem id="contact-email">
                   <FormLabel className="mb-2 block font-medium text-sm">
                     Email
                   </FormLabel>
@@ -144,7 +144,7 @@ export const ContactForm = () => {
             control={form.control}
             name="subject"
             render={({ field }) => (
-              <FormItem>
+              <FormItem id="contact-subject">
                 <FormLabel className="mb-2 block font-medium text-sm">
                   Subject
                 </FormLabel>
@@ -163,7 +163,7 @@ export const ContactForm = () => {
             control={form.control}
             name="message"
             render={({ field }) => (
-              <FormItem>
+              <FormItem id="contact-message">
                 <FormLabel className="mb-2 block font-medium text-sm">
                   Message
                 </FormLabel>
