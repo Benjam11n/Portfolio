@@ -90,6 +90,7 @@ export function Footer() {
           </div>
           <div className="footer-cta">
             <ScrollLink
+              aria-label="Contact Me"
               className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all hover:scale-110 hover:bg-primary/90 md:h-20 md:w-20"
               href={ROUTES.CONTACT}
             >
