@@ -1,7 +1,9 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer, wrapEffect } from "@react-three/postprocessing";
+import gsap from "gsap";
 import { Effect } from "postprocessing";
 import { forwardRef, useEffect, useRef } from "react";
 import { Color, type Mesh, Uniform, Vector2 } from "three";
@@ -342,24 +344,40 @@ export function Dither({
   enableMouseInteraction = true,
   mouseRadius = 1,
 }: DitherProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      gsap.to(containerRef.current, {
+        opacity: 1,
+        duration: 1.5,
+        ease: "power2.out",
+        delay: 0.2,
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <Canvas
-      camera={{ position: [0, 0, 6] }}
-      className="relative h-full w-full"
-      dpr={1}
-      gl={{ antialias: true, preserveDrawingBuffer: true }}
-    >
-      <DitheredWaves
-        colorNum={colorNum}
-        disableAnimation={disableAnimation}
-        enableMouseInteraction={enableMouseInteraction}
-        mouseRadius={mouseRadius}
-        pixelSize={pixelSize}
-        waveAmplitude={waveAmplitude}
-        waveColor={waveColor}
-        waveFrequency={waveFrequency}
-        waveSpeed={waveSpeed}
-      />
-    </Canvas>
+    <div className="h-full w-full opacity-0" ref={containerRef}>
+      <Canvas
+        camera={{ position: [0, 0, 6] }}
+        className="relative h-full w-full"
+        dpr={1}
+        gl={{ antialias: true, preserveDrawingBuffer: true }}
+      >
+        <DitheredWaves
+          colorNum={colorNum}
+          disableAnimation={disableAnimation}
+          enableMouseInteraction={enableMouseInteraction}
+          mouseRadius={mouseRadius}
+          pixelSize={pixelSize}
+          waveAmplitude={waveAmplitude}
+          waveColor={waveColor}
+          waveFrequency={waveFrequency}
+          waveSpeed={waveSpeed}
+        />
+      </Canvas>
+    </div>
   );
 }
