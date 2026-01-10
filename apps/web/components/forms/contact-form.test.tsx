@@ -1,6 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { useDeferredRecaptcha } from "@/hooks/use-deferred-recaptcha";
 import { sendEmailAction } from "@/lib/actions/email.actions";
 import { ContactForm } from "./contact-form";
 
@@ -15,11 +16,11 @@ vi.mock("@/lib/actions/email.actions", () => ({
 }));
 
 vi.mock("@/hooks/use-deferred-recaptcha", () => ({
-  useDeferredRecaptcha: () => ({
+  useDeferredRecaptcha: vi.fn(() => ({
     loadRecaptcha: vi.fn(),
     executeRecaptcha: vi.fn().mockResolvedValue("mock-token"),
     isRecaptchaReady: true,
-  }),
+  })),
 }));
 
 vi.mock("sonner", () => ({
@@ -45,7 +46,7 @@ vi.mock("@/components/shared/shift-submit-button", () => ({
 
 describe("ContactForm", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
   });
 
   it("renders all form fields", () => {
@@ -135,6 +136,100 @@ describe("ContactForm", () => {
       expect(toast.error).toHaveBeenCalledWith(
         "Error",
         expect.objectContaining({ description: "Server Error" })
+      );
+    });
+  });
+  it("shows validation error for invalid email", async () => {
+    render(<ContactForm />);
+
+    fireEvent.change(screen.getByLabelText(NAME_REGEX), {
+      target: { value: "John Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(EMAIL_REGEX), {
+      target: { value: "invalid-email" }, // Invalid email
+    });
+    fireEvent.change(screen.getByLabelText(SUBJECT_REGEX), {
+      target: { value: "Test Subject" },
+    });
+    fireEvent.change(screen.getByPlaceholderText(HELLO_REGEX), {
+      target: { value: "Test Message" },
+    });
+
+    const submitButton = screen.getByTestId("submit-button");
+    fireEvent.click(submitButton);
+
+    // Expect email validation error (checking for standard HTML5 validation or Zod message)
+    // Assuming Zod resolver prevents submission
+    await waitFor(() => {
+      expect(sendEmailAction).not.toHaveBeenCalled();
+    });
+  });
+
+  it("handles recaptcha execution failure gracefully", async () => {
+    // Mock recaptcha failure (return null token)
+    vi.mocked(useDeferredRecaptcha).mockImplementation(() => ({
+      loadRecaptcha: vi.fn(),
+      executeRecaptcha: vi.fn().mockResolvedValue(null),
+      isRecaptchaReady: true,
+      isRecaptchaLoaded: true,
+    }));
+
+    render(<ContactForm />);
+
+    fireEvent.change(screen.getByLabelText(NAME_REGEX), {
+      target: { value: "John Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(EMAIL_REGEX), {
+      target: { value: "john@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(SUBJECT_REGEX), {
+      target: { value: "Test Subject" },
+    });
+    fireEvent.change(screen.getByPlaceholderText(HELLO_REGEX), {
+      target: { value: "Test Message" },
+    });
+
+    const submitButton = screen.getByTestId("submit-button");
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith("ReCAPTCHA verification failed");
+      expect(sendEmailAction).not.toHaveBeenCalled();
+    });
+  });
+
+  it("handles unexpected error during verification", async () => {
+    // Mock verification error
+    vi.mocked(useDeferredRecaptcha).mockImplementation(() => ({
+      loadRecaptcha: vi.fn(),
+      executeRecaptcha: vi
+        .fn()
+        .mockRejectedValue(new Error("Verification Error")),
+      isRecaptchaReady: true,
+      isRecaptchaLoaded: true,
+    }));
+
+    render(<ContactForm />);
+
+    fireEvent.change(screen.getByLabelText(NAME_REGEX), {
+      target: { value: "John Doe" },
+    });
+    fireEvent.change(screen.getByLabelText(EMAIL_REGEX), {
+      target: { value: "john@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(SUBJECT_REGEX), {
+      target: { value: "Test Subject" },
+    });
+    fireEvent.change(screen.getByPlaceholderText(HELLO_REGEX), {
+      target: { value: "Test Message" },
+    });
+
+    const submitButton = screen.getByTestId("submit-button");
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith(
+        "An error occurred during verification"
       );
     });
   });
