@@ -82,6 +82,7 @@ export const FullscreenMedia = ({
                     className="object-contain"
                     fill
                     onError={() => setImageError(true)}
+                    sizes="100vw"
                     src={src}
                   />
                 )}

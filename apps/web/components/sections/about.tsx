@@ -123,6 +123,7 @@ export const About = () => {
                     className="object-cover transition-transform duration-500 hover:scale-110"
                     fill
                     onError={() => setImage1Error(true)}
+                    sizes="(max-width: 640px) 100px, 150px"
                     src="/benjamin.png"
                   />
                 )}
@@ -144,6 +145,7 @@ export const About = () => {
                     className="object-cover opacity-80"
                     fill
                     onError={() => setImage2Error(true)}
+                    sizes="(max-width: 640px) 100px, 150px"
                     src="/assets/workspace.png"
                   />
                 )}
