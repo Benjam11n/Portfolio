@@ -10,6 +10,8 @@
     "knip": "knip",
     "type-check": "turbo run type-check",
     "clean": "turbo run clean",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
     "format": "ultracite format"
   },
   "devDependencies": {
