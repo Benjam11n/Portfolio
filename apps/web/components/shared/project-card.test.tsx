@@ -42,9 +42,9 @@ const mockProject = {
   location: "Remote",
 };
 
-describe("ProjectCard", () => {
-  const SUBTITLE_REGEX = /Subtitle/;
+const SUBTITLE_REGEX = /Subtitle/;
 
+describe("ProjectCard", () => {
   it("renders project title and subtitle", () => {
     render(
       <TooltipProvider>

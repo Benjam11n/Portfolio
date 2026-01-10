@@ -20,6 +20,7 @@ vi.mock("gsap", () => ({
   },
 }));
 
+const GITHUB_REGEX = /Github/i;
 const WORK_REGEX = /Let's Work/i;
 const NAME_REGEX = /Benjamin Wang/i;
 
@@ -35,8 +36,6 @@ describe("Footer", () => {
     expect(screen.getByText("Home")).toBeDefined();
     expect(screen.getByText("Experience")).toBeDefined();
   });
-
-  const GITHUB_REGEX = /Github/i;
 
   it("renders social links", () => {
     render(<Footer />);
