@@ -4,11 +4,17 @@ test.describe("Contact Section", () => {
   test.beforeEach(async ({ page }) => {
     // Assuming the contact form is on the home page based on file structure
     await page.goto("/");
+    // Scroll correctly to trigger animations
+    // The contact section is at the bottom. We need to scroll specifically to it to trigger GSAP.
+    const contactSection = page.getByRole("heading", { name: "Contact" });
+    await contactSection.scrollIntoViewIfNeeded();
+    // Verify it's actually visible (animation started)
+    await expect(contactSection).toBeVisible();
   });
 
   test("form renders correctly", async ({ page }) => {
     // Check for contact section heading
-    await expect(page.getByText("Get in Touch")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Contact" })).toBeVisible();
 
     // Check for form fields
     await expect(page.getByLabel("Name")).toBeVisible();
@@ -25,7 +31,9 @@ test.describe("Contact Section", () => {
 
   test("validates required fields on client side", async ({ page }) => {
     // Scroll to form to ensure interaction
-    await page.getByText("Get in Touch").scrollIntoViewIfNeeded();
+    await page
+      .getByRole("heading", { name: "Contact" })
+      .scrollIntoViewIfNeeded();
 
     // Click submit without filling anything
     await page.getByRole("button", { name: "Submit" }).click();
