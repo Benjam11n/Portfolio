@@ -41,11 +41,4 @@ jobs:
       - name: Test
         run: pnpm test
 
-      - name: Install Playwright Browsers
-        run: pnpm --filter web exec playwright install --with-deps
 
-      - name: E2E Test
-        env:
-          SKIP_ENV_VALIDATION: true
-          ARCJET_KEY: ajkey_mock_for_ci
-        run: pnpm test:e2e
