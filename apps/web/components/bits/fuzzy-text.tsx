@@ -60,6 +60,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
       return;
     }
 
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: canvas init orchestration is complex
     const init = async () => {
       const ctx = canvas.getContext("2d");
       if (!ctx) {
@@ -213,6 +214,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
         startGlitchLoop();
       }
 
+      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: animation logic is complex
       const updateIntensity = () => {
         let newTargetIntensity = baseIntensity;
         if (isClicking || isGlitching) {

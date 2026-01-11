@@ -6,8 +6,8 @@ import { useMemo, useState } from "react";
 import { SectionCard } from "@/components/shared/section-card";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
-import { cn } from "@/lib/utils";
 import { TechCategory } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 const CATEGORIES = ["All", "Frontend", "Backend", "AI/ML", "Language"];
 
