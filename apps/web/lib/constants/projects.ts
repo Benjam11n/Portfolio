@@ -207,7 +207,7 @@ export const PROJECTS: Record<string, Project> = {
       "Tailwind",
       "TypeScript",
       "shadcn/ui",
-      "PostgreSQL",
+      "Postgres",
       "Docker",
     ],
     features: [
