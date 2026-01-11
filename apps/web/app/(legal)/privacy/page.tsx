@@ -12,28 +12,97 @@ export default function PrivacyPage() {
         <div className="prose prose-sm dark:prose-invert max-w-none space-y-4 text-muted-foreground">
           <p>Last updated: {new Date().toLocaleDateString()}</p>
 
-          <h3>1. Information Collection</h3>
+          <h3>1. Introduction</h3>
           <p>
-            This website collects minimal information. If you use the contact
-            form, the information you provide (name, email, message) is sent
-            directly to me via email or Telegram.
+            This Privacy Policy describes Our policies and procedures on the
+            collection, use and disclosure of Your information when You use the
+            Service and tells You about Your privacy rights and how the law
+            protects You.
           </p>
 
-          <h3>2. Data Storage</h3>
-          <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
-            <p className="font-medium text-primary">Important Notice</p>
-            <p className="mt-1">
-              Your messages are <strong>not stored</strong> in any database
-              associated with this website. They are transiently processed to
-              deliver the message and then discarded from the server.
-            </p>
-          </div>
-
-          <h3>3. Cookies</h3>
+          <h3>2. Information We Collect</h3>
           <p>
-            This website may use essential cookies for site functionality (such
-            as theme preference). We do not use tracking cookies for advertising
-            purposes.
+            While using Our Service, We may ask You to provide Us with certain
+            personally identifiable information that can be used to contact or
+            identify You. Personally identifiable information may include, but
+            is not limited to:
+          </p>
+          <ul className="list-disc pl-5">
+            <li>Email address</li>
+            <li>First name and last name</li>
+            <li>Usage Data</li>
+          </ul>
+
+          <h3>3. Usage Data & Third-Party Services</h3>
+          <p>
+            We use <strong>Google reCAPTCHA</strong> to protect our contact
+            forms from spam and abuse. This service may collect hardware and
+            software information, such as device and application data, and send
+            it to Google for analysis. The information collected in connection
+            with your use of the service will be used for improving reCAPTCHA
+            and for general security purposes. It will not be used for
+            personalized advertising by Google.
+          </p>
+          <p>
+            Your use of reCAPTCHA is subject to the Google{" "}
+            <a
+              className="text-primary hover:underline"
+              href="https://policies.google.com/privacy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>{" "}
+            and{" "}
+            <a
+              className="text-primary hover:underline"
+              href="https://policies.google.com/terms"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Terms of Use
+            </a>
+            .
+          </p>
+
+          <h3>4. How We Use Your Information</h3>
+          <p>
+            The information you provide via the contact form (Name, Email,
+            Subject, Message) is used solely to communicate with you regarding
+            your inquiry.
+          </p>
+
+          <h3>5. Data Retention</h3>
+          <p>
+            We will retain Your Personal Data only for as long as is necessary
+            for the purposes set out in this Privacy Policy. We will retain and
+            use Your Personal Data to the extent necessary to comply with our
+            legal obligations (for example, if we are required to retain your
+            data to comply with applicable laws), resolve disputes, and enforce
+            our legal agreements and policies.
+          </p>
+
+          <h3>6. Your Data Protection Rights</h3>
+          <p>
+            Depending on your location, you may have rights under data
+            protection laws (such as GDPR or CCPA) regarding your personal data,
+            including the right to access, correct, or delete your personal
+            data. If you wish to exercise any of these rights, please contact us
+            using the information below.
+          </p>
+
+          <h3>7. Changes to this Privacy Policy</h3>
+          <p>
+            We may update Our Privacy Policy from time to time. We will notify
+            You of any changes by posting the new Privacy Policy on this page.
+            You are advised to review this Privacy Policy periodically for any
+            changes.
+          </p>
+
+          <h3>8. Contact Us</h3>
+          <p>
+            If you have any questions about this Privacy Policy, You can contact
+            us by visiting the contact section of our website.
           </p>
         </div>
       </SectionCard>
