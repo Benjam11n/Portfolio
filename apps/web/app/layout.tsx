@@ -10,7 +10,7 @@ import {
 } from "@/components/layout/dynamic-layout-components";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { SITE_METADATA } from "@/constants/metadata";
+import { SITE_METADATA } from "@/lib/constants/metadata";
 
 import "./globals.css";
 

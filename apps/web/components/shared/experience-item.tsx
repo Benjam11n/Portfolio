@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef, useState } from "react";
 import { BorderedImage } from "@/components/shared/bordered-image";
-import type { Experience } from "@/types";
+import type { Experience } from "@/lib/types";
 
 type ExperienceItemProps = {
   item: Experience;

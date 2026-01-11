@@ -8,8 +8,8 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { ShiftButton } from "@/components/shared/shift-button";
-import { ROUTES } from "@/constants/navigation";
-import type { Project } from "@/types";
+import { ROUTES } from "@/lib/constants/navigation";
+import type { Project } from "@/lib/types";
 
 type ProjectHeroProps = {
   project: Project;

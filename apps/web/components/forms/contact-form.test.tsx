@@ -1,8 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { useDeferredRecaptcha } from "@/hooks/use-deferred-recaptcha";
 import { sendEmailAction } from "@/lib/actions/email.actions";
+import { useDeferredRecaptcha } from "@/lib/hooks/use-deferred-recaptcha";
 import { ContactForm } from "./contact-form";
 
 // Mock dependencies
@@ -15,7 +15,7 @@ vi.mock("@/lib/actions/email.actions", () => ({
   sendEmailAction: vi.fn(),
 }));
 
-vi.mock("@/hooks/use-deferred-recaptcha", () => ({
+vi.mock("@/lib/hooks/use-deferred-recaptcha", () => ({
   useDeferredRecaptcha: vi.fn(() => ({
     loadRecaptcha: vi.fn(),
     executeRecaptcha: vi.fn().mockResolvedValue("mock-token"),

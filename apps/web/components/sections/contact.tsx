@@ -3,8 +3,8 @@
 import { useRef } from "react";
 import { ContactForm } from "@/components/forms/contact-form";
 import { SectionCard } from "@/components/shared/section-card";
-import { CONTACT_INFO } from "@/constants/socials";
-import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { CONTACT_INFO } from "@/lib/constants/socials";
+import { useScrollReveal } from "@/lib/hooks/use-scroll-reveal";
 
 export const Contact = () => {
   const containerRef = useRef<HTMLDivElement>(null);

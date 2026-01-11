@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { useRef } from "react";
 import { ExperienceItem } from "@/components/shared/experience-item";
 import { SectionCard } from "@/components/shared/section-card";
-import { workExperiences } from "@/constants/experience";
+import { workExperiences } from "@/lib/constants/experience";
 
 export const Experience = () => {
   const containerRef = useRef<HTMLDivElement>(null);

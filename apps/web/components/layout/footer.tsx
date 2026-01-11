@@ -7,8 +7,8 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ScrollLink } from "@/components/shared/scroll-link";
-import { ROUTES } from "@/constants/navigation";
-import { CONTACT_INFO } from "@/constants/socials";
+import { ROUTES } from "@/lib/constants/navigation";
+import { CONTACT_INFO } from "@/lib/constants/socials";
 
 gsap.registerPlugin(ScrollTrigger);
 

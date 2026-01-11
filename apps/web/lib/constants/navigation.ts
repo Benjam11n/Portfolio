@@ -1,5 +1,5 @@
 import { Award, Briefcase, Hammer, Home, Mail, User } from "lucide-react";
-import type { NavItem } from "@/types";
+import type { NavItem } from "@/lib/types";
 
 export const ROUTES = {
   HOME: "/",
