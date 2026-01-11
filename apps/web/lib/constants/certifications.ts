@@ -7,7 +7,7 @@ export const CERTIFICATIONS: Certification[] = [
     date: "Oct 2025",
     image: "/certifications/rag-agentic-ai.png",
     description:
-      "Advanced program on building generative AI systems with RAG, multimodal AI, and autonomous multiagent frameworks.",
+      "Advanced program on building **generative AI systems** with **RAG**, **multimodal AI**, and **autonomous multiagent frameworks**.",
   },
   {
     name: "Deep Learning Specialization",
@@ -15,7 +15,7 @@ export const CERTIFICATIONS: Certification[] = [
     date: "Nov 2025",
     image: "/certifications/deep-learning-specialization.png",
     description:
-      "Foundational 5-course series covering neural networks, CNNs, RNNs, and Transformers for real-world AI applications.",
+      "Foundational 5-course series covering **neural networks**, **CNNs**, **RNNs**, and **Transformers** for real-world AI applications.",
   },
   {
     name: "Docker and Kubernetes: The Complete Guide",
@@ -23,7 +23,7 @@ export const CERTIFICATIONS: Certification[] = [
     date: "Apr 2025",
     image: "/certifications/docker-kubernetes.png",
     description:
-      "Practical guide to deploying and orchestrating web applications using Docker containers and Kubernetes clusters.",
+      "Practical guide to deploying and orchestrating web applications using **Docker containers** and **Kubernetes clusters**.",
   },
   {
     name: "PyTorch for Deep Learning Bootcamp",
@@ -31,7 +31,7 @@ export const CERTIFICATIONS: Certification[] = [
     date: "Apr 2025",
     image: "/certifications/pytorch-deep-learning.png",
     description:
-      "Hands-on bootcamp for building and deploying neural networks for image classification and time series using PyTorch.",
+      "Hands-on bootcamp for building and deploying **neural networks** for **image classification** and **time series** using **PyTorch**.",
   },
   {
     name: "Machine Learning Specialization",
@@ -39,7 +39,7 @@ export const CERTIFICATIONS: Certification[] = [
     date: "Jan 2025",
     image: "/certifications/machine-learning.png",
     description:
-      "Comprehensive introduction to supervised learning, advanced neural networks, and unsupervised recommender systems.",
+      "Comprehensive introduction to **supervised learning**, **advanced neural networks**, and **unsupervised recommender systems**.",
   },
   {
     name: "The Ultimate React Course 2024: React, Next.js, Redux & More",
@@ -47,6 +47,6 @@ export const CERTIFICATIONS: Certification[] = [
     date: "Dec 2023",
     image: "/certifications/react-ultimate.png",
     description:
-      "Project-based mastery of React, Next.js, and modern state management for building professional web applications.",
+      "Project-based mastery of **React**, **Next.js**, and **modern state management** for building professional web applications.",
   },
 ];

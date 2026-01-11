@@ -8,7 +8,9 @@ import { Magnetic } from "@/components/effects/magnetic";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
+import { HERO_CONTENT } from "@/lib/constants/hero";
 import { ROUTES } from "@/lib/constants/navigation";
+import { Markdown } from "../shared/markdown";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -132,7 +134,7 @@ export const Hero = () => {
         {/* Name and Badge */}
         <div className="mb-2 flex items-center gap-2">
           <h1 className="hero-name flex overflow-hidden font-bold text-foreground text-xl tracking-tight sm:text-2xl">
-            {"Benjamin Wang".split("").map((char, i) => (
+            {HERO_CONTENT.name.split("").map((char, i) => (
               <span
                 className="char inline-block translate-y-full opacity-0"
                 // biome-ignore lint/suspicious/noArrayIndexKey: Static text, order never changes
@@ -155,17 +157,17 @@ export const Hero = () => {
         </div>
 
         {/* Role */}
+        {/* Role */}
         <h2 className="hero-text mb-6 font-medium text-md text-muted-foreground">
-          AI Developer | Full Stack Developer
+          {HERO_CONTENT.role}
         </h2>
 
         {/* Description */}
-        <p className="hero-text mb-8 max-w-sm font-sans text-foreground text-md leading-relaxed">
-          I engineer intelligent solutions that blend advanced AI with robust
-          full-stack architecture. From training models to building seamless
-          interfaces, I bridge the gap between complex algorithms and human
-          experience.
-        </p>
+        <div className="hero-text mb-8 max-w-sm">
+          <Markdown className="font-sans text-foreground text-md leading-relaxed">
+            {HERO_CONTENT.description}
+          </Markdown>
+        </div>
 
         {/* Buttons */}
         <div className="flex flex-wrap gap-4" ref={buttonsRef}>

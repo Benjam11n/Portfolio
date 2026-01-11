@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
+import { Markdown } from "@/components/shared/markdown";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
 import { DEFAULT_FEATURE_ICON } from "@/lib/constants/projects";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
@@ -77,9 +78,9 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
     <div className="flex flex-col gap-8" ref={containerRef}>
       {/* Row 1: Overview and Description */}
       <div className="space-y-4">
-        <p className="overview-text max-w-3xl text-lg text-muted-foreground leading-relaxed">
-          {project.subdesc}
-        </p>
+        <div className="overview-text max-w-3xl text-lg text-muted-foreground leading-relaxed">
+          <Markdown>{project.subdesc || ""}</Markdown>
+        </div>
       </div>
 
       {/* Row 2: Features (Redesigned as Cards) */}
@@ -98,7 +99,7 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
                   <FeatureIcon className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <span className="font-medium text-foreground text-sm leading-tight">
-                  {feature}
+                  <Markdown>{feature}</Markdown>
                 </span>
               </div>
             ))}

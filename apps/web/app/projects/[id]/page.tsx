@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${project.title} | Portfolio`,
-    description: project.description,
+    description: project.description.replace(/\*\*/g, ""),
   };
 }
 

@@ -8,7 +8,9 @@ import { useRef, useState } from "react";
 import { Magnetic } from "@/components/effects/magnetic";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
+import { ABOUT_CONTENT } from "@/lib/constants/about";
 import { ROUTES } from "@/lib/constants/navigation";
+import { Markdown } from "../shared/markdown";
 
 export const About = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -156,17 +158,12 @@ export const About = () => {
 
         {/* Text */}
         <div className="space-y-6 text-foreground text-md leading-relaxed">
-          <p className="about-text">
-            I'm Benjamin, a developer building intelligent solutions. My focus
-            lies deep in the AI space, exploring how emerging technologies can
-            reshape the way we solve real-world problems.
-          </p>
-          <p className="about-text">
-            For me, code is just a medium. My real passion lies in creating
-            experiences that are helpful and delightful. Whether it's a complex
-            full-stack web app or an experimental AI model, I aim for simplicity
-            and purpose in everything I ship.
-          </p>
+          <div className="about-text">
+            <Markdown>{ABOUT_CONTENT.p1}</Markdown>
+          </div>
+          <div className="about-text">
+            <Markdown>{ABOUT_CONTENT.p2}</Markdown>
+          </div>
         </div>
 
         <div className="about-button">

@@ -7,6 +7,7 @@ import gsap from "gsap";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import type { Certification } from "@/lib/types";
+import { Markdown } from "../shared/markdown";
 
 type CertificationCardProps = {
   cert: Certification;
@@ -115,9 +116,9 @@ export const CertificationCard = ({ cert }: CertificationCardProps) => {
           <p className="translate-z-8 mb-4 text-muted-foreground text-sm">
             {cert.organization}
           </p>
-          <p className="translate-z-6 line-clamp-3 text-muted-foreground/80 text-xs">
-            {cert.description}
-          </p>
+          <div className="translate-z-6 line-clamp-3 text-muted-foreground/80 text-xs">
+            <Markdown>{cert.description}</Markdown>
+          </div>
           <span className="translate-z-12 absolute top-6 right-6 rounded border border-border bg-background/80 px-2 py-1 font-mono text-xs backdrop-blur">
             {cert.date}
           </span>
