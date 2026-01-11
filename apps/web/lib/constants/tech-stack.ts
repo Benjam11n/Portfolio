@@ -1,4 +1,4 @@
-import { TechCategory } from "@/types";
+import { TechCategory } from "@/lib/types";
 
 export const TECH_STACK = [
   // --- AI/ML ---

@@ -2,7 +2,7 @@
 
 import { logger } from "@repo/logger";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { env } from "@/env";
+import { env } from "@/lib/env";
 
 /**
  * Window interface extended with reCAPTCHA v3

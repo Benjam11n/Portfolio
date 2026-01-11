@@ -3,7 +3,7 @@
 import Link, { type LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
 import { type AnchorHTMLAttributes, forwardRef, type MouseEvent } from "react";
-import { ROUTES } from "@/constants/navigation";
+import { ROUTES } from "@/lib/constants/navigation";
 
 type ScrollLinkProps = Omit<
   AnchorHTMLAttributes<HTMLAnchorElement>,

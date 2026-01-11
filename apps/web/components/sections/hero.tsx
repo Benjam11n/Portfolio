@@ -8,7 +8,7 @@ import { Magnetic } from "@/components/effects/magnetic";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
-import { ROUTES } from "@/constants/navigation";
+import { ROUTES } from "@/lib/constants/navigation";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);

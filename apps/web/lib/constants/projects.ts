@@ -1,5 +1,5 @@
 import { CheckCircle2 } from "lucide-react";
-import type { Project } from "@/types";
+import type { Project } from "@/lib/types";
 
 export const DEFAULT_FEATURE_ICON = CheckCircle2;
 

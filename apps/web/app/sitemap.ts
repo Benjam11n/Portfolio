@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
-import { PROJECTS } from "@/constants/projects";
-import { env } from "@/env";
+import { PROJECTS } from "@/lib/constants/projects";
+import { env } from "@/lib/env";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = env.SITE_URL || "https://benjaminwang.dev";

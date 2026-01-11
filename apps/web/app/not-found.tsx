@@ -2,7 +2,7 @@ import { Home } from "lucide-react";
 import Link from "next/link";
 import FuzzyText from "@/components/bits/fuzzy-text";
 import { Button } from "@/components/ui/button";
-import { ROUTES } from "@/constants/navigation";
+import { ROUTES } from "@/lib/constants/navigation";
 
 export default function NotFound() {
   return (

@@ -2,7 +2,7 @@
 
 import { logger } from "@repo/logger";
 import { secure } from "@repo/security";
-import { env } from "@/env";
+import { env } from "@/lib/env";
 import { fromEmail, resend } from "@/lib/email/resend";
 import {
   generateContactEmailHtml,

@@ -10,9 +10,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ROUTES } from "@/constants/navigation";
-import { TECH_STACK } from "@/constants/tech-stack";
-import type { Project } from "@/types";
+import { ROUTES } from "@/lib/constants/navigation";
+import { TECH_STACK } from "@/lib/constants/tech-stack";
+import type { Project } from "@/lib/types";
 import { Magnetic } from "../effects/magnetic";
 import { BorderedImage } from "./bordered-image";
 

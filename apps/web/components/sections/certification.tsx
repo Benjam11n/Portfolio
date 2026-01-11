@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { useRef } from "react";
 import { CertificationCard } from "@/components/shared/certification-card";
 import { SectionCard } from "@/components/shared/section-card";
-import { CERTIFICATIONS } from "@/constants/certifications";
+import { CERTIFICATIONS } from "@/lib/constants/certifications";
 
 export const Certifications = () => {
   const containerRef = useRef<HTMLElement>(null);

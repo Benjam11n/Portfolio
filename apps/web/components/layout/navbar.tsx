@@ -3,7 +3,7 @@
 import { Magnetic } from "@/components/effects/magnetic";
 import { ScrollLink } from "@/components/shared/scroll-link";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
-import { NAVITEMS } from "@/constants/navigation";
+import { NAVITEMS } from "@/lib/constants/navigation";
 
 export const Navbar = () => {
   return (

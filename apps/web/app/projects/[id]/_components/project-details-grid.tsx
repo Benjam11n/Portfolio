@@ -7,7 +7,7 @@ import { Maximize2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { MediaPreviewOverlay } from "@/components/ui/media-preview-overlay";
 import { cn } from "@/lib/utils";
-import type { Project } from "@/types";
+import type { Project } from "@/lib/types";
 import { FullscreenMedia } from "./fullscreen-media";
 
 if (typeof window !== "undefined") {

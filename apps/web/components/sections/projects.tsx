@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { ProjectCard } from "@/components/shared/project-card";
 import { SectionCard } from "@/components/shared/section-card";
-import { PROJECTS } from "@/constants/projects";
+import { PROJECTS } from "@/lib/constants/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 

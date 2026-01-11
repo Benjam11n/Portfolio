@@ -1,5 +1,5 @@
 import { Github, Linkedin, Mail, Send } from "lucide-react";
-import type { ContactInfo } from "@/types";
+import type { ContactInfo } from "@/lib/types";
 
 const EMAIL = "youcanfindbenjamin@gmail.com";
 
