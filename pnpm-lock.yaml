@@ -12,8 +12,8 @@ importers:
         specifier: 2.3.11
         version: 2.3.11
       knip:
-        specifier: ^5.80.0
-        version: 5.80.0(@types/node@25.0.3)(typescript@5.9.3)
+        specifier: ^5.80.2
+        version: 5.80.2(@types/node@25.0.3)(typescript@5.9.3)
       turbo:
         specifier: ^2.7.3
         version: 2.7.3
@@ -21,8 +21,8 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
       ultracite:
-        specifier: ^7.0.10
-        version: 7.0.10(typescript@5.9.3)
+        specifier: ^7.0.11
+        version: 7.0.11(oxlint@1.36.0)(typescript@5.9.3)
 
   apps/web:
     dependencies:
@@ -166,8 +166,8 @@ importers:
         specifier: ^4.1.18
         version: 4.1.18
       ultracite:
-        specifier: ^7.0.8
-        version: 7.0.8(typescript@5.9.3)
+        specifier: ^7.0.11
+        version: 7.0.11(oxlint@1.36.0)(typescript@5.9.3)
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@25.0.3)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.30.2)
@@ -2317,8 +2317,8 @@ packages:
   jsonc-parser@3.3.1:
     resolution: {integrity: sha512-HUgH65KyejrUFPvHFPbqOY0rsFip3Bo5wb4ngvdi1EpCYWUQDC5V+Y7mZws+DLkr4M//zQJoanu1SP+87Dv1oQ==}
 
-  knip@5.80.0:
-    resolution: {integrity: sha512-K/Ga2f/SHEUXXriVdaw2GfeIUJ5muwdqusHGkCtaG/1qeMmQJiuwZj9KnPxaDbnYPAu8RWjYYh8Nyb+qlJ3d8A==}
+  knip@5.80.2:
+    resolution: {integrity: sha512-Yt7iF8Uzl7pp3mGA6yvum6PZBcbGhjasZYuqIwcIAX1jsIhGRUAK0icP0qrB6FSPBI3BpIeMHl7n9meCLO6ovg==}
     engines: {node: '>=18.18.0'}
     hasBin: true
     peerDependencies:
@@ -3029,8 +3029,8 @@ packages:
   trough@2.2.0:
     resolution: {integrity: sha512-tmMpK00BjZiUyVyvrBK7knerNgmgvcV/KLVyuma/SC+TQN167GrMRciANTz09+k3zW8L8t60jWO1GpfkZdjTaw==}
 
-  trpc-cli@0.12.1:
-    resolution: {integrity: sha512-/D/mIQf3tUrS7ZKJZ1gmSPJn2psAABJfkC5Eevm55SZ4s6KwANOUNlwhAGXN9HT4VSJVfoF2jettevE9vHPQlg==}
+  trpc-cli@0.12.2:
+    resolution: {integrity: sha512-kGNCiyOimGlfcZFImbWzFF2Nn3TMnenwUdyuckiN5SEaceJbIac7+Iau3WsVHjQpoNgugFruZMDOKf8GNQNtJw==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -3099,13 +3099,14 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  ultracite@7.0.10:
-    resolution: {integrity: sha512-rA3uaic0tuwr9iQHqb3P2OPkluGakZGMgrcXKR/qb68uXNQ+rl3oZ+oPvJMB+qOxi4Au/E2qZjWblj1q9U+/Qg==}
+  ultracite@7.0.11:
+    resolution: {integrity: sha512-YeuJTf/Tu12l7K0qvl1G525NfrPUay6UFVt6TrTL8QfXcFZBI+Tzr0Dg14Hxcb964pRQF5PjBaUk3bJCNQHu+g==}
     hasBin: true
-
-  ultracite@7.0.8:
-    resolution: {integrity: sha512-b98lKaVl3UtH1TF6gZjhPQgtx063i0XpdV1nHEfexHsLyLaaosqU9FT8Tw/HwQkb/UmJ8WihKndur0bSUT0BYw==}
-    hasBin: true
+    peerDependencies:
+      oxlint: ^1.0.0
+    peerDependenciesMeta:
+      oxlint:
+        optional: true
 
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
@@ -5085,7 +5086,7 @@ snapshots:
 
   jsonc-parser@3.3.1: {}
 
-  knip@5.80.0(@types/node@25.0.3)(typescript@5.9.3):
+  knip@5.80.2(@types/node@25.0.3)(typescript@5.9.3):
     dependencies:
       '@nodelib/fs.walk': 1.2.8
       '@types/node': 25.0.3
@@ -5530,6 +5531,7 @@ snapshots:
       '@oxlint/linux-x64-musl': 1.36.0
       '@oxlint/win32-arm64': 1.36.0
       '@oxlint/win32-x64': 1.36.0
+    optional: true
 
   parse-entities@4.0.2:
     dependencies:
@@ -5961,7 +5963,7 @@ snapshots:
 
   trough@2.2.0: {}
 
-  trpc-cli@0.12.1(@trpc/server@11.8.1(typescript@5.9.3))(zod@4.3.5):
+  trpc-cli@0.12.2(@trpc/server@11.8.1(typescript@5.9.3))(zod@4.3.5):
     dependencies:
       commander: 14.0.2
     optionalDependencies:
@@ -6003,7 +6005,7 @@ snapshots:
 
   typescript@5.9.3: {}
 
-  ultracite@7.0.10(typescript@5.9.3):
+  ultracite@7.0.11(oxlint@1.36.0)(typescript@5.9.3):
     dependencies:
       '@clack/prompts': 0.11.0
       '@trpc/server': 11.8.1(typescript@5.9.3)
@@ -6011,33 +6013,14 @@ snapshots:
       glob: 13.0.0
       jsonc-parser: 3.3.1
       nypm: 0.6.2
-      oxlint: 1.36.0
-      trpc-cli: 0.12.1(@trpc/server@11.8.1(typescript@5.9.3))(zod@4.3.5)
+      trpc-cli: 0.12.2(@trpc/server@11.8.1(typescript@5.9.3))(zod@4.3.5)
       zod: 4.3.5
+    optionalDependencies:
+      oxlint: 1.36.0
     transitivePeerDependencies:
       - '@orpc/server'
       - '@valibot/to-json-schema'
       - effect
-      - oxlint-tsgolint
-      - typescript
-      - valibot
-
-  ultracite@7.0.8(typescript@5.9.3):
-    dependencies:
-      '@clack/prompts': 0.11.0
-      '@trpc/server': 11.8.1(typescript@5.9.3)
-      deepmerge: 4.3.1
-      glob: 13.0.0
-      jsonc-parser: 3.3.1
-      nypm: 0.6.2
-      oxlint: 1.36.0
-      trpc-cli: 0.12.1(@trpc/server@11.8.1(typescript@5.9.3))(zod@4.3.5)
-      zod: 4.3.5
-    transitivePeerDependencies:
-      - '@orpc/server'
-      - '@valibot/to-json-schema'
-      - effect
-      - oxlint-tsgolint
       - typescript
       - valibot
 

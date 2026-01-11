@@ -62,7 +62,7 @@
     "jsdom": "^26.1.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
-    "ultracite": "^7.0.8",
+    "ultracite": "^7.0.11",
     "vitest": "^3.2.4"
   }
 }
