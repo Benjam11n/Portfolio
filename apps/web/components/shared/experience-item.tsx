@@ -5,8 +5,8 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef, useState } from "react";
-import Markdown from "react-markdown";
 import { BorderedImage } from "@/components/shared/bordered-image";
+import { Markdown } from "@/components/shared/markdown";
 import type { Experience } from "@/lib/types";
 
 type ExperienceItemProps = {
@@ -108,18 +108,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
                   key={`${item.id}-point-${index}`}
                 >
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/40" />
-                  <Markdown
-                    components={{
-                      p: ({ children }) => <span>{children}</span>,
-                      strong: ({ children }) => (
-                        <strong className="font-bold text-foreground/90">
-                          {children}
-                        </strong>
-                      ),
-                    }}
-                  >
-                    {point}
-                  </Markdown>
+                  <Markdown>{point}</Markdown>
                 </li>
               );
             })}

@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { BorderedImage } from "@/components/shared/bordered-image";
+import { Markdown } from "@/components/shared/markdown";
 import { ShiftButton } from "@/components/shared/shift-button";
 import { ROUTES } from "@/lib/constants/navigation";
 import type { Project } from "@/lib/types";
@@ -110,9 +111,9 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
             {project.title.split(" - ")[0]}
           </h1>
         </div>
-        <p className="hero-header-item mb-8 max-w-2xl text-pretty text-lg text-muted-foreground leading-relaxed">
-          {project.description}
-        </p>
+        <div className="hero-header-item mb-8 max-w-2xl text-pretty text-lg text-muted-foreground leading-relaxed">
+          <Markdown>{project.description}</Markdown>
+        </div>
 
         {project.href ||
           (project.github && (
