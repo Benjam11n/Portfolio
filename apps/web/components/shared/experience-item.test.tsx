@@ -1,5 +1,17 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+// Mock GSAP for Card3D
+vi.mock("@gsap/react", () => ({
+  useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
+}));
+
+vi.mock("gsap", () => ({
+  default: {
+    to: vi.fn(),
+  },
+}));
+
 import { ExperienceItem } from "./experience-item";
 
 const mockExperience = {

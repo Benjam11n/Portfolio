@@ -1,10 +1,9 @@
-/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: Interaction is hover-only */
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: Interaction is hover-only */
 "use client";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef, useState } from "react";
+import { Card3D } from "@/components/effects/card-3d";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { Markdown } from "@/components/shared/markdown";
 import type { Experience } from "@/lib/types";
@@ -78,43 +77,57 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
 
   if (!hasPoints) {
     return (
-      <div className="group block w-full rounded-xl bg-card p-4 text-left shadow-sm">
-        {content}
-      </div>
+      <Card3D
+        className="p-4 shadow-sm"
+        glare
+        parallaxIntensity={0}
+        rotationIntensity={5}
+        thickness={8}
+      >
+        <div className="group">{content}</div>
+      </Card3D>
     );
   }
 
   return (
-    <button
-      className="group block w-full cursor-pointer rounded-xl bg-card p-4 text-left shadow-sm transition-transform hover:scale-[1.01]"
-      onClick={toggleOpen}
-      ref={containerRef}
-      type="button"
+    <Card3D
+      className="shadow-sm"
+      glare
+      parallaxIntensity={0}
+      rotationIntensity={5}
+      thickness={8}
     >
-      {content}
-
-      <div
-        className="h-0 overflow-hidden opacity-0"
-        ref={contentRef}
-        style={{ willChange: "height, opacity" }}
+      <button
+        className="group block w-full cursor-pointer p-4 text-left transition-transform hover:scale-[1.005]"
+        onClick={toggleOpen}
+        ref={containerRef}
+        type="button"
       >
-        <div className="pt-4 pl-[72px]">
-          <ul className="flex list-none flex-col gap-2">
-            {item.points.map((point, index) => {
-              // Render markdown for points
-              return (
-                <li
-                  className="flex items-start gap-2 text-muted-foreground text-sm leading-relaxed"
-                  key={`${item.id}-point-${index}`}
-                >
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/40" />
-                  <Markdown>{point}</Markdown>
-                </li>
-              );
-            })}
-          </ul>
+        {content}
+
+        <div
+          className="h-0 overflow-hidden opacity-0"
+          ref={contentRef}
+          style={{ willChange: "height, opacity" }}
+        >
+          <div className="pt-4 pl-[72px]">
+            <ul className="flex list-none flex-col gap-2">
+              {item.points.map((point, index) => {
+                // Render markdown for points
+                return (
+                  <li
+                    className="flex items-start gap-2 text-muted-foreground text-sm leading-relaxed"
+                    key={`${item.id}-point-${index}`}
+                  >
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/40" />
+                    <Markdown>{point}</Markdown>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
-      </div>
-    </button>
+      </button>
+    </Card3D>
   );
 };

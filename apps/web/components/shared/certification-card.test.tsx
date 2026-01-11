@@ -1,10 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { CertificationCard } from "./certification-card";
 
-// Mock GSAP
+// Mock GSAP for Card3D
 vi.mock("@gsap/react", () => ({
-  useGSAP: () => ({ contextSafe: (fn: any) => fn }),
+  useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
 
 vi.mock("gsap", () => ({
@@ -12,6 +11,8 @@ vi.mock("gsap", () => ({
     to: vi.fn(),
   },
 }));
+
+import { CertificationCard } from "./certification-card";
 
 const mockCert = {
   name: "Test Certification",
