@@ -5,6 +5,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef, useState } from "react";
+import Markdown from "react-markdown";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import type { Experience } from "@/lib/types";
 
@@ -100,28 +101,25 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         <div className="pt-4 pl-[72px]">
           <ul className="flex list-none flex-col gap-2">
             {item.points.map((point, index) => {
-              // Simple markdown bold parser: **text** -> <strong>text</strong>
-              const parts = point.split(/(\*\*.*?\*\*)/g);
+              // Render markdown for points
               return (
                 <li
                   className="flex items-start gap-2 text-muted-foreground text-sm leading-relaxed"
                   key={`${item.id}-point-${index}`}
                 >
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/40" />
-                  <span>
-                    {parts.map((part, i) =>
-                      part.startsWith("**") && part.endsWith("**") ? (
-                        <strong
-                          className="font-bold text-foreground/90"
-                          key={`${item.id}-point-${index}-part-${i}`}
-                        >
-                          {part.slice(2, -2)}
+                  <Markdown
+                    components={{
+                      p: ({ children }) => <span>{children}</span>,
+                      strong: ({ children }) => (
+                        <strong className="font-bold text-foreground/90">
+                          {children}
                         </strong>
-                      ) : (
-                        part
-                      )
-                    )}
-                  </span>
+                      ),
+                    }}
+                  >
+                    {point}
+                  </Markdown>
                 </li>
               );
             })}
