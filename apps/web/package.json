@@ -48,6 +48,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
     "@playwright/test": "^1.57.0",
     "@repo/testing": "workspace:*",
     "@repo/typescript-config": "workspace:*",

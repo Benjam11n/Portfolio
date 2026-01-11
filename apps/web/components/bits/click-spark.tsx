@@ -2,6 +2,7 @@
 
 import type React from "react";
 import { useCallback, useEffect, useRef } from "react";
+import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
 type ClickSparkProps = {
@@ -38,6 +39,7 @@ export const ClickSpark = ({
   const sparksRef = useRef<Spark[]>([]);
   const startTimeRef = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -149,6 +151,11 @@ export const ClickSpark = ({
 
   const handleClick = useCallback(
     (e: globalThis.MouseEvent) => {
+      // Skip spark animation if user prefers reduced motion
+      if (prefersReducedMotion) {
+        return;
+      }
+
       const canvas = canvasRef.current;
       if (!canvas) {
         return;
@@ -167,7 +174,7 @@ export const ClickSpark = ({
 
       sparksRef.current.push(...newSparks);
     },
-    [sparkCount]
+    [sparkCount, prefersReducedMotion]
   );
 
   useEffect(() => {
@@ -192,6 +199,10 @@ export const ClickSpark = ({
 
   return (
     <div className={cn("relative h-full w-full", className)} ref={containerRef}>
+      {/* 
+        This canvas is purely decorative for click feedback.
+        It has pointer-events-none so it's non-interactive and doesn't affect accessibility.
+      */}
       <canvas
         className="pointer-events-none absolute inset-0 overflow-hidden"
         ref={canvasRef}
