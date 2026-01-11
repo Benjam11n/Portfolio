@@ -45,4 +45,6 @@ jobs:
         run: pnpm --filter web exec playwright install --with-deps
 
       - name: E2E Test
+        env:
+          SKIP_ENV_VALIDATION: true
         run: pnpm test:e2e
