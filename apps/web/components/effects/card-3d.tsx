@@ -141,7 +141,7 @@ export const Card3D = ({
       {/* 3D Card Container - this is what rotates */}
       <div
         className={cn(
-          "relative h-full w-full",
+          "relative h-full w-full rounded-xl",
           shadow && "transition-shadow hover:shadow-xl"
         )}
         ref={cardRef}

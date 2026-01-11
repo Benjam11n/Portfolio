@@ -126,7 +126,7 @@ export const TECH_STACK = [
     colorDark: "#001E0E",
   },
   {
-    name: "PostgreSQL",
+    name: "Postgres",
     icon: "/assets/pgsql.svg",
     category: TechCategory.DATABASE,
     colorLight: "#E3F2FD",
