@@ -2,7 +2,6 @@ import "@testing-library/jest-dom";
 import { vi } from "vitest";
 
 // Mock ResizeObserver
-
 global.ResizeObserver = class ResizeObserver {
   observe() {
     // Mock implementation
@@ -16,7 +15,6 @@ global.ResizeObserver = class ResizeObserver {
 };
 
 // Mock Canvas 2D context
-
 HTMLCanvasElement.prototype.getContext = ((type: string) => {
   if (type === "2d") {
     return {
