@@ -14,7 +14,7 @@ export const TechStackItem = ({ stack, small = false }: TechStackItemProps) => {
   return (
     <Card3D
       className={cn(
-        "flex h-full items-center gap-3 border-border/60 border-dashed hover:border-border/80",
+        "flex h-full items-center gap-3",
         small ? "gap-2 p-2" : "p-3"
       )}
       glare
@@ -22,9 +22,9 @@ export const TechStackItem = ({ stack, small = false }: TechStackItemProps) => {
       parallaxIntensity={0}
       rotationIntensity={8}
       shadow={false}
-      thickness={small ? 4 : 6}
+      thickness={small ? 10 : 14}
     >
-      <div className="tech-item group relative flex h-full w-full items-center justify-center gap-2">
+      <div className="tech-item group relative flex h-full w-full items-center justify-center gap-2 rounded-xl">
         <BorderedImage
           alt={stack.name}
           colorDark={stack.colorDark}

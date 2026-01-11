@@ -78,11 +78,11 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
   if (!hasPoints) {
     return (
       <Card3D
-        className="p-4 shadow-sm"
+        className="p-4"
         glare
         parallaxIntensity={0}
         rotationIntensity={5}
-        thickness={8}
+        thickness={10}
       >
         <div className="group">{content}</div>
       </Card3D>
