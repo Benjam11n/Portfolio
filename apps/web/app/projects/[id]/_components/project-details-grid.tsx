@@ -6,8 +6,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Maximize2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { MediaPreviewOverlay } from "@/components/ui/media-preview-overlay";
-import { cn } from "@/lib/utils";
 import type { Project } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { FullscreenMedia } from "./fullscreen-media";
 
 if (typeof window !== "undefined") {
