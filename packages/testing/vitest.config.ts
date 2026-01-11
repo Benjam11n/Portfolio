@@ -1,5 +1,6 @@
 import react from "@vitejs/plugin-react";
-import { defineConfig, type UserConfig } from "vitest/config";
+import type { UserConfig } from "vitest/config";
+import { defineConfig } from "vitest/config";
 
 // Helper to create valid config
 export const createVitestConfig = (options: UserConfig = {}) =>
