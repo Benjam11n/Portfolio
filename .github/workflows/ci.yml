@@ -47,4 +47,5 @@ jobs:
       - name: E2E Test
         env:
           SKIP_ENV_VALIDATION: true
+          ARCJET_KEY: ajkey_mock_for_ci
         run: pnpm test:e2e
