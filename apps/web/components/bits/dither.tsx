@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { Effect } from "postprocessing";
 import { forwardRef, useEffect, useRef } from "react";
 import { Color, type Mesh, Uniform, Vector2 } from "three";
+import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 
 const waveVertexShader = `
 precision highp float;
@@ -345,9 +346,21 @@ export function Dither({
   mouseRadius = 1,
 }: DitherProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  // Respect user's motion preference
+  const shouldDisableAnimation = disableAnimation || prefersReducedMotion;
 
   useGSAP(
     () => {
+      // Skip animation if user prefers reduced motion
+      if (prefersReducedMotion) {
+        if (containerRef.current) {
+          containerRef.current.style.opacity = "1";
+        }
+        return;
+      }
+
       gsap.to(containerRef.current, {
         opacity: 1,
         duration: 1.5,
@@ -355,11 +368,17 @@ export function Dither({
         delay: 0.2,
       });
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [prefersReducedMotion] }
   );
 
   return (
-    <div className="h-full w-full opacity-0" ref={containerRef}>
+    // aria-hidden: This is a decorative background element with no semantic content
+    // Screen readers should skip this entirely
+    <div
+      aria-hidden="true"
+      className="h-full w-full opacity-0"
+      ref={containerRef}
+    >
       <Canvas
         camera={{ position: [0, 0, 6] }}
         className="relative h-full w-full"
@@ -368,7 +387,7 @@ export function Dither({
       >
         <DitheredWaves
           colorNum={colorNum}
-          disableAnimation={disableAnimation}
+          disableAnimation={shouldDisableAnimation}
           enableMouseInteraction={enableMouseInteraction}
           mouseRadius={mouseRadius}
           pixelSize={pixelSize}
