@@ -1,3 +1,4 @@
+import { JsonLd } from "@repo/seo/json-ld";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjectNavigation } from "@/components/shared/project-navigation";
@@ -45,6 +46,25 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <main className="mx-auto flex flex-col gap-4 px-2 py-2">
+      <JsonLd
+        code={{
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: project.title,
+          description: project.description,
+          applicationCategory: "WebApplication",
+          operatingSystem: "Any",
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+          },
+          author: {
+            "@type": "Person",
+            name: "Benjamin Wang",
+          },
+        }}
+      />
       {/* HERO SECTION */}
       <SectionCard>
         <ProjectHero project={project} />
