@@ -1,4 +1,5 @@
 import { createMetadata } from "@repo/seo";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import {
@@ -85,6 +86,7 @@ export default function RootLayout({
             </DynamicClickSpark>
           </TooltipProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
