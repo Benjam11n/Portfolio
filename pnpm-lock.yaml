@@ -213,8 +213,8 @@ importers:
         specifier: ^1.0.0-alpha.34
         version: 1.0.0-beta.15(next@16.1.1(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
       '@nosecone/next':
-        specifier: 1.0.0-beta.15
-        version: 1.0.0-beta.15(next@16.1.1(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
+        specifier: 1.0.0-beta.16
+        version: 1.0.0-beta.16(next@16.1.1(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
       '@repo/logger':
         specifier: workspace:*
         version: link:../logger
@@ -992,8 +992,8 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@nosecone/next@1.0.0-beta.15':
-    resolution: {integrity: sha512-uX3pnSeengqiPnKa06mq2X/e4AKnu0WeLd1mGrjVGYU0eB1inRgvmn3Vsxk1cauEQ5NLw+RhK6MPJYaO1l6cdA==}
+  '@nosecone/next@1.0.0-beta.16':
+    resolution: {integrity: sha512-IinvVTyO4MPdDGJPqRWNE9iXhBbefey9XhTZdi7UHh/trNU5dr/7YE7AnF2BYMLbWaWkkq5GN2Jq+zIQEob+FQ==}
     engines: {node: '>=20'}
     peerDependencies:
       next: '>=14'
@@ -2657,8 +2657,8 @@ packages:
   node-releases@2.0.27:
     resolution: {integrity: sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA==}
 
-  nosecone@1.0.0-beta.15:
-    resolution: {integrity: sha512-e3D16yrYQKu+qtILUNEoopdhloAjBcjpREwi2XSyi9tt6Tupk+rPEh/omydf9OJqkBZaM05hyFcBpBJbYvndIg==}
+  nosecone@1.0.0-beta.16:
+    resolution: {integrity: sha512-wQVLcOORPivGzMLY539uyLPRxP7OSPx1njj47ebcxD+/TL8flWCJj+egYpNJkEYBhrd4ETyIxicBiCz/WISO7w==}
     engines: {node: '>=20'}
 
   nwsapi@2.2.23:
@@ -3950,10 +3950,10 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
-  '@nosecone/next@1.0.0-beta.15(next@16.1.1(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))':
+  '@nosecone/next@1.0.0-beta.16(next@16.1.1(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))':
     dependencies:
       next: 16.1.1(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      nosecone: 1.0.0-beta.15
+      nosecone: 1.0.0-beta.16
 
   '@oxc-resolver/binding-android-arm-eabi@11.16.2':
     optional: true
@@ -5534,7 +5534,7 @@ snapshots:
 
   node-releases@2.0.27: {}
 
-  nosecone@1.0.0-beta.15: {}
+  nosecone@1.0.0-beta.16: {}
 
   nwsapi@2.2.23: {}
 
