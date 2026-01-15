@@ -28,6 +28,7 @@ export const ContactForm = () => {
   const [isPending, startTransition] = useTransition();
   const [showSuccess, setShowSuccess] = useState(false);
   const [senderName, setSenderName] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { loadRecaptcha, executeRecaptcha, isRecaptchaReady } =
     useDeferredRecaptcha({});
@@ -49,9 +50,11 @@ export const ContactForm = () => {
   });
 
   async function onSubmit(values: ContactFormValues) {
+    setIsSubmitting(true);
     if (!isRecaptchaReady) {
       toast.error("Security verification loading...");
       loadRecaptcha();
+      setIsSubmitting(false);
       return;
     }
 
@@ -60,6 +63,7 @@ export const ContactForm = () => {
 
       if (!token) {
         toast.error("ReCAPTCHA verification failed");
+        setIsSubmitting(false);
         return;
       }
 
@@ -76,10 +80,12 @@ export const ContactForm = () => {
           setShowSuccess(true);
           form.reset();
         }
+        setIsSubmitting(false);
       });
     } catch (error) {
       toast.error("An error occurred during verification");
       logger.error(error);
+      setIsSubmitting(false);
     }
   }
 
@@ -110,7 +116,7 @@ export const ContactForm = () => {
                   <FormControl>
                     <Input
                       className="bg-card"
-                      disabled={isPending}
+                      disabled={isPending || isSubmitting}
                       placeholder="John Doe"
                       {...field}
                     />
@@ -131,7 +137,7 @@ export const ContactForm = () => {
                   <FormControl>
                     <Input
                       className="bg-card"
-                      disabled={isPending}
+                      disabled={isPending || isSubmitting}
                       placeholder="johndoe@gmail.com"
                       {...field}
                     />
@@ -153,7 +159,7 @@ export const ContactForm = () => {
                 <FormControl>
                   <Input
                     className="bg-card"
-                    disabled={isPending}
+                    disabled={isPending || isSubmitting}
                     placeholder="Project Inquiry"
                     {...field}
                   />
@@ -174,7 +180,7 @@ export const ContactForm = () => {
                   <div className="relative">
                     <Textarea
                       className="bg-card"
-                      disabled={isPending}
+                      disabled={isPending || isSubmitting}
                       placeholder="Hello! I want to give you a job..."
                       rows={8}
                       {...field}
@@ -189,7 +195,10 @@ export const ContactForm = () => {
             )}
           />
 
-          <ShiftSubmitButton isLoading={isPending} type="submit">
+          <ShiftSubmitButton
+            isLoading={isPending || isSubmitting}
+            type="submit"
+          >
             Submit
           </ShiftSubmitButton>
 
