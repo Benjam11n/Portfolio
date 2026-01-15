@@ -130,8 +130,8 @@ export const Hero = () => {
             />
           </Magnetic>
         </div>
-
         {/* Name and Badge */}
+        {/* TODO: isnt there a better way to animate this? a GSAP plugin? */}
         <div className="mb-2 flex items-center gap-2">
           <h1 className="hero-name flex overflow-hidden font-bold text-foreground text-xl tracking-tight sm:text-2xl">
             {HERO_CONTENT.name.split("").map((char, i) => (
@@ -155,20 +155,17 @@ export const Hero = () => {
             />
           </div>
         </div>
-
         {/* Role */}
         {/* Role */}
         <h2 className="hero-text mb-6 font-medium text-md text-muted-foreground">
           {HERO_CONTENT.role}
         </h2>
-
         {/* Description */}
         <div className="hero-text mb-8 max-w-sm">
           <Markdown className="font-sans text-foreground text-md leading-relaxed">
             {HERO_CONTENT.description}
           </Markdown>
         </div>
-
         {/* Buttons */}
         <div className="flex flex-wrap gap-4" ref={buttonsRef}>
           <Magnetic strength={0.2}>

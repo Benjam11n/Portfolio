@@ -233,4 +233,64 @@ describe("ContactForm", () => {
       );
     });
   });
+
+  it("disables all inputs during form submission", async () => {
+    // Create a deferred promise to control when submission completes
+    let resolveSubmission: (value: any) => void;
+    const deferredPromise = new Promise((resolve) => {
+      resolveSubmission = resolve;
+    });
+
+    vi.mocked(sendEmailAction).mockReturnValue(deferredPromise);
+
+    render(<ContactForm />);
+
+    // Fill form with valid data
+    const nameInput = screen.getByLabelText(NAME_REGEX);
+    const emailInput = screen.getByLabelText(EMAIL_REGEX);
+    const subjectInput = screen.getByLabelText(SUBJECT_REGEX);
+    const messageInput = screen.getByPlaceholderText(HELLO_REGEX);
+    const submitButton = screen.getByTestId("submit-button");
+
+    fireEvent.change(nameInput, { target: { value: "John Doe" } });
+    fireEvent.change(emailInput, { target: { value: "john@example.com" } });
+    fireEvent.change(subjectInput, { target: { value: "Test Subject" } });
+    fireEvent.change(messageInput, {
+      target: { value: "This is a test message with enough length." },
+    });
+
+    // Verify inputs are enabled before submission
+    expect(nameInput).not.toBeDisabled();
+    expect(emailInput).not.toBeDisabled();
+    expect(subjectInput).not.toBeDisabled();
+    expect(messageInput).not.toBeDisabled();
+
+    // Submit the form
+    fireEvent.click(submitButton);
+
+    // Wait for the submission to start (isPending becomes true)
+    await waitFor(() => {
+      // Verify all inputs are disabled during submission
+      expect(nameInput).toBeDisabled();
+      expect(emailInput).toBeDisabled();
+      expect(subjectInput).toBeDisabled();
+      expect(messageInput).toBeDisabled();
+      // Verify submit button is also disabled
+      expect(submitButton).toBeDisabled();
+    });
+
+    // Resolve the submission promise
+    resolveSubmission!({
+      success: true,
+      data: { id: "mock-id" },
+    });
+
+    // Wait for submission to complete and inputs to be enabled again
+    await waitFor(() => {
+      // Note: After successful submission, the form is reset and the success modal is shown
+      // The inputs should be enabled again, but we can't reliably test this in the DOM
+      // because the success modal overlays everything. The key test is that they ARE disabled during submission.
+      expect(sendEmailAction).toHaveBeenCalled();
+    });
+  });
 });
