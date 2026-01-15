@@ -110,6 +110,7 @@ export const ContactForm = () => {
                   <FormControl>
                     <Input
                       className="bg-card"
+                      disabled={isPending}
                       placeholder="John Doe"
                       {...field}
                     />
@@ -130,6 +131,7 @@ export const ContactForm = () => {
                   <FormControl>
                     <Input
                       className="bg-card"
+                      disabled={isPending}
                       placeholder="johndoe@gmail.com"
                       {...field}
                     />
@@ -151,6 +153,7 @@ export const ContactForm = () => {
                 <FormControl>
                   <Input
                     className="bg-card"
+                    disabled={isPending}
                     placeholder="Project Inquiry"
                     {...field}
                   />
@@ -171,6 +174,7 @@ export const ContactForm = () => {
                   <div className="relative">
                     <Textarea
                       className="bg-card"
+                      disabled={isPending}
                       placeholder="Hello! I want to give you a job..."
                       rows={8}
                       {...field}
