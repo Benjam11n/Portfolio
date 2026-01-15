@@ -2,17 +2,38 @@ import "@testing-library/jest-dom";
 import { vi } from "vitest";
 
 // Mock ResizeObserver
-global.ResizeObserver = class ResizeObserver {
-  observe() {
-    // Mock implementation
+const ResizeObserverMock = vi.fn(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));
+
+vi.stubGlobal("ResizeObserver", ResizeObserverMock);
+
+// Mock IntersectionObserver
+class IntersectionObserverMock implements IntersectionObserver {
+  readonly root: Element | null = null;
+  readonly rootMargin: string = "";
+  readonly thresholds: readonly number[] = [];
+
+  constructor(
+    callback: IntersectionObserverCallback,
+    options?: IntersectionObserverInit
+  ) {
+    this.callback = callback;
+    this.options = options;
   }
-  unobserve() {
-    // Mock implementation
-  }
-  disconnect() {
-    // Mock implementation
-  }
-};
+
+  callback: IntersectionObserverCallback;
+  options?: IntersectionObserverInit;
+
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  takeRecords = vi.fn(() => []);
+}
+
+vi.stubGlobal("IntersectionObserver", IntersectionObserverMock);
 
 // Mock Canvas 2D context
 HTMLCanvasElement.prototype.getContext = ((type: string) => {
@@ -31,5 +52,7 @@ HTMLCanvasElement.prototype.getContext = ((type: string) => {
 }) as unknown as HTMLCanvasElement["getContext"];
 
 // Mock requestAnimationFrame
-global.requestAnimationFrame = (callback) => setTimeout(callback, 0);
-global.cancelAnimationFrame = (id) => clearTimeout(id);
+vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) =>
+  setTimeout(callback, 0)
+);
+vi.stubGlobal("cancelAnimationFrame", (id: number) => clearTimeout(id));
