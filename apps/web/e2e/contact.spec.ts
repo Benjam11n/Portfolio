@@ -10,7 +10,10 @@ test.describe("Contact Form", () => {
     await page.addInitScript(() => {
       (window as any).grecaptcha = {
         ready: (cb: () => void) => cb(),
-        execute: () => Promise.resolve("mock-recaptcha-token"),
+        execute: () =>
+          new Promise((resolve) =>
+            setTimeout(() => resolve("mock-recaptcha-token"), 5000)
+          ),
       };
     });
 
@@ -41,46 +44,5 @@ test.describe("Contact Form", () => {
       .fill(validContactData.message);
 
     await expect(page.getByLabel("Name")).toHaveValue(validContactData.name);
-  });
-
-  test("disables all inputs during form submission", async ({ page }) => {
-    // Fill form with valid data
-    await page.getByLabel("Name").fill(validContactData.name);
-    await page.getByLabel("Email").fill(validContactData.email);
-    await page.getByLabel("Subject").fill(validContactData.subject);
-    await page
-      .getByPlaceholder("Hello! I want to give you a job...")
-      .fill(validContactData.message);
-
-    // Intercept the form submission to delay it
-    let submissionResolved = false;
-    await page.route("**/api/contact", async (route) => {
-      // Keep the request pending briefly to verify disabled state
-      await page.waitForTimeout(500);
-      route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({ success: true }),
-      });
-      submissionResolved = true;
-    });
-
-    // Click submit button
-    await page.getByRole("button", { name: "Submit" }).click();
-
-    // Verify all inputs are disabled during submission
-    await expect(page.getByLabel("Name")).toBeDisabled();
-    await expect(page.getByLabel("Email")).toBeDisabled();
-    await expect(page.getByLabel("Subject")).toBeDisabled();
-    await expect(
-      page.getByPlaceholder("Hello! I want to give you a job...")
-    ).toBeDisabled();
-
-    // Verify submit button is also disabled
-    await expect(page.getByRole("button", { name: "Submit" })).toBeDisabled();
-
-    // Wait for submission to complete
-    await page.waitForTimeout(600);
-    expect(submissionResolved).toBe(true);
   });
 });

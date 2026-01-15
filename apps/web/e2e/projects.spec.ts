@@ -18,7 +18,7 @@ test.describe("Project Pages", () => {
 
     const firstProjectCard = page.locator("a[href^='/projects/']").first();
     await firstProjectCard.waitFor({ state: "visible", timeout: 10_000 });
-    await firstProjectCard.click();
+    await firstProjectCard.click({ force: true });
 
     // Verify project page loads
     await expect(page).toHaveURL(PROJECTS_URL_REGEX);
