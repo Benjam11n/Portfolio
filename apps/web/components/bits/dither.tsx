@@ -8,6 +8,7 @@ import { Effect } from "postprocessing";
 import { forwardRef, useEffect, useRef } from "react";
 import { Color, type Mesh, Uniform, Vector2 } from "three";
 import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
+import { useElementVisibility } from "@/lib/hooks/use-element-visibility";
 
 const waveVertexShader = `
 precision highp float;
@@ -215,6 +216,7 @@ type DitheredWavesProps = {
   disableAnimation: boolean;
   enableMouseInteraction: boolean;
   mouseRadius: number;
+  isVisible: boolean;
 };
 
 function DitheredWaves({
@@ -227,6 +229,7 @@ function DitheredWaves({
   disableAnimation,
   enableMouseInteraction,
   mouseRadius,
+  isVisible,
 }: DitheredWavesProps) {
   const mesh = useRef<Mesh>(null);
   const mouseRef = useRef(new Vector2());
@@ -258,7 +261,7 @@ function DitheredWaves({
   useFrame(({ clock }) => {
     const u = waveUniformsRef.current;
 
-    if (!disableAnimation) {
+    if (!disableAnimation && isVisible) {
       u.time.value = clock.getElapsedTime();
     }
 
@@ -347,6 +350,7 @@ export function Dither({
 }: DitherProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const isVisible = useElementVisibility(containerRef);
 
   // Respect user's motion preference
   const shouldDisableAnimation = disableAnimation || prefersReducedMotion;
@@ -395,6 +399,7 @@ export function Dither({
           waveColor={waveColor}
           waveFrequency={waveFrequency}
           waveSpeed={waveSpeed}
+          isVisible={isVisible}
         />
       </Canvas>
     </div>
