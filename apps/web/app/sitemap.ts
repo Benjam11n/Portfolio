@@ -6,8 +6,8 @@ import { env } from "@/lib/env";
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = env.SITE_URL || "https://benjaminwang.dev";
 
-  const projectRoutes = Object.keys(PROJECTS).map((id) => ({
-    url: `${siteUrl}/projects/${id}`,
+  const projectRoutes = PROJECTS.map((project) => ({
+    url: `${siteUrl}/projects/${project.id}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.8,

@@ -1,6 +1,8 @@
+import type { TechStack } from "@/lib/types";
 import { TechCategory } from "@/lib/types";
+import { techStackArraySchema } from "@/lib/validations/constants";
 
-export const TECH_STACK = [
+const rawTechStack: TechStack[] = [
   // --- AI/ML ---
   {
     name: "Numpy",
@@ -147,3 +149,7 @@ export const TECH_STACK = [
     colorDark: "#146541ff",
   },
 ];
+
+const validatedTechStack = techStackArraySchema.parse(rawTechStack);
+
+export const TECH_STACK: TechStack[] = validatedTechStack;

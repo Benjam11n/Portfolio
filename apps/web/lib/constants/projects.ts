@@ -1,10 +1,8 @@
-import { CheckCircle2 } from "lucide-react";
 import type { Project } from "@/lib/types";
+import { projectsArraySchema } from "@/lib/validations/constants";
 
-export const DEFAULT_FEATURE_ICON = CheckCircle2;
-
-export const PROJECTS: Record<string, Project> = {
-  disknee: {
+const rawProjects: Project[] = [
+  {
     id: "disknee",
     title:
       "DisKnee - Advanced Computer Vision Platform for Sports Medicine & Rehabilitation",
@@ -44,7 +42,7 @@ export const PROJECTS: Record<string, Project> = {
       "**Gamified recovery** visualization",
     ],
   },
-  twinAI: {
+  {
     id: "twinAI",
     title: "TwinAI - AI-Powered Digital Twins for Therapy",
     description:
@@ -83,7 +81,7 @@ export const PROJECTS: Record<string, Project> = {
       "**Seamless voice processing** interaction",
     ],
   },
-  quickie: {
+  {
     id: "quickie",
     title: "Quickie - AI-Powered Marketplace",
     description:
@@ -122,7 +120,7 @@ export const PROJECTS: Record<string, Project> = {
       "**Email confirmation** and notifications",
     ],
   },
-  chip: {
+  {
     id: "chip",
     title: "Chip - Play poker anytime, anywhere",
     description:
@@ -161,7 +159,7 @@ export const PROJECTS: Record<string, Project> = {
       "**Game history** and statistics",
     ],
   },
-  worldquant: {
+  {
     id: "worldquant",
     title: "WorldQuant NUS Alphathon - 4th Place Winner",
     description:
@@ -182,7 +180,7 @@ export const PROJECTS: Record<string, Project> = {
     },
     techStack: [],
   },
-  "birds-of-a-feather": {
+  {
     id: "birds-of-a-feather",
     title: "Birds of a Feather - My First React Project",
     description:
@@ -218,4 +216,8 @@ export const PROJECTS: Record<string, Project> = {
       "**Bird species identification**",
     ],
   },
-};
+];
+
+const validatedProjects = projectsArraySchema.parse(rawProjects);
+
+export const PROJECTS: Project[] = validatedProjects;
