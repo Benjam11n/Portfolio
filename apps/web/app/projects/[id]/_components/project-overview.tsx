@@ -3,10 +3,10 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { CheckCircle2 } from "lucide-react";
 import { useRef } from "react";
 import { Markdown } from "@/components/shared/markdown";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
-import { DEFAULT_FEATURE_ICON } from "@/lib/constants/projects";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
 import type { Project } from "@/lib/types";
 
@@ -19,7 +19,6 @@ type ProjectOverviewProps = {
 };
 
 export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
-  const FeatureIcon = project.featureIcon || DEFAULT_FEATURE_ICON;
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -96,7 +95,7 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
                 key={feature}
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border-4 border-white bg-muted shadow-xl dark:border-black">
-                  <FeatureIcon className="h-5 w-5 text-muted-foreground" />
+                  <CheckCircle2 className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <span className="font-medium text-foreground text-sm leading-tight">
                   <Markdown>{feature}</Markdown>

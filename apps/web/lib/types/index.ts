@@ -28,7 +28,6 @@ export type Project = {
 
   // Features
   features?: string[];
-  featureIcon?: (props: { className: string }) => React.JSX.Element;
 };
 
 export type Experience = {
@@ -68,6 +67,14 @@ export const TechCategory = {
 } as const;
 
 export type TechCategory = (typeof TechCategory)[keyof typeof TechCategory];
+
+export type TechStack = {
+  name: string;
+  icon: string;
+  category: TechCategory;
+  colorLight: string;
+  colorDark: string;
+};
 
 export type ContactInfo = {
   icon: LucideIcon;

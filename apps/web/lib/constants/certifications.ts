@@ -1,6 +1,7 @@
 import type { Certification } from "@/lib/types";
+import { certificationsArraySchema } from "@/lib/validations/constants";
 
-export const CERTIFICATIONS: Certification[] = [
+const rawCertifications: Certification[] = [
   {
     name: "IBM RAG and Agentic AI",
     organization: "IBM",
@@ -50,3 +51,8 @@ export const CERTIFICATIONS: Certification[] = [
       "Project-based mastery of **React**, **Next.js**, and **modern state management** for building professional web applications.",
   },
 ];
+
+const validatedCertifications =
+  certificationsArraySchema.parse(rawCertifications);
+
+export const CERTIFICATIONS: Certification[] = validatedCertifications;

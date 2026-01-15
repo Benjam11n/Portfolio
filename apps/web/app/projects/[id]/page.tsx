@@ -16,7 +16,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const project = PROJECTS[id];
+  const project = PROJECTS.find((p) => p.id === id);
 
   if (!project) {
     return {
@@ -31,14 +31,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export function generateStaticParams() {
-  return Object.keys(PROJECTS).map((id) => ({
-    id,
+  return PROJECTS.map((project) => ({
+    id: project.id,
   }));
 }
 
 export default async function ProjectPage({ params }: Props) {
   const { id } = await params;
-  const project = PROJECTS[id];
+  const project = PROJECTS.find((p) => p.id === id);
 
   if (!project) {
     notFound();

@@ -1,6 +1,7 @@
 import type { Experience } from "@/lib/types";
+import { experiencesArraySchema } from "@/lib/validations/constants";
 
-export const workExperiences: Experience[] = [
+const rawWorkExperiences: Experience[] = [
   {
     id: 1,
     name: "Aumovio",
@@ -46,3 +47,8 @@ export const workExperiences: Experience[] = [
     icon: "/experiences/cvwo.png",
   },
 ];
+
+const validatedWorkExperiences =
+  experiencesArraySchema.parse(rawWorkExperiences);
+
+export const workExperiences: Experience[] = validatedWorkExperiences;

@@ -11,7 +11,7 @@ import { PROJECTS } from "@/lib/constants/projects";
 gsap.registerPlugin(ScrollTrigger);
 
 export const Projects = () => {
-  const projects = Object.values(PROJECTS);
+  const projects = PROJECTS;
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
