@@ -9,14 +9,15 @@ import {
 } from "@/lib/email/templates";
 import { env } from "@/lib/env";
 import {
-  type ContactActionValues,
-  contactActionSchema,
+  type ContactFormValues,
+  contactFormSchema,
 } from "@/lib/validations/contact";
+import { sanitizeRecaptchaData } from "@/lib/utils/sanitize";
 
-export async function sendEmailAction(formData: ContactActionValues) {
+export async function sendEmailAction(formData: ContactFormValues) {
   try {
     await secure([]);
-    const result = contactActionSchema.safeParse(formData);
+    const result = contactFormSchema.safeParse(formData);
     if (!result.success) {
       return {
         error: "Invalid form data",
@@ -47,7 +48,7 @@ export async function sendEmailAction(formData: ContactActionValues) {
     const verifyData = await verifyResponse.json();
 
     if (!verifyData.success) {
-      logger.error(verifyData, "reCAPTCHA verification failed:");
+      logger.error(sanitizeRecaptchaData(verifyData), "reCAPTCHA verification failed:");
       return {
         error: "reCAPTCHA verification failed",
       };
