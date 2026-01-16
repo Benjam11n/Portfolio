@@ -2,7 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { Card3D } from "@/components/effects/card-3d";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { Markdown } from "@/components/shared/markdown";
@@ -12,7 +12,7 @@ type ExperienceItemProps = {
   item: Experience;
 };
 
-export const ExperienceItem = ({ item }: ExperienceItemProps) => {
+export const ExperienceItem = memo(({ item }: ExperienceItemProps) => {
   const containerRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -130,4 +130,4 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
       </button>
     </Card3D>
   );
-};
+});

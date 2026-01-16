@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Mail } from "lucide-react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Magnetic } from "@/components/effects/magnetic";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
@@ -16,6 +16,9 @@ export const About = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [image1Error, setImage1Error] = useState(false);
   const [image2Error, setImage2Error] = useState(false);
+
+  const handleImage1Error = useCallback(() => setImage1Error(true), []);
+  const handleImage2Error = useCallback(() => setImage2Error(true), []);
 
   useGSAP(
     () => {
@@ -124,7 +127,7 @@ export const About = () => {
                     alt="Benjamin Wang"
                     className="object-cover transition-transform duration-500 hover:scale-110"
                     fill
-                    onError={() => setImage1Error(true)}
+                    onError={handleImage1Error}
                     sizes="(max-width: 640px) 100px, 150px"
                     src="/benjamin.png"
                   />
@@ -146,7 +149,7 @@ export const About = () => {
                     alt="Minimal Workspace"
                     className="object-cover opacity-80"
                     fill
-                    onError={() => setImage2Error(true)}
+                    onError={handleImage2Error}
                     sizes="(max-width: 640px) 100px, 150px"
                     src="/assets/workspace.png"
                   />

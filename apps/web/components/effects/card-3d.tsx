@@ -3,7 +3,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 type Card3DProps = {
@@ -47,77 +47,83 @@ export const Card3D = ({
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 
-  const onMouseMove = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) {
-      return;
-    }
+  const onMouseMove = useCallback(
+    contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
+      if (!cardRef.current) {
+        return;
+      }
 
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+      const rect = cardRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * -rotationIntensity;
-    const rotateY = ((x - centerX) / centerX) * rotationIntensity;
+      const rotateX = ((y - centerY) / centerY) * -rotationIntensity;
+      const rotateY = ((x - centerX) / centerX) * rotationIntensity;
 
-    // Animate card rotation
-    gsap.to(cardRef.current, {
-      rotateX,
-      rotateY,
-      duration: 0.1,
-      ease: "power2.out",
-    });
-
-    // Animate content parallax
-    if (contentRef.current && parallaxIntensity > 0) {
-      gsap.to(contentRef.current, {
-        x: (x - centerX) * parallaxIntensity,
-        y: (y - centerY) * parallaxIntensity,
-        duration: 0.1,
-      });
-    }
-
-    // Animate glare
-    if (glareRef.current && glare) {
-      gsap.to(glareRef.current, {
-        x: x - rect.width / 2,
-        y: y - rect.height / 2,
-        opacity: glareIntensity,
+      // Animate card rotation
+      gsap.to(cardRef.current, {
+        rotateX,
+        rotateY,
         duration: 0.1,
         ease: "power2.out",
       });
-    }
-  });
 
-  const onMouseLeave = contextSafe(() => {
-    // Reset card rotation
-    gsap.to(cardRef.current, {
-      rotateX: 0,
-      rotateY: 0,
-      duration: 0.5,
-      ease: "power2.out",
-    });
+      // Animate content parallax
+      if (contentRef.current && parallaxIntensity > 0) {
+        gsap.to(contentRef.current, {
+          x: (x - centerX) * parallaxIntensity,
+          y: (y - centerY) * parallaxIntensity,
+          duration: 0.1,
+        });
+      }
 
-    // Reset content parallax
-    if (contentRef.current && parallaxIntensity > 0) {
-      gsap.to(contentRef.current, {
-        x: 0,
-        y: 0,
+      // Animate glare
+      if (glareRef.current && glare) {
+        gsap.to(glareRef.current, {
+          x: x - rect.width / 2,
+          y: y - rect.height / 2,
+          opacity: glareIntensity,
+          duration: 0.1,
+          ease: "power2.out",
+        });
+      }
+    }),
+    [contextSafe, rotationIntensity, parallaxIntensity, glare, glareIntensity]
+  );
+
+  const onMouseLeave = useCallback(
+    contextSafe(() => {
+      // Reset card rotation
+      gsap.to(cardRef.current, {
+        rotateX: 0,
+        rotateY: 0,
         duration: 0.5,
         ease: "power2.out",
       });
-    }
 
-    // Hide glare
-    if (glareRef.current && glare) {
-      gsap.to(glareRef.current, {
-        opacity: 0,
-        duration: 0.5,
-        ease: "power2.out",
-      });
-    }
-  });
+      // Reset content parallax
+      if (contentRef.current && parallaxIntensity > 0) {
+        gsap.to(contentRef.current, {
+          x: 0,
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      }
+
+      // Hide glare
+      if (glareRef.current && glare) {
+        gsap.to(glareRef.current, {
+          opacity: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      }
+    }),
+    [contextSafe, parallaxIntensity, glare]
+  );
 
   // Edge colors - solid colors for book spine effect
   const primaryEdgeColor = sideColor || "hsl(var(--muted))";

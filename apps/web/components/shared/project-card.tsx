@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { memo } from "react";
 import { Card3D } from "@/components/effects/card-3d";
 import {
   Tooltip,
@@ -14,7 +15,11 @@ import type { Project } from "@/lib/types";
 import { Magnetic } from "../effects/magnetic";
 import { BorderedImage } from "./bordered-image";
 
-export const ProjectCard = ({ project }: { project: Project }) => {
+type ProjectCardProps = {
+  project: Project;
+};
+
+export const ProjectCard = memo(({ project }: ProjectCardProps) => {
   return (
     <Card3D
       className="p-2 shadow-sm sm:p-3"
@@ -127,4 +132,4 @@ export const ProjectCard = ({ project }: { project: Project }) => {
       </Link>
     </Card3D>
   );
-};
+});
