@@ -33,7 +33,6 @@ export const ContactForm = () => {
   const { loadRecaptcha, executeRecaptcha, isRecaptchaReady } =
     useDeferredRecaptcha({});
 
-  // Load reCAPTCHA on mount
   useEffect(() => {
     loadRecaptcha();
   }, [loadRecaptcha]);
@@ -65,7 +64,6 @@ export const ContactForm = () => {
       }
 
       startTransition(async () => {
-        // Include the token in the submission
         const result = await sendEmailAction({ ...values, token });
 
         if (result.error) {

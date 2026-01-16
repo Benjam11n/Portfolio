@@ -9,14 +9,14 @@ import {
 } from "@/lib/email/templates";
 import { env } from "@/lib/env";
 import {
-  type ContactFormValues,
-  contactFormSchema,
+  type ContactActionValues,
+  contactActionSchema,
 } from "@/lib/validations/contact";
 
-export async function sendEmailAction(formData: ContactFormValues) {
+export async function sendEmailAction(formData: ContactActionValues) {
   try {
     await secure([]);
-    const result = contactFormSchema.safeParse(formData);
+    const result = contactActionSchema.safeParse(formData);
     if (!result.success) {
       return {
         error: "Invalid form data",
