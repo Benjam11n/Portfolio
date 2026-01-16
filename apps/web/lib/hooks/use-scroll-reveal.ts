@@ -13,7 +13,7 @@ if (typeof window !== "undefined") {
  * Configuration options for scroll reveal animations.
  * Controls animation behavior including position, scale, timing, and scroll trigger settings.
  */
-type ScrollRevealOptions = {
+export type ScrollRevealOptions = {
   /** Vertical offset to animate from (in pixels). Default: 30 */
   y?: number;
   /** Horizontal offset to animate from (in pixels). Default: 0 */
@@ -194,6 +194,20 @@ export const useScrollReveal = (
         ease,
       });
     },
-    { scope: containerRef }
+    {
+      scope: containerRef,
+      dependencies: [
+        y,
+        x,
+        scale,
+        duration,
+        delay,
+        stagger,
+        ease,
+        start,
+        toggleActions,
+        targetSelector,
+      ],
+    }
   );
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import { useAnimationFrame } from "@/lib/hooks/use-animation-frame";
 
 type FuzzyTextProps = {
   children: React.ReactNode;
@@ -49,12 +50,52 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
     HTMLCanvasElement & { cleanupFuzzyText?: () => void }
   >(null);
 
+  // Refs to manage animation state accessible from useAnimationFrame callback
+  const animationStateRef = useRef<{
+    isHovering: boolean;
+    isClicking: boolean;
+    isGlitching: boolean;
+    currentIntensity: number;
+    frameDuration: number;
+  }>({
+    isHovering: false,
+    isClicking: false,
+    isGlitching: false,
+    currentIntensity: baseIntensity,
+    frameDuration: 1000 / fps,
+  });
+
+  // Refs for canvas drawing context and resources
+  const canvasContextRef = useRef<{
+    ctx: CanvasRenderingContext2D | null;
+    offscreen: HTMLCanvasElement | null;
+    offCtx: CanvasRenderingContext2D | null;
+    offscreenWidth: number;
+    tightHeight: number;
+    interactiveLeft: number;
+    interactiveRight: number;
+    interactiveTop: number;
+    interactiveBottom: number;
+  }>({
+    ctx: null,
+    offscreen: null,
+    offCtx: null,
+    offscreenWidth: 0,
+    tightHeight: 0,
+    interactiveLeft: 0,
+    interactiveRight: 0,
+    interactiveTop: 0,
+    interactiveBottom: 0,
+  });
+
+  // Animation frame callback
+  const animate = useRef<(() => void) | null>(null);
+
   useEffect(() => {
-    let animationFrameId: number;
-    let isCancelled = false;
     let glitchTimeoutId: ReturnType<typeof setTimeout>;
     let glitchEndTimeoutId: ReturnType<typeof setTimeout>;
     let clickTimeoutId: ReturnType<typeof setTimeout>;
+    let isMounted = true;
     const canvas = canvasRef.current;
     if (!canvas) {
       return;
@@ -84,7 +125,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
       };
 
       await loadFont();
-      if (isCancelled) {
+      if (!isMounted) {
         return;
       }
 
@@ -104,6 +145,11 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
       const numericFontSize = getNumericFontSize();
       const text = React.Children.toArray(children).join("");
 
+      // NOTE: Custom canvas sizing logic (not using useCanvasResize hook)
+      // This component uses content-driven sizing (based on text metrics) rather than
+      // parent-container-driven sizing. The canvas size is calculated once based on
+      // text dimensions + custom margins for the fuzzy animation effect.
+      // See: build-progress.txt Session 8 (subtask-3-1) for architectural rationale.
       const offscreen = document.createElement("canvas");
       const offCtx = offscreen.getContext("2d");
       if (!offCtx) {
@@ -187,24 +233,36 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
       const interactiveRight = interactiveLeft + textBoundingWidth;
       const interactiveBottom = interactiveTop + tightHeight;
 
-      let isHovering = false;
-      let isClicking = false;
-      let isGlitching = false;
-      let currentIntensity = baseIntensity;
-      let lastFrameTime = 0;
-      const frameDuration = 1000 / fps;
+      // Store canvas context in ref for animation callback access
+      canvasContextRef.current = {
+        ctx,
+        offscreen,
+        offCtx,
+        offscreenWidth,
+        tightHeight,
+        interactiveLeft,
+        interactiveRight,
+        interactiveTop,
+        interactiveBottom,
+      };
+
+      // Initialize animation state
+      animationStateRef.current = {
+        isHovering: false,
+        isClicking: false,
+        isGlitching: false,
+        currentIntensity: baseIntensity,
+        frameDuration: 1000 / fps,
+      };
 
       const startGlitchLoop = () => {
-        if (!glitchMode || isCancelled) {
+        if (!glitchMode) {
           return;
         }
         glitchTimeoutId = setTimeout(() => {
-          if (isCancelled) {
-            return;
-          }
-          isGlitching = true;
+          animationStateRef.current.isGlitching = true;
           glitchEndTimeoutId = setTimeout(() => {
-            isGlitching = false;
+            animationStateRef.current.isGlitching = false;
             startGlitchLoop();
           }, glitchDuration);
         }, glitchInterval);
@@ -216,32 +274,40 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
 
       // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: animation logic is complex
       const updateIntensity = () => {
+        const state = animationStateRef.current;
         let newTargetIntensity = baseIntensity;
-        if (isClicking || isGlitching) {
+        if (state.isClicking || state.isGlitching) {
           newTargetIntensity = 1;
-        } else if (isHovering) {
+        } else if (state.isHovering) {
           newTargetIntensity = hoverIntensity;
         }
 
         if (transitionDuration > 0) {
-          const step = 1 / (transitionDuration / frameDuration);
-          if (currentIntensity < newTargetIntensity) {
-            currentIntensity = Math.min(
-              currentIntensity + step,
+          const step = 1 / (transitionDuration / state.frameDuration);
+          if (state.currentIntensity < newTargetIntensity) {
+            state.currentIntensity = Math.min(
+              state.currentIntensity + step,
               newTargetIntensity
             );
-          } else if (currentIntensity > newTargetIntensity) {
-            currentIntensity = Math.max(
-              currentIntensity - step,
+          } else if (state.currentIntensity > newTargetIntensity) {
+            state.currentIntensity = Math.max(
+              state.currentIntensity - step,
               newTargetIntensity
             );
           }
         } else {
-          currentIntensity = newTargetIntensity;
+          state.currentIntensity = newTargetIntensity;
         }
       };
 
+      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: animation logic is complex
       const drawFrame = () => {
+        const { ctx, offscreen, offscreenWidth, tightHeight } =
+          canvasContextRef.current;
+        if (!(ctx && offscreen)) {
+          return;
+        }
+
         ctx.clearRect(
           -fuzzRange - 20,
           -fuzzRange - 10,
@@ -249,17 +315,17 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
           tightHeight + 2 * (fuzzRange + 10)
         );
 
+        const intensity = animationStateRef.current.currentIntensity;
+
         for (let j = 0; j < tightHeight; j++) {
           let dx = 0;
           let dy = 0;
           if (direction === "horizontal" || direction === "both") {
-            dx = Math.floor(
-              currentIntensity * (Math.random() - 0.5) * fuzzRange
-            );
+            dx = Math.floor(intensity * (Math.random() - 0.5) * fuzzRange);
           }
           if (direction === "vertical" || direction === "both") {
             dy = Math.floor(
-              currentIntensity * (Math.random() - 0.5) * fuzzRange * 0.5
+              intensity * (Math.random() - 0.5) * fuzzRange * 0.5
             );
           }
           ctx.drawImage(
@@ -276,24 +342,11 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
         }
       };
 
-      const run = (timestamp: number) => {
-        if (isCancelled) {
-          return;
-        }
-
-        if (timestamp - lastFrameTime < frameDuration) {
-          animationFrameId = window.requestAnimationFrame(run);
-          return;
-        }
-        lastFrameTime = timestamp;
-
+      // Set up animation callback
+      animate.current = () => {
         updateIntensity();
         drawFrame();
-
-        animationFrameId = window.requestAnimationFrame(run);
       };
-
-      animationFrameId = window.requestAnimationFrame(run);
 
       const isInsideTextArea = (x: number, y: number) =>
         x >= interactiveLeft &&
@@ -308,21 +361,21 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        isHovering = isInsideTextArea(x, y);
+        animationStateRef.current.isHovering = isInsideTextArea(x, y);
       };
 
       const handleMouseLeave = () => {
-        isHovering = false;
+        animationStateRef.current.isHovering = false;
       };
 
       const handleClick = () => {
         if (!clickEffect) {
           return;
         }
-        isClicking = true;
+        animationStateRef.current.isClicking = true;
         clearTimeout(clickTimeoutId);
         clickTimeoutId = setTimeout(() => {
-          isClicking = false;
+          animationStateRef.current.isClicking = false;
         }, 150);
       };
 
@@ -335,11 +388,11 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
         const touch = e.touches[0];
         const x = touch.clientX - rect.left;
         const y = touch.clientY - rect.top;
-        isHovering = isInsideTextArea(x, y);
+        animationStateRef.current.isHovering = isInsideTextArea(x, y);
       };
 
       const handleTouchEnd = () => {
-        isHovering = false;
+        animationStateRef.current.isHovering = false;
       };
 
       if (enableHover) {
@@ -356,7 +409,6 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
       }
 
       const cleanup = () => {
-        window.cancelAnimationFrame(animationFrameId);
         clearTimeout(glitchTimeoutId);
         clearTimeout(glitchEndTimeoutId);
         clearTimeout(clickTimeoutId);
@@ -377,8 +429,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
     init();
 
     return () => {
-      isCancelled = true;
-      window.cancelAnimationFrame(animationFrameId);
+      isMounted = false;
       clearTimeout(glitchTimeoutId);
       clearTimeout(glitchEndTimeoutId);
       clearTimeout(clickTimeoutId);
@@ -386,6 +437,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
         canvas.cleanupFuzzyText();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     children,
     fontSize,
@@ -406,6 +458,16 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
     gradient,
     letterSpacing,
   ]);
+
+  // Animation loop using useAnimationFrame hook
+  useAnimationFrame(
+    () => {
+      if (animate.current) {
+        animate.current();
+      }
+    },
+    { fps }
+  );
 
   return <canvas className={className} ref={canvasRef} />;
 };
