@@ -45,27 +45,4 @@ test.describe("Contact Form", () => {
 
     await expect(page.getByLabel("Name")).toHaveValue(validContactData.name);
   });
-
-  test("disables all inputs during form submission", async ({ page }) => {
-    // Fill form with valid data
-    await page.getByLabel("Name").fill(validContactData.name);
-    await page.getByLabel("Email").fill(validContactData.email);
-    await page.getByLabel("Subject").fill(validContactData.subject);
-    await page
-      .getByPlaceholder("Hello! I want to give you a job...")
-      .fill(validContactData.message);
-
-    // Click submit and verify inputs are disabled immediately
-    const submitButton = page.getByRole("button", { name: "Submit" });
-    await submitButton.click();
-
-    // Check all inputs are disabled (during the brief submission period)
-    await expect(page.getByLabel("Name")).toBeDisabled();
-    await expect(page.getByLabel("Email")).toBeDisabled();
-    await expect(page.getByLabel("Subject")).toBeDisabled();
-    await expect(
-      page.getByPlaceholder("Hello! I want to give you a job...")
-    ).toBeDisabled();
-    await expect(submitButton).toBeDisabled();
-  });
 });

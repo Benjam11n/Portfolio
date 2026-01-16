@@ -119,7 +119,7 @@ export const ContactForm = () => {
                   <FormControl>
                     <Input
                       className="bg-card"
-                      disabled={isPending}
+                      disabled={isPending || form.formState.isSubmitting}
                       placeholder="John Doe"
                       {...field}
                     />
@@ -140,7 +140,7 @@ export const ContactForm = () => {
                   <FormControl>
                     <Input
                       className="bg-card"
-                      disabled={isPending}
+                      disabled={isPending || form.formState.isSubmitting}
                       placeholder="johndoe@gmail.com"
                       {...field}
                     />
@@ -162,7 +162,7 @@ export const ContactForm = () => {
                 <FormControl>
                   <Input
                     className="bg-card"
-                    disabled={isPending}
+                    disabled={isPending || form.formState.isSubmitting}
                     placeholder="Project Inquiry"
                     {...field}
                   />
@@ -188,7 +188,7 @@ export const ContactForm = () => {
                     <div className="relative">
                       <Textarea
                         className="bg-card"
-                        disabled={isPending}
+                        disabled={isPending || form.formState.isSubmitting}
                         placeholder="Hello! I want to give you a job..."
                         rows={8}
                         {...field}
@@ -214,7 +214,10 @@ export const ContactForm = () => {
             }}
           />
 
-          <ShiftSubmitButton isLoading={isPending} type="submit">
+          <ShiftSubmitButton
+            isLoading={isPending || form.formState.isSubmitting}
+            type="submit"
+          >
             Submit
           </ShiftSubmitButton>
 
