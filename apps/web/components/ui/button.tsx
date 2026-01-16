@@ -1,4 +1,4 @@
-import { Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
@@ -20,6 +20,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         loading: "bg-primary/80 text-primary-foreground cursor-wait",
+        success: "bg-green-600 text-white hover:bg-green-700",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -44,6 +45,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, children, disabled, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     const isLoading = variant === "loading";
+    const isSuccess = variant === "success";
 
     return (
       <Comp
@@ -53,6 +55,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {isSuccess && <CheckCircle2 className="mr-2 h-4 w-4" />}
         {children}
       </Comp>
     );
