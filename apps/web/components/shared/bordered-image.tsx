@@ -2,14 +2,14 @@ import Image, { type ImageProps } from "next/image";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-interface BorderedImageProps extends Omit<ImageProps, "className"> {
+export type BorderedImageProps = Omit<ImageProps, "className"> & {
   containerClassName?: string;
   imageClassName?: string;
   backgroundColor?: string;
   colorLight?: string;
   colorDark?: string;
   fallback?: React.ReactNode;
-}
+};
 
 export const BorderedImage = ({
   src,
