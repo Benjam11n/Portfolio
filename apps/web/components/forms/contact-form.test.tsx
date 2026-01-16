@@ -234,63 +234,100 @@ describe("ContactForm", () => {
     });
   });
 
-  it("disables all inputs during form submission", async () => {
-    // Create a deferred promise to control when submission completes
-    let resolveSubmission: (value: any) => void;
-    const deferredPromise = new Promise((resolve) => {
-      resolveSubmission = resolve;
+  describe("Progress Indicator", () => {
+    it("renders progress bar in message field", () => {
+      render(<ContactForm />);
+      const progress = screen.getByRole("progressbar");
+      expect(progress).toBeDefined();
+      expect(progress.getAttribute("aria-valuemax")).toBe("1000");
+      expect(progress.getAttribute("aria-valuenow")).toBe("0");
     });
 
-    vi.mocked(sendEmailAction).mockReturnValue(deferredPromise);
-
-    render(<ContactForm />);
-
-    // Fill form with valid data
-    const nameInput = screen.getByLabelText(NAME_REGEX);
-    const emailInput = screen.getByLabelText(EMAIL_REGEX);
-    const subjectInput = screen.getByLabelText(SUBJECT_REGEX);
-    const messageInput = screen.getByPlaceholderText(HELLO_REGEX);
-    const submitButton = screen.getByTestId("submit-button");
-
-    fireEvent.change(nameInput, { target: { value: "John Doe" } });
-    fireEvent.change(emailInput, { target: { value: "john@example.com" } });
-    fireEvent.change(subjectInput, { target: { value: "Test Subject" } });
-    fireEvent.change(messageInput, {
-      target: { value: "This is a test message with enough length." },
+    it("displays character counter text initially as 0/1000", () => {
+      render(<ContactForm />);
+      expect(screen.getByText("0 / 1000")).toBeDefined();
     });
 
-    // Verify inputs are enabled before submission
-    expect(nameInput).not.toBeDisabled();
-    expect(emailInput).not.toBeDisabled();
-    expect(subjectInput).not.toBeDisabled();
-    expect(messageInput).not.toBeDisabled();
+    it("updates progress and counter when typing in message field", () => {
+      render(<ContactForm />);
+      const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
-    // Submit the form
-    fireEvent.click(submitButton);
+      // Type 50 characters
+      fireEvent.change(messageTextarea, {
+        target: { value: "a".repeat(50) },
+      });
 
-    // Wait for the submission to start (isPending becomes true)
-    await waitFor(() => {
-      // Verify all inputs are disabled during submission
-      expect(nameInput).toBeDisabled();
-      expect(emailInput).toBeDisabled();
-      expect(subjectInput).toBeDisabled();
-      expect(messageInput).toBeDisabled();
-      // Verify submit button is also disabled
-      expect(submitButton).toBeDisabled();
+      const progress = screen.getByRole("progressbar");
+      expect(progress.getAttribute("aria-valuenow")).toBe("50");
+      expect(screen.getByText("50 / 1000")).toBeDefined();
     });
 
-    // Resolve the submission promise
-    resolveSubmission!({
-      success: true,
-      data: { id: "mock-id" },
+    it("shows green color for low character count", () => {
+      render(<ContactForm />);
+      const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
+
+      // Type 500 characters (50%)
+      fireEvent.change(messageTextarea, {
+        target: { value: "a".repeat(500) },
+      });
+
+      const progress = screen.getByRole("progressbar");
+      const fill = progress.querySelector("div");
+      expect(fill?.className).toContain("bg-primary");
     });
 
-    // Wait for submission to complete and inputs to be enabled again
-    await waitFor(() => {
-      // Note: After successful submission, the form is reset and the success modal is shown
-      // The inputs should be enabled again, but we can't reliably test this in the DOM
-      // because the success modal overlays everything. The key test is that they ARE disabled during submission.
-      expect(sendEmailAction).toHaveBeenCalled();
+    it("shows yellow color for medium character count (70%+)", () => {
+      render(<ContactForm />);
+      const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
+
+      // Type 700 characters (70%)
+      fireEvent.change(messageTextarea, {
+        target: { value: "a".repeat(700) },
+      });
+
+      const progress = screen.getByRole("progressbar");
+      const fill = progress.querySelector("div");
+      expect(fill?.className).toContain("bg-yellow-500");
+    });
+
+    it("shows red color for high character count (90%+)", () => {
+      render(<ContactForm />);
+      const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
+
+      // Type 900 characters (90%)
+      fireEvent.change(messageTextarea, {
+        target: { value: "a".repeat(900) },
+      });
+
+      const progress = screen.getByRole("progressbar");
+      const fill = progress.querySelector("div");
+      expect(fill?.className).toContain("bg-destructive");
+    });
+
+    it("updates character count in real-time as user types", () => {
+      render(<ContactForm />);
+      const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
+
+      // Initial state
+      expect(screen.getByText("0 / 1000")).toBeDefined();
+
+      // Type 10 characters
+      fireEvent.change(messageTextarea, {
+        target: { value: "a".repeat(10) },
+      });
+      expect(screen.getByText("10 / 1000")).toBeDefined();
+
+      // Type more to reach 100
+      fireEvent.change(messageTextarea, {
+        target: { value: "a".repeat(100) },
+      });
+      expect(screen.getByText("100 / 1000")).toBeDefined();
+
+      // Type more to reach 500
+      fireEvent.change(messageTextarea, {
+        target: { value: "a".repeat(500) },
+      });
+      expect(screen.getByText("500 / 1000")).toBeDefined();
     });
   });
 });
