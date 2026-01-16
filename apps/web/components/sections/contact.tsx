@@ -9,11 +9,19 @@ import { useScrollReveal } from "@/lib/hooks/use-scroll-reveal";
 export const Contact = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useScrollReveal(containerRef, "div > *", {
-    duration: 0.3,
-    stagger: 0.08,
-    y: 15,
-  });
+  // Using quickFade preset with custom overrides
+  // quickFade preset provides: { y: 10, duration: 0.4, stagger: 0.03, ease: "power1.out" }
+  // Overridden here to match existing animation timing
+  useScrollReveal(
+    containerRef,
+    "div > *",
+    {
+      duration: 0.3,
+      stagger: 0.08,
+      y: 15,
+    },
+    "quickFade"
+  );
 
   return (
     <SectionCard id="contact" title="Contact">
