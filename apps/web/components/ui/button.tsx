@@ -1,5 +1,6 @@
-import { Slot } from "@radix-ui/react-slot";
+import { Slot, Slottable } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import { CheckCircle2, Loader2 } from "lucide-react";
 import { type ButtonHTMLAttributes, forwardRef } from "react";
 
 import { cn } from "@/lib/utils";
@@ -18,6 +19,8 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        loading: "cursor-wait bg-primary/80 text-primary-foreground",
+        success: "bg-green-600 text-white hover:bg-green-700",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -39,14 +42,25 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
   };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, children, disabled, ...props },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
+    const isLoading = variant === "loading";
+    const isSuccess = variant === "success";
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
+        disabled={disabled || isLoading}
         ref={ref}
         {...props}
-      />
+      >
+        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {isSuccess && <CheckCircle2 className="mr-2 h-4 w-4" />}
+        <Slottable>{children}</Slottable>
+      </Comp>
     );
   }
 );
