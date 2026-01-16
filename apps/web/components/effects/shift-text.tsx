@@ -83,7 +83,7 @@ export const useShiftAnimation = (
         ease: "power2.inOut",
       });
     }),
-    [contextSafe]
+    []
   );
 
   const animateOut = useCallback(
@@ -101,7 +101,7 @@ export const useShiftAnimation = (
         ease: "power2.inOut",
       });
     }),
-    [contextSafe]
+    []
   );
 
   return { animateIn, animateOut };

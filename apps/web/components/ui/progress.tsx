@@ -13,15 +13,15 @@ const Progress = forwardRef<
 
   return (
     <div
-      ref={ref}
-      role="progressbar"
-      aria-valuenow={value}
-      aria-valuemin={0}
       aria-valuemax={max}
+      aria-valuemin={0}
+      aria-valuenow={value}
       className={cn(
         "relative h-2 w-full overflow-hidden rounded-full bg-primary/20",
         className
       )}
+      ref={ref}
+      role="progressbar"
       {...props}
     >
       <div

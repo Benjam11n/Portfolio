@@ -50,7 +50,7 @@ export function Magnetic({ children, strength = 0.35 }: MagneticProps) {
       moveX.current?.(middleX * strength);
       moveY.current?.(middleY * strength);
     }),
-    [contextSafe, strength]
+    []
   );
 
   const handleMouseLeave = useCallback(
@@ -58,7 +58,7 @@ export function Magnetic({ children, strength = 0.35 }: MagneticProps) {
       moveX.current?.(0);
       moveY.current?.(0);
     }),
-    [contextSafe]
+    []
   );
 
   return (

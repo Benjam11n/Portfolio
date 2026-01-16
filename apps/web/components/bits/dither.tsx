@@ -7,8 +7,8 @@ import gsap from "gsap";
 import { Effect } from "postprocessing";
 import { forwardRef, useEffect, useRef } from "react";
 import { Color, type Mesh, Uniform, Vector2 } from "three";
-import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 import { useElementVisibility } from "@/lib/hooks/use-element-visibility";
+import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 
 const waveVertexShader = `
 precision highp float;
@@ -393,13 +393,13 @@ export function Dither({
           colorNum={colorNum}
           disableAnimation={shouldDisableAnimation}
           enableMouseInteraction={enableMouseInteraction}
+          isVisible={isVisible}
           mouseRadius={mouseRadius}
           pixelSize={pixelSize}
           waveAmplitude={waveAmplitude}
           waveColor={waveColor}
           waveFrequency={waveFrequency}
           waveSpeed={waveSpeed}
-          isVisible={isVisible}
         />
       </Canvas>
     </div>

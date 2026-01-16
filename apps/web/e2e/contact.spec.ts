@@ -10,7 +10,10 @@ test.describe("Contact Form", () => {
     await page.addInitScript(() => {
       (window as any).grecaptcha = {
         ready: (cb: () => void) => cb(),
-        execute: () => new Promise(resolve => setTimeout(() => resolve("mock-recaptcha-token"), 100)),
+        execute: () =>
+          new Promise((resolve) =>
+            setTimeout(() => resolve("mock-recaptcha-token"), 100)
+          ),
       };
     });
 

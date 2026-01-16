@@ -24,14 +24,14 @@ describe("Progress", () => {
   });
 
   it("renders with different max values", () => {
-    render(<Progress value={5} max={10} />);
+    render(<Progress max={10} value={5} />);
     const progress = screen.getByRole("progressbar");
     expect(progress).toBeDefined();
     expect(progress.getAttribute("aria-valuemax")).toBe("10");
   });
 
   it("has correct ARIA attributes", () => {
-    render(<Progress value={30} max={100} />);
+    render(<Progress max={100} value={30} />);
     const progress = screen.getByRole("progressbar");
     expect(progress.getAttribute("role")).toBe("progressbar");
     expect(progress.getAttribute("aria-valuenow")).toBe("30");
@@ -49,7 +49,7 @@ describe("Progress", () => {
   });
 
   it("applies custom fill classes", () => {
-    render(<Progress value={50} fillClassName="bg-red-500" />);
+    render(<Progress fillClassName="bg-red-500" value={50} />);
     const progress = screen.getByRole("progressbar");
     const fill = progress.querySelector("div");
     expect(fill?.className).toContain("bg-red-500");

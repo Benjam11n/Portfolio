@@ -90,7 +90,7 @@ export const Card3D = ({
         });
       }
     }),
-    [contextSafe, rotationIntensity, parallaxIntensity, glare, glareIntensity]
+    []
   );
 
   const onMouseLeave = useCallback(
@@ -122,7 +122,7 @@ export const Card3D = ({
         });
       }
     }),
-    [contextSafe, parallaxIntensity, glare]
+    []
   );
 
   // Edge colors - solid colors for book spine effect
