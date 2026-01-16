@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ArrowUpRight, BadgeCheck, Mail } from "lucide-react";
 import { useRef } from "react";
+import { CharacterReveal } from "@/components/effects/character-reveal";
 import { Magnetic } from "@/components/effects/magnetic";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { SectionCard } from "@/components/shared/section-card";
@@ -48,19 +49,6 @@ export const Hero = () => {
               duration: 0.8,
               ease: "elastic.out(1, 0.75)",
             }
-          );
-
-          // Name: Character-by-character reveal
-          tl.to(
-            ".char",
-            {
-              y: 0,
-              autoAlpha: 1,
-              duration: 0.6,
-              stagger: 0.03,
-              ease: "power4.out",
-            },
-            "-=0.6"
           );
 
           // Badge: Snap pop after name
@@ -130,19 +118,13 @@ export const Hero = () => {
             />
           </Magnetic>
         </div>
+
         {/* Name and Badge */}
-        {/* TODO: isnt there a better way to animate this? a GSAP plugin? */}
         <div className="mb-2 flex items-center gap-2">
           <h1 className="hero-name flex overflow-hidden font-bold text-foreground text-xl tracking-tight sm:text-2xl">
-            {HERO_CONTENT.name.split("").map((char, i) => (
-              <span
-                className="char inline-block translate-y-full opacity-0"
-                // biome-ignore lint/suspicious/noArrayIndexKey: Static text, order never changes
-                key={i}
-              >
-                {char === " " ? "\u00A0" : char}
-              </span>
-            ))}
+            <CharacterReveal duration={0.6} ease="power4.out" stagger={0.03}>
+              {HERO_CONTENT.name}
+            </CharacterReveal>
           </h1>
           <div className="hero-badge opacity-0">
             <BadgeCheck
@@ -155,17 +137,20 @@ export const Hero = () => {
             />
           </div>
         </div>
+
         {/* Role */}
         {/* Role */}
         <h2 className="hero-text mb-6 font-medium text-md text-muted-foreground">
           {HERO_CONTENT.role}
         </h2>
+
         {/* Description */}
         <div className="hero-text mb-8 max-w-sm">
           <Markdown className="font-sans text-foreground text-md leading-relaxed">
             {HERO_CONTENT.description}
           </Markdown>
         </div>
+
         {/* Buttons */}
         <div className="flex flex-wrap gap-4" ref={buttonsRef}>
           <Magnetic strength={0.2}>
