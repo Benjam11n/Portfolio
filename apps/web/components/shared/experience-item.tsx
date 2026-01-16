@@ -2,52 +2,103 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { memo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Card3D } from "@/components/effects/card-3d";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { Markdown } from "@/components/shared/markdown";
+import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 import type { Experience } from "@/lib/types";
 
 type ExperienceItemProps = {
   item: Experience;
 };
 
-export const ExperienceItem = memo(({ item }: ExperienceItemProps) => {
+export const ExperienceItem = ({ item }: ExperienceItemProps) => {
   const containerRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 
-  const toggleOpen = contextSafe(() => {
-    const nextState = !isOpen;
-    setIsOpen(nextState);
+  const toggleOpen = contextSafe(
+    (e?: React.MouseEvent | React.KeyboardEvent) => {
+      e?.preventDefault();
+      const nextState = !isOpen;
+      setIsOpen(nextState);
 
-    if (nextState) {
-      gsap.to(contentRef.current, {
-        height: "auto",
-        duration: 0.3,
-        ease: "power2.out",
-      });
-      gsap.to(contentRef.current, {
-        opacity: 1,
-        duration: 0.2,
-        delay: 0.1,
-      });
-    } else {
-      gsap.to(contentRef.current, {
-        height: 0,
-        duration: 0.25,
-        ease: "power2.in",
-      });
-      gsap.to(contentRef.current, {
-        opacity: 0,
-        duration: 0.15,
-      });
+      if (nextState) {
+        // Store the currently focused element before expanding
+        previousFocusRef.current = document.activeElement as HTMLElement;
+
+        // Ensure focus is on the button when expanding
+        containerRef.current?.focus();
+
+        if (prefersReducedMotion) {
+          // Skip animation, set state immediately
+          if (contentRef.current) {
+            contentRef.current.style.height = "auto";
+            contentRef.current.style.opacity = "1";
+          }
+        } else {
+          gsap.to(contentRef.current, {
+            height: "auto",
+            duration: 0.3,
+            ease: "power2.out",
+          });
+          gsap.to(contentRef.current, {
+            opacity: 1,
+            duration: 0.2,
+            delay: 0.1,
+          });
+        }
+      } else if (prefersReducedMotion) {
+        // Skip animation, set state immediately and restore focus
+        if (contentRef.current) {
+          contentRef.current.style.height = "0";
+          contentRef.current.style.opacity = "0";
+        }
+        // Restore focus to the previously focused element when collapsing
+        if (
+          previousFocusRef.current &&
+          typeof previousFocusRef.current.focus === "function"
+        ) {
+          previousFocusRef.current.focus();
+        }
+      } else {
+        gsap.to(contentRef.current, {
+          height: 0,
+          duration: 0.25,
+          ease: "power2.in",
+        });
+        gsap.to(contentRef.current, {
+          opacity: 0,
+          duration: 0.15,
+          onComplete: () => {
+            // Restore focus to the previously focused element when collapsing
+            if (
+              previousFocusRef.current &&
+              typeof previousFocusRef.current.focus === "function"
+            ) {
+              previousFocusRef.current.focus();
+            }
+          },
+        });
+      }
     }
-  });
+  );
 
   const hasPoints = item.points.length > 0;
+
+  // Generate unique IDs for ARIA attributes - memoized for stability
+  const { headingId, contentId } = useMemo(
+    () => ({
+      headingId: `experience-heading-${item.id}`,
+      contentId: `experience-content-${item.id}`,
+    }),
+    [item.id]
+  );
 
   const content = (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -61,7 +112,9 @@ export const ExperienceItem = memo(({ item }: ExperienceItemProps) => {
           width={56}
         />
         <div>
-          <h3 className="font-bold text-base">{item.name}</h3>
+          <h3 className="font-bold text-base" id={headingId}>
+            {item.name}
+          </h3>
           <p className="font-medium text-muted-foreground text-sm">
             {item.pos}
           </p>
@@ -98,15 +151,29 @@ export const ExperienceItem = memo(({ item }: ExperienceItemProps) => {
       thickness={8}
     >
       <button
+        aria-controls={contentId}
+        aria-expanded={isOpen}
+        aria-labelledby={headingId}
         className="group block w-full cursor-pointer p-4 text-left transition-transform hover:scale-[1.005]"
-        onClick={toggleOpen}
+        onClick={(e) => toggleOpen(e)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggleOpen(e);
+          } else if (e.key === "Escape" && isOpen) {
+            e.stopPropagation();
+            toggleOpen(e);
+          }
+        }}
         ref={containerRef}
+        tabIndex={0}
         type="button"
       >
         {content}
 
         <div
           className="h-0 overflow-hidden opacity-0"
+          id={contentId}
           ref={contentRef}
           style={{ willChange: "height, opacity" }}
         >
@@ -130,4 +197,4 @@ export const ExperienceItem = memo(({ item }: ExperienceItemProps) => {
       </button>
     </Card3D>
   );
-});
+};
