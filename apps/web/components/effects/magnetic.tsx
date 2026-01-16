@@ -4,7 +4,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { type ReactElement, useRef } from "react";
+import { type ReactElement, useCallback, useRef } from "react";
 
 type MagneticProps = {
   children: ReactElement;
@@ -33,27 +33,33 @@ export function Magnetic({ children, strength = 0.35 }: MagneticProps) {
     { scope: ref }
   );
 
-  const handleMouseMove = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
-    const { clientX, clientY } = e;
-    const { height, width, left, top } =
-      ref.current?.getBoundingClientRect() || {
-        height: 0,
-        width: 0,
-        left: 0,
-        top: 0,
-      };
+  const handleMouseMove = useCallback(
+    contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
+      const { clientX, clientY } = e;
+      const { height, width, left, top } =
+        ref.current?.getBoundingClientRect() || {
+          height: 0,
+          width: 0,
+          left: 0,
+          top: 0,
+        };
 
-    const middleX = clientX - (left + width / 2);
-    const middleY = clientY - (top + height / 2);
+      const middleX = clientX - (left + width / 2);
+      const middleY = clientY - (top + height / 2);
 
-    moveX.current?.(middleX * strength);
-    moveY.current?.(middleY * strength);
-  });
+      moveX.current?.(middleX * strength);
+      moveY.current?.(middleY * strength);
+    }),
+    [contextSafe, strength]
+  );
 
-  const handleMouseLeave = contextSafe(() => {
-    moveX.current?.(0);
-    moveY.current?.(0);
-  });
+  const handleMouseLeave = useCallback(
+    contextSafe(() => {
+      moveX.current?.(0);
+      moveY.current?.(0);
+    }),
+    [contextSafe]
+  );
 
   return (
     <div

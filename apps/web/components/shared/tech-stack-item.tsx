@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { Card3D } from "@/components/effects/card-3d";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import type { TECH_STACK } from "@/lib/constants/tech-stack";
@@ -10,7 +11,7 @@ type TechStackItemProps = {
   small?: boolean;
 };
 
-export const TechStackItem = ({ stack, small = false }: TechStackItemProps) => {
+export const TechStackItem = memo(({ stack, small = false }: TechStackItemProps) => {
   return (
     <Card3D
       className={cn(
@@ -53,4 +54,4 @@ export const TechStackItem = ({ stack, small = false }: TechStackItemProps) => {
       </div>
     </Card3D>
   );
-};
+});

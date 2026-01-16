@@ -1,5 +1,5 @@
 import type Link from "next/link";
-import { type ComponentProps, type ReactNode, useRef } from "react";
+import { type ComponentProps, type ReactNode, useCallback, useRef } from "react";
 import { ShiftText, useShiftAnimation } from "@/components/effects/shift-text";
 import { ScrollLink } from "@/components/shared/scroll-link";
 import { cn } from "@/lib/utils";
@@ -19,7 +19,11 @@ export const ShiftButton = ({
   ...props
 }: ShiftButtonProps) => {
   const containerRef = useRef<HTMLAnchorElement>(null);
-  const { animateIn, animateOut } = useShiftAnimation(containerRef);
+  const { animateIn: rawAnimateIn, animateOut: rawAnimateOut } =
+    useShiftAnimation(containerRef);
+
+  const animateIn = useCallback(rawAnimateIn, [rawAnimateIn]);
+  const animateOut = useCallback(rawAnimateOut, [rawAnimateOut]);
 
   const baseStyles =
     "relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-4 py-2 font-bold text-sm transition-transform hover:scale-105";

@@ -3,7 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type React from "react";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
 
 type ShiftTextProps = {
@@ -68,35 +68,41 @@ export const useShiftAnimation = (
 ) => {
   const { contextSafe } = useGSAP({ scope });
 
-  const animateIn = contextSafe(() => {
-    gsap.to(".shift-char-primary", {
-      y: "-120%",
-      duration: 0.2,
-      stagger: 0.01,
-      ease: "power2.inOut",
-    });
-    gsap.to(".shift-char-secondary", {
-      y: "-120%",
-      duration: 0.2,
-      stagger: 0.01,
-      ease: "power2.inOut",
-    });
-  });
+  const animateIn = useCallback(
+    contextSafe(() => {
+      gsap.to(".shift-char-primary", {
+        y: "-120%",
+        duration: 0.2,
+        stagger: 0.01,
+        ease: "power2.inOut",
+      });
+      gsap.to(".shift-char-secondary", {
+        y: "-120%",
+        duration: 0.2,
+        stagger: 0.01,
+        ease: "power2.inOut",
+      });
+    }),
+    [contextSafe]
+  );
 
-  const animateOut = contextSafe(() => {
-    gsap.to(".shift-char-primary", {
-      y: "0%",
-      duration: 0.2,
-      stagger: 0.01,
-      ease: "power2.inOut",
-    });
-    gsap.to(".shift-char-secondary", {
-      y: "120%",
-      duration: 0.2,
-      stagger: 0.01,
-      ease: "power2.inOut",
-    });
-  });
+  const animateOut = useCallback(
+    contextSafe(() => {
+      gsap.to(".shift-char-primary", {
+        y: "0%",
+        duration: 0.2,
+        stagger: 0.01,
+        ease: "power2.inOut",
+      });
+      gsap.to(".shift-char-secondary", {
+        y: "120%",
+        duration: 0.2,
+        stagger: 0.01,
+        ease: "power2.inOut",
+      });
+    }),
+    [contextSafe]
+  );
 
   return { animateIn, animateOut };
 };
