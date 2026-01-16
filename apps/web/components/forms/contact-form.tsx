@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { sendEmailAction } from "@/lib/actions/email.actions";
 import { useDeferredRecaptcha } from "@/lib/hooks/use-deferred-recaptcha";
@@ -28,7 +29,6 @@ export const ContactForm = () => {
   const [isPending, startTransition] = useTransition();
   const [showSuccess, setShowSuccess] = useState(false);
   const [senderName, setSenderName] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { loadRecaptcha, executeRecaptcha, isRecaptchaReady } =
     useDeferredRecaptcha({});
@@ -50,11 +50,9 @@ export const ContactForm = () => {
   });
 
   async function onSubmit(values: ContactFormValues) {
-    setIsSubmitting(true);
     if (!isRecaptchaReady) {
       toast.error("Security verification loading...");
       loadRecaptcha();
-      setIsSubmitting(false);
       return;
     }
 
@@ -63,7 +61,6 @@ export const ContactForm = () => {
 
       if (!token) {
         toast.error("ReCAPTCHA verification failed");
-        setIsSubmitting(false);
         return;
       }
 
@@ -80,18 +77,26 @@ export const ContactForm = () => {
           setShowSuccess(true);
           form.reset();
         }
-        setIsSubmitting(false);
       });
     } catch (error) {
       toast.error("An error occurred during verification");
       logger.error(error);
-      setIsSubmitting(false);
     }
   }
 
   const handleCloseSuccess = () => {
     setShowSuccess(false);
     setSenderName("");
+  };
+
+  const getProgressColor = (percentage: number) => {
+    if (percentage >= 90) {
+      return "bg-destructive";
+    }
+    if (percentage >= 70) {
+      return "bg-yellow-500";
+    }
+    return "bg-primary";
   };
 
   return (
@@ -116,7 +121,7 @@ export const ContactForm = () => {
                   <FormControl>
                     <Input
                       className="bg-card"
-                      disabled={isPending || isSubmitting}
+                      disabled={isPending}
                       placeholder="John Doe"
                       {...field}
                     />
@@ -137,7 +142,7 @@ export const ContactForm = () => {
                   <FormControl>
                     <Input
                       className="bg-card"
-                      disabled={isPending || isSubmitting}
+                      disabled={isPending}
                       placeholder="johndoe@gmail.com"
                       {...field}
                     />
@@ -159,7 +164,7 @@ export const ContactForm = () => {
                 <FormControl>
                   <Input
                     className="bg-card"
-                    disabled={isPending || isSubmitting}
+                    disabled={isPending}
                     placeholder="Project Inquiry"
                     {...field}
                   />
@@ -171,34 +176,47 @@ export const ContactForm = () => {
           <FormField
             control={form.control}
             name="message"
-            render={({ field }) => (
-              <FormItem id="contact-message">
-                <FormLabel className="mb-2 block font-medium text-sm">
-                  Message
-                </FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Textarea
-                      className="bg-card"
-                      disabled={isPending || isSubmitting}
-                      placeholder="Hello! I want to give you a job..."
-                      rows={8}
-                      {...field}
-                    />
-                    <div className="mt-1 text-right text-muted-foreground text-xs">
-                      {field.value?.length || 0} / 1000
+            render={({ field }) => {
+              const messageLength = field.value?.length || 0;
+              const maxMessageLength = 1000;
+              const percentage = (messageLength / maxMessageLength) * 100;
+
+              return (
+                <FormItem id="contact-message">
+                  <FormLabel className="mb-2 block font-medium text-sm">
+                    Message
+                  </FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <Textarea
+                        className="bg-card"
+                        disabled={isPending}
+                        placeholder="Hello! I want to give you a job..."
+                        rows={8}
+                        {...field}
+                      />
+                      <div className="mt-2 space-y-1">
+                        <div className="flex items-center justify-between">
+                          <Progress
+                            className="mr-2 flex-1"
+                            fillClassName={getProgressColor(percentage)}
+                            max={maxMessageLength}
+                            value={messageLength}
+                          />
+                          <span className="shrink-0 text-right text-muted-foreground text-xs">
+                            {messageLength} / {maxMessageLength}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
 
-          <ShiftSubmitButton
-            isLoading={isPending || isSubmitting}
-            type="submit"
-          >
+          <ShiftSubmitButton isLoading={isPending} type="submit">
             Submit
           </ShiftSubmitButton>
 
