@@ -157,11 +157,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         className="group block w-full cursor-pointer p-4 text-left transition-transform hover:scale-[1.005]"
         onClick={(e) => toggleOpen(e)}
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleOpen(e);
-          } else if (e.key === "Escape" && isOpen) {
-            e.stopPropagation();
+          if (e.key === "Escape" && isOpen) {
             toggleOpen(e);
           }
         }}
