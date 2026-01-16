@@ -2,8 +2,9 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { CheckCircle2 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { CheckCircle2, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { SuccessConfetti } from "@/components/effects/success-confetti";
 
 type FormSuccessModalProps = {
@@ -21,6 +22,7 @@ export const FormSuccessModal = ({
   const overlayRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
+  const [countdown, setCountdown] = useState(4);
 
   useGSAP(
     () => {
@@ -77,6 +79,30 @@ export const FormSuccessModal = ({
     },
     { scope: containerRef, dependencies: [isOpen] }
   );
+
+  // Countdown timer
+  // biome-ignore lint/correctness/useExhaustiveDependencies: We want to reset the countdown only when isOpen changes to true
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    setCountdown(4);
+
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isOpen]);
 
   // Auto-dismiss after 4 seconds
   // biome-ignore lint/correctness/useExhaustiveDependencies: We want to set the timeout only when isOpen changes to true
@@ -165,6 +191,18 @@ export const FormSuccessModal = ({
           ref={contentRef}
           role="dialog"
         >
+          {/* Close Button */}
+          <div className="absolute right-4 top-4">
+            <Button
+              aria-label="Close modal"
+              onClick={handleClose}
+              size="icon"
+              variant="ghost"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+
           {/* Animated Icon */}
           <div className="mb-6 flex justify-center" ref={iconRef}>
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-green-500/20">
@@ -190,7 +228,7 @@ export const FormSuccessModal = ({
 
           {/* Auto-dismiss indicator */}
           <div className="success-text mt-6 text-center text-muted-foreground text-xs">
-            This will close automatically...
+            Auto-closing in {countdown}s...
           </div>
         </div>
       </div>
