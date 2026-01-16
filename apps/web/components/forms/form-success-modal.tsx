@@ -4,8 +4,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { CheckCircle2, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { SuccessConfetti } from "@/components/effects/success-confetti";
+import { Button } from "@/components/ui/button";
 
 type FormSuccessModalProps = {
   isOpen: boolean;
@@ -81,7 +81,7 @@ export const FormSuccessModal = ({
   );
 
   // Countdown timer
-  // biome-ignore lint/correctness/useExhaustiveDependencies: We want to reset the countdown only when isOpen changes to true
+
   useEffect(() => {
     if (!isOpen) {
       return;
@@ -192,7 +192,7 @@ export const FormSuccessModal = ({
           role="dialog"
         >
           {/* Close Button */}
-          <div className="absolute right-4 top-4">
+          <div className="absolute top-4 right-4">
             <Button
               aria-label="Close modal"
               onClick={handleClose}
