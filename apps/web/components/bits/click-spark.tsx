@@ -2,6 +2,8 @@
 
 import type React from "react";
 import { useCallback, useEffect, useRef } from "react";
+import { useAnimationFrame } from "@/lib/hooks/use-animation-frame";
+import { useCanvasResize } from "@/lib/hooks/use-canvas-resize";
 import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
@@ -37,46 +39,10 @@ export const ClickSpark = ({
 }: ClickSparkProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sparksRef = useRef<Spark[]>([]);
-  const startTimeRef = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      return;
-    }
-
-    const parent = canvas.parentElement;
-    if (!parent) {
-      return;
-    }
-
-    let resizeTimeout: NodeJS.Timeout;
-
-    const resizeCanvas = () => {
-      const { width, height } = parent.getBoundingClientRect();
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width;
-        canvas.height = height;
-      }
-    };
-
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(resizeCanvas, 100);
-    };
-
-    const ro = new ResizeObserver(handleResize);
-    ro.observe(parent);
-
-    resizeCanvas();
-
-    return () => {
-      ro.disconnect();
-      clearTimeout(resizeTimeout);
-    };
-  }, []);
+  useCanvasResize(canvasRef, 100);
 
   const easeFunc = useCallback(
     (t: number) => {
@@ -94,23 +60,18 @@ export const ClickSpark = ({
     [easing]
   );
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      return;
-    }
-    const ctx = canvas.getContext("2d");
-    if (!ctx) {
-      return;
-    }
-
-    let animationId: number;
-
-    const draw = (timestamp: number) => {
-      if (!startTimeRef.current) {
-        startTimeRef.current = timestamp;
+  const draw = useCallback(
+    (timestamp: number) => {
+      const canvas = canvasRef.current;
+      if (!canvas) {
+        return;
       }
-      ctx?.clearRect(0, 0, canvas.width, canvas.height);
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        return;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       sparksRef.current = sparksRef.current.filter((spark: Spark) => {
         const elapsed = timestamp - spark.startTime;
@@ -138,16 +99,11 @@ export const ClickSpark = ({
 
         return true;
       });
+    },
+    [sparkColor, sparkSize, sparkRadius, duration, easeFunc, extraScale]
+  );
 
-      animationId = requestAnimationFrame(draw);
-    };
-
-    animationId = requestAnimationFrame(draw);
-
-    return () => {
-      cancelAnimationFrame(animationId);
-    };
-  }, [sparkColor, sparkSize, sparkRadius, duration, easeFunc, extraScale]);
+  useAnimationFrame(draw, { respectReducedMotion: false });
 
   const handleClick = useCallback(
     (e: globalThis.MouseEvent) => {
