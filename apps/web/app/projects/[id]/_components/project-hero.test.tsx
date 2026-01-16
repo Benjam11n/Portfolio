@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { ProjectHero } from "./project-hero";
 
 // Mock GSAP
 vi.mock("@gsap/react", () => ({
@@ -15,6 +14,21 @@ vi.mock("gsap", () => ({
     }),
   },
 }));
+
+// Mock new hooks for CharacterReveal component compatibility
+vi.mock("@/lib/hooks/use-character-reveal", () => ({
+  useCharacterReveal: () => ({
+    setInitialState: vi.fn(),
+    animateIn: vi.fn(),
+    animateOut: vi.fn(),
+  }),
+}));
+
+vi.mock("@/lib/hooks/use-prefers-reduced-motion", () => ({
+  usePrefersReducedMotion: () => false,
+}));
+
+import { ProjectHero } from "./project-hero";
 
 const mockProject = {
   id: "test-project",
