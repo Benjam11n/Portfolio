@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ROUTES } from "@/lib/constants/navigation";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
+import { useMobileDetection } from "@/lib/hooks/use-mobile-detection";
 import type { Project } from "@/lib/types";
 import { Magnetic } from "../effects/magnetic";
 import { BorderedImage } from "./bordered-image";
@@ -20,12 +21,14 @@ type ProjectCardProps = {
 };
 
 export const ProjectCard = memo(({ project }: ProjectCardProps) => {
+  const isMobile = useMobileDetection();
+
   return (
     <Card3D
       className="p-2 shadow-sm sm:p-3"
-      glare
+      glare={!isMobile}
       parallaxIntensity={0}
-      rotationIntensity={5}
+      rotationIntensity={isMobile ? 0 : 5}
       thickness={10}
     >
       <Link
