@@ -1,14 +1,15 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { EffectComposer, wrapEffect } from "@react-three/postprocessing";
+import { Canvas, useThree } from "@react-three/fiber";
+import { EffectComposer } from "@react-three/postprocessing";
 import gsap from "gsap";
-import { Effect } from "postprocessing";
-import { forwardRef, useEffect, useRef } from "react";
-import { Color, type Mesh, Uniform, Vector2 } from "three";
-import { useElementVisibility } from "@/lib/hooks/use-element-visibility";
+import { useEffect, useRef } from "react";
+import type { Mesh } from "three";
+import { useMouseInteraction } from "@/lib/hooks/use-mouse-interaction";
 import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
+import { RetroEffect } from "@/lib/hooks/use-retro-effect";
+import { useWaveParams } from "@/lib/hooks/use-wave-params";
 
 const waveVertexShader = `
 precision highp float;
@@ -101,111 +102,6 @@ void main() {
 }
 `;
 
-const ditherFragmentShader = `
-precision highp float;
-uniform float colorNum;
-uniform float pixelSize;
-const float bayerMatrix8x8[64] = float[64](
-  0.0/64.0, 48.0/64.0, 12.0/64.0, 60.0/64.0,  3.0/64.0, 51.0/64.0, 15.0/64.0, 63.0/64.0,
-  32.0/64.0,16.0/64.0, 44.0/64.0, 28.0/64.0, 35.0/64.0,19.0/64.0, 47.0/64.0, 31.0/64.0,
-  8.0/64.0, 56.0/64.0,  4.0/64.0, 52.0/64.0, 11.0/64.0,59.0/64.0,  7.0/64.0, 55.0/64.0,
-  40.0/64.0,24.0/64.0, 36.0/64.0, 20.0/64.0, 43.0/64.0,27.0/64.0, 39.0/64.0, 23.0/64.0,
-  2.0/64.0, 50.0/64.0, 14.0/64.0, 62.0/64.0,  1.0/64.0,49.0/64.0, 13.0/64.0, 61.0/64.0,
-  34.0/64.0,18.0/64.0, 46.0/64.0, 30.0/64.0, 33.0/64.0,17.0/64.0, 45.0/64.0, 29.0/64.0,
-  10.0/64.0,58.0/64.0,  6.0/64.0, 54.0/64.0,  9.0/64.0,57.0/64.0,  5.0/64.0, 53.0/64.0,
-  42.0/64.0,26.0/64.0, 38.0/64.0, 22.0/64.0, 41.0/64.0,25.0/64.0, 37.0/64.0, 21.0/64.0
-);
-
-vec3 dither(vec2 uv, vec3 color) {
-  vec2 scaledCoord = floor(uv * resolution / pixelSize);
-  int x = int(mod(scaledCoord.x, 8.0));
-  int y = int(mod(scaledCoord.y, 8.0));
-  float threshold = bayerMatrix8x8[y * 8 + x] - 0.25;
-  float step = 1.0 / (colorNum - 1.0);
-  color += threshold * step;
-  float bias = 0.2;
-  color = clamp(color - bias, 0.0, 1.0);
-  return floor(color * (colorNum - 1.0) + 0.5) / (colorNum - 1.0);
-}
-
-void mainImage(in vec4 inputColor, in vec2 uv, out vec4 outputColor) {
-  vec2 normalizedPixelSize = pixelSize / resolution;
-  vec2 uvPixel = normalizedPixelSize * floor(uv / normalizedPixelSize);
-  vec4 color = texture2D(inputBuffer, uvPixel);
-  color.rgb = dither(uv, color.rgb);
-  outputColor = color;
-}
-`;
-
-class RetroEffectImpl extends Effect {
-  uniforms: Map<string, Uniform<number>>;
-  constructor() {
-    const uniforms = new Map<string, Uniform<number>>([
-      ["colorNum", new Uniform(4.0)],
-      ["pixelSize", new Uniform(2.0)],
-    ]);
-    super("RetroEffect", ditherFragmentShader, { uniforms });
-    this.uniforms = uniforms;
-  }
-
-  get colorNum(): number {
-    const uniform = this.uniforms.get("colorNum");
-    if (uniform) {
-      return uniform.value;
-    }
-    return 4.0;
-  }
-
-  set colorNum(value: number) {
-    const uniform = this.uniforms.get("colorNum");
-    if (uniform) {
-      uniform.value = value;
-    }
-  }
-
-  get pixelSize(): number {
-    const uniform = this.uniforms.get("pixelSize");
-    if (uniform) {
-      return uniform.value;
-    }
-    return 2.0;
-  }
-
-  set pixelSize(value: number) {
-    const uniform = this.uniforms.get("pixelSize");
-    if (uniform) {
-      uniform.value = value;
-    }
-  }
-}
-
-const RetroEffect = forwardRef<
-  RetroEffectImpl,
-  { colorNum: number; pixelSize: number }
->((props, ref) => {
-  const { colorNum, pixelSize } = props;
-  const WrappedRetroEffect = wrapEffect(RetroEffectImpl);
-  return (
-    <WrappedRetroEffect colorNum={colorNum} pixelSize={pixelSize} ref={ref} />
-  );
-});
-
-RetroEffect.displayName = "RetroEffect";
-
-type WaveUniforms = {
-  // biome-ignore lint/suspicious/noExplicitAny: Three.js uniforms can be any type
-  [key: string]: Uniform<any>;
-  time: Uniform<number>;
-  resolution: Uniform<Vector2>;
-  waveSpeed: Uniform<number>;
-  waveFrequency: Uniform<number>;
-  waveAmplitude: Uniform<number>;
-  waveColor: Uniform<Color>;
-  mousePos: Uniform<Vector2>;
-  enableMouseInteraction: Uniform<number>;
-  mouseRadius: Uniform<number>;
-};
-
 type DitheredWavesProps = {
   waveSpeed: number;
   waveFrequency: number;
@@ -216,7 +112,6 @@ type DitheredWavesProps = {
   disableAnimation: boolean;
   enableMouseInteraction: boolean;
   mouseRadius: number;
-  isVisible: boolean;
 };
 
 function DitheredWaves({
@@ -229,83 +124,35 @@ function DitheredWaves({
   disableAnimation,
   enableMouseInteraction,
   mouseRadius,
-  isVisible,
 }: DitheredWavesProps) {
   const mesh = useRef<Mesh>(null);
-  const mouseRef = useRef(new Vector2());
   const { viewport, size, gl } = useThree();
 
-  const waveUniformsRef = useRef<WaveUniforms>({
-    time: new Uniform(0),
-    resolution: new Uniform(new Vector2(0, 0)),
-    waveSpeed: new Uniform(waveSpeed),
-    waveFrequency: new Uniform(waveFrequency),
-    waveAmplitude: new Uniform(waveAmplitude),
-    waveColor: new Uniform(new Color(...waveColor)),
-    mousePos: new Uniform(new Vector2(0, 0)),
-    enableMouseInteraction: new Uniform(enableMouseInteraction ? 1 : 0),
-    mouseRadius: new Uniform(mouseRadius),
+  const { mousePos } = useMouseInteraction({
+    enabled: enableMouseInteraction,
+    gl,
+  });
+
+  const { waveUniforms } = useWaveParams({
+    waveSpeed,
+    waveFrequency,
+    waveAmplitude,
+    waveColor,
+    enableMouseInteraction,
+    mouseRadius,
+    disableAnimation,
+    mousePos,
   });
 
   useEffect(() => {
     const dpr = gl.getPixelRatio();
     const newWidth = Math.floor(size.width * dpr);
     const newHeight = Math.floor(size.height * dpr);
-    const currentRes = waveUniformsRef.current.resolution.value;
+    const currentRes = waveUniforms.current.resolution.value;
     if (currentRes.x !== newWidth || currentRes.y !== newHeight) {
       currentRes.set(newWidth, newHeight);
     }
-  }, [size, gl]);
-
-  const prevColor = useRef([...waveColor]);
-  useFrame(({ clock }) => {
-    const u = waveUniformsRef.current;
-
-    if (!disableAnimation && isVisible) {
-      u.time.value = clock.getElapsedTime();
-    }
-
-    if (u.waveSpeed.value !== waveSpeed) {
-      u.waveSpeed.value = waveSpeed;
-    }
-    if (u.waveFrequency.value !== waveFrequency) {
-      u.waveFrequency.value = waveFrequency;
-    }
-    if (u.waveAmplitude.value !== waveAmplitude) {
-      u.waveAmplitude.value = waveAmplitude;
-    }
-
-    if (!prevColor.current.every((v, i) => v === waveColor[i])) {
-      u.waveColor.value.set(...waveColor);
-      prevColor.current = [...waveColor];
-    }
-
-    u.enableMouseInteraction.value = enableMouseInteraction ? 1 : 0;
-    u.mouseRadius.value = mouseRadius;
-
-    if (enableMouseInteraction) {
-      u.mousePos.value.copy(mouseRef.current);
-    }
-  });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!enableMouseInteraction) {
-        return;
-      }
-      const rect = gl.domElement.getBoundingClientRect();
-      const dpr = gl.getPixelRatio();
-      mouseRef.current.set(
-        (e.clientX - rect.left) * dpr,
-        (e.clientY - rect.top) * dpr
-      );
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [enableMouseInteraction, gl]);
+  }, [size, gl, waveUniforms]);
 
   return (
     <>
@@ -313,7 +160,7 @@ function DitheredWaves({
         <planeGeometry args={[1, 1]} />
         <shaderMaterial
           fragmentShader={waveFragmentShader}
-          uniforms={waveUniformsRef.current}
+          uniforms={waveUniforms.current}
           vertexShader={waveVertexShader}
         />
       </mesh>
@@ -350,7 +197,6 @@ export function Dither({
 }: DitherProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const isVisible = useElementVisibility(containerRef);
 
   // Respect user's motion preference
   const shouldDisableAnimation = disableAnimation || prefersReducedMotion;
@@ -393,7 +239,6 @@ export function Dither({
           colorNum={colorNum}
           disableAnimation={shouldDisableAnimation}
           enableMouseInteraction={enableMouseInteraction}
-          isVisible={isVisible}
           mouseRadius={mouseRadius}
           pixelSize={pixelSize}
           waveAmplitude={waveAmplitude}
