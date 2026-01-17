@@ -1,4 +1,6 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import type { MockButtonProps } from "@repo/testing/test-types";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { sendEmailAction } from "@/lib/actions/email.actions";
@@ -32,7 +34,12 @@ vi.mock("sonner", () => ({
 
 // Mock ShiftSubmitButton since it might use animation libs not friendly to jsdom
 vi.mock("@/components/shared/shift-submit-button", () => ({
-  ShiftSubmitButton: ({ children, onClick, type, isLoading }: any) => (
+  ShiftSubmitButton: ({
+    children,
+    onClick,
+    type,
+    isLoading,
+  }: MockButtonProps) => (
     <button
       data-testid="submit-button"
       disabled={isLoading}
@@ -60,10 +67,11 @@ describe("ContactForm", () => {
   });
 
   it("validates empty fields", async () => {
+    const user = userEvent.setup();
     render(<ContactForm />);
     const submitButton = screen.getByTestId("submit-button");
 
-    fireEvent.click(submitButton);
+    await user.click(submitButton);
 
     await waitFor(() => {
       // Logic from Zod schema messages (assumed default or custom messages)
@@ -74,6 +82,7 @@ describe("ContactForm", () => {
   });
 
   it("submits successfully with valid data", async () => {
+    const user = userEvent.setup();
     // Setup successful mock response
     vi.mocked(sendEmailAction).mockResolvedValue({
       success: true,
@@ -82,21 +91,16 @@ describe("ContactForm", () => {
 
     render(<ContactForm />);
 
-    fireEvent.change(screen.getByLabelText(NAME_REGEX), {
-      target: { value: "John Doe" },
-    });
-    fireEvent.change(screen.getByLabelText(EMAIL_REGEX), {
-      target: { value: "john@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText(SUBJECT_REGEX), {
-      target: { value: "Test Subject" },
-    });
-    fireEvent.change(screen.getByPlaceholderText(HELLO_REGEX), {
-      target: { value: "This is a test message with enough length." },
-    });
+    await user.type(screen.getByLabelText(NAME_REGEX), "John Doe");
+    await user.type(screen.getByLabelText(EMAIL_REGEX), "john@example.com");
+    await user.type(screen.getByLabelText(SUBJECT_REGEX), "Test Subject");
+    await user.type(
+      screen.getByPlaceholderText(HELLO_REGEX),
+      "This is a test message with enough length."
+    );
 
     const submitButton = screen.getByTestId("submit-button");
-    fireEvent.click(submitButton);
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(sendEmailAction).toHaveBeenCalledWith({
@@ -110,27 +114,20 @@ describe("ContactForm", () => {
   });
 
   it("handles server error properly", async () => {
+    const user = userEvent.setup();
     vi.mocked(sendEmailAction).mockResolvedValue({
       error: "Server Error",
     });
 
     render(<ContactForm />);
 
-    fireEvent.change(screen.getByLabelText(NAME_REGEX), {
-      target: { value: "John Doe" },
-    });
-    fireEvent.change(screen.getByLabelText(EMAIL_REGEX), {
-      target: { value: "john@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText(SUBJECT_REGEX), {
-      target: { value: "Test Subject" },
-    });
-    fireEvent.change(screen.getByPlaceholderText(HELLO_REGEX), {
-      target: { value: "Test Message" },
-    });
+    await user.type(screen.getByLabelText(NAME_REGEX), "John Doe");
+    await user.type(screen.getByLabelText(EMAIL_REGEX), "john@example.com");
+    await user.type(screen.getByLabelText(SUBJECT_REGEX), "Test Subject");
+    await user.type(screen.getByPlaceholderText(HELLO_REGEX), "Test Message");
 
     const submitButton = screen.getByTestId("submit-button");
-    fireEvent.click(submitButton);
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith(
@@ -140,23 +137,16 @@ describe("ContactForm", () => {
     });
   });
   it("shows validation error for invalid email", async () => {
+    const user = userEvent.setup();
     render(<ContactForm />);
 
-    fireEvent.change(screen.getByLabelText(NAME_REGEX), {
-      target: { value: "John Doe" },
-    });
-    fireEvent.change(screen.getByLabelText(EMAIL_REGEX), {
-      target: { value: "invalid-email" }, // Invalid email
-    });
-    fireEvent.change(screen.getByLabelText(SUBJECT_REGEX), {
-      target: { value: "Test Subject" },
-    });
-    fireEvent.change(screen.getByPlaceholderText(HELLO_REGEX), {
-      target: { value: "Test Message" },
-    });
+    await user.type(screen.getByLabelText(NAME_REGEX), "John Doe");
+    await user.type(screen.getByLabelText(EMAIL_REGEX), "invalid-email");
+    await user.type(screen.getByLabelText(SUBJECT_REGEX), "Test Subject");
+    await user.type(screen.getByPlaceholderText(HELLO_REGEX), "Test Message");
 
     const submitButton = screen.getByTestId("submit-button");
-    fireEvent.click(submitButton);
+    await user.click(submitButton);
 
     // Expect email validation error (checking for standard HTML5 validation or Zod message)
     // Assuming Zod resolver prevents submission
@@ -166,6 +156,7 @@ describe("ContactForm", () => {
   });
 
   it("handles recaptcha execution failure gracefully", async () => {
+    const user = userEvent.setup();
     // Mock recaptcha failure (return null token)
     vi.mocked(useDeferredRecaptcha).mockImplementation(() => ({
       loadRecaptcha: vi.fn(),
@@ -176,21 +167,13 @@ describe("ContactForm", () => {
 
     render(<ContactForm />);
 
-    fireEvent.change(screen.getByLabelText(NAME_REGEX), {
-      target: { value: "John Doe" },
-    });
-    fireEvent.change(screen.getByLabelText(EMAIL_REGEX), {
-      target: { value: "john@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText(SUBJECT_REGEX), {
-      target: { value: "Test Subject" },
-    });
-    fireEvent.change(screen.getByPlaceholderText(HELLO_REGEX), {
-      target: { value: "Test Message" },
-    });
+    await user.type(screen.getByLabelText(NAME_REGEX), "John Doe");
+    await user.type(screen.getByLabelText(EMAIL_REGEX), "john@example.com");
+    await user.type(screen.getByLabelText(SUBJECT_REGEX), "Test Subject");
+    await user.type(screen.getByPlaceholderText(HELLO_REGEX), "Test Message");
 
     const submitButton = screen.getByTestId("submit-button");
-    fireEvent.click(submitButton);
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith("ReCAPTCHA verification failed");
@@ -199,6 +182,7 @@ describe("ContactForm", () => {
   });
 
   it("handles unexpected error during verification", async () => {
+    const user = userEvent.setup();
     // Mock verification error
     vi.mocked(useDeferredRecaptcha).mockImplementation(() => ({
       loadRecaptcha: vi.fn(),
@@ -211,21 +195,13 @@ describe("ContactForm", () => {
 
     render(<ContactForm />);
 
-    fireEvent.change(screen.getByLabelText(NAME_REGEX), {
-      target: { value: "John Doe" },
-    });
-    fireEvent.change(screen.getByLabelText(EMAIL_REGEX), {
-      target: { value: "john@example.com" },
-    });
-    fireEvent.change(screen.getByLabelText(SUBJECT_REGEX), {
-      target: { value: "Test Subject" },
-    });
-    fireEvent.change(screen.getByPlaceholderText(HELLO_REGEX), {
-      target: { value: "Test Message" },
-    });
+    await user.type(screen.getByLabelText(NAME_REGEX), "John Doe");
+    await user.type(screen.getByLabelText(EMAIL_REGEX), "john@example.com");
+    await user.type(screen.getByLabelText(SUBJECT_REGEX), "Test Subject");
+    await user.type(screen.getByPlaceholderText(HELLO_REGEX), "Test Message");
 
     const submitButton = screen.getByTestId("submit-button");
-    fireEvent.click(submitButton);
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith(
@@ -248,63 +224,60 @@ describe("ContactForm", () => {
       expect(screen.getByText("0 / 1000")).toBeDefined();
     });
 
-    it("updates progress and counter when typing in message field", () => {
+    it("updates progress and counter when typing in message field", async () => {
+      const user = userEvent.setup();
       render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
       // Type 50 characters
-      fireEvent.change(messageTextarea, {
-        target: { value: "a".repeat(50) },
-      });
+      await user.type(messageTextarea, "a".repeat(50));
 
       const progress = screen.getByRole("progressbar");
       expect(progress.getAttribute("aria-valuenow")).toBe("50");
       expect(screen.getByText("50 / 1000")).toBeDefined();
     });
 
-    it("shows green color for low character count", () => {
+    it("shows green color for low character count", async () => {
+      const user = userEvent.setup();
       render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
       // Type 500 characters (50%)
-      fireEvent.change(messageTextarea, {
-        target: { value: "a".repeat(500) },
-      });
+      await user.type(messageTextarea, "a".repeat(500));
 
       const progress = screen.getByRole("progressbar");
       const fill = progress.querySelector("div");
       expect(fill?.className).toContain("bg-primary");
     });
 
-    it("shows yellow color for medium character count (70%+)", () => {
+    it("shows yellow color for medium character count (70%+)", async () => {
+      const user = userEvent.setup();
       render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
       // Type 700 characters (70%)
-      fireEvent.change(messageTextarea, {
-        target: { value: "a".repeat(700) },
-      });
+      await user.type(messageTextarea, "a".repeat(700));
 
       const progress = screen.getByRole("progressbar");
       const fill = progress.querySelector("div");
       expect(fill?.className).toContain("bg-yellow-500");
     });
 
-    it("shows red color for high character count (90%+)", () => {
+    it("shows red color for high character count (90%+)", async () => {
+      const user = userEvent.setup();
       render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
       // Type 900 characters (90%)
-      fireEvent.change(messageTextarea, {
-        target: { value: "a".repeat(900) },
-      });
+      await user.type(messageTextarea, "a".repeat(900));
 
       const progress = screen.getByRole("progressbar");
       const fill = progress.querySelector("div");
       expect(fill?.className).toContain("bg-destructive");
     });
 
-    it("updates character count in real-time as user types", () => {
+    it("updates character count in real-time as user types", async () => {
+      const user = userEvent.setup();
       render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
@@ -312,21 +285,18 @@ describe("ContactForm", () => {
       expect(screen.getByText("0 / 1000")).toBeDefined();
 
       // Type 10 characters
-      fireEvent.change(messageTextarea, {
-        target: { value: "a".repeat(10) },
-      });
+      await user.clear(messageTextarea);
+      await user.type(messageTextarea, "a".repeat(10));
       expect(screen.getByText("10 / 1000")).toBeDefined();
 
       // Type more to reach 100
-      fireEvent.change(messageTextarea, {
-        target: { value: "a".repeat(100) },
-      });
+      await user.clear(messageTextarea);
+      await user.type(messageTextarea, "a".repeat(100));
       expect(screen.getByText("100 / 1000")).toBeDefined();
 
       // Type more to reach 500
-      fireEvent.change(messageTextarea, {
-        target: { value: "a".repeat(500) },
-      });
+      await user.clear(messageTextarea);
+      await user.type(messageTextarea, "a".repeat(500));
       expect(screen.getByText("500 / 1000")).toBeDefined();
     });
   });
