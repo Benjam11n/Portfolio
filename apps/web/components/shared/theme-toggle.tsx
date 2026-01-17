@@ -17,14 +17,14 @@ export const ThemeToggle = () => {
   }, []);
 
   if (!mounted) {
-    return <Button className="size-9" size="icon" variant="ghost" />;
+    return <Button className="size-11" size="icon" variant="ghost" />;
   }
 
   const currentTheme = theme === "system" ? systemTheme : theme;
 
   return (
     <Button
-      className="group relative size-9 hover:bg-transparent"
+      className="group relative size-11 hover:bg-transparent"
       onClick={() => setTheme(currentTheme === "light" ? "dark" : "light")}
       size="icon"
       variant="ghost"

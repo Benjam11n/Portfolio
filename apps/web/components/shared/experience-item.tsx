@@ -6,6 +6,7 @@ import { useMemo, useRef, useState } from "react";
 import { Card3D } from "@/components/effects/card-3d";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { Markdown } from "@/components/shared/markdown";
+import { useMobileDetection } from "@/lib/hooks/use-mobile-detection";
 import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 import type { Experience } from "@/lib/types";
 
@@ -19,6 +20,8 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  const isMobile = useMobileDetection();
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 
@@ -132,9 +135,9 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
     return (
       <Card3D
         className="p-4"
-        glare
+        glare={!isMobile}
         parallaxIntensity={0}
-        rotationIntensity={5}
+        rotationIntensity={isMobile ? 0 : 5}
         thickness={10}
       >
         <div className="group">{content}</div>
@@ -145,9 +148,9 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
   return (
     <Card3D
       className="shadow-sm"
-      glare
+      glare={!isMobile}
       parallaxIntensity={0}
-      rotationIntensity={5}
+      rotationIntensity={isMobile ? 0 : 5}
       thickness={8}
     >
       <button
