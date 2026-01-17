@@ -34,3 +34,20 @@ export const DynamicSmoothScroll = dynamic(
     ),
   { ssr: true }
 );
+
+export const DynamicAnimationSkipProvider = dynamic(
+  () =>
+    import("@/lib/contexts/animation-skip-context").then(
+      (mod) => mod.AnimationSkipProvider
+    ),
+  { ssr: true }
+);
+
+// Development-only performance monitor
+export const DynamicPerformanceMonitor = dynamic(
+  () =>
+    import("@/components/dev/performance-monitor").then(
+      (mod) => mod.PerformanceMonitor
+    ),
+  { ssr: false }
+);

@@ -3,7 +3,8 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type React from "react";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
+import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
 type ShiftTextProps = {
@@ -67,9 +68,20 @@ export const useShiftAnimation = (
   scope: React.RefObject<HTMLElement | null>
 ) => {
   const { contextSafe } = useGSAP({ scope });
+  const prefersReducedMotion = usePrefersReducedMotion();
 
-  const animateIn = useCallback(
-    contextSafe(() => {
+  const animateIn = contextSafe(() => {
+    if (prefersReducedMotion) {
+      // Instant state change when reduced motion is preferred
+      // Both primary and secondary move to -120% to swap visible text
+      gsap.set(".shift-char-primary", {
+        y: "-120%",
+      });
+      gsap.set(".shift-char-secondary", {
+        y: "-120%",
+      });
+    } else {
+      // Animated transition with stagger for smooth visual effect
       gsap.to(".shift-char-primary", {
         y: "-120%",
         duration: 0.2,
@@ -82,12 +94,20 @@ export const useShiftAnimation = (
         stagger: 0.01,
         ease: "power2.inOut",
       });
-    }),
-    []
-  );
+    }
+  });
 
-  const animateOut = useCallback(
-    contextSafe(() => {
+  const animateOut = contextSafe(() => {
+    if (prefersReducedMotion) {
+      // Instant state change when reduced motion is preferred
+      gsap.set(".shift-char-primary", {
+        y: "0%",
+      });
+      gsap.set(".shift-char-secondary", {
+        y: "120%",
+      });
+    } else {
+      // Animated transition with stagger
       gsap.to(".shift-char-primary", {
         y: "0%",
         duration: 0.2,
@@ -100,9 +120,8 @@ export const useShiftAnimation = (
         stagger: 0.01,
         ease: "power2.inOut",
       });
-    }),
-    []
-  );
+    }
+  });
 
   return { animateIn, animateOut };
 };

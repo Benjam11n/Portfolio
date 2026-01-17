@@ -3,20 +3,29 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useCallback, useRef } from "react";
+import { useRef } from "react";
+import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
 type Card3DProps = {
   children: React.ReactNode;
-  thickness?: number;
-  sideColor?: string;
-  rotationIntensity?: number;
-  parallaxIntensity?: number;
-  glare?: boolean;
-  glareIntensity?: number;
-  shadow?: boolean;
-  className?: string;
-  containerClassName?: string;
+
+  // Thickness/depth configuration
+  thickness?: number; // Default: 12 (px) - book-like depth
+  sideColor?: string; // Default: uses CSS variable
+
+  // 3D behavior
+  rotationIntensity?: number; // Default: 15 (degrees max rotation)
+  parallaxIntensity?: number; // Default: 0.1 (content parallax multiplier)
+
+  // Visual options
+  glare?: boolean; // Default: true
+  glareIntensity?: number; // Default: 0.8
+  shadow?: boolean; // Default: true
+
+  // Styling
+  className?: string; // Applied to the card face
+  containerClassName?: string; // Applied to the perspective container
 };
 
 export const Card3D = ({
@@ -36,89 +45,97 @@ export const Card3D = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
   const faceRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 
-  const onMouseMove = useCallback(
-    contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
-      if (!cardRef.current) {
-        return;
-      }
+  const onMouseMove = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
+    // Skip tilt animation if user prefers reduced motion
+    if (prefersReducedMotion) {
+      return;
+    }
 
-      const rect = cardRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
+    if (!cardRef.current) {
+      return;
+    }
 
-      const rotateX = ((y - centerY) / centerY) * -rotationIntensity;
-      const rotateY = ((x - centerX) / centerX) * rotationIntensity;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
 
-      // Animate card rotation
-      gsap.to(cardRef.current, {
-        rotateX,
-        rotateY,
+    const rotateX = ((y - centerY) / centerY) * -rotationIntensity;
+    const rotateY = ((x - centerX) / centerX) * rotationIntensity;
+
+    // Animate card rotation
+    gsap.to(cardRef.current, {
+      rotateX,
+      rotateY,
+      duration: 0.1,
+      ease: "power2.out",
+    });
+
+    // Animate content parallax
+    if (contentRef.current && parallaxIntensity > 0) {
+      gsap.to(contentRef.current, {
+        x: (x - centerX) * parallaxIntensity,
+        y: (y - centerY) * parallaxIntensity,
+        duration: 0.1,
+      });
+    }
+
+    // Animate glare
+    if (glareRef.current && glare) {
+      gsap.to(glareRef.current, {
+        x: x - rect.width / 2,
+        y: y - rect.height / 2,
+        opacity: glareIntensity,
         duration: 0.1,
         ease: "power2.out",
       });
+    }
+  });
 
-      // Animate content parallax
-      if (contentRef.current && parallaxIntensity > 0) {
-        gsap.to(contentRef.current, {
-          x: (x - centerX) * parallaxIntensity,
-          y: (y - centerY) * parallaxIntensity,
-          duration: 0.1,
-        });
-      }
+  const onMouseLeave = contextSafe(() => {
+    // Skip reset animation if user prefers reduced motion
+    if (prefersReducedMotion) {
+      return;
+    }
 
-      // Animate glare
-      if (glareRef.current && glare) {
-        gsap.to(glareRef.current, {
-          x: x - rect.width / 2,
-          y: y - rect.height / 2,
-          opacity: glareIntensity,
-          duration: 0.1,
-          ease: "power2.out",
-        });
-      }
-    }),
-    []
-  );
+    // Reset card rotation
+    gsap.to(cardRef.current, {
+      rotateX: 0,
+      rotateY: 0,
+      duration: 0.5,
+      ease: "power2.out",
+    });
 
-  const onMouseLeave = useCallback(
-    contextSafe(() => {
-      // Reset card rotation
-      gsap.to(cardRef.current, {
-        rotateX: 0,
-        rotateY: 0,
+    // Reset content parallax
+    if (contentRef.current && parallaxIntensity > 0) {
+      gsap.to(contentRef.current, {
+        x: 0,
+        y: 0,
         duration: 0.5,
         ease: "power2.out",
       });
+    }
 
-      // Reset content parallax
-      if (contentRef.current && parallaxIntensity > 0) {
-        gsap.to(contentRef.current, {
-          x: 0,
-          y: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        });
-      }
+    // Hide glare
+    if (glareRef.current && glare) {
+      gsap.to(glareRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    }
+  });
 
-      // Hide glare
-      if (glareRef.current && glare) {
-        gsap.to(glareRef.current, {
-          opacity: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        });
-      }
-    }),
-    []
-  );
-
-  const edgeColor = sideColor || "hsl(var(--muted))";
+  // Edge colors - solid colors for book spine effect
+  const primaryEdgeColor = sideColor || "hsl(var(--muted))";
   const secondaryEdgeColor = sideColor || "hsl(var(--muted-foreground) / 0.3)";
+
+  // Half thickness for positioning from center
   const halfThickness = thickness / 2;
 
   return (
@@ -133,14 +150,21 @@ export const Card3D = ({
       role="presentation"
       style={{ perspective: 1000 }}
     >
+      {/* 3D Card Container - this is what rotates */}
       <div
         className={cn(
           "relative h-full w-full rounded-xl",
-          shadow && "transition-shadow hover:shadow-xl"
+          // Only animate shadow if user does not prefer reduced motion
+          shadow &&
+            !prefersReducedMotion &&
+            "transition-shadow hover:shadow-xl",
+          // Show shadow statically if reduced motion is preferred
+          shadow && prefersReducedMotion && "shadow-xl"
         )}
         ref={cardRef}
         style={{ transformStyle: "preserve-3d" }}
       >
+        {/* Card Face (Front) - positioned forward */}
         <div
           className={cn(
             "relative h-full w-full overflow-hidden rounded-xl bg-card",
@@ -152,10 +176,12 @@ export const Card3D = ({
             backfaceVisibility: "hidden",
           }}
         >
+          {/* Content with parallax */}
           <div className="relative z-10 h-full" ref={contentRef}>
             {children}
           </div>
 
+          {/* Glare Effect */}
           {glare && (
             <div
               className="pointer-events-none absolute top-1/2 left-1/2 h-[200%] w-[200%] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle,rgba(255,255,255,0.15)_0%,transparent_60%)] opacity-0 mix-blend-plus-lighter"
@@ -165,7 +191,12 @@ export const Card3D = ({
           )}
         </div>
 
-        {/* Bottom Edge */}
+        {/* 
+          Book Edges - These create the "spine" effect
+          Each edge is a rectangle that's rotated 90deg and positioned at the card boundary
+        */}
+
+        {/* Bottom Edge (shows when card tilts backward) - inset to avoid corners */}
         <div
           className="pointer-events-none absolute"
           style={{
@@ -173,14 +204,14 @@ export const Card3D = ({
             bottom: 0,
             left: thickness,
             right: thickness,
-            background: `linear-gradient(to bottom, ${edgeColor}, ${secondaryEdgeColor})`,
+            background: `linear-gradient(to bottom, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
             transform: "rotateX(90deg)",
             transformOrigin: "bottom center",
             backfaceVisibility: "hidden",
           }}
         />
 
-        {/* Top Edge */}
+        {/* Top Edge (shows when card tilts forward) - inset to avoid corners */}
         <div
           className="pointer-events-none absolute"
           style={{
@@ -188,39 +219,39 @@ export const Card3D = ({
             top: 0,
             left: thickness,
             right: thickness,
-            background: `linear-gradient(to top, ${edgeColor}, ${secondaryEdgeColor})`,
+            background: `linear-gradient(to top, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
             transform: "rotateX(-90deg)",
             transformOrigin: "top center",
             backfaceVisibility: "hidden",
           }}
         />
 
-        {/* Right Edge */}
+        {/* Right Edge (shows when card tilts left) */}
         <div
           className="pointer-events-none absolute top-0 h-full rounded-r-xl"
           style={{
             width: thickness,
             right: 0,
-            background: `linear-gradient(to right, ${edgeColor}, ${secondaryEdgeColor})`,
+            background: `linear-gradient(to right, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
             transform: "rotateY(-90deg)",
             transformOrigin: "right center",
             backfaceVisibility: "hidden",
           }}
         />
 
-        {/* Left Edge (book spine) */}
+        {/* Left Edge (shows when card tilts right) - like a book spine */}
         <div
           className="pointer-events-none absolute top-0 left-0 h-full rounded-l-xl"
           style={{
             width: thickness,
-            background: `linear-gradient(to left, ${edgeColor}, ${secondaryEdgeColor})`,
+            background: `linear-gradient(to left, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
             transform: "rotateY(90deg)",
             transformOrigin: "left center",
             backfaceVisibility: "hidden",
           }}
         />
 
-        {/* Back Face */}
+        {/* Back Face - hidden from front view */}
         <div
           className="pointer-events-none absolute top-0 left-0 h-full w-full rounded-xl bg-muted"
           style={{
