@@ -23,6 +23,9 @@ type ProjectCardProps = {
 export const ProjectCard = memo(({ project }: ProjectCardProps) => {
   const isMobile = useMobileDetection();
 
+  // Split title once for efficiency and safety
+  const [titleMain, titleSub] = project.title.split(" - ");
+
   return (
     <Card3D
       className="p-2 shadow-sm sm:p-3"
@@ -77,7 +80,7 @@ export const ProjectCard = memo(({ project }: ProjectCardProps) => {
                 </div>
               )}
               <span className="font-bold text-2xl text-white tracking-tight drop-shadow-md">
-                {project.title.split(" - ")[0]}
+                {titleMain}
               </span>
             </div>
           </div>
@@ -86,11 +89,11 @@ export const ProjectCard = memo(({ project }: ProjectCardProps) => {
         {/* Content Part (Matching reference: Title - Subtitle) */}
         <div className="mt-4 flex flex-col items-center gap-2 px-2 pb-2">
           <h3 className="font-medium text-foreground text-md">
-            {project.title.split(" - ")[0]}
-            {project.title.split(" - ")[1] && (
+            {titleMain}
+            {titleSub && (
               <span className="text-muted-foreground">
                 {" — "}
-                {project.title.split(" - ")[1]}
+                {titleSub}
               </span>
             )}
           </h3>

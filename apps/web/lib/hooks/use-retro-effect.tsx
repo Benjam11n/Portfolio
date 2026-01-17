@@ -3,12 +3,18 @@
 import { wrapEffect } from "@react-three/postprocessing";
 import { Effect } from "postprocessing";
 import { forwardRef } from "react";
-import { Uniform } from "three";
+import {
+  Uniform,
+  Vector2,
+  type WebGLRenderer,
+  type WebGLRenderTarget,
+} from "three";
 
 const ditherFragmentShader = `
 precision highp float;
 uniform float colorNum;
 uniform float pixelSize;
+uniform vec2 resolution;
 const float bayerMatrix8x8[64] = float[64](
   0.0/64.0, 48.0/64.0, 12.0/64.0, 60.0/64.0,  3.0/64.0, 51.0/64.0, 15.0/64.0, 63.0/64.0,
   32.0/64.0,16.0/64.0, 44.0/64.0, 28.0/64.0, 35.0/64.0,19.0/64.0, 47.0/64.0, 31.0/64.0,
@@ -42,11 +48,12 @@ void mainImage(in vec4 inputColor, in vec2 uv, out vec4 outputColor) {
 `;
 
 class RetroEffectImpl extends Effect {
-  uniforms: Map<string, Uniform<number>>;
+  uniforms: Map<string, Uniform<number | Vector2>>;
   constructor(colorNum = 4.0, pixelSize = 2.0) {
-    const uniforms = new Map<string, Uniform<number>>([
+    const uniforms = new Map<string, Uniform<number | Vector2>>([
       ["colorNum", new Uniform(colorNum)],
       ["pixelSize", new Uniform(pixelSize)],
+      ["resolution", new Uniform(new Vector2())],
     ]);
     super("RetroEffect", ditherFragmentShader, { uniforms });
     this.uniforms = uniforms;
@@ -55,7 +62,7 @@ class RetroEffectImpl extends Effect {
   get colorNum(): number {
     const uniform = this.uniforms.get("colorNum");
     if (uniform) {
-      return uniform.value;
+      return uniform.value as number;
     }
     return 4.0;
   }
@@ -70,7 +77,7 @@ class RetroEffectImpl extends Effect {
   get pixelSize(): number {
     const uniform = this.uniforms.get("pixelSize");
     if (uniform) {
-      return uniform.value;
+      return uniform.value as number;
     }
     return 2.0;
   }
@@ -79,6 +86,32 @@ class RetroEffectImpl extends Effect {
     const uniform = this.uniforms.get("pixelSize");
     if (uniform) {
       uniform.value = value;
+    }
+  }
+
+  get resolution(): Vector2 {
+    const uniform = this.uniforms.get("resolution");
+    if (uniform) {
+      return uniform.value as Vector2;
+    }
+    return new Vector2();
+  }
+
+  set resolution(value: Vector2) {
+    const uniform = this.uniforms.get("resolution");
+    if (uniform) {
+      uniform.value = value;
+    }
+  }
+
+  update(
+    _renderer: WebGLRenderer,
+    inputBuffer: WebGLRenderTarget,
+    _deltaTime: number
+  ) {
+    const resolution = this.uniforms.get("resolution");
+    if (resolution) {
+      (resolution.value as Vector2).set(inputBuffer.width, inputBuffer.height);
     }
   }
 }

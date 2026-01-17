@@ -25,6 +25,63 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 
+  const restorePreviousFocus = () => {
+    if (
+      previousFocusRef.current &&
+      typeof previousFocusRef.current.focus === "function"
+    ) {
+      previousFocusRef.current.focus();
+    }
+  };
+
+  const expandContent = contextSafe(() => {
+    if (!contentRef.current) {
+      return;
+    }
+
+    if (prefersReducedMotion) {
+      contentRef.current.style.height = "auto";
+      contentRef.current.style.opacity = "1";
+      return;
+    }
+
+    gsap.to(contentRef.current, {
+      height: "auto",
+      duration: 0.3,
+      ease: "power2.out",
+    });
+    gsap.to(contentRef.current, {
+      opacity: 1,
+      duration: 0.2,
+      delay: 0.1,
+    });
+  });
+
+  const collapseContent = contextSafe(() => {
+    if (!contentRef.current) {
+      restorePreviousFocus();
+      return;
+    }
+
+    if (prefersReducedMotion) {
+      contentRef.current.style.height = "0";
+      contentRef.current.style.opacity = "0";
+      restorePreviousFocus();
+      return;
+    }
+
+    gsap.to(contentRef.current, {
+      height: 0,
+      duration: 0.25,
+      ease: "power2.in",
+    });
+    gsap.to(contentRef.current, {
+      opacity: 0,
+      duration: 0.15,
+      onComplete: restorePreviousFocus,
+    });
+  });
+
   const toggleOpen = contextSafe(
     (e?: React.MouseEvent | React.KeyboardEvent) => {
       e?.preventDefault();
@@ -32,62 +89,11 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
       setIsOpen(nextState);
 
       if (nextState) {
-        // Store the currently focused element before expanding
         previousFocusRef.current = document.activeElement as HTMLElement;
-
-        // Ensure focus is on the button when expanding
         containerRef.current?.focus();
-
-        if (prefersReducedMotion) {
-          // Skip animation, set state immediately
-          if (contentRef.current) {
-            contentRef.current.style.height = "auto";
-            contentRef.current.style.opacity = "1";
-          }
-        } else {
-          gsap.to(contentRef.current, {
-            height: "auto",
-            duration: 0.3,
-            ease: "power2.out",
-          });
-          gsap.to(contentRef.current, {
-            opacity: 1,
-            duration: 0.2,
-            delay: 0.1,
-          });
-        }
-      } else if (prefersReducedMotion) {
-        // Skip animation, set state immediately and restore focus
-        if (contentRef.current) {
-          contentRef.current.style.height = "0";
-          contentRef.current.style.opacity = "0";
-        }
-        // Restore focus to the previously focused element when collapsing
-        if (
-          previousFocusRef.current &&
-          typeof previousFocusRef.current.focus === "function"
-        ) {
-          previousFocusRef.current.focus();
-        }
+        expandContent();
       } else {
-        gsap.to(contentRef.current, {
-          height: 0,
-          duration: 0.25,
-          ease: "power2.in",
-        });
-        gsap.to(contentRef.current, {
-          opacity: 0,
-          duration: 0.15,
-          onComplete: () => {
-            // Restore focus to the previously focused element when collapsing
-            if (
-              previousFocusRef.current &&
-              typeof previousFocusRef.current.focus === "function"
-            ) {
-              previousFocusRef.current.focus();
-            }
-          },
-        });
+        collapseContent();
       }
     }
   );
