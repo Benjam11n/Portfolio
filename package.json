@@ -5,14 +5,14 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "ultracite fix",
+    "lint": "biome check .",
     "lint:check": "ultracite check",
     "knip": "knip",
     "type-check": "turbo run type-check",
     "clean": "turbo run clean",
     "test": "turbo run test",
     "test:e2e": "turbo run test:e2e",
-    "format": "ultracite format"
+    "format": "biome format --write ."
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.11",
