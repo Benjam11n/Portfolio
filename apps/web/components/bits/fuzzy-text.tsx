@@ -161,13 +161,17 @@ async function initFuzzyCanvas(
   };
 
   await loadFont();
-  if (isCancelled.current) {
+  if (isCancelled.current || !canvas.isConnected) {
     return;
   }
 
   const getNumericFontSize = (): number => {
     if (typeof fontSize === "number") {
       return fontSize;
+    }
+    // Check if we're still in a valid DOM context
+    if (!document.body) {
+      return 16; // fallback font size
     }
     const temp = document.createElement("span");
     temp.style.fontSize = fontSize;
@@ -285,7 +289,10 @@ async function initFuzzyCanvas(
     }
 
     if (timestamp - lastFrameTime < frameDuration) {
-      window.requestAnimationFrame(run);
+      // Only schedule next frame if not cancelled
+      if (!isCancelled.current) {
+        window.requestAnimationFrame(run);
+      }
       return;
     }
     lastFrameTime = timestamp;
@@ -293,7 +300,10 @@ async function initFuzzyCanvas(
     animationState.updateIntensity();
     drawFrame();
 
-    window.requestAnimationFrame(run);
+    // Only schedule next frame if not cancelled
+    if (!isCancelled.current) {
+      window.requestAnimationFrame(run);
+    }
   };
 
   window.requestAnimationFrame(run);

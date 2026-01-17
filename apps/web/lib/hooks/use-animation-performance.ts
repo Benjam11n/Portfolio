@@ -75,7 +75,67 @@ export function useAnimationPerformance(): AnimationPerformanceMetrics & {
   const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
+    let isCancelled = false;
+
+    const logPerformanceWarnings = (fps: number, frameTime: number) => {
+      if (process.env.NODE_ENV !== "development") {
+        return;
+      }
+
+      // Check FPS budget (< 30 FPS)
+      if (fps < 30) {
+        console.warn(
+          `[useAnimationPerformance] ⚠️ Performance budget exceeded: FPS dropped to ${fps} (threshold: 30)`
+        );
+      }
+
+      // Check frame time budget (> 33ms)
+      if (frameTime > 33) {
+        console.warn(
+          `[useAnimationPerformance] ⚠️ Performance budget exceeded: Frame time is ${frameTime}ms (threshold: 33ms)`
+        );
+      }
+
+      // Check frame drops percentage (> 10%)
+      if (frameCountRef.current > 0) {
+        const frameDropPercentage =
+          (totalFrameDropsRef.current / frameCountRef.current) * 100;
+        if (frameDropPercentage > 10) {
+          console.warn(
+            `[useAnimationPerformance] ⚠️ Performance budget exceeded: Frame drops at ${frameDropPercentage.toFixed(1)}% (threshold: 10%)`
+          );
+        }
+      }
+    };
+
+    const updateMetrics = (currentTime: number) => {
+      const fps = Math.round(
+        (frameCountRef.current * 1000) / (currentTime - lastTimeRef.current)
+      );
+      const frameTime = Math.round(
+        (currentTime - lastTimeRef.current) / frameCountRef.current
+      );
+
+      setMetrics((prev) => ({
+        ...prev,
+        fps,
+        frameTime,
+        frameDrops: totalFrameDropsRef.current,
+      }));
+
+      logPerformanceWarnings(fps, frameTime);
+
+      // Reset counters
+      frameCountRef.current = 0;
+      lastTimeRef.current = currentTime;
+      totalFrameDropsRef.current = 0;
+    };
+
     const measurePerformance = (currentTime: number) => {
+      if (isCancelled) {
+        return;
+      }
+
       frameCountRef.current++;
       const deltaTime = currentTime - lastFrameTimeRef.current;
       lastFrameTimeRef.current = currentTime;
@@ -87,52 +147,7 @@ export function useAnimationPerformance(): AnimationPerformanceMetrics & {
 
       // Update metrics every second
       if (currentTime - lastTimeRef.current >= 1000) {
-        const fps = Math.round(
-          (frameCountRef.current * 1000) / (currentTime - lastTimeRef.current)
-        );
-        const frameTime = Math.round(
-          (currentTime - lastTimeRef.current) / frameCountRef.current
-        );
-
-        setMetrics((prev) => ({
-          ...prev,
-          fps,
-          frameTime,
-          frameDrops: totalFrameDropsRef.current,
-        }));
-
-        // Log performance budget warnings in development
-        if (process.env.NODE_ENV === "development") {
-          // Check FPS budget (< 30 FPS)
-          if (fps < 30) {
-            console.warn(
-              `[useAnimationPerformance] ⚠️ Performance budget exceeded: FPS dropped to ${fps} (threshold: 30)`
-            );
-          }
-
-          // Check frame time budget (> 33ms)
-          if (frameTime > 33) {
-            console.warn(
-              `[useAnimationPerformance] ⚠️ Performance budget exceeded: Frame time is ${frameTime}ms (threshold: 33ms)`
-            );
-          }
-
-          // Check frame drops percentage (> 10%)
-          if (frameCountRef.current > 0) {
-            const frameDropPercentage =
-              (totalFrameDropsRef.current / frameCountRef.current) * 100;
-            if (frameDropPercentage > 10) {
-              console.warn(
-                `[useAnimationPerformance] ⚠️ Performance budget exceeded: Frame drops at ${frameDropPercentage.toFixed(1)}% (threshold: 10%)`
-              );
-            }
-          }
-        }
-
-        // Reset counters
-        frameCountRef.current = 0;
-        lastTimeRef.current = currentTime;
-        totalFrameDropsRef.current = 0;
+        updateMetrics(currentTime);
       }
 
       animationFrameRef.current = requestAnimationFrame(measurePerformance);
@@ -143,6 +158,7 @@ export function useAnimationPerformance(): AnimationPerformanceMetrics & {
 
     // Cleanup function
     return () => {
+      isCancelled = true;
       if (animationFrameRef.current !== null) {
         cancelAnimationFrame(animationFrameRef.current);
       }

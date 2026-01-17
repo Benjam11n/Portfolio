@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useFuzzyEventHandlers } from "./use-fuzzy-event-handlers";
 
 type FuzzyAnimationStateOptions = {
@@ -104,7 +104,7 @@ export function useFuzzyAnimationState(
     },
   });
 
-  const startGlitchLoop = () => {
+  const startGlitchLoop = useCallback(() => {
     if (!glitchMode || isCancelled.current) {
       return;
     }
@@ -118,11 +118,23 @@ export function useFuzzyAnimationState(
         startGlitchLoop();
       }, glitchDuration);
     }, glitchInterval);
-  };
+  }, [glitchMode, glitchInterval, glitchDuration, isCancelled]);
 
-  if (glitchMode) {
-    startGlitchLoop();
-  }
+  // Start glitch loop when glitch mode is enabled
+  useEffect(() => {
+    if (glitchMode) {
+      startGlitchLoop();
+    }
+    // Cleanup when glitchMode changes or component unmounts
+    return () => {
+      if (glitchTimeoutIdRef.current) {
+        clearTimeout(glitchTimeoutIdRef.current);
+      }
+      if (glitchEndTimeoutIdRef.current) {
+        clearTimeout(glitchEndTimeoutIdRef.current);
+      }
+    };
+  }, [glitchMode, startGlitchLoop]);
 
   const updateIntensity = () => {
     let newTargetIntensity = baseIntensity;
@@ -151,11 +163,14 @@ export function useFuzzyAnimationState(
   };
 
   const cleanup = () => {
+    // Clear any remaining glitch timeouts
     if (glitchTimeoutIdRef.current) {
       clearTimeout(glitchTimeoutIdRef.current);
+      glitchTimeoutIdRef.current = undefined;
     }
     if (glitchEndTimeoutIdRef.current) {
       clearTimeout(glitchEndTimeoutIdRef.current);
+      glitchEndTimeoutIdRef.current = undefined;
     }
     eventHandlers.cleanup();
   };

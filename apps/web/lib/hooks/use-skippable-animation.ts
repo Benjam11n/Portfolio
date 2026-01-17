@@ -173,6 +173,10 @@ export function useSkippableAnimation(
 
     startTimeRef.current = null;
     onStart?.();
+    // Cancel any existing animation before starting a new one
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
     animationFrameRef.current = requestAnimationFrame(animate);
   }, [
     respectReducedMotion,
