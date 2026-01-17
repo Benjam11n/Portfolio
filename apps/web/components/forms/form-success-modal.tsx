@@ -2,16 +2,133 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { CheckCircle2, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { CheckCircle2 } from "lucide-react";
+import { forwardRef, type HTMLAttributes, useRef } from "react";
 import { SuccessConfetti } from "@/components/effects/success-confetti";
-import { Button } from "@/components/ui/button";
+import { useModalClose } from "@/lib/hooks/use-modal-close";
+import { useModalCountdown } from "@/lib/hooks/use-modal-countdown";
+import { cn } from "@/lib/utils";
 
 type FormSuccessModalProps = {
   isOpen: boolean;
   onClose: () => void;
   senderName?: string;
 };
+
+// Animation constants
+const MODAL_ANIMATION = {
+  // Easing
+  EASE: {
+    DEFAULT: "power3.out" as const,
+    BACK_IN: "back.out(1.7)" as const,
+    BACK_OUT: "back.out(2)" as const,
+  },
+  // Duration
+  DURATION: {
+    OVERLAY: 0.3,
+    CONTENT: 0.6,
+    ICON: 0.8,
+    TEXT: 0.5,
+    TEXT_EXIT: 0.3,
+    ICON_EXIT: 0.4,
+    CONTENT_EXIT: 0.4,
+  },
+  // Stagger
+  STAGGER: {
+    TEXT_IN: 0.1,
+    TEXT_EXIT: 0.05,
+  },
+  // Timeline positions (negative values create overlap)
+  TIMELINE: {
+    OVERLAY_CONTENT_OVERLAP: "-=0.1",
+    CONTENT_ICON_OVERLAP: "-=0.4",
+    ICON_TEXT_OVERLAP: "-=0.3",
+    TEXT_ICON_EXIT_OVERLAP: "-=0.2",
+    ICON_CONTENT_EXIT_OVERLAP: "-=0.3",
+    CONTENT_OVERLAY_EXIT_OVERLAP: "-=0.2",
+  },
+  // Initial states
+  INITIAL: {
+    OVERLAY_OPACITY: 0,
+    CONTENT_SCALE: 0.8,
+    CONTENT_Y: 50,
+    CONTENT_OPACITY: 0,
+    ICON_SCALE: 0,
+    ICON_ROTATION: -180,
+    TEXT_Y: 20,
+    TEXT_OPACITY: 0,
+  },
+  // Final states (exit animation)
+  EXIT: {
+    TEXT_Y: -20,
+    TEXT_OPACITY: 0,
+    ICON_SCALE: 0,
+    ICON_ROTATION: 180,
+    CONTENT_SCALE: 0.8,
+    CONTENT_Y: 50,
+    CONTENT_OPACITY: 0,
+    OVERLAY_OPACITY: 0,
+  },
+  // Auto-dismiss timeout
+  AUTO_DISMISS_MS: 4000,
+} as const;
+
+// ModalHeader component
+export type ModalHeaderProps = HTMLAttributes<HTMLDivElement>;
+
+const ModalHeader = forwardRef<HTMLDivElement, ModalHeaderProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div
+        className={cn("mb-6 flex justify-center", className)}
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+ModalHeader.displayName = "ModalHeader";
+
+// ModalBody component
+export type ModalBodyProps = HTMLAttributes<HTMLDivElement>;
+
+const ModalBody = forwardRef<HTMLDivElement, ModalBodyProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div
+        className={cn("space-y-3 text-center", className)}
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+ModalBody.displayName = "ModalBody";
+
+// ModalFooter component
+export type ModalFooterProps = HTMLAttributes<HTMLDivElement>;
+
+const ModalFooter = forwardRef<HTMLDivElement, ModalFooterProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div
+        className={cn(
+          "mt-6 text-center text-muted-foreground text-xs",
+          className
+        )}
+        ref={ref}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+ModalFooter.displayName = "ModalFooter";
 
 export const FormSuccessModal = ({
   isOpen,
@@ -22,7 +139,6 @@ export const FormSuccessModal = ({
   const overlayRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
-  const [countdown, setCountdown] = useState(4);
 
   useGSAP(
     () => {
@@ -31,19 +147,31 @@ export const FormSuccessModal = ({
       }
 
       const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
+        defaults: { ease: MODAL_ANIMATION.EASE.DEFAULT },
       });
 
       // Initial states
-      gsap.set(overlayRef.current, { opacity: 0 });
-      gsap.set(contentRef.current, { scale: 0.8, y: 50, opacity: 0 });
-      gsap.set(iconRef.current, { scale: 0, rotation: -180 });
-      gsap.set(".success-text", { y: 20, opacity: 0 });
+      gsap.set(overlayRef.current, {
+        opacity: MODAL_ANIMATION.INITIAL.OVERLAY_OPACITY,
+      });
+      gsap.set(contentRef.current, {
+        scale: MODAL_ANIMATION.INITIAL.CONTENT_SCALE,
+        y: MODAL_ANIMATION.INITIAL.CONTENT_Y,
+        opacity: MODAL_ANIMATION.INITIAL.CONTENT_OPACITY,
+      });
+      gsap.set(iconRef.current, {
+        scale: MODAL_ANIMATION.INITIAL.ICON_SCALE,
+        rotation: MODAL_ANIMATION.INITIAL.ICON_ROTATION,
+      });
+      gsap.set(".success-text", {
+        y: MODAL_ANIMATION.INITIAL.TEXT_Y,
+        opacity: MODAL_ANIMATION.INITIAL.TEXT_OPACITY,
+      });
 
       // Animation sequence
       tl.to(overlayRef.current, {
         opacity: 1,
-        duration: 0.3,
+        duration: MODAL_ANIMATION.DURATION.OVERLAY,
       })
         .to(
           contentRef.current,
@@ -51,114 +179,68 @@ export const FormSuccessModal = ({
             scale: 1,
             y: 0,
             opacity: 1,
-            duration: 0.6,
-            ease: "back.out(1.7)",
+            duration: MODAL_ANIMATION.DURATION.CONTENT,
+            ease: MODAL_ANIMATION.EASE.BACK_IN,
           },
-          "-=0.1"
+          MODAL_ANIMATION.TIMELINE.OVERLAY_CONTENT_OVERLAP
         )
         .to(
           iconRef.current,
           {
             scale: 1,
             rotation: 0,
-            duration: 0.8,
-            ease: "back.out(2)",
+            duration: MODAL_ANIMATION.DURATION.ICON,
+            ease: MODAL_ANIMATION.EASE.BACK_OUT,
           },
-          "-=0.4"
+          MODAL_ANIMATION.TIMELINE.CONTENT_ICON_OVERLAP
         )
         .to(
           ".success-text",
           {
             y: 0,
             opacity: 1,
-            duration: 0.5,
-            stagger: 0.1,
+            duration: MODAL_ANIMATION.DURATION.TEXT,
+            stagger: MODAL_ANIMATION.STAGGER.TEXT_IN,
           },
-          "-=0.3"
+          MODAL_ANIMATION.TIMELINE.ICON_TEXT_OVERLAP
         );
     },
     { scope: containerRef, dependencies: [isOpen] }
   );
 
-  // Countdown timer
+  const handleClose = useModalClose({
+    overlayRef,
+    contentRef,
+    iconRef,
+    textSelector: ".success-text",
+    animationConfig: {
+      textY: MODAL_ANIMATION.EXIT.TEXT_Y,
+      textOpacity: MODAL_ANIMATION.EXIT.TEXT_OPACITY,
+      textDuration: MODAL_ANIMATION.DURATION.TEXT_EXIT,
+      textStagger: MODAL_ANIMATION.STAGGER.TEXT_EXIT,
+      iconScale: MODAL_ANIMATION.EXIT.ICON_SCALE,
+      iconRotation: MODAL_ANIMATION.EXIT.ICON_ROTATION,
+      iconDuration: MODAL_ANIMATION.DURATION.ICON_EXIT,
+      contentScale: MODAL_ANIMATION.EXIT.CONTENT_SCALE,
+      contentY: MODAL_ANIMATION.EXIT.CONTENT_Y,
+      contentOpacity: MODAL_ANIMATION.EXIT.CONTENT_OPACITY,
+      contentDuration: MODAL_ANIMATION.DURATION.CONTENT_EXIT,
+      overlayOpacity: MODAL_ANIMATION.EXIT.OVERLAY_OPACITY,
+      overlayDuration: MODAL_ANIMATION.DURATION.OVERLAY,
+      textIconOverlap: MODAL_ANIMATION.TIMELINE.TEXT_ICON_EXIT_OVERLAP,
+      iconContentOverlap: MODAL_ANIMATION.TIMELINE.ICON_CONTENT_EXIT_OVERLAP,
+      contentOverlayOverlap:
+        MODAL_ANIMATION.TIMELINE.CONTENT_OVERLAY_EXIT_OVERLAP,
+    },
+    onClose,
+  });
 
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    setCountdown(4);
-
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [isOpen]);
-
-  // Auto-dismiss after 4 seconds
-  // biome-ignore lint/correctness/useExhaustiveDependencies: We want to set the timeout only when isOpen changes to true
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      handleClose();
-    }, 4000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [isOpen]);
-
-  const handleClose = () => {
-    const tl = gsap.timeline({
-      onComplete: onClose,
-    });
-
-    tl.to(".success-text", {
-      y: -20,
-      opacity: 0,
-      duration: 0.3,
-      stagger: 0.05,
-    })
-      .to(
-        iconRef.current,
-        {
-          scale: 0,
-          rotation: 180,
-          duration: 0.4,
-        },
-        "-=0.2"
-      )
-      .to(
-        contentRef.current,
-        {
-          scale: 0.8,
-          y: 50,
-          opacity: 0,
-          duration: 0.4,
-        },
-        "-=0.3"
-      )
-      .to(
-        overlayRef.current,
-        {
-          opacity: 0,
-          duration: 0.3,
-        },
-        "-=0.2"
-      );
-  };
+  // Auto-dismiss after configured timeout
+  useModalCountdown({
+    isActive: isOpen,
+    duration: MODAL_ANIMATION.AUTO_DISMISS_MS,
+    onComplete: handleClose,
+  });
 
   if (!isOpen) {
     return null;
@@ -191,27 +273,13 @@ export const FormSuccessModal = ({
           ref={contentRef}
           role="dialog"
         >
-          {/* Close Button */}
-          <div className="absolute top-4 right-4">
-            <Button
-              aria-label="Close modal"
-              onClick={handleClose}
-              size="icon"
-              variant="ghost"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Animated Icon */}
-          <div className="mb-6 flex justify-center" ref={iconRef}>
+          <ModalHeader ref={iconRef}>
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-green-500/20">
               <CheckCircle2 className="h-12 w-12 text-green-500" />
             </div>
-          </div>
+          </ModalHeader>
 
-          {/* Success Text */}
-          <div className="space-y-3 text-center">
+          <ModalBody>
             <h2
               className="success-text font-bold text-2xl text-foreground"
               id="success-modal-title"
@@ -224,12 +292,11 @@ export const FormSuccessModal = ({
             <p className="success-text text-muted-foreground text-sm">
               I'll get back to you as soon as possible.
             </p>
-          </div>
+          </ModalBody>
 
-          {/* Auto-dismiss indicator */}
-          <div className="success-text mt-6 text-center text-muted-foreground text-xs">
-            Auto-closing in {countdown}s...
-          </div>
+          <ModalFooter>
+            <div className="success-text">This will close automatically...</div>
+          </ModalFooter>
         </div>
       </div>
     </div>

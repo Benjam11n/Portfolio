@@ -22,7 +22,7 @@ export const ShiftSubmitButton = ({
   return (
     <button
       className={cn(
-        "relative inline-flex w-full items-center justify-center overflow-hidden rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50",
+        "relative inline-flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50",
         className
       )}
       disabled={isLoading || props.disabled}

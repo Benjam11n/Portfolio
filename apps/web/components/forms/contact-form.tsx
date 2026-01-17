@@ -1,38 +1,27 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { logger } from "@repo/logger";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { ShiftSubmitButton } from "@/components/shared/shift-submit-button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
-import { Textarea } from "@/components/ui/textarea";
-import { sendEmailAction } from "@/lib/actions/email.actions";
+import { Form } from "@/components/ui/form";
+import { useContactFormSubmit } from "@/lib/hooks/use-contact-form-submit";
 import { useDeferredRecaptcha } from "@/lib/hooks/use-deferred-recaptcha";
 import {
   type ContactFormValues,
   contactFormSchema,
 } from "@/lib/validations/contact";
+import { FormInput } from "./form-input";
 import { FormSuccessModal } from "./form-success-modal";
+import { FormTextArea } from "./form-textarea";
 
 export const ContactForm = () => {
-  const [isPending, startTransition] = useTransition();
   const [showSuccess, setShowSuccess] = useState(false);
   const [senderName, setSenderName] = useState("");
 
-  const { loadRecaptcha, executeRecaptcha, isRecaptchaReady } =
-    useDeferredRecaptcha({});
+  const { loadRecaptcha } = useDeferredRecaptcha({});
 
+  // Load reCAPTCHA on mount
   useEffect(() => {
     loadRecaptcha();
   }, [loadRecaptcha]);
@@ -48,53 +37,17 @@ export const ContactForm = () => {
     },
   });
 
-  async function onSubmit(values: ContactFormValues) {
-    if (!isRecaptchaReady) {
-      toast.error("Security verification loading...");
-      loadRecaptcha();
-      return;
-    }
-
-    try {
-      const token = await executeRecaptcha();
-
-      if (!token) {
-        toast.error("ReCAPTCHA verification failed");
-        return;
-      }
-
-      startTransition(async () => {
-        const result = await sendEmailAction({ ...values, token });
-
-        if (result.error) {
-          toast.error("Error", {
-            description: result.error,
-          });
-        } else {
-          setSenderName(values.name);
-          setShowSuccess(true);
-          form.reset();
-        }
-      });
-    } catch (error) {
-      toast.error("An error occurred during verification");
-      logger.error(error);
-    }
-  }
+  const { isPending, handleSubmit } = useContactFormSubmit({
+    onSuccess: (name) => {
+      setSenderName(name);
+      setShowSuccess(true);
+      form.reset();
+    },
+  });
 
   const handleCloseSuccess = () => {
     setShowSuccess(false);
     setSenderName("");
-  };
-
-  const getProgressColor = (percentage: number) => {
-    if (percentage >= 90) {
-      return "bg-destructive";
-    }
-    if (percentage >= 70) {
-      return "bg-yellow-500";
-    }
-    return "bg-primary";
   };
 
   return (
@@ -106,118 +59,52 @@ export const ContactForm = () => {
       />
 
       <Form {...form}>
-        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
           <div className="grid grid-cols-2 gap-4">
-            <FormField
+            <FormInput
+              className="bg-card"
               control={form.control}
+              disabled={isPending || form.formState.isSubmitting}
+              id="contact-name"
+              label="Name"
               name="name"
-              render={({ field }) => (
-                <FormItem id="contact-name">
-                  <FormLabel className="mb-2 block font-medium text-sm">
-                    Name
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="bg-card"
-                      disabled={isPending || form.formState.isSubmitting}
-                      placeholder="John Doe"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder="John Doe"
             />
 
-            <FormField
+            <FormInput
+              className="bg-card"
               control={form.control}
+              disabled={isPending || form.formState.isSubmitting}
+              id="contact-email"
+              label="Email"
               name="email"
-              render={({ field }) => (
-                <FormItem id="contact-email">
-                  <FormLabel className="mb-2 block font-medium text-sm">
-                    Email
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className="bg-card"
-                      disabled={isPending || form.formState.isSubmitting}
-                      placeholder="johndoe@gmail.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              placeholder="johndoe@gmail.com"
             />
           </div>
 
-          <FormField
+          <FormInput
+            className="bg-card"
             control={form.control}
+            disabled={isPending || form.formState.isSubmitting}
+            id="contact-subject"
+            label="Subject"
             name="subject"
-            render={({ field }) => (
-              <FormItem id="contact-subject">
-                <FormLabel className="mb-2 block font-medium text-sm">
-                  Subject
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    className="bg-card"
-                    disabled={isPending || form.formState.isSubmitting}
-                    placeholder="Project Inquiry"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Project Inquiry"
           />
-          <FormField
+
+          <FormTextArea
+            className="bg-card"
             control={form.control}
+            disabled={isPending || form.formState.isSubmitting}
+            id="contact-message"
+            label="Message"
+            maxLength={1000}
             name="message"
-            render={({ field }) => {
-              const messageLength = field.value?.length || 0;
-              const maxMessageLength = 1000;
-              const percentage = (messageLength / maxMessageLength) * 100;
-
-              return (
-                <FormItem id="contact-message">
-                  <FormLabel className="mb-2 block font-medium text-sm">
-                    Message
-                  </FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Textarea
-                        className="bg-card"
-                        disabled={isPending || form.formState.isSubmitting}
-                        placeholder="Hello! I want to give you a job..."
-                        rows={8}
-                        {...field}
-                      />
-                      <div className="mt-2 space-y-1">
-                        <div className="flex items-center justify-between">
-                          <Progress
-                            className="mr-2 flex-1"
-                            fillClassName={getProgressColor(percentage)}
-                            max={maxMessageLength}
-                            value={messageLength}
-                          />
-                          <span className="shrink-0 text-right text-muted-foreground text-xs">
-                            {messageLength} / {maxMessageLength}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
+            placeholder="Hello! I want to give you a job..."
+            rows={8}
           />
 
-          <ShiftSubmitButton
-            isLoading={isPending || form.formState.isSubmitting}
-            type="submit"
-          >
+          <ShiftSubmitButton isLoading={isPending} type="submit">
             Submit
           </ShiftSubmitButton>
 
