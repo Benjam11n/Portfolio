@@ -1,9 +1,11 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { ReactNode } from "react";
 import { sendEmailAction } from "@/lib/actions/email.actions";
 import { useDeferredRecaptcha } from "@/lib/hooks/use-deferred-recaptcha";
 import { ContactForm } from "./contact-form";
+import type { MockButtonProps } from "@repo/testing/test-types";
 
 // Mock dependencies
 const NAME_REGEX = /name/i;
@@ -32,7 +34,12 @@ vi.mock("sonner", () => ({
 
 // Mock ShiftSubmitButton since it might use animation libs not friendly to jsdom
 vi.mock("@/components/shared/shift-submit-button", () => ({
-  ShiftSubmitButton: ({ children, onClick, type, isLoading }: any) => (
+  ShiftSubmitButton: ({
+    children,
+    onClick,
+    type,
+    isLoading,
+  }: MockButtonProps) => (
     <button
       data-testid="submit-button"
       disabled={isLoading}

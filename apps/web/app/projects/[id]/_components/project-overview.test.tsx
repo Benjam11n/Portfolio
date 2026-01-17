@@ -4,7 +4,9 @@ import { ProjectOverview } from "./project-overview";
 
 // Mock GSAP
 vi.mock("@gsap/react", () => ({
-  useGSAP: () => ({ contextSafe: (fn: any) => fn }),
+  useGSAP: () => ({
+    contextSafe: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
+  }),
 }));
 
 vi.mock("gsap", () => ({
