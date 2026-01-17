@@ -18,26 +18,28 @@ export const TechStackItem = ({
   onClick,
 }: TechStackItemProps) => {
   const Wrapper = onClick ? "button" : "div";
+
+  // Wrapper props depending on whether it's interactive
   const wrapperProps = onClick
     ? {
         "aria-label": `View details for ${stack.name}`,
         className:
-          "tech-item group relative flex h-full w-full items-center gap-2 rounded-xl bg-transparent border-0 p-0 cursor-pointer",
+          "flex h-full w-full items-center text-left bg-transparent border-0 p-0 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl",
         onClick,
         type: "button" as const,
       }
     : {
-        className: cn(
-          "tech-item group relative flex h-full w-full items-center gap-2 rounded-xl",
-          small ? "gap-2" : "gap-3"
-        ),
+        className: "flex h-full w-full items-center",
       };
+
+  const imageSize = small ? 40 : 56;
+  const imageContainerClass = small ? "h-10 w-10" : "h-14 w-14";
 
   return (
     <Card3D
       className={cn(
-        "flex h-full items-center gap-3",
-        small ? "gap-2 p-2" : "p-3"
+        "flex h-full items-center",
+        small ? "gap-2 p-2" : "gap-3 p-3"
       )}
       glare
       glareIntensity={0.6}
@@ -47,38 +49,53 @@ export const TechStackItem = ({
       thickness={small ? 10 : 14}
     >
       <Wrapper {...wrapperProps}>
-        <BorderedImage
-          alt={stack.name}
-          colorDark={stack.colorDark}
-          colorLight={stack.colorLight}
-          containerClassName={cn("shrink-0", small ? "h-10 w-10" : "h-14 w-14")}
-          height={32}
-          imageClassName={cn("object-contain", small ? "p-2" : "p-3")}
-          src={stack.icon}
-          width={32}
-        />
-        <div className="flex flex-col">
-          <span
-            className={cn(
-              "font-semibold text-foreground leading-tight",
-              small ? "text-sm" : "text-md"
-            )}
-          >
-            {stack.name}
-          </span>
+        {/* Fixed Width Icon Container - guarantee no shrinking */}
+        <div className={cn("relative shrink-0", imageContainerClass)}>
+          <BorderedImage
+            alt={stack.name}
+            colorDark={stack.colorDark}
+            colorLight={stack.colorLight}
+            containerClassName="h-full w-full"
+            height={imageSize}
+            imageClassName={cn("object-contain", small ? "p-1.5" : "p-1")}
+            src={stack.icon}
+            width={imageSize}
+          />
+        </div>
+
+        {/* Content Container - Takes remaining space and handles truncation */}
+        <div
+          className={cn(
+            "flex min-w-0 flex-1 flex-col justify-center",
+            small ? "ml-2" : "ml-3"
+          )}
+        >
+          <div className="flex items-center">
+            <span
+              className={cn(
+                "w-full truncate font-semibold text-foreground leading-tight",
+                small ? "text-sm" : "text-base"
+              )}
+            >
+              {stack.name}
+            </span>
+          </div>
+
           {!small && (
-            <>
-              <span className="font-medium text-muted-foreground text-sm">
+            <div className="mt-0.5 flex flex-col">
+              {stack.proficiency && (
+                <div className="mb-1 ml-0.5">
+                  <TechProficiencyIndicator
+                    proficiency={stack.proficiency}
+                    size="sm"
+                    variant="dots"
+                  />
+                </div>
+              )}
+              <span className="w-full truncate font-medium text-muted-foreground text-xs">
                 {stack.category}
               </span>
-              {stack.proficiency && (
-                <TechProficiencyIndicator
-                  proficiency={stack.proficiency}
-                  size="sm"
-                  variant="dots"
-                />
-              )}
-            </>
+            </div>
           )}
         </div>
       </Wrapper>

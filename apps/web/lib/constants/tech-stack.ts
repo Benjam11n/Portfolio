@@ -119,7 +119,7 @@ export const TECH_STACK = [
     proficiency: ProficiencyLevel.ADVANCED,
   },
   {
-    name: "Go",
+    name: "Golang",
     icon: "/assets/golang.svg",
     category: TechCategory.LANGUAGE,
     colorLight: "#E0F7FA",

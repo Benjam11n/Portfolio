@@ -5,6 +5,7 @@ import gsap from "gsap";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import { Markdown } from "@/components/shared/markdown";
 import { ROUTES } from "@/lib/constants/navigation";
 import type { Project } from "@/lib/types";
 import { getProjectsByTech } from "@/lib/utils/projects-by-tech";
@@ -90,9 +91,9 @@ export const RelatedProjectsList = ({ techName }: RelatedProjectsListProps) => {
                   </p>
                 )}
                 {project.description && (
-                  <p className="mt-1 line-clamp-2 font-normal text-muted-foreground/80 text-xs">
+                  <Markdown className="mt-1 line-clamp-2 font-normal text-muted-foreground/80 text-xs">
                     {project.description}
-                  </p>
+                  </Markdown>
                 )}
               </div>
 
