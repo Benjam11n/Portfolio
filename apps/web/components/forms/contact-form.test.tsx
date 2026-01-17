@@ -3,9 +3,11 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { ReactNode } from "react";
 import { sendEmailAction } from "@/lib/actions/email.actions";
 import { useDeferredRecaptcha } from "@/lib/hooks/use-deferred-recaptcha";
 import { ContactForm } from "./contact-form";
+import type { MockButtonProps } from "@repo/testing/test-types";
 
 // Mock dependencies
 const NAME_REGEX = /name/i;

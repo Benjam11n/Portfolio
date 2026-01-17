@@ -1,29 +1,32 @@
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { usePrefersReducedMotion } from "./use-prefers-reduced-motion";
+import type { EventListenerMap } from "@repo/testing/test-types";
 
 describe("usePrefersReducedMotion", () => {
-  let matchMediaMock: any;
-  let listeners: Record<string, ((...args: any[]) => void)[]> = {};
+  let matchMediaMock: ReturnType<typeof vi.fn>;
+  let listeners: EventListenerMap;
 
   beforeEach(() => {
     listeners = {};
 
-    matchMediaMock = vi.fn().mockImplementation((query) => ({
+    matchMediaMock = vi.fn().mockImplementation((query: string) => ({
       matches: false,
       media: query,
       onchange: null,
       addListener: vi.fn(), // Deprecated
       removeListener: vi.fn(), // Deprecated
-      addEventListener: vi.fn((event, callback) => {
+      addEventListener: vi.fn((event: string, callback: EventListener) => {
         if (!listeners[event]) {
           listeners[event] = [];
         }
-        listeners[event].push(callback);
+        listeners[event].push(callback as (event: Event) => void);
       }),
-      removeEventListener: vi.fn((event, callback) => {
+      removeEventListener: vi.fn((event: string, callback: EventListener) => {
         if (listeners[event]) {
-          listeners[event] = listeners[event].filter((cb) => cb !== callback);
+          listeners[event] = listeners[event].filter(
+            (cb) => cb !== callback
+          );
         }
       }),
       dispatchEvent: vi.fn(),

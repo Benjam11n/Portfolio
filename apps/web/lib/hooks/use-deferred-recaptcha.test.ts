@@ -1,6 +1,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useDeferredRecaptcha } from "./use-deferred-recaptcha";
+import type { Grecaptcha } from "@repo/testing/test-types";
 
 // Mock env
 vi.mock("@/lib/env", () => ({
@@ -41,13 +42,14 @@ describe("useDeferredRecaptcha", () => {
           // Simulate script load
           _scriptLoaded = true;
           // Set up global grecaptcha
-          (window as any).grecaptcha = {
+          (window as unknown as { grecaptcha?: Grecaptcha }).grecaptcha = {
             ready: (cb: () => void) => {
               _readyCallback = cb;
               cb();
             },
             execute: mockExecute,
-          };
+            render: () => "mock-widget-id",
+          } satisfies Grecaptcha;
           element.dispatchEvent(new Event("load"));
         }, 10);
       }

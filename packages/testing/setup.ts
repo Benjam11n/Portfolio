@@ -36,17 +36,28 @@ class IntersectionObserverMock implements IntersectionObserver {
 vi.stubGlobal("IntersectionObserver", IntersectionObserverMock);
 
 // Mock Canvas 2D context
+const mockCanvasContext = {
+  clearRect: vi.fn(),
+  beginPath: vi.fn(),
+  moveTo: vi.fn(),
+  lineTo: vi.fn(),
+  stroke: vi.fn(),
+  fill: vi.fn(),
+  arc: vi.fn(),
+  save: vi.fn(),
+  restore: vi.fn(),
+  translate: vi.fn(),
+  rotate: vi.fn(),
+  scale: vi.fn(),
+  drawImage: vi.fn(),
+  fillRect: vi.fn(),
+  fillText: vi.fn(),
+  measureText: vi.fn(() => ({ width: 0 })),
+};
+
 HTMLCanvasElement.prototype.getContext = ((type: string) => {
   if (type === "2d") {
-    return {
-      clearRect: vi.fn(),
-      beginPath: vi.fn(),
-      moveTo: vi.fn(),
-      lineTo: vi.fn(),
-      stroke: vi.fn(),
-      fill: vi.fn(),
-      arc: vi.fn(),
-    };
+    return mockCanvasContext as unknown as CanvasRenderingContext2D;
   }
   return null;
 }) as unknown as HTMLCanvasElement["getContext"];

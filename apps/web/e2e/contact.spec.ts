@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
-import type { Grecaptcha } from "@repo/testing/test-types";
 import { validContactData, waitForPageReady } from "./fixtures";
+import type { Grecaptcha } from "@repo/testing/test-types";
 
 // Regex patterns at top level for performance
 const HOME_URL_REGEX = /\/$/;
@@ -9,14 +9,14 @@ test.describe("Contact Form", () => {
   test.beforeEach(async ({ page }) => {
     // Mock reCAPTCHA
     await page.addInitScript(() => {
-      (window as Window & { grecaptcha: Grecaptcha }).grecaptcha = {
+      (window as Window & { grecaptcha?: Grecaptcha }).grecaptcha = {
         ready: (cb: () => void) => cb(),
         execute: () =>
           new Promise((resolve) =>
             setTimeout(() => resolve("mock-recaptcha-token"), 100)
           ),
         render: () => "mock-widget-id",
-      };
+      } satisfies Grecaptcha;
     });
 
     await page.goto("/");
