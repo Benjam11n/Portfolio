@@ -1,11 +1,12 @@
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useActiveSection } from "./use-active-section";
+import { createMockIntersectionEntry } from "@repo/testing/test-types";
 
 describe("useActiveSection", () => {
   let intersectionCallback: IntersectionObserverCallback;
-  let observeSpy: any;
-  let disconnectSpy: any;
+  let observeSpy: ReturnType<typeof vi.fn>;
+  let disconnectSpy: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     observeSpy = vi.fn();
@@ -13,19 +14,23 @@ describe("useActiveSection", () => {
 
     // Mock IntersectionObserver
     window.IntersectionObserver = class IntersectionObserver {
+      readonly root: Element | Document | null = null;
+      readonly rootMargin = "";
+      readonly thresholds: number[] = [];
+
       constructor(
         callback: IntersectionObserverCallback,
         _options?: IntersectionObserverInit
       ) {
         intersectionCallback = callback;
       }
-      root = null;
-      rootMargin = "";
-      thresholds = [];
+
       observe = observeSpy;
       disconnect = disconnectSpy;
-      takeRecords = vi.fn();
-    } as any;
+      takeRecords() {
+        return [];
+      }
+    } as unknown as typeof IntersectionObserver;
 
     // Mock document.getElementById
     vi.spyOn(document, "getElementById").mockImplementation((_id) => {
@@ -53,20 +58,22 @@ describe("useActiveSection", () => {
 
     // Simulate section1 becoming visible
     act(() => {
+      const entries = [
+        createMockIntersectionEntry({
+          id: "section1",
+          isIntersecting: true,
+          intersectionRatio: 0.8,
+        }),
+        createMockIntersectionEntry({
+          id: "section2",
+          isIntersecting: true,
+          intersectionRatio: 0.1,
+        }),
+      ];
+
       intersectionCallback(
-        [
-          {
-            target: { id: "section1" },
-            isIntersecting: true,
-            intersectionRatio: 0.8,
-          } as any,
-          {
-            target: { id: "section2" },
-            isIntersecting: true,
-            intersectionRatio: 0.1,
-          } as any,
-        ],
-        window.IntersectionObserver as any
+        entries,
+        window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
 
@@ -82,18 +89,18 @@ describe("useActiveSection", () => {
     act(() => {
       intersectionCallback(
         [
-          {
-            target: { id: "section1" },
+          createMockIntersectionEntry({
+            id: "section1",
             isIntersecting: true,
             intersectionRatio: 0.8,
-          } as any,
-          {
-            target: { id: "section2" },
+          }),
+          createMockIntersectionEntry({
+            id: "section2",
             isIntersecting: true,
             intersectionRatio: 0.1,
-          } as any,
+          }),
         ],
-        window.IntersectionObserver as any
+        window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
     expect(result.current).toBe("section1");
@@ -102,18 +109,18 @@ describe("useActiveSection", () => {
     act(() => {
       intersectionCallback(
         [
-          {
-            target: { id: "section1" },
+          createMockIntersectionEntry({
+            id: "section1",
             isIntersecting: true,
             intersectionRatio: 0.2,
-          } as any,
-          {
-            target: { id: "section2" },
+          }),
+          createMockIntersectionEntry({
+            id: "section2",
             isIntersecting: true,
             intersectionRatio: 0.9,
-          } as any,
+          }),
         ],
-        window.IntersectionObserver as any
+        window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
     expect(result.current).toBe("section2");
@@ -128,13 +135,13 @@ describe("useActiveSection", () => {
     act(() => {
       intersectionCallback(
         [
-          {
-            target: { id: "section1" },
+          createMockIntersectionEntry({
+            id: "section1",
             isIntersecting: true,
             intersectionRatio: 0.5,
-          } as any,
+          }),
         ],
-        window.IntersectionObserver as any
+        window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
     expect(result.current).toBe("section1");
@@ -147,13 +154,13 @@ describe("useActiveSection", () => {
     act(() => {
       intersectionCallback(
         [
-          {
-            target: { id: "section2" },
+          createMockIntersectionEntry({
+            id: "section2",
             isIntersecting: true,
             intersectionRatio: 0.8,
-          } as any,
+          }),
         ],
-        window.IntersectionObserver as any
+        window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
     // Now section1=0.5, section2=0.8 -> Result section2

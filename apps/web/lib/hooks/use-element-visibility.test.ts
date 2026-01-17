@@ -4,8 +4,8 @@ import { useElementVisibility } from "./use-element-visibility";
 
 describe("useElementVisibility", () => {
   let intersectionCallback: IntersectionObserverCallback;
-  let observeSpy: any;
-  let disconnectSpy: any;
+  let observeSpy: ReturnType<typeof vi.fn>;
+  let disconnectSpy: ReturnType<typeof vi.fn>;
   let eventListeners: Record<string, EventListener> = {};
 
   beforeEach(() => {
@@ -15,19 +15,23 @@ describe("useElementVisibility", () => {
 
     // Mock IntersectionObserver
     window.IntersectionObserver = class IntersectionObserver {
+      readonly root: Element | Document | null = null;
+      readonly rootMargin = "";
+      readonly thresholds: number[] = [];
+
       constructor(
         callback: IntersectionObserverCallback,
         _options?: IntersectionObserverInit
       ) {
         intersectionCallback = callback;
       }
-      root = null;
-      rootMargin = "";
-      thresholds = [];
+
       observe = observeSpy;
       disconnect = disconnectSpy;
-      takeRecords = vi.fn();
-    } as any;
+      takeRecords() {
+        return [];
+      }
+    } as unknown as typeof IntersectionObserver;
 
     // Mock document event listeners
     vi.spyOn(document, "addEventListener").mockImplementation(
@@ -72,7 +76,7 @@ describe("useElementVisibility", () => {
             target: ref.current,
           } as unknown as IntersectionObserverEntry,
         ],
-        window.IntersectionObserver as any
+        window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
 
@@ -87,7 +91,7 @@ describe("useElementVisibility", () => {
     act(() => {
       intersectionCallback(
         [{ isIntersecting: true } as unknown as IntersectionObserverEntry],
-        window.IntersectionObserver as any
+        window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
     expect(result.current).toBe(true);
@@ -96,7 +100,7 @@ describe("useElementVisibility", () => {
     act(() => {
       intersectionCallback(
         [{ isIntersecting: false } as unknown as IntersectionObserverEntry],
-        window.IntersectionObserver as any
+        window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
     expect(result.current).toBe(false);
@@ -110,7 +114,7 @@ describe("useElementVisibility", () => {
     act(() => {
       intersectionCallback(
         [{ isIntersecting: true } as unknown as IntersectionObserverEntry],
-        window.IntersectionObserver as any
+        window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
     expect(result.current).toBe(true);
@@ -137,7 +141,7 @@ describe("useElementVisibility", () => {
     act(() => {
       intersectionCallback(
         [{ isIntersecting: true } as unknown as IntersectionObserverEntry],
-        window.IntersectionObserver as any
+        window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
 

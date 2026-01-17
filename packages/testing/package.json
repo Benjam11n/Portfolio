@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./vitest.config": "./vitest.config.ts"
+    "./vitest.config": "./vitest.config.ts",
+    "./test-types": "./src/test-types.ts"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
