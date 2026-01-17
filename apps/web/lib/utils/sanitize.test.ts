@@ -3,38 +3,17 @@ import { sanitizeRecaptchaData } from "./sanitize";
 
 describe("sanitizeRecaptchaData", () => {
   describe("edge cases", () => {
-    it("should return empty object for null input", () => {
-      const result = sanitizeRecaptchaData(null);
-      expect(result).toEqual({});
-    });
-
-    it("should return empty object for undefined input", () => {
-      const result = sanitizeRecaptchaData(undefined);
-      expect(result).toEqual({});
-    });
-
-    it("should return empty object for string input", () => {
-      const result = sanitizeRecaptchaData("string");
-      expect(result).toEqual({});
-    });
-
-    it("should return empty object for number input", () => {
-      const result = sanitizeRecaptchaData(123);
-      expect(result).toEqual({});
-    });
-
-    it("should return empty object for boolean input", () => {
-      const result = sanitizeRecaptchaData(true);
-      expect(result).toEqual({});
-    });
-
-    it("should return empty object for array input", () => {
-      const result = sanitizeRecaptchaData([1, 2, 3]);
-      expect(result).toEqual({});
-    });
-
-    it("should return empty object for empty object", () => {
-      const result = sanitizeRecaptchaData({});
+    it.each`
+      input        | description
+      ${null}      | ${"null input"}
+      ${undefined} | ${"undefined input"}
+      ${"string"}  | ${"string input"}
+      ${123}       | ${"number input"}
+      ${true}      | ${"boolean input"}
+      ${[1, 2, 3]} | ${"array input"}
+      ${{}}        | ${"empty object"}
+    `("should return empty object for $description", ({ input }) => {
+      const result = sanitizeRecaptchaData(input);
       expect(result).toEqual({});
     });
   });
