@@ -5,6 +5,8 @@ import { Button } from "./button";
 
 const CLICK_ME_REGEX = /click me/i;
 const LINK_BUTTON_REGEX = /link button/i;
+const LOADING_REGEX = /loading/i;
+const SUCCESS_REGEX = /success/i;
 
 describe("Button", () => {
   it("renders correctly", () => {
@@ -40,7 +42,7 @@ describe("Button", () => {
 
   it("renders loading variant with spinner icon", () => {
     render(<Button variant="loading">Loading</Button>);
-    const button = screen.getByRole("button", { name: /loading/i });
+    const button = screen.getByRole("button", { name: LOADING_REGEX });
     expect(button).toBeDefined();
     expect(button).toBeDisabled();
     // Check for the Loader2 icon (svg with data-lucide="loader-2")
@@ -50,7 +52,7 @@ describe("Button", () => {
 
   it("renders success variant with checkmark icon", () => {
     render(<Button variant="success">Success</Button>);
-    const button = screen.getByRole("button", { name: /success/i });
+    const button = screen.getByRole("button", { name: SUCCESS_REGEX });
     expect(button).toBeDefined();
     expect(button).not.toBeDisabled();
     // Check for the CheckCircle2 icon (svg with data-lucide="check-circle-2")
@@ -60,32 +62,32 @@ describe("Button", () => {
 
   it("applies custom classes to loading variant", () => {
     render(
-      <Button variant="loading" className="custom-class">
+      <Button className="custom-class" variant="loading">
         Loading
       </Button>
     );
-    const button = screen.getByRole("button", { name: /loading/i });
+    const button = screen.getByRole("button", { name: LOADING_REGEX });
     expect(button.className).toContain("custom-class");
   });
 
   it("applies custom classes to success variant", () => {
     render(
-      <Button variant="success" className="custom-class">
+      <Button className="custom-class" variant="success">
         Success
       </Button>
     );
-    const button = screen.getByRole("button", { name: /success/i });
+    const button = screen.getByRole("button", { name: SUCCESS_REGEX });
     expect(button.className).toContain("custom-class");
   });
 
   it("prevents clicks on loading button", () => {
     const handleClick = vi.fn();
     render(
-      <Button variant="loading" onClick={handleClick}>
+      <Button onClick={handleClick} variant="loading">
         Loading
       </Button>
     );
-    const button = screen.getByRole("button", { name: /loading/i });
+    const button = screen.getByRole("button", { name: LOADING_REGEX });
     fireEvent.click(button);
     expect(handleClick).not.toHaveBeenCalled();
   });
@@ -93,11 +95,11 @@ describe("Button", () => {
   it("allows clicks on success button", () => {
     const handleClick = vi.fn();
     render(
-      <Button variant="success" onClick={handleClick}>
+      <Button onClick={handleClick} variant="success">
         Success
       </Button>
     );
-    const button = screen.getByRole("button", { name: /success/i });
+    const button = screen.getByRole("button", { name: SUCCESS_REGEX });
     fireEvent.click(button);
     expect(handleClick).toHaveBeenCalledTimes(1);
   });

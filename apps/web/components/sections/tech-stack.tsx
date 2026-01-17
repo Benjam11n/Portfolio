@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
+import { TechDetailModal } from "@/components/modals/tech-detail-modal";
 import { SectionCard } from "@/components/shared/section-card";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
@@ -14,6 +15,17 @@ const CATEGORIES = ["All", "Frontend", "Backend", "AI/ML", "Language"];
 export const TechStack = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTech, setSelectedTech] = useState<
+    (typeof TECH_STACK)[0] | null
+  >(null);
+
+  const handleOpenTech = (tech: (typeof TECH_STACK)[0]) => {
+    setSelectedTech(tech);
+  };
+
+  const handleCloseTech = () => {
+    setSelectedTech(null);
+  };
 
   const filteredStack = useMemo(() => {
     return TECH_STACK.filter((item) => {
@@ -101,7 +113,10 @@ export const TechStack = () => {
                 layout
                 transition={{ duration: 0.15 }}
               >
-                <TechStackItem stack={stack} />
+                <TechStackItem
+                  onClick={() => handleOpenTech(stack)}
+                  stack={stack}
+                />
               </motion.div>
             ))}
           </AnimatePresence>
@@ -116,6 +131,15 @@ export const TechStack = () => {
           )}
         </motion.div>
       </div>
+
+      {/* Tech Detail Modal */}
+      {selectedTech && (
+        <TechDetailModal
+          isOpen={!!selectedTech}
+          onClose={handleCloseTech}
+          tech={selectedTech}
+        />
+      )}
     </SectionCard>
   );
 };

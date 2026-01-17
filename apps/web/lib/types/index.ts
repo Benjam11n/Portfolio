@@ -28,6 +28,7 @@ export type Project = {
 
   // Features
   features?: string[];
+  featureIcon?: (props: { className: string }) => React.JSX.Element;
 };
 
 export type Experience = {
@@ -68,12 +69,23 @@ export const TechCategory = {
 
 export type TechCategory = (typeof TechCategory)[keyof typeof TechCategory];
 
+export const ProficiencyLevel = {
+  BEGINNER: "beginner",
+  INTERMEDIATE: "intermediate",
+  ADVANCED: "advanced",
+  EXPERT: "expert",
+} as const;
+
+export type ProficiencyLevel =
+  (typeof ProficiencyLevel)[keyof typeof ProficiencyLevel];
+
 export type TechStack = {
   name: string;
   icon: string;
   category: TechCategory;
   colorLight: string;
   colorDark: string;
+  proficiency?: ProficiencyLevel;
 };
 
 export type ContactInfo = {
