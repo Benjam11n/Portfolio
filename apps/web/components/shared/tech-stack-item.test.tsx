@@ -21,6 +21,7 @@ const mockStackItem = {
   category: "Frontend" as const,
   colorLight: "#fff",
   colorDark: "#000",
+  proficiency: "expert" as const,
 };
 
 describe("TechStackItem", () => {

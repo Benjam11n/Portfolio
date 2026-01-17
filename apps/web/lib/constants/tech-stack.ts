@@ -1,8 +1,6 @@
-import type { TechStack } from "@/lib/types";
-import { TechCategory } from "@/lib/types";
-import { techStackArraySchema } from "@/lib/validations/constants";
+import { ProficiencyLevel, TechCategory } from "@/lib/types";
 
-const rawTechStack: TechStack[] = [
+export const TECH_STACK = [
   // --- AI/ML ---
   {
     name: "Numpy",
@@ -10,6 +8,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.AI_ML,
     colorLight: "#E1F5FE",
     colorDark: "#013243",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {
     name: "Pandas",
@@ -17,6 +16,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.AI_ML,
     colorLight: "#F3E5F5",
     colorDark: "#5533ddff",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {
     name: "PyTorch",
@@ -24,6 +24,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.AI_ML,
     colorLight: "#FFF3E0",
     colorDark: "#64271bff",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {
     name: "Tensorflow",
@@ -31,6 +32,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.AI_ML,
     colorLight: "#FFF3E0",
     colorDark: "#FF6F00",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
 
   // --- Web Development ---
@@ -40,6 +42,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.ANIMATION,
     colorLight: "#F3E5F5",
     colorDark: "#180036",
+    proficiency: ProficiencyLevel.BEGINNER,
   },
   {
     name: "Ionic",
@@ -47,6 +50,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.MOBILE,
     colorLight: "#E1F5FE",
     colorDark: "#122f60ff",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {
     name: "Next.js",
@@ -54,6 +58,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.FRAMEWORK,
     colorLight: "#F3F4F6",
     colorDark: "#F3F4F6",
+    proficiency: ProficiencyLevel.EXPERT,
   },
   {
     name: "Node.js",
@@ -61,6 +66,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.BACKEND,
     colorLight: "#F1F8E9",
     colorDark: "#518742ff",
+    proficiency: ProficiencyLevel.ADVANCED,
   },
   {
     name: "React",
@@ -68,6 +74,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.FRONTEND,
     colorLight: "#E0F7FA",
     colorDark: "#001b59",
+    proficiency: ProficiencyLevel.EXPERT,
   },
   {
     name: "React Query",
@@ -75,6 +82,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.FRONTEND,
     colorLight: "#FFF1F2",
     colorDark: "#FF4154",
+    proficiency: ProficiencyLevel.ADVANCED,
   },
   {
     name: "Tailwind",
@@ -82,6 +90,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.STYLING,
     colorLight: "#E0F2F1",
     colorDark: "#0B2830",
+    proficiency: ProficiencyLevel.EXPERT,
   },
   {
     name: "TypeScript",
@@ -89,6 +98,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.LANGUAGE,
     colorLight: "#E3F2FD",
     colorDark: "#00273F",
+    proficiency: ProficiencyLevel.EXPERT,
   },
   {
     name: "Zustand",
@@ -96,6 +106,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.FRONTEND,
     colorLight: "#FFFDE7",
     colorDark: "#6f675fff",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
 
   // --- Databases & DevOps ---
@@ -105,6 +116,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.DEVOPS,
     colorLight: "#E1F5FE",
     colorDark: "#0D2C4A",
+    proficiency: ProficiencyLevel.ADVANCED,
   },
   {
     name: "Go",
@@ -112,6 +124,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.LANGUAGE,
     colorLight: "#E0F7FA",
     colorDark: "#d8f7ffff",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {
     name: "Java",
@@ -119,6 +132,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.LANGUAGE,
     colorLight: "#FBE9E7",
     colorDark: "#002c39ff",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {
     name: "MongoDB",
@@ -126,6 +140,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.DATABASE,
     colorLight: "#E8F5E9",
     colorDark: "#001E0E",
+    proficiency: ProficiencyLevel.ADVANCED,
   },
   {
     name: "Postgres",
@@ -133,6 +148,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.DATABASE,
     colorLight: "#E3F2FD",
     colorDark: "#0E1A2B",
+    proficiency: ProficiencyLevel.ADVANCED,
   },
   {
     name: "Python",
@@ -140,6 +156,7 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.LANGUAGE,
     colorLight: "#E3F2FD",
     colorDark: "#1E2D3B",
+    proficiency: ProficiencyLevel.ADVANCED,
   },
   {
     name: "Supabase",
@@ -147,9 +164,6 @@ const rawTechStack: TechStack[] = [
     category: TechCategory.DATABASE,
     colorLight: "#E8F5E9",
     colorDark: "#146541ff",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
 ];
-
-const validatedTechStack = techStackArraySchema.parse(rawTechStack);
-
-export const TECH_STACK: TechStack[] = validatedTechStack;
