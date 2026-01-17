@@ -2,11 +2,11 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Search } from "lucide-react";
-import { useMemo, useState } from "react";
-import { TechDetailModal } from "@/components/modals/tech-detail-modal";
+import { useEffect, useMemo, useState } from "react";
 import { SectionCard } from "@/components/shared/section-card";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
+import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { TechCategory } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -15,17 +15,8 @@ const CATEGORIES = ["All", "Frontend", "Backend", "AI/ML", "Language"];
 export const TechStack = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTech, setSelectedTech] = useState<
-    (typeof TECH_STACK)[0] | null
-  >(null);
-
-  const handleOpenTech = (tech: (typeof TECH_STACK)[0]) => {
-    setSelectedTech(tech);
-  };
-
-  const handleCloseTech = () => {
-    setSelectedTech(null);
-  };
+  const { skipAnimations } = useAnimationSkipContext();
+  const [showSkipIndicator, setShowSkipIndicator] = useState(false);
 
   const filteredStack = useMemo(() => {
     return TECH_STACK.filter((item) => {
@@ -63,6 +54,66 @@ export const TechStack = () => {
       return matchesCategory && matchesSearch;
     });
   }, [selectedCategory, searchQuery]);
+
+  /**
+   * TECH STACK ANIMATION TIMELINE
+   * =============================
+   * Total Duration: 0.15s per item (parallel rendering)
+   * Trigger: User interaction (category/filter changes) + initial mount
+   *
+   * Breakdown:
+   * Each item: 0.15s scale + fade transition (all items animate in parallel)
+   * Layout animation: 0.15s (shared layout animation for reordering)
+   *
+   * Strategy: Fast, responsive transitions that feel instant.
+   * Framer Motion's layout prop enables smooth position animations during filtering.
+   */
+
+  // Show skip indicator when animations are skipped via Escape key
+  useEffect(() => {
+    if (skipAnimations) {
+      setShowSkipIndicator(true);
+      const timer = setTimeout(() => {
+        setShowSkipIndicator(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [skipAnimations]);
+
+  /**
+   * FILTER TRANSITION ANIMATION
+   * ===========================
+   * Purpose: Provides smooth, instant feedback when users filter or search
+   *   through the technology stack. The scale and opacity transitions create
+   *   a polished filtering experience that feels responsive and modern.
+   *
+   * Duration: 0.15s per item for all transitions.
+   *   Very fast duration ensures the interface feels responsive and snappy.
+   *   When animations are skipped, duration becomes 0 for instant updates.
+   *   The AnimatePresence mode="popLayout" enables smooth exit animations
+   *   combined with layout animations for seamless filtering.
+   *
+   * Implementation: Uses Framer Motion's variants system for declarative
+   *   animation states. The layout prop enables automatic position animations
+   *   when items are reordered due to filtering.
+   *
+   * Skipping: When animations are skipped, all variants start at their final
+   *   state (opacity: 1, scale: 1) and transitions have 0 duration, making
+   *   filter changes instant. This ensures users can quickly browse the
+   *   technology stack without any animation delay.
+   */
+  // When animations are skipped, disable entrance animations
+  const itemVariants = skipAnimations
+    ? {
+        initial: { opacity: 1, scale: 1 },
+        animate: { opacity: 1, scale: 1 },
+        exit: { opacity: 0, scale: 0.8 },
+      }
+    : {
+        initial: { opacity: 0, scale: 0.8 },
+        animate: { opacity: 1, scale: 1 },
+        exit: { opacity: 0, scale: 0.8 },
+      };
 
   return (
     <SectionCard title="Stacks & Skills">
@@ -106,17 +157,12 @@ export const TechStack = () => {
           <AnimatePresence mode="popLayout">
             {filteredStack.map((stack) => (
               <motion.div
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                initial={{ opacity: 0, scale: 0.8 }}
+                {...itemVariants}
                 key={stack.name}
                 layout
-                transition={{ duration: 0.15 }}
+                transition={{ duration: skipAnimations ? 0 : 0.15 }}
               >
-                <TechStackItem
-                  onClick={() => handleOpenTech(stack)}
-                  stack={stack}
-                />
+                <TechStackItem stack={stack} />
               </motion.div>
             ))}
           </AnimatePresence>
@@ -124,22 +170,20 @@ export const TechStack = () => {
             <motion.p
               animate={{ opacity: 1 }}
               className="col-span-full py-8 text-center text-muted-foreground text-sm"
-              initial={{ opacity: 0 }}
+              initial={{ opacity: skipAnimations ? 1 : 0 }}
             >
               No technologies found.
             </motion.p>
           )}
         </motion.div>
-      </div>
 
-      {/* Tech Detail Modal */}
-      {selectedTech && (
-        <TechDetailModal
-          isOpen={!!selectedTech}
-          onClose={handleCloseTech}
-          tech={selectedTech}
-        />
-      )}
+        {/* Skip Indicator */}
+        {showSkipIndicator && (
+          <div className="fade-in animate-in text-muted-foreground text-sm opacity-0 duration-300">
+            Animations skipped
+          </div>
+        )}
+      </div>
     </SectionCard>
   );
 };

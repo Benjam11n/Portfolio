@@ -7,6 +7,12 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ScrollLink } from "@/components/shared/scroll-link";
+import {
+  ANIMATION_DURATION,
+  ANIMATION_EASING,
+  ANIMATION_STAGGER,
+  SCROLL_TRIGGER,
+} from "@/lib/constants/animation";
 import { ROUTES } from "@/lib/constants/navigation";
 import { CONTACT_INFO } from "@/lib/constants/socials";
 
@@ -38,7 +44,7 @@ export function Footer() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top 80%",
+          start: `top ${SCROLL_TRIGGER.STANDARD}`,
           toggleActions: "play none none none",
         },
       });
@@ -46,27 +52,27 @@ export function Footer() {
       tl.from(".footer-title", {
         y: 50,
         opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
+        duration: ANIMATION_DURATION.LONG / 1000,
+        ease: ANIMATION_EASING.POWER3,
       })
         .from(
           ".footer-cta",
           {
             scale: 0,
             opacity: 0,
-            duration: 0.6,
-            ease: "back.out(1.7)",
+            duration: ANIMATION_DURATION.STANDARD / 1000,
+            ease: ANIMATION_EASING.BACK_STRONG,
           },
-          "-=0.6"
+          `-=${ANIMATION_DURATION.STANDARD / 1000}`
         )
         .from(
           ".footer-column",
           {
             y: 30,
             opacity: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: "power2.out",
+            duration: ANIMATION_DURATION.STANDARD / 1000,
+            stagger: ANIMATION_STAGGER.STANDARD,
+            ease: ANIMATION_EASING.POWER3,
           },
           "-=0.4"
         );

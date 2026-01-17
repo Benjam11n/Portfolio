@@ -88,12 +88,13 @@ type RetroEffectComponentProps = {
   pixelSize: number;
 };
 
+const WrappedRetroEffect = wrapEffect(RetroEffectImpl);
+
 export const RetroEffect = forwardRef<
   RetroEffectImpl,
   RetroEffectComponentProps
 >((props, ref) => {
   const { colorNum, pixelSize } = props;
-  const WrappedRetroEffect = wrapEffect(RetroEffectImpl);
   return (
     <WrappedRetroEffect colorNum={colorNum} pixelSize={pixelSize} ref={ref} />
   );
