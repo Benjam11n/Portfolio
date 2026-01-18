@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { TechDetailModal } from "@/components/modals/tech-detail-modal";
 import { SectionCard } from "@/components/shared/section-card";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
@@ -17,6 +18,9 @@ export const TechStack = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { skipAnimations } = useAnimationSkipContext();
   const [showSkipIndicator, setShowSkipIndicator] = useState(false);
+  const [selectedTech, setSelectedTech] = useState<
+    (typeof TECH_STACK)[0] | null
+  >(null);
 
   const filteredStack = useMemo(() => {
     return TECH_STACK.filter((item) => {
@@ -116,74 +120,88 @@ export const TechStack = () => {
       };
 
   return (
-    <SectionCard title="Stacks & Skills">
-      <div className="space-y-6">
-        {/* Controls */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          {/* Categories */}
-          <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map((category) => (
-              <button
-                className={cn(
-                  "rounded-full px-3 py-1 font-medium text-xs transition-colors",
-                  selectedCategory === category
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                )}
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                type="button"
-              >
-                {category}
-              </button>
-            ))}
+    <>
+      <SectionCard title="Stacks & Skills">
+        <div className="space-y-6">
+          {/* Controls */}
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            {/* Categories */}
+            <div className="flex flex-wrap gap-2">
+              {CATEGORIES.map((category) => (
+                <button
+                  className={cn(
+                    "rounded-full px-3 py-1 font-medium text-xs transition-colors",
+                    selectedCategory === category
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-secondary text-muted-foreground hover:bg-secondary/80"
+                  )}
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  type="button"
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+
+            {/* Search */}
+            <div className="relative w-full md:w-48">
+              <Search className="absolute top-1/2 left-2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                className="h-8 w-full rounded-md border border-input bg-background pr-3 pl-8 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search..."
+                type="text"
+                value={searchQuery}
+              />
+            </div>
           </div>
 
-          {/* Search */}
-          <div className="relative w-full md:w-48">
-            <Search className="absolute top-1/2 left-2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input
-              className="h-8 w-full rounded-md border border-input bg-background pr-3 pl-8 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search..."
-              type="text"
-              value={searchQuery}
-            />
-          </div>
-        </div>
-
-        {/* Grid */}
-        <motion.div className="grid grid-cols-1 gap-4 md:grid-cols-2" layout>
-          <AnimatePresence mode="popLayout">
-            {filteredStack.map((stack) => (
-              <motion.div
-                {...itemVariants}
-                key={stack.name}
-                layout
-                transition={{ duration: skipAnimations ? 0 : 0.15 }}
+          {/* Grid */}
+          <motion.div className="grid grid-cols-1 gap-4 md:grid-cols-2" layout>
+            <AnimatePresence mode="popLayout">
+              {filteredStack.map((stack) => (
+                <motion.div
+                  {...itemVariants}
+                  key={stack.name}
+                  layout
+                  transition={{ duration: skipAnimations ? 0 : 0.15 }}
+                >
+                  <TechStackItem
+                    onClick={() => setSelectedTech(stack)}
+                    stack={stack}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+            {filteredStack.length === 0 && (
+              <motion.p
+                animate={{ opacity: 1 }}
+                className="col-span-full py-8 text-center text-muted-foreground text-sm"
+                initial={{ opacity: skipAnimations ? 1 : 0 }}
               >
-                <TechStackItem stack={stack} />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-          {filteredStack.length === 0 && (
-            <motion.p
-              animate={{ opacity: 1 }}
-              className="col-span-full py-8 text-center text-muted-foreground text-sm"
-              initial={{ opacity: skipAnimations ? 1 : 0 }}
-            >
-              No technologies found.
-            </motion.p>
+                No technologies found.
+              </motion.p>
+            )}
+          </motion.div>
+
+          {/* Skip Indicator */}
+          {showSkipIndicator && (
+            <div className="fade-in animate-in text-muted-foreground text-sm opacity-0 duration-300">
+              Animations skipped
+            </div>
           )}
-        </motion.div>
+        </div>
+      </SectionCard>
 
-        {/* Skip Indicator */}
-        {showSkipIndicator && (
-          <div className="fade-in animate-in text-muted-foreground text-sm opacity-0 duration-300">
-            Animations skipped
-          </div>
-        )}
-      </div>
-    </SectionCard>
+      {/* Tech Detail Modal */}
+      {selectedTech && (
+        <TechDetailModal
+          isOpen={!!selectedTech}
+          onClose={() => setSelectedTech(null)}
+          tech={selectedTech}
+        />
+      )}
+    </>
   );
 };
