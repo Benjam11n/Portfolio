@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from "react";
 import {
   type FuzzyAnimationStateReturn,
   useFuzzyAnimationState,
-} from "@/lib/hooks/use-fuzzy-animation-state";
+} from "@/lib/hooks/animation/use-fuzzy-animation-state";
 
 type FuzzyTextProps = {
   children: React.ReactNode;

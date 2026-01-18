@@ -8,7 +8,7 @@ import { ExperienceItem } from "@/components/shared/experience-item";
 import { SectionCard } from "@/components/shared/section-card";
 import { workExperiences } from "@/lib/constants/experience";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
-import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 

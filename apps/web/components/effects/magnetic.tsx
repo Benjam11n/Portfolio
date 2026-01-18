@@ -5,7 +5,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { type ReactElement, useRef } from "react";
-import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 type MagneticProps = {
   children: ReactElement;

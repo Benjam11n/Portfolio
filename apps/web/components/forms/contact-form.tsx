@@ -7,8 +7,8 @@ import { toast } from "sonner";
 import { ThankYouAnimation } from "@/components/effects/thank-you-animation";
 import { ShiftSubmitButton } from "@/components/shared/shift-submit-button";
 import { Form } from "@/components/ui/form";
-import { useContactFormSubmit } from "@/lib/hooks/use-contact-form-submit";
-import { useDeferredRecaptcha } from "@/lib/hooks/use-deferred-recaptcha";
+import { useContactFormSubmit } from "@/lib/hooks/forms/use-contact-form-submit";
+import { useDeferredRecaptcha } from "@/lib/hooks/forms/use-deferred-recaptcha";
 import {
   type ContactFormValues,
   contactFormSchema,

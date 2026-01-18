@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ROUTES } from "@/lib/constants/navigation";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
-import { useMobileDetection } from "@/lib/hooks/use-mobile-detection";
+import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Project } from "@/lib/types";
 import { Magnetic } from "../effects/magnetic";
 import { BorderedImage } from "./bordered-image";

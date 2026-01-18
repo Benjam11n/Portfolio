@@ -8,7 +8,7 @@ import { ProjectCard } from "@/components/shared/project-card";
 import { SectionCard } from "@/components/shared/section-card";
 import { PROJECTS } from "@/lib/constants/projects";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
-import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 

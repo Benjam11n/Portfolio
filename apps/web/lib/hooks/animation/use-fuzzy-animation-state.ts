@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
-import { useFuzzyEventHandlers } from "./use-fuzzy-event-handlers";
+import { useFuzzyEventHandlers } from "../utils/use-fuzzy-event-handlers";
 
 type FuzzyAnimationStateOptions = {
   baseIntensity: number;

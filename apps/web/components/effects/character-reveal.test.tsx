@@ -14,14 +14,14 @@ vi.mock("gsap", () => ({
 }));
 
 // Mock hooks
-vi.mock("@/lib/hooks/use-character-reveal", () => ({
+vi.mock("@/lib/hooks/ui/use-character-reveal", () => ({
   useCharacterReveal: () => ({
     setInitialState: vi.fn(),
     animateIn: vi.fn(),
   }),
 }));
 
-vi.mock("@/lib/hooks/use-prefers-reduced-motion", () => ({
+vi.mock("@/lib/hooks/ui/use-prefers-reduced-motion", () => ({
   usePrefersReducedMotion: () => false,
 }));
 

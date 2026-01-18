@@ -8,7 +8,7 @@ import {
   trackContactFormError,
   trackContactFormSuccess,
 } from "@/lib/analytics/conversion";
-import { useDeferredRecaptcha } from "@/lib/hooks/use-deferred-recaptcha";
+import { useDeferredRecaptcha } from "@/lib/hooks/forms/use-deferred-recaptcha";
 import type { ContactFormValues } from "@/lib/validations/contact";
 
 export type UseContactFormSubmitOptions = {

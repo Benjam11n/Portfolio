@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
-import { useAnimationSkip } from "@/lib/hooks/use-animation-skip";
+import { useAnimationSkip } from "@/lib/hooks/animation/use-animation-skip";
 
 type AnimationSkipContextValue = ReturnType<typeof useAnimationSkip>;
 

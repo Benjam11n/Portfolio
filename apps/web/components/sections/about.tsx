@@ -16,7 +16,7 @@ import {
 } from "@/lib/constants/animation";
 import { ROUTES } from "@/lib/constants/navigation";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
-import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { Markdown } from "../shared/markdown";
 
 export const About = () => {
