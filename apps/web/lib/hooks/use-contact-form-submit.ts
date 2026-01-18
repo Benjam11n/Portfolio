@@ -1,7 +1,7 @@
 "use client";
 
 import { logger } from "@repo/logger";
-import { useTransition } from "react";
+import { useEffect, useRef, useTransition } from "react";
 import { toast } from "sonner";
 import { sendEmailAction } from "@/lib/actions/email.actions";
 import {
@@ -42,20 +42,16 @@ export const useContactFormSubmit = ({
   const { executeRecaptcha, isRecaptchaReady, loadRecaptcha } =
     useDeferredRecaptcha({});
 
-  const handleSubmit = async (values: ContactFormValues) => {
-    if (!isRecaptchaReady) {
-      trackContactFormError("recaptcha_not_ready", "main_form");
-      toast.error("Security verification loading...");
-      loadRecaptcha();
-      return;
-    }
+  // Queue for pending submission if reCAPTCHA loads late
+  const pendingSubmitRef = useRef<ContactFormValues | null>(null);
 
+  const performSubmit = async (values: ContactFormValues) => {
     try {
       const token = await executeRecaptcha();
 
       if (!token) {
         trackContactFormError("recaptcha_token_missing", "main_form");
-        toast.error("ReCAPTCHA verification failed");
+        toast.error("Security verification failed");
         return;
       }
 
@@ -77,6 +73,29 @@ export const useContactFormSubmit = ({
       toast.error("An error occurred during verification");
       logger.error(error);
     }
+  };
+
+  // Watch for reCAPTCHA readiness to retry pending submission
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    if (isRecaptchaReady && pendingSubmitRef.current) {
+      const values = pendingSubmitRef.current;
+      pendingSubmitRef.current = null;
+      toast.dismiss("recaptcha-loading");
+      performSubmit(values);
+    }
+  }, [isRecaptchaReady]);
+
+  const handleSubmit = async (values: ContactFormValues) => {
+    if (!isRecaptchaReady) {
+      trackContactFormError("recaptcha_not_ready", "main_form");
+      toast.loading("Verifying Security...", { id: "recaptcha-loading" });
+      pendingSubmitRef.current = values;
+      loadRecaptcha();
+      return;
+    }
+
+    await performSubmit(values);
   };
 
   return {

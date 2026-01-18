@@ -3,6 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { ThankYouAnimation } from "@/components/effects/thank-you-animation";
 import { ShiftSubmitButton } from "@/components/shared/shift-submit-button";
 import { Form } from "@/components/ui/form";
 import { useContactFormSubmit } from "@/lib/hooks/use-contact-form-submit";
@@ -12,13 +14,10 @@ import {
   contactFormSchema,
 } from "@/lib/validations/contact";
 import { FormInput } from "./form-input";
-import { FormSuccessModal } from "./form-success-modal";
 import { FormTextArea } from "./form-textarea";
 
 export const ContactForm = () => {
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [senderName, setSenderName] = useState("");
-
+  const [showThankYou, setShowThankYou] = useState(false);
   const { loadRecaptcha } = useDeferredRecaptcha({});
 
   // Load reCAPTCHA on mount
@@ -38,24 +37,19 @@ export const ContactForm = () => {
 
   const { isPending, handleSubmit } = useContactFormSubmit({
     onSuccess: (name) => {
-      setSenderName(name);
-      setShowSuccess(true);
+      setShowThankYou(true);
+      toast.success(`Thanks ${name}!`, {
+        description: "Your message has been sent successfully.",
+      });
       form.reset();
     },
   });
 
-  const handleCloseSuccess = () => {
-    setShowSuccess(false);
-    setSenderName("");
-  };
-
   return (
-    <>
-      <FormSuccessModal
-        isOpen={showSuccess}
-        onClose={handleCloseSuccess}
-        senderName={senderName}
-      />
+    <div className="relative">
+      {showThankYou && (
+        <ThankYouAnimation onComplete={() => setShowThankYou(false)} />
+      )}
 
       <Form {...form}>
         <form className="space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
@@ -120,6 +114,6 @@ export const ContactForm = () => {
           </p>
         </form>
       </Form>
-    </>
+    </div>
   );
 };
