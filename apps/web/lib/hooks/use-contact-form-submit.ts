@@ -4,6 +4,10 @@ import { logger } from "@repo/logger";
 import { useTransition } from "react";
 import { toast } from "sonner";
 import { sendEmailAction } from "@/lib/actions/email.actions";
+import {
+  trackContactFormError,
+  trackContactFormSuccess,
+} from "@/lib/analytics/conversion";
 import { useDeferredRecaptcha } from "@/lib/hooks/use-deferred-recaptcha";
 import type { ContactFormValues } from "@/lib/validations/contact";
 
@@ -40,6 +44,7 @@ export const useContactFormSubmit = ({
 
   const handleSubmit = async (values: ContactFormValues) => {
     if (!isRecaptchaReady) {
+      trackContactFormError("recaptcha_not_ready", "main_form");
       toast.error("Security verification loading...");
       loadRecaptcha();
       return;
@@ -49,6 +54,7 @@ export const useContactFormSubmit = ({
       const token = await executeRecaptcha();
 
       if (!token) {
+        trackContactFormError("recaptcha_token_missing", "main_form");
         toast.error("ReCAPTCHA verification failed");
         return;
       }
@@ -57,14 +63,17 @@ export const useContactFormSubmit = ({
         const result = await sendEmailAction({ ...values, token });
 
         if (result.error) {
+          trackContactFormError("submission", "main_form");
           toast.error("Error", {
             description: result.error,
           });
         } else {
+          trackContactFormSuccess("main_form");
           onSuccess?.(values.name);
         }
       });
     } catch (error) {
+      trackContactFormError("verification_error", "main_form");
       toast.error("An error occurred during verification");
       logger.error(error);
     }

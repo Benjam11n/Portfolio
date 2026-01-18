@@ -25,7 +25,7 @@ export async function sendEmailAction(formData: ContactActionValues) {
       };
     }
 
-    const { name, email, subject, message, token } = formData;
+    const { name, email, message, token } = formData;
 
     if (!token) {
       return {
@@ -57,13 +57,13 @@ export async function sendEmailAction(formData: ContactActionValues) {
       };
     }
 
-    const htmlContent = generateContactEmailHtml(name, email, subject, message);
-    const textContent = generateContactEmailText(name, email, subject, message);
+    const htmlContent = generateContactEmailHtml(name, email, message);
+    const textContent = generateContactEmailText(name, email, message);
 
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: [env.TO_EMAIL],
-      subject: `Contact Request: ${subject}`,
+      subject: "Contact Request from Portfolio",
       replyTo: email,
       text: textContent,
       html: htmlContent,

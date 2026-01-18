@@ -1,7 +1,6 @@
 export function generateContactEmailHtml(
   name: string,
   email: string,
-  subject: string,
   message: string
 ) {
   return `
@@ -89,11 +88,6 @@ export function generateContactEmailHtml(
       </div>
 
       <div class="field">
-        <div class="field-label">Subject:</div>
-        <div class="field-value">${subject}</div>
-      </div>
-
-      <div class="field">
         <div class="field-label">Message:</div>
         <div class="message-content">${message.replace(/\n/g, "<br/>")}</div>
       </div>
@@ -110,7 +104,6 @@ export function generateContactEmailHtml(
 export function generateContactEmailText(
   name: string,
   email: string,
-  subject: string,
   message: string
 ) {
   return `
@@ -118,7 +111,6 @@ CONTACT FORM SUBMISSION
 
 Name: ${name}
 Email: ${email}
-Subject: ${subject}
 
 Message:
 ${message}

@@ -32,7 +32,6 @@ export const ContactForm = () => {
     defaultValues: {
       name: "",
       email: "",
-      subject: "",
       message: "",
     },
   });
@@ -81,16 +80,6 @@ export const ContactForm = () => {
               placeholder="johndoe@gmail.com"
             />
           </div>
-
-          <FormInput
-            className="bg-card"
-            control={form.control}
-            disabled={isPending || form.formState.isSubmitting}
-            id="contact-subject"
-            label="Subject"
-            name="subject"
-            placeholder="Project Inquiry"
-          />
 
           <FormTextArea
             className="bg-card"
