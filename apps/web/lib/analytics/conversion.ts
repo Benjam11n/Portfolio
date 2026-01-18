@@ -1,7 +1,7 @@
 "use client";
 
+import { trackEvent } from "@repo/analytics";
 import { logger } from "@repo/logger";
-import { track } from "@vercel/analytics";
 
 /**
  * Conversion event types for tracking user interactions
@@ -52,7 +52,7 @@ export type ConversionEventProperties = {
  */
 export function trackConversion(properties: ConversionEventProperties): void {
   try {
-    track(properties.event, {
+    trackEvent(properties.event, {
       context: properties.context,
       source: properties.source,
       ...properties.metadata,

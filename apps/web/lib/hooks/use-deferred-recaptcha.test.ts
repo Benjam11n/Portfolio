@@ -1,7 +1,7 @@
+import type { Grecaptcha } from "@repo/testing/test-types";
 import { renderHook, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useDeferredRecaptcha } from "./use-deferred-recaptcha";
-import type { Grecaptcha } from "@repo/testing/test-types";
 
 // Mock env
 vi.mock("@/lib/env", () => ({

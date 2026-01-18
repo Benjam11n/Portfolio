@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { validContactData, waitForPageReady } from "./fixtures";
 import type { Grecaptcha } from "@repo/testing/test-types";
+import { validContactData, waitForPageReady } from "./fixtures";
 
 // Regex patterns at top level for performance
 const HOME_URL_REGEX = /\/$/;
