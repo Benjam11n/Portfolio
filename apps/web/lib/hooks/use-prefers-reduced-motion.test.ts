@@ -1,7 +1,7 @@
+import type { EventListenerMap } from "@repo/testing/test-types";
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { usePrefersReducedMotion } from "./use-prefers-reduced-motion";
-import type { EventListenerMap } from "@repo/testing/test-types";
 
 describe("usePrefersReducedMotion", () => {
   let matchMediaMock: ReturnType<typeof vi.fn>;
@@ -24,15 +24,13 @@ describe("usePrefersReducedMotion", () => {
       }),
       removeEventListener: vi.fn((event: string, callback: EventListener) => {
         if (listeners[event]) {
-          listeners[event] = listeners[event].filter(
-            (cb) => cb !== callback
-          );
+          listeners[event] = listeners[event].filter((cb) => cb !== callback);
         }
       }),
       dispatchEvent: vi.fn(),
     }));
 
-    window.matchMedia = matchMediaMock;
+    window.matchMedia = matchMediaMock as unknown as typeof window.matchMedia;
   });
 
   afterEach(() => {

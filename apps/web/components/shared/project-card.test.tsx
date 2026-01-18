@@ -1,25 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { render, screen } from "@repo/testing/test-utils";
+import { describe, expect, it } from "vitest";
 import { ProjectCard } from "./project-card";
-
-// Mock GSAP
-vi.mock("@gsap/react", () => ({
-  useGSAP: () => ({
-    contextSafe: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
-  }),
-}));
-
-vi.mock("gsap", () => ({
-  default: {
-    to: vi.fn(),
-  },
-}));
-
-// Mock Magnetic
-vi.mock("../effects/magnetic", () => ({
-  Magnetic: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-}));
 
 const VIEW_PROJECT_REGEX = /View project: Test Project - Subtitle/i;
 
@@ -48,36 +29,24 @@ const SUBTITLE_REGEX = /Subtitle/;
 
 describe("ProjectCard", () => {
   it("renders project title and subtitle", () => {
-    render(
-      <TooltipProvider>
-        <ProjectCard project={mockProject} />
-      </TooltipProvider>
-    );
+    render(<ProjectCard project={mockProject} />);
     expect(screen.getAllByText("Test Project")).toHaveLength(2);
-    expect(screen.getByText(SUBTITLE_REGEX)).toBeDefined();
+    expect(screen.getByText(SUBTITLE_REGEX)).toBeInTheDocument();
   });
 
   it("renders project image", () => {
-    render(
-      <TooltipProvider>
-        <ProjectCard project={mockProject} />
-      </TooltipProvider>
-    );
+    render(<ProjectCard project={mockProject} />);
     // Check for alt text
     const img = screen.getByAltText("Test Project - Subtitle");
-    expect(img).toBeDefined();
+    expect(img).toBeInTheDocument();
   });
 
   it("renders accessible link to details", () => {
-    render(
-      <TooltipProvider>
-        <ProjectCard project={mockProject} />
-      </TooltipProvider>
-    );
+    render(<ProjectCard project={mockProject} />);
     const link = screen.getByRole("link", {
       name: VIEW_PROJECT_REGEX,
     });
-    expect(link).toBeDefined();
-    expect(link.getAttribute("href")).toBe("/projects/test-project");
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute("href", "/projects/test-project");
   });
 });

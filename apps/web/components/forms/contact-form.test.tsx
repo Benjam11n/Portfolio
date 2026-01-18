@@ -1,13 +1,10 @@
 import type { MockButtonProps } from "@repo/testing/test-types";
-import { render, screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, screen, waitFor } from "@repo/testing/test-utils"; // Use test-utils
 import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { ReactNode } from "react";
 import { sendEmailAction } from "@/lib/actions/email.actions";
 import { useDeferredRecaptcha } from "@/lib/hooks/use-deferred-recaptcha";
 import { ContactForm } from "./contact-form";
-import type { MockButtonProps } from "@repo/testing/test-types";
 
 // Mock dependencies
 const NAME_REGEX = /name/i;
@@ -60,17 +57,16 @@ describe("ContactForm", () => {
 
   it("renders all form fields", () => {
     render(<ContactForm />);
-    expect(screen.getByLabelText(NAME_REGEX)).toBeDefined();
-    expect(screen.getByLabelText(EMAIL_REGEX)).toBeDefined();
-    expect(screen.getByLabelText(SUBJECT_REGEX)).toBeDefined();
+    expect(screen.getByLabelText(NAME_REGEX)).toBeInTheDocument();
+    expect(screen.getByLabelText(EMAIL_REGEX)).toBeInTheDocument();
+    expect(screen.getByLabelText(SUBJECT_REGEX)).toBeInTheDocument();
 
-    expect(screen.getByPlaceholderText(HELLO_REGEX)).toBeDefined();
-    expect(screen.getByTestId("submit-button")).toBeDefined();
+    expect(screen.getByPlaceholderText(HELLO_REGEX)).toBeInTheDocument();
+    expect(screen.getByTestId("submit-button")).toBeInTheDocument();
   });
 
   it("validates empty fields", async () => {
-    const user = userEvent.setup();
-    render(<ContactForm />);
+    const { user } = render(<ContactForm />);
     const submitButton = screen.getByTestId("submit-button");
 
     await user.click(submitButton);
@@ -84,14 +80,12 @@ describe("ContactForm", () => {
   });
 
   it("submits successfully with valid data", async () => {
-    const user = userEvent.setup();
+    const { user } = render(<ContactForm />);
     // Setup successful mock response
     vi.mocked(sendEmailAction).mockResolvedValue({
       success: true,
       data: { id: "mock-id" },
     });
-
-    render(<ContactForm />);
 
     await user.type(screen.getByLabelText(NAME_REGEX), "John Doe");
     await user.type(screen.getByLabelText(EMAIL_REGEX), "john@example.com");
@@ -116,12 +110,10 @@ describe("ContactForm", () => {
   });
 
   it("handles server error properly", async () => {
-    const user = userEvent.setup();
+    const { user } = render(<ContactForm />);
     vi.mocked(sendEmailAction).mockResolvedValue({
       error: "Server Error",
     });
-
-    render(<ContactForm />);
 
     await user.type(screen.getByLabelText(NAME_REGEX), "John Doe");
     await user.type(screen.getByLabelText(EMAIL_REGEX), "john@example.com");
@@ -139,8 +131,7 @@ describe("ContactForm", () => {
     });
   });
   it("shows validation error for invalid email", async () => {
-    const user = userEvent.setup();
-    render(<ContactForm />);
+    const { user } = render(<ContactForm />);
 
     await user.type(screen.getByLabelText(NAME_REGEX), "John Doe");
     await user.type(screen.getByLabelText(EMAIL_REGEX), "invalid-email");
@@ -158,7 +149,7 @@ describe("ContactForm", () => {
   });
 
   it("handles recaptcha execution failure gracefully", async () => {
-    const user = userEvent.setup();
+    const { user } = render(<ContactForm />);
     // Mock recaptcha failure (return null token)
     vi.mocked(useDeferredRecaptcha).mockImplementation(() => ({
       loadRecaptcha: vi.fn(),
@@ -166,8 +157,6 @@ describe("ContactForm", () => {
       isRecaptchaReady: true,
       isRecaptchaLoaded: true,
     }));
-
-    render(<ContactForm />);
 
     await user.type(screen.getByLabelText(NAME_REGEX), "John Doe");
     await user.type(screen.getByLabelText(EMAIL_REGEX), "john@example.com");
@@ -184,7 +173,7 @@ describe("ContactForm", () => {
   });
 
   it("handles unexpected error during verification", async () => {
-    const user = userEvent.setup();
+    const { user } = render(<ContactForm />);
     // Mock verification error
     vi.mocked(useDeferredRecaptcha).mockImplementation(() => ({
       loadRecaptcha: vi.fn(),
@@ -194,8 +183,6 @@ describe("ContactForm", () => {
       isRecaptchaReady: true,
       isRecaptchaLoaded: true,
     }));
-
-    render(<ContactForm />);
 
     await user.type(screen.getByLabelText(NAME_REGEX), "John Doe");
     await user.type(screen.getByLabelText(EMAIL_REGEX), "john@example.com");
@@ -216,32 +203,30 @@ describe("ContactForm", () => {
     it("renders progress bar in message field", () => {
       render(<ContactForm />);
       const progress = screen.getByRole("progressbar");
-      expect(progress).toBeDefined();
-      expect(progress.getAttribute("aria-valuemax")).toBe("1000");
-      expect(progress.getAttribute("aria-valuenow")).toBe("0");
+      expect(progress).toBeInTheDocument();
+      expect(progress).toHaveAttribute("aria-valuemax", "1000");
+      expect(progress).toHaveAttribute("aria-valuenow", "0");
     });
 
     it("displays character counter text initially as 0/1000", () => {
       render(<ContactForm />);
-      expect(screen.getByText("0 / 1000")).toBeDefined();
+      expect(screen.getByText("0 / 1000")).toBeInTheDocument();
     });
 
     it("updates progress and counter when typing in message field", async () => {
-      const user = userEvent.setup();
-      render(<ContactForm />);
+      const { user } = render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
       // Type 50 characters
       await user.type(messageTextarea, "a".repeat(50));
 
       const progress = screen.getByRole("progressbar");
-      expect(progress.getAttribute("aria-valuenow")).toBe("50");
-      expect(screen.getByText("50 / 1000")).toBeDefined();
+      expect(progress).toHaveAttribute("aria-valuenow", "50");
+      expect(screen.getByText("50 / 1000")).toBeInTheDocument();
     });
 
     it("shows green color for low character count", async () => {
-      const user = userEvent.setup();
-      render(<ContactForm />);
+      const { user } = render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
       // Type 500 characters (50%)
@@ -253,8 +238,7 @@ describe("ContactForm", () => {
     });
 
     it("shows yellow color for medium character count (70%+)", async () => {
-      const user = userEvent.setup();
-      render(<ContactForm />);
+      const { user } = render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
       // Type 700 characters (70%)
@@ -266,8 +250,7 @@ describe("ContactForm", () => {
     });
 
     it("shows red color for high character count (90%+)", async () => {
-      const user = userEvent.setup();
-      render(<ContactForm />);
+      const { user } = render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
       // Type 900 characters (90%)
@@ -279,27 +262,26 @@ describe("ContactForm", () => {
     });
 
     it("updates character count in real-time as user types", async () => {
-      const user = userEvent.setup();
-      render(<ContactForm />);
+      const { user } = render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
       // Initial state
-      expect(screen.getByText("0 / 1000")).toBeDefined();
+      expect(screen.getByText("0 / 1000")).toBeInTheDocument();
 
       // Type 10 characters
       await user.clear(messageTextarea);
       await user.type(messageTextarea, "a".repeat(10));
-      expect(screen.getByText("10 / 1000")).toBeDefined();
+      expect(screen.getByText("10 / 1000")).toBeInTheDocument();
 
       // Type more to reach 100
       await user.clear(messageTextarea);
       await user.type(messageTextarea, "a".repeat(100));
-      expect(screen.getByText("100 / 1000")).toBeDefined();
+      expect(screen.getByText("100 / 1000")).toBeInTheDocument();
 
       // Type more to reach 500
       await user.clear(messageTextarea);
       await user.type(messageTextarea, "a".repeat(500));
-      expect(screen.getByText("500 / 1000")).toBeDefined();
+      expect(screen.getByText("500 / 1000")).toBeInTheDocument();
     });
   });
 });
