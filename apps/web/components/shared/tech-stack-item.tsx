@@ -17,25 +17,10 @@ export const TechStackItem = ({
   small = false,
   onClick,
 }: TechStackItemProps) => {
-  const Wrapper = onClick ? "button" : "div";
-
-  // Wrapper props depending on whether it's interactive
-  const wrapperProps = onClick
-    ? {
-        "aria-label": `View details for ${stack.name}`,
-        className:
-          "flex h-full w-full items-center text-left bg-transparent border-0 p-0 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-xl",
-        onClick,
-        type: "button" as const,
-      }
-    : {
-        className: "flex h-full w-full items-center",
-      };
-
   const imageSize = small ? 40 : 56;
   const imageContainerClass = small ? "h-10 w-10" : "h-14 w-14";
 
-  return (
+  const CardContent = (
     <Card3D
       className={cn(
         "flex h-full items-center",
@@ -48,7 +33,7 @@ export const TechStackItem = ({
       shadow={false}
       thickness={small ? 10 : 14}
     >
-      <Wrapper {...wrapperProps}>
+      <div className="flex h-full w-full items-center">
         {/* Fixed Width Icon Container - guarantee no shrinking */}
         <div className={cn("relative shrink-0", imageContainerClass)}>
           <BorderedImage
@@ -98,7 +83,22 @@ export const TechStackItem = ({
             </div>
           )}
         </div>
-      </Wrapper>
+      </div>
     </Card3D>
   );
+
+  if (onClick) {
+    return (
+      <button
+        aria-label={`View details for ${stack.name}`}
+        className="flex h-full w-full cursor-pointer items-center rounded-xl border-0 bg-transparent p-0 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        onClick={onClick}
+        type="button"
+      >
+        {CardContent}
+      </button>
+    );
+  }
+
+  return CardContent;
 };
