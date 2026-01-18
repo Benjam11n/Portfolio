@@ -4,8 +4,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import type React from "react";
 import { useEffect, useMemo, useRef } from "react";
-import { useCharacterReveal } from "@/lib/hooks/use-character-reveal";
-import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
+import { useCharacterReveal } from "@/lib/hooks/ui/use-character-reveal";
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
 type CharacterRevealProps = {

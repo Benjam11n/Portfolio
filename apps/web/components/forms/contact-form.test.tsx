@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { sendEmailAction } from "@/lib/actions/email.actions";
-import { useDeferredRecaptcha } from "@/lib/hooks/use-deferred-recaptcha";
+import { useDeferredRecaptcha } from "@/lib/hooks/forms/use-deferred-recaptcha";
 import { ContactForm } from "./contact-form";
 
 // Mock dependencies
@@ -12,11 +12,15 @@ const NAME_REGEX = /name/i;
 const EMAIL_REGEX = /email/i;
 const HELLO_REGEX = /Hello!/i;
 
+vi.mock("canvas-confetti", () => ({
+  default: vi.fn(),
+}));
+
 vi.mock("@/lib/actions/email.actions", () => ({
   sendEmailAction: vi.fn(),
 }));
 
-vi.mock("@/lib/hooks/use-deferred-recaptcha", () => ({
+vi.mock("@/lib/hooks/forms/use-deferred-recaptcha", () => ({
   useDeferredRecaptcha: vi.fn(() => ({
     loadRecaptcha: vi.fn(),
     executeRecaptcha: vi.fn().mockResolvedValue("mock-token"),
@@ -168,7 +172,7 @@ describe("ContactForm", () => {
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith("ReCAPTCHA verification failed");
+      expect(toast.error).toHaveBeenCalledWith("Security verification failed");
       expect(sendEmailAction).not.toHaveBeenCalled();
     });
   });

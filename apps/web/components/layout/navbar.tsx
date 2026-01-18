@@ -5,7 +5,7 @@ import { Magnetic } from "@/components/effects/magnetic";
 import { ScrollLink } from "@/components/shared/scroll-link";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { NAVITEMS, ROUTES } from "@/lib/constants/navigation";
-import { useActiveSection } from "@/lib/hooks/use-active-section";
+import { useActiveSection } from "@/lib/hooks/ui/use-active-section";
 import { cn } from "@/lib/utils";
 
 export const Navbar = () => {

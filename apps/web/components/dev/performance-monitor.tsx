@@ -31,7 +31,7 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { useAnimationPerformance } from "@/lib/hooks/use-animation-performance";
+import { useAnimationPerformance } from "@/lib/hooks/animation/use-animation-performance";
 
 export function PerformanceMonitor() {
   // Only render in development mode

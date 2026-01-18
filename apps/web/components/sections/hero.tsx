@@ -16,8 +16,8 @@ import {
 import { HERO_CONTENT } from "@/lib/constants/hero";
 import { ROUTES } from "@/lib/constants/navigation";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
-import { useAnimationPerformance } from "@/lib/hooks/use-animation-performance";
-import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
+import { useAnimationPerformance } from "@/lib/hooks/animation/use-animation-performance";
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { Markdown } from "../shared/markdown";
 
 export const Hero = () => {

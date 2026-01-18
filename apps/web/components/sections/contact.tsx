@@ -5,7 +5,7 @@ import { ContactForm } from "@/components/forms/contact-form";
 import { SectionCard } from "@/components/shared/section-card";
 import { CONTACT_INFO } from "@/lib/constants/socials";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
-import { useScrollReveal } from "@/lib/hooks/use-scroll-reveal";
+import { useScrollReveal } from "@/lib/hooks/animation/use-scroll-reveal";
 
 export const Contact = () => {
   const containerRef = useRef<HTMLDivElement>(null);

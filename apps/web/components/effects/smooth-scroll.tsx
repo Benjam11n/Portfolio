@@ -4,7 +4,7 @@ import "lenis/dist/lenis.css";
 import Lenis from "lenis";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();

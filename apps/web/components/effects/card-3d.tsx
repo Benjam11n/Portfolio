@@ -4,7 +4,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
-import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
 // Variant preset configurations for common 3D card styles
@@ -83,10 +83,14 @@ export const Card3D = ({
 
   // Merge variant defaults with explicit props
   // Variant defaults are applied first, then explicit props override them
-  const variantDefaults = variant ? CARD_VARIANTS[variant] : {};
+  const variantDefaults = (variant ? CARD_VARIANTS[variant] : {}) as Partial<
+    (typeof CARD_VARIANTS)[Card3DVariant]
+  >;
   const mergedThickness = thickness ?? variantDefaults.thickness ?? 12;
-  const mergedRotationIntensity = rotationIntensity ?? variantDefaults.rotationIntensity ?? 15;
-  const mergedParallaxIntensity = parallaxIntensity ?? variantDefaults.parallaxIntensity ?? 0.1;
+  const mergedRotationIntensity =
+    rotationIntensity ?? variantDefaults.rotationIntensity ?? 15;
+  const mergedParallaxIntensity =
+    parallaxIntensity ?? variantDefaults.parallaxIntensity ?? 0.1;
   const mergedGlare = glare ?? variantDefaults.glare ?? true;
 
   const { contextSafe } = useGSAP({ scope: containerRef });
