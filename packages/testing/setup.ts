@@ -1,5 +1,31 @@
-import "@testing-library/jest-dom";
 import { vi } from "vitest";
+import "@testing-library/jest-dom";
+
+// Mock GSAP
+vi.mock("gsap", () => ({
+  default: {
+    to: vi.fn(),
+    from: vi.fn(),
+    fromTo: vi.fn(),
+    set: vi.fn(),
+    timeline: vi.fn(() => ({
+      to: vi.fn(),
+      from: vi.fn(),
+      fromTo: vi.fn(),
+      set: vi.fn(),
+      paused: vi.fn(),
+      pause: vi.fn(),
+      play: vi.fn(),
+    })),
+    registerPlugin: vi.fn(),
+  },
+}));
+
+vi.mock("@gsap/react", () => ({
+  useGSAP: () => ({
+    contextSafe: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
+  }),
+}));
 
 // Mock ResizeObserver
 const ResizeObserverMock = vi.fn(() => ({
