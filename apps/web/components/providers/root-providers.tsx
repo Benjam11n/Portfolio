@@ -2,6 +2,7 @@
 
 import { AnalyticsProvider } from "@repo/analytics";
 import type { ReactNode } from "react";
+import { Toaster } from "sonner";
 import {
   DynamicAnimationSkipProvider,
   DynamicPerformanceMonitor,
@@ -24,6 +25,7 @@ export function RootProviders({ children }: { children: ReactNode }) {
       >
         <DynamicAnimationSkipProvider>
           <TooltipProvider>{children}</TooltipProvider>
+          <Toaster />
         </DynamicAnimationSkipProvider>
       </ThemeProvider>
       <DynamicPerformanceMonitor />
