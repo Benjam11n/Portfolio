@@ -7,10 +7,10 @@ import gsap from "gsap";
 import { useEffect, useRef } from "react";
 import type { Mesh } from "three";
 import { waveFragmentShader, waveVertexShader } from "@/lib/constants/shaders";
+import { useWaveParams } from "@/lib/hooks/animation/use-wave-params";
 import { useMouseInteraction } from "@/lib/hooks/ui/use-mouse-interaction";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { RetroEffect } from "@/lib/hooks/ui/use-retro-effect";
-import { useWaveParams } from "@/lib/hooks/animation/use-wave-params";
 
 type DitheredWavesProps = {
   waveSpeed: number;

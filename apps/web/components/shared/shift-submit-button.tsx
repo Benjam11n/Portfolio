@@ -4,7 +4,7 @@ import { type ComponentProps, useRef } from "react";
 import { ShiftText, useShiftAnimation } from "@/components/effects/shift-text";
 import { cn } from "@/lib/utils";
 
-export type ShiftSubmitButtonProps = ComponentProps<"button"> & {
+type ShiftSubmitButtonProps = ComponentProps<"button"> & {
   children: string;
   className?: string;
   isLoading?: boolean;

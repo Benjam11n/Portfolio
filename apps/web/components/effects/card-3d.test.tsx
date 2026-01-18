@@ -174,7 +174,7 @@ describe("Card3D", () => {
 
   it("explicit glare prop overrides variant default", () => {
     const { container } = render(
-      <Card3D variant="subtle" glare>
+      <Card3D glare variant="subtle">
         <span>Content</span>
       </Card3D>
     );
@@ -185,7 +185,7 @@ describe("Card3D", () => {
 
   it("explicit thickness prop overrides variant default", () => {
     const { container } = render(
-      <Card3D variant="subtle" thickness={24}>
+      <Card3D thickness={24} variant="subtle">
         <span>Content</span>
       </Card3D>
     );
@@ -202,7 +202,9 @@ describe("Card3D", () => {
       </Card3D>
     );
     // Subtle variant has thickness: 8, so translateZ should be 4
-    const subtleCardFace = subtleContainer.querySelector('[style*="translateZ(4px)"]');
+    const subtleCardFace = subtleContainer.querySelector(
+      '[style*="translateZ(4px)"]'
+    );
     expect(subtleCardFace).toBeDefined();
 
     const { container: bookContainer } = render(
@@ -211,7 +213,9 @@ describe("Card3D", () => {
       </Card3D>
     );
     // Book variant has thickness: 20, so translateZ should be 10
-    const bookCardFace = bookContainer.querySelector('[style*="translateZ(10px)"]');
+    const bookCardFace = bookContainer.querySelector(
+      '[style*="translateZ(10px)"]'
+    );
     expect(bookCardFace).toBeDefined();
   });
 });

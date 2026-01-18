@@ -46,25 +46,6 @@ export const ANIMATION_EASING = {
 } as const;
 
 /**
- * Performance budget thresholds for animation monitoring.
- * These thresholds ensure animations stay performant and don't cause jank.
- */
-export const ANIMATION_BUDGET = {
-  /** Target frame rate (60fps) */
-  TARGET_FPS: 60,
-  /** Minimum acceptable frame rate (30fps) */
-  MIN_FPS: 30,
-  /** Target frame time in milliseconds (1000ms / 60fps) */
-  TARGET_FRAME_TIME: 16.67,
-  /** Maximum acceptable frame time in milliseconds (1000ms / 30fps) */
-  MAX_FRAME_TIME: 33,
-  /** Long task threshold (50ms) - tasks longer than this cause jank */
-  LONG_TASK_THRESHOLD: 50,
-  /** Maximum percentage of frame drops allowed during an animation */
-  MAX_FRAME_DROPS_PERCENTAGE: 0.1, // 10%
-} as const;
-
-/**
  * Stagger timing for sequential animations (in seconds).
  * These values create natural rhythm when animating multiple elements.
  */

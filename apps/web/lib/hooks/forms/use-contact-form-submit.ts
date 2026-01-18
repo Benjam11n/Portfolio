@@ -11,11 +11,11 @@ import {
 import { useDeferredRecaptcha } from "@/lib/hooks/forms/use-deferred-recaptcha";
 import type { ContactFormValues } from "@/lib/validations/contact";
 
-export type UseContactFormSubmitOptions = {
+type UseContactFormSubmitOptions = {
   onSuccess?: (name: string) => void;
 };
 
-export type UseContactFormSubmitReturn = {
+type UseContactFormSubmitReturn = {
   isPending: boolean;
   handleSubmit: (values: ContactFormValues) => Promise<void>;
 };
@@ -76,7 +76,7 @@ export const useContactFormSubmit = ({
   };
 
   // Watch for reCAPTCHA readiness to retry pending submission
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Required for re-submission logic
   useEffect(() => {
     if (isRecaptchaReady && pendingSubmitRef.current) {
       const values = pendingSubmitRef.current;

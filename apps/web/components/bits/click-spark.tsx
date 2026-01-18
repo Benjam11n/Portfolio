@@ -3,8 +3,8 @@
 import type React from "react";
 import { useCallback, useEffect, useRef } from "react";
 import { useAnimationFrame } from "@/lib/hooks/animation/use-animation-frame";
-import { useCanvasResize } from "@/lib/hooks/utils/use-canvas-resize";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useCanvasResize } from "@/lib/hooks/utils/use-canvas-resize";
 import { cn } from "@/lib/utils";
 
 type ClickSparkProps = {

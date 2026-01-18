@@ -14,11 +14,11 @@ interface WindowWithRecaptcha extends Window {
   };
 }
 
-export type UseDeferredRecaptchaOptions = {
+type UseDeferredRecaptchaOptions = {
   onLoad?: () => void;
 };
 
-export type UseDeferredRecaptchaReturn = {
+type UseDeferredRecaptchaReturn = {
   isRecaptchaLoaded: boolean;
   isRecaptchaReady: boolean;
   loadRecaptcha: () => void;

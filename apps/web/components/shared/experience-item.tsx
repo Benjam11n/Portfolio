@@ -6,8 +6,8 @@ import { useMemo, useRef, useState } from "react";
 import { Card3D } from "@/components/effects/card-3d";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { Markdown } from "@/components/shared/markdown";
-import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Experience } from "@/lib/types";
 
 type ExperienceItemProps = {
