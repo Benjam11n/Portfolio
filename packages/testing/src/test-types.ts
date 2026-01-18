@@ -3,11 +3,11 @@ import type { Mock } from "vitest";
 /**
  * Mock IntersectionObserver entry factory options
  */
-export interface MockIntersectionEntryOptions {
+export type MockIntersectionEntryOptions = {
   id: string;
   isIntersecting: boolean;
   intersectionRatio: number;
-}
+};
 
 /**
  * Creates a mock IntersectionObserverEntry for testing
@@ -31,9 +31,7 @@ export function createMockIntersectionEntry(
 /**
  * Event listener types for media query testing
  */
-export type TypedEventListener = (
-  event: Event | MediaQueryListEvent
-) => void;
+export type TypedEventListener = (event: Event | MediaQueryListEvent) => void;
 export type EventListenerMap = Record<string, TypedEventListener[]>;
 
 /**
@@ -45,20 +43,20 @@ export type MockDisconnect = Mock<() => void>;
 /**
  * Props for mock button components in tests
  */
-export interface MockButtonProps {
-  children: React.ReactNode;
+export type MockButtonProps = {
+  children?: React.ReactNode;
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
   isLoading?: boolean;
   disabled?: boolean;
   className?: string;
   "data-testid"?: string;
-}
+};
 
 /**
  * Props for mock input components in tests
  */
-export interface MockInputProps {
+export type MockInputProps = {
   name?: string;
   type?: string;
   value?: string;
@@ -67,16 +65,13 @@ export interface MockInputProps {
   "aria-label"?: string;
   "data-testid"?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
 /**
  * Google reCAPTCHA mock interface for E2E tests
  */
-export interface Grecaptcha {
+export type Grecaptcha = {
   ready: (callback: () => void) => void;
-  execute: (
-    siteKey: string,
-    options: { action: string }
-  ) => Promise<string>;
+  execute: (siteKey: string, options: { action: string }) => Promise<string>;
   render: (container: string, options: unknown) => string;
-}
+};

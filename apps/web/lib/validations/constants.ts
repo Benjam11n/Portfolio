@@ -160,3 +160,37 @@ export const techStackArraySchema = z.array(techStackSchema);
 export const certificationsArraySchema = z.array(certificationSchema);
 export const experiencesArraySchema = z.array(experienceSchema);
 export const projectsArraySchema = z.array(projectSchema);
+
+// Company validation schema
+export const companySchema = z.object({
+  id: z.number().int("ID must be an integer"),
+  name: z
+    .string()
+    .min(1, "Name must be at least 1 character")
+    .max(200, "Name must be at most 200 characters"),
+  logo: z
+    .string()
+    .min(1, "Logo path must be at least 1 character")
+    .max(500, "Logo path must be at most 500 characters"),
+  url: z.string().max(500, "URL must be at most 500 characters").optional(),
+});
+
+// Metric validation schema
+export const metricSchema = z.object({
+  id: z.number().int("ID must be an integer"),
+  value: z
+    .string()
+    .min(1, "Value must be at least 1 character")
+    .max(100, "Value must be at most 100 characters"),
+  label: z
+    .string()
+    .min(1, "Label must be at least 1 character")
+    .max(200, "Label must be at most 200 characters"),
+  description: z
+    .string()
+    .max(500, "Description must be at most 500 characters")
+    .optional(),
+});
+
+export const companiesArraySchema = z.array(companySchema);
+export const metricsArraySchema = z.array(metricSchema);
