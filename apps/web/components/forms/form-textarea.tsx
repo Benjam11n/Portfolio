@@ -14,7 +14,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 
-export type FormTextAreaProps<
+type FormTextAreaProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {

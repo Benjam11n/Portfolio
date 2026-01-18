@@ -6,19 +6,16 @@ import { logger } from "@repo/logger";
 /**
  * Conversion event types for tracking user interactions
  */
-export type ConversionEventType =
+type ConversionEventType =
   | "contact_form_submit"
   | "contact_form_success"
   | "contact_form_error"
-  | "cta_click"
-  | "social_link_click"
-  | "email_link_click"
-  | "scroll_to_contact";
+  | "cta_click";
 
 /**
  * Properties for conversion events
  */
-export type ConversionEventProperties = {
+type ConversionEventProperties = {
   /**
    * The type of conversion event
    */
@@ -50,7 +47,7 @@ export type ConversionEventProperties = {
  * });
  * ```
  */
-export function trackConversion(properties: ConversionEventProperties): void {
+function trackConversion(properties: ConversionEventProperties): void {
   try {
     trackEvent(properties.event, {
       context: properties.context,
@@ -101,77 +98,5 @@ export function trackContactFormError(
     metadata: {
       error_type: errorType,
     },
-  });
-}
-
-/**
- * Track a CTA (Call-to-Action) click
- *
- * @param source - The source of the CTA
- * @example
- * ```tsx
- * trackCTAClick("floating_cta");
- * ```
- */
-export function trackCTAClick(source: string): void {
-  trackConversion({
-    event: "cta_click",
-    source,
-    context: "navigation",
-  });
-}
-
-/**
- * Track a social link click
- *
- * @param platform - The social platform (e.g., "github", "linkedin", "twitter")
- * @param source - The source of the link
- * @example
- * ```tsx
- * trackSocialLinkClick("github", "footer");
- * ```
- */
-export function trackSocialLinkClick(platform: string, source?: string): void {
-  trackConversion({
-    event: "social_link_click",
-    source: source ?? "unknown",
-    context: "social_navigation",
-    metadata: {
-      platform,
-    },
-  });
-}
-
-/**
- * Track an email link click
- *
- * @param source - The source of the email link
- * @example
- * ```tsx
- * trackEmailLinkClick("contact_section");
- * ```
- */
-export function trackEmailLinkClick(source: string): void {
-  trackConversion({
-    event: "email_link_click",
-    source,
-    context: "email_navigation",
-  });
-}
-
-/**
- * Track scroll to contact section
- *
- * @param source - The source that triggered the scroll
- * @example
- * ```tsx
- * trackScrollToContact("navbar");
- * ```
- */
-export function trackScrollToContact(source: string): void {
-  trackConversion({
-    event: "scroll_to_contact",
-    source,
-    context: "navigation",
   });
 }

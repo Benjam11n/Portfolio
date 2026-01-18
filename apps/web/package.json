@@ -49,7 +49,6 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.11.0",
     "@playwright/test": "^1.57.0",
     "@repo/testing": "workspace:*",
     "@repo/typescript-config": "workspace:*",
@@ -65,7 +64,6 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
     "ultracite": "^7.0.11",
-    "vite": "^6.0.0",
     "vitest": "^4.0.17"
   }
 }

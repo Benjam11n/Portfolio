@@ -1,42 +1,7 @@
 import { z } from "zod";
 
-// TechCategory enum from types
-export const techCategorySchema = z.enum([
-  "AI/ML",
-  "Animation",
-  "Mobile",
-  "Framework",
-  "Backend",
-  "Frontend",
-  "Styling",
-  "Language",
-  "Database",
-  "DevOps",
-]);
-
-// TechStack validation schema
-export const techStackSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Tech stack name must be at least 1 character")
-    .max(100, "Tech stack name must be at most 100 characters"),
-  icon: z
-    .string()
-    .min(1, "Icon path must be at least 1 character")
-    .max(500, "Icon path must be at most 500 characters"),
-  category: techCategorySchema,
-  colorLight: z
-    .string()
-    .min(1, "Color light must be at least 1 character")
-    .max(50, "Color light must be at most 50 characters"),
-  colorDark: z
-    .string()
-    .min(1, "Color dark must be at least 1 character")
-    .max(50, "Color dark must be at most 50 characters"),
-});
-
 // Certification validation schema
-export const certificationSchema = z.object({
+const certificationSchema = z.object({
   name: z
     .string()
     .min(1, "Certification name must be at least 1 character")
@@ -60,7 +25,7 @@ export const certificationSchema = z.object({
 });
 
 // Experience validation schema
-export const experienceSchema = z.object({
+const experienceSchema = z.object({
   id: z.number().int("ID must be an integer"),
   name: z
     .string()
@@ -87,7 +52,7 @@ export const experienceSchema = z.object({
 });
 
 // Project validation schema
-export const projectSchema = z.object({
+const projectSchema = z.object({
   id: z
     .string()
     .min(1, "Project ID must be at least 1 character")
@@ -156,41 +121,8 @@ export const projectSchema = z.object({
     .optional(),
 });
 
-export const techStackArraySchema = z.array(techStackSchema);
 export const certificationsArraySchema = z.array(certificationSchema);
 export const experiencesArraySchema = z.array(experienceSchema);
 export const projectsArraySchema = z.array(projectSchema);
 
 // Company validation schema
-export const companySchema = z.object({
-  id: z.number().int("ID must be an integer"),
-  name: z
-    .string()
-    .min(1, "Name must be at least 1 character")
-    .max(200, "Name must be at most 200 characters"),
-  logo: z
-    .string()
-    .min(1, "Logo path must be at least 1 character")
-    .max(500, "Logo path must be at most 500 characters"),
-  url: z.string().max(500, "URL must be at most 500 characters").optional(),
-});
-
-// Metric validation schema
-export const metricSchema = z.object({
-  id: z.number().int("ID must be an integer"),
-  value: z
-    .string()
-    .min(1, "Value must be at least 1 character")
-    .max(100, "Value must be at most 100 characters"),
-  label: z
-    .string()
-    .min(1, "Label must be at least 1 character")
-    .max(200, "Label must be at most 200 characters"),
-  description: z
-    .string()
-    .max(500, "Description must be at most 500 characters")
-    .optional(),
-});
-
-export const companiesArraySchema = z.array(companySchema);
-export const metricsArraySchema = z.array(metricSchema);

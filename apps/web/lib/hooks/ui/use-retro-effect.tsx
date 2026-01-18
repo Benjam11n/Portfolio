@@ -134,5 +134,3 @@ export const RetroEffect = forwardRef<
 });
 
 RetroEffect.displayName = "RetroEffect";
-
-export { RetroEffectImpl };

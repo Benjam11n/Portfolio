@@ -4,7 +4,7 @@ import { ShiftText, useShiftAnimation } from "@/components/effects/shift-text";
 import { ScrollLink } from "@/components/shared/scroll-link";
 import { cn } from "@/lib/utils";
 
-export type ShiftButtonProps = ComponentProps<typeof Link> & {
+type ShiftButtonProps = ComponentProps<typeof Link> & {
   children: string;
   icon?: ReactNode;
   variant?: "primary" | "secondary";
