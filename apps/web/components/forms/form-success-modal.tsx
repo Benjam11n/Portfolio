@@ -5,6 +5,11 @@ import gsap from "gsap";
 import { CheckCircle2 } from "lucide-react";
 import { forwardRef, type HTMLAttributes, useRef } from "react";
 import { SuccessConfetti } from "@/components/effects/success-confetti";
+import {
+  ANIMATION_DURATION,
+  ANIMATION_EASING,
+  ANIMATION_STAGGER,
+} from "@/lib/constants/animation";
 import { useModalClose } from "@/lib/hooks/use-modal-close";
 import { useModalCountdown } from "@/lib/hooks/use-modal-countdown";
 import { cn } from "@/lib/utils";
@@ -15,29 +20,8 @@ type FormSuccessModalProps = {
   senderName?: string;
 };
 
-// Animation constants
+// Modal-specific animation values (not in shared constants)
 const MODAL_ANIMATION = {
-  // Easing
-  EASE: {
-    DEFAULT: "power3.out" as const,
-    BACK_IN: "back.out(1.7)" as const,
-    BACK_OUT: "back.out(2)" as const,
-  },
-  // Duration
-  DURATION: {
-    OVERLAY: 0.3,
-    CONTENT: 0.6,
-    ICON: 0.8,
-    TEXT: 0.5,
-    TEXT_EXIT: 0.3,
-    ICON_EXIT: 0.4,
-    CONTENT_EXIT: 0.4,
-  },
-  // Stagger
-  STAGGER: {
-    TEXT_IN: 0.1,
-    TEXT_EXIT: 0.05,
-  },
   // Timeline positions (negative values create overlap)
   TIMELINE: {
     OVERLAY_CONTENT_OVERLAP: "-=0.1",
@@ -147,7 +131,7 @@ export const FormSuccessModal = ({
       }
 
       const tl = gsap.timeline({
-        defaults: { ease: MODAL_ANIMATION.EASE.DEFAULT },
+        defaults: { ease: ANIMATION_EASING.POWER3 },
       });
 
       // Initial states
@@ -171,7 +155,7 @@ export const FormSuccessModal = ({
       // Animation sequence
       tl.to(overlayRef.current, {
         opacity: 1,
-        duration: MODAL_ANIMATION.DURATION.OVERLAY,
+        duration: ANIMATION_DURATION.QUICK / 1000,
       })
         .to(
           contentRef.current,
@@ -179,8 +163,8 @@ export const FormSuccessModal = ({
             scale: 1,
             y: 0,
             opacity: 1,
-            duration: MODAL_ANIMATION.DURATION.CONTENT,
-            ease: MODAL_ANIMATION.EASE.BACK_IN,
+            duration: ANIMATION_DURATION.STANDARD / 1000,
+            ease: ANIMATION_EASING.BACK_MEDIUM,
           },
           MODAL_ANIMATION.TIMELINE.OVERLAY_CONTENT_OVERLAP
         )
@@ -189,8 +173,8 @@ export const FormSuccessModal = ({
           {
             scale: 1,
             rotation: 0,
-            duration: MODAL_ANIMATION.DURATION.ICON,
-            ease: MODAL_ANIMATION.EASE.BACK_OUT,
+            duration: ANIMATION_DURATION.LONG / 1000,
+            ease: ANIMATION_EASING.BACK_STRONG,
           },
           MODAL_ANIMATION.TIMELINE.CONTENT_ICON_OVERLAP
         )
@@ -199,8 +183,8 @@ export const FormSuccessModal = ({
           {
             y: 0,
             opacity: 1,
-            duration: MODAL_ANIMATION.DURATION.TEXT,
-            stagger: MODAL_ANIMATION.STAGGER.TEXT_IN,
+            duration: ANIMATION_DURATION.MEDIUM_FAST / 1000,
+            stagger: ANIMATION_STAGGER.STANDARD,
           },
           MODAL_ANIMATION.TIMELINE.ICON_TEXT_OVERLAP
         );
@@ -216,17 +200,17 @@ export const FormSuccessModal = ({
     animationConfig: {
       textY: MODAL_ANIMATION.EXIT.TEXT_Y,
       textOpacity: MODAL_ANIMATION.EXIT.TEXT_OPACITY,
-      textDuration: MODAL_ANIMATION.DURATION.TEXT_EXIT,
-      textStagger: MODAL_ANIMATION.STAGGER.TEXT_EXIT,
+      textDuration: ANIMATION_DURATION.QUICK / 1000,
+      textStagger: ANIMATION_STAGGER.QUICK,
       iconScale: MODAL_ANIMATION.EXIT.ICON_SCALE,
       iconRotation: MODAL_ANIMATION.EXIT.ICON_ROTATION,
-      iconDuration: MODAL_ANIMATION.DURATION.ICON_EXIT,
+      iconDuration: ANIMATION_DURATION.SHORT / 1000,
       contentScale: MODAL_ANIMATION.EXIT.CONTENT_SCALE,
       contentY: MODAL_ANIMATION.EXIT.CONTENT_Y,
       contentOpacity: MODAL_ANIMATION.EXIT.CONTENT_OPACITY,
-      contentDuration: MODAL_ANIMATION.DURATION.CONTENT_EXIT,
+      contentDuration: ANIMATION_DURATION.SHORT / 1000,
       overlayOpacity: MODAL_ANIMATION.EXIT.OVERLAY_OPACITY,
-      overlayDuration: MODAL_ANIMATION.DURATION.OVERLAY,
+      overlayDuration: ANIMATION_DURATION.QUICK / 1000,
       textIconOverlap: MODAL_ANIMATION.TIMELINE.TEXT_ICON_EXIT_OVERLAP,
       iconContentOverlap: MODAL_ANIMATION.TIMELINE.ICON_CONTENT_EXIT_OVERLAP,
       contentOverlayOverlap:

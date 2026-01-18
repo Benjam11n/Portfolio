@@ -1,7 +1,7 @@
+import { createMockIntersectionEntry } from "@repo/testing/test-types";
 import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useActiveSection } from "./use-active-section";
-import { createMockIntersectionEntry } from "@repo/testing/test-types";
 
 describe("useActiveSection", () => {
   let intersectionCallback: IntersectionObserverCallback;

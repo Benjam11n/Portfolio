@@ -61,4 +61,39 @@ describe("Progress", () => {
     const fill = progress.querySelector("div");
     expect(fill?.className).toContain("bg-primary");
   });
+
+  it("renders with primary variant", () => {
+    render(<Progress value={50} variant="primary" />);
+    const progress = screen.getByRole("progressbar");
+    const fill = progress.querySelector("div");
+    expect(fill?.className).toContain("bg-primary");
+  });
+
+  it("renders with success variant", () => {
+    render(<Progress value={50} variant="success" />);
+    const progress = screen.getByRole("progressbar");
+    const fill = progress.querySelector("div");
+    expect(fill?.className).toContain("bg-green-600");
+  });
+
+  it("renders with warning variant", () => {
+    render(<Progress value={50} variant="warning" />);
+    const progress = screen.getByRole("progressbar");
+    const fill = progress.querySelector("div");
+    expect(fill?.className).toContain("bg-yellow-600");
+  });
+
+  it("renders with destructive variant", () => {
+    render(<Progress value={50} variant="destructive" />);
+    const progress = screen.getByRole("progressbar");
+    const fill = progress.querySelector("div");
+    expect(fill?.className).toContain("bg-destructive");
+  });
+
+  it("uses primary as default when no variant specified", () => {
+    render(<Progress value={50} />);
+    const progress = screen.getByRole("progressbar");
+    const fill = progress.querySelector("div");
+    expect(fill?.className).toContain("bg-primary");
+  });
 });

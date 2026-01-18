@@ -1,15 +1,38 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
-const Progress = forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<"div"> & {
+const progressVariants = cva("h-full w-full flex-1 transition-all duration-300 ease-in-out", {
+  variants: {
+    variant: {
+      primary: "bg-primary",
+      success: "bg-green-600",
+      warning: "bg-yellow-600",
+      destructive: "bg-destructive",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+  },
+});
+
+export type ProgressProps = React.ComponentProps<"div"> &
+  VariantProps<typeof progressVariants> & {
     value?: number;
     max?: number;
     fillClassName?: string;
-  }
->(({ className, value = 0, max = 100, fillClassName, ...props }, ref) => {
-  const percentage = Math.min(Math.max((value / max) * 100, 0), 100);
+  };
+
+const Progress = forwardRef<HTMLDivElement, ProgressProps>(
+  ({ className, value = 0, max = 100, variant, fillClassName, ...props }, ref) => {
+  /*
+   * Fix for progress bar starting full:
+   * Ensure safe value parsing and clamp between 0-100.
+   * If value is 0, explicit 0% transform.
+   */
+  const safeValue = typeof value === "number" ? Math.max(0, value) : 0;
+  const safeMax = typeof max === "number" && max > 0 ? max : 100;
+  const percentage = Math.min((safeValue / safeMax) * 100, 100);
 
   return (
     <div
@@ -25,15 +48,12 @@ const Progress = forwardRef<
       {...props}
     >
       <div
-        className={cn(
-          "h-full w-full flex-1 transition-all duration-300 ease-in-out",
-          fillClassName || "bg-primary"
-        )}
-        style={{ transform: `translateX(-${100 - percentage}%)` }}
+        className={cn(progressVariants({ variant, className: fillClassName }))}
+        style={{ width: `${percentage}%` }}
       />
     </div>
   );
 });
 Progress.displayName = "Progress";
 
-export { Progress };
+export { Progress, progressVariants };

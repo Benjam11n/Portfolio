@@ -5,7 +5,7 @@ const IMAGE_QUALITIES = [75, 80, 90, 95];
 
 export const config: NextConfig = {
   serverExternalPackages: ["pino", "thread-stream"],
-  transpilePackages: ["@repo/ui"],
+  transpilePackages: ["@repo/ui", "@repo/analytics"],
   logging: {
     fetches: {
       fullUrl: true,
