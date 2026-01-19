@@ -65,12 +65,12 @@ export function Magnetic({ children, strength = 0.35 }: MagneticProps) {
 
   return (
     <div
-      className="inline-block"
+      className="pointer-events-none inline-block"
       onMouseLeave={prefersReducedMotion ? undefined : handleMouseLeave}
       onMouseMove={prefersReducedMotion ? undefined : handleMouseMove}
       ref={ref}
     >
-      {children}
+      <div className="pointer-events-auto">{children}</div>
     </div>
   );
 }

@@ -33,6 +33,7 @@ export const ScrollLink = forwardRef<HTMLAnchorElement, ScrollLinkProps>(
         const element = document.getElementById(id);
 
         if (element) {
+          // Use native scrollIntoView - works with CSS scroll-behavior
           element.scrollIntoView({
             behavior: "smooth",
             block: "start",
