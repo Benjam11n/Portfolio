@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type UseActiveSectionOptions = {
@@ -16,7 +17,16 @@ export const useActiveSection = (
     rootMargin = "-40% 0px -40% 0px",
   } = options;
 
+  const pathname = usePathname();
   const [activeSection, setActiveSection] = useState<string | null>(null);
+
+  // Reset to first section when pathname changes (e.g., navigating back from project page)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname is intentionally included to reset state on navigation
+  useEffect(() => {
+    if (sectionIds.length > 0) {
+      setActiveSection(sectionIds[0]);
+    }
+  }, [pathname, sectionIds]);
 
   useEffect(() => {
     if (sectionIds.length === 0) {
@@ -24,7 +34,11 @@ export const useActiveSection = (
     }
 
     // Track intersection ratios for each section
+    // Initialize all sections to 0 to ensure clean state
     const sectionRatios = new Map<string, number>();
+    for (const id of sectionIds) {
+      sectionRatios.set(id, 0);
+    }
 
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
       for (const entry of entries) {
@@ -51,12 +65,9 @@ export const useActiveSection = (
       // This prevents flickering and ensures accurate section detection
       if (maxRatio > 0 && mostVisibleSection) {
         setActiveSection(mostVisibleSection);
-      } else if (maxRatio === 0) {
-        // If no section is significantly visible, we're at the top or bottom
-        // Don't reset to null to avoid flickering to "nothing active" state
-        // unless we want strict visibility.
-        // For now, let's keep it mostly persistent.
       }
+      // If maxRatio is 0, keep the current active section to prevent
+      // jumps during smooth scrolling transitions between sections
     };
 
     const observer = new IntersectionObserver(handleIntersect, {

@@ -3,7 +3,10 @@
 import dynamic from "next/dynamic";
 
 export const DynamicNavbar = dynamic(
-  () => import("@/components/layout/navbar").then((mod) => mod.Navbar),
+  () =>
+    import("@/components/layout/conditional-navbar").then(
+      (mod) => mod.ConditionalNavbar
+    ),
   { ssr: false }
 );
 
