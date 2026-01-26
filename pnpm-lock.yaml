@@ -241,8 +241,8 @@ importers:
         specifier: ^1.0.0-beta.17
         version: 1.0.0-beta.17(next@16.1.1(@opentelemetry/api@1.9.0)(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
       '@nosecone/next':
-        specifier: 1.0.0-beta.16
-        version: 1.0.0-beta.16(next@16.1.1(@opentelemetry/api@1.9.0)(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
+        specifier: 1.0.0
+        version: 1.0.0(next@16.1.1(@opentelemetry/api@1.9.0)(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
       '@repo/logger':
         specifier: workspace:*
         version: link:../logger
@@ -1060,8 +1060,8 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@nosecone/next@1.0.0-beta.16':
-    resolution: {integrity: sha512-IinvVTyO4MPdDGJPqRWNE9iXhBbefey9XhTZdi7UHh/trNU5dr/7YE7AnF2BYMLbWaWkkq5GN2Jq+zIQEob+FQ==}
+  '@nosecone/next@1.0.0':
+    resolution: {integrity: sha512-QE4JAUVvEF3PE8e1XiFQsfGjiTJsEL96sCHZQG9itAVL1GAAaEmR0jGImvboNATg8IjbaiSQ8s8rAKJM6wbymQ==}
     engines: {node: '>=20'}
     peerDependencies:
       next: '>=14'
@@ -2832,8 +2832,8 @@ packages:
   node-releases@2.0.27:
     resolution: {integrity: sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA==}
 
-  nosecone@1.0.0-beta.16:
-    resolution: {integrity: sha512-wQVLcOORPivGzMLY539uyLPRxP7OSPx1njj47ebcxD+/TL8flWCJj+egYpNJkEYBhrd4ETyIxicBiCz/WISO7w==}
+  nosecone@1.0.0:
+    resolution: {integrity: sha512-Q4RqKqhNd7Cssf/WDgkLEK7AGTq7wEpWuQqc6FFtmDGgzUhN/pmECt9BKOJy0YqKNlry6voyk8+xL5igW/Rguw==}
     engines: {node: '>=20'}
 
   nypm@0.6.2:
@@ -2948,8 +2948,8 @@ packages:
   preact@10.28.2:
     resolution: {integrity: sha512-lbteaWGzGHdlIuiJ0l2Jq454m6kcpI1zNje6d8MlGAFlYvP2GO4ibnat7P74Esfz4sPTdM6UxtTwh/d3pwM9JA==}
 
-  prettier@3.8.0:
-    resolution: {integrity: sha512-yEPsovQfpxYfgWNhCfECjG5AQaO+K3dp6XERmOepyPDVqcJm+bjyCVO3pmU+nAPe0N5dDvekfGezt/EIiRe1TA==}
+  prettier@3.8.1:
+    resolution: {integrity: sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -4138,10 +4138,10 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
-  '@nosecone/next@1.0.0-beta.16(next@16.1.1(@opentelemetry/api@1.9.0)(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))':
+  '@nosecone/next@1.0.0(next@16.1.1(@opentelemetry/api@1.9.0)(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))':
     dependencies:
       next: 16.1.1(@opentelemetry/api@1.9.0)(@playwright/test@1.57.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      nosecone: 1.0.0-beta.16
+      nosecone: 1.0.0
 
   '@opentelemetry/api-logs@0.208.0':
     dependencies:
@@ -4546,7 +4546,7 @@ snapshots:
   '@react-email/render@1.1.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
       html-to-text: 9.0.5
-      prettier: 3.8.0
+      prettier: 3.8.1
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
       react-promise-suspense: 0.3.4
@@ -5838,7 +5838,7 @@ snapshots:
 
   node-releases@2.0.27: {}
 
-  nosecone@1.0.0-beta.16: {}
+  nosecone@1.0.0: {}
 
   nypm@0.6.2:
     dependencies:
@@ -6015,7 +6015,7 @@ snapshots:
 
   preact@10.28.2: {}
 
-  prettier@3.8.0:
+  prettier@3.8.1:
     optional: true
 
   pretty-format@27.5.1:
