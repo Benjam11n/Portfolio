@@ -180,16 +180,15 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
           className="h-0 overflow-hidden opacity-0"
           id={contentId}
           ref={contentRef}
-          style={{ willChange: "height, opacity" }}
         >
           <div className="pt-4 pl-[72px]">
             <ul className="flex list-none flex-col gap-2">
-              {item.points.map((point, index) => {
+              {item.points.map((point) => {
                 // Render markdown for points
                 return (
                   <li
                     className="flex items-start gap-2 text-muted-foreground text-sm leading-relaxed"
-                    key={`${item.id}-point-${index}`}
+                    key={`${item.id}-point-${point}`}
                   >
                     <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/40" />
                     <Markdown>{point}</Markdown>

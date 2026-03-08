@@ -42,7 +42,6 @@ export const useActiveSection = (
       sectionRatiosRef.current.set(id, 0);
     }
 
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Intersection observer logic with multiple conditions is acceptable
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
       for (const entry of entries) {
         const sectionId = entry.target.id;

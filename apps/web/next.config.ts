@@ -1,8 +1,10 @@
 import { config, withAnalyzer } from "@repo/next-config";
+import type { NextConfig } from "next";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   ...config,
 };
 
-export default withAnalyzer(nextConfig);
+const analyzedConfig: NextConfig = withAnalyzer(nextConfig);
+
+export default analyzedConfig;
