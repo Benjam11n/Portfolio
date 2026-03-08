@@ -214,8 +214,8 @@ export const About = () => {
       <div className="flex flex-col gap-4" ref={containerRef}>
         {/* Images Stack */}
         <div className="relative mx-auto mb-4 h-24 w-28 sm:mx-0 sm:h-36 sm:w-36">
-          {/* Image 1 (Back) */}
-          <div className="about-image-wrapper absolute top-0 left-0">
+          {/* Image 1 (Front) */}
+          <div className="about-image-wrapper absolute top-4 left-8 z-10 sm:left-12">
             <Magnetic strength={0.3}>
               <div className="about-image relative h-20 w-20 rotate-6 overflow-hidden rounded-xl border border-border bg-secondary shadow-lg sm:h-32 sm:w-32">
                 {image1Error ? (
@@ -236,13 +236,13 @@ export const About = () => {
             </Magnetic>
           </div>
 
-          {/* Image 2 (Front) */}
-          <div className="about-image-wrapper absolute top-4 left-8 z-10 sm:left-12">
+          {/* Image 2 (Back) */}
+          <div className="about-image-wrapper absolute top-0 left-0">
             <Magnetic strength={0.4}>
               <div className="about-image relative h-20 w-20 rotate-3 overflow-hidden rounded-xl border-4 border-card bg-card shadow-xl sm:h-32 sm:w-32">
                 {image2Error ? (
                   <div className="flex h-full w-full items-center justify-center text-muted-foreground text-xs">
-                    Workspace
+                    Hero Image
                   </div>
                 ) : (
                   <Image
@@ -251,7 +251,7 @@ export const About = () => {
                     fill
                     onError={() => setImage2Error(true)}
                     sizes="(max-width: 640px) 100px, 150px"
-                    src="/assets/hero.png"
+                    src="/hero.png"
                   />
                 )}
               </div>
