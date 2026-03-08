@@ -48,7 +48,7 @@ const rawProjects: Project[] = [
     description:
       "Pioneering a **tele-rehabilitation platform** that combines **real-time computer vision** with **biomechanical analysis**.",
     subdesc:
-      "**DisKnee** revolutionizes knee recovery by delivering **precise movement tracking** and instant feedback without expensive hardware. Built with a high-performance **WebSocket infrastructure** handling **30fps video streams**, integrated **Google MediaPipe** with custom pose smoothing algorithms achieving **99.8% pose detection accuracy**.",
+      "**DisKnee** revolutionizes knee recovery by delivering **precise movement tracking** and instant feedback without expensive hardware. Built with a high-performance **WebSocket infrastructure** handling **30fps video streams**, integrated **Google MediaPipe** with custom pose smoothing algorithms achieving **extremely high pose detection accuracy**.",
     year: "2025",
     client: "Hackathon",
     services: "Computer Vision, Healthcare Tech",
@@ -73,7 +73,7 @@ const rawProjects: Project[] = [
       "Supabase",
     ],
     features: [
-      "**Real-time pose detection** with **99.8% accuracy**",
+      "**Real-time pose detection** with **extremely high accuracy**",
       "**30fps video streams** via **WebSockets**",
       "**Custom pose smoothing** algorithms",
       "**Microservices architecture** for ML inference",
