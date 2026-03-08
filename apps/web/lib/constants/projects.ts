@@ -8,7 +8,7 @@ const rawProjects: Project[] = [
     description:
       "**Zucchini** is a **local-first desktop habit tracker** built for people who want consistent daily momentum without handing their routines over to a cloud service.",
     subdesc:
-      "Built with **Electron, React, TypeScript, SQLite, Drizzle ORM, Vite**, and **Tailwind CSS**, **Zucchini** focuses on fast daily check-ins, reminder-driven routines, streak protection, and clear weekly review feedback while keeping your data on your own machine.",
+      "Built with **Electron, React, TypeScript, SQLite, Drizzle ORM, Vite**, **Framer Motion**, and **Tailwind CSS**, **Zucchini** focuses on fast daily check-ins, reminder-driven routines, streak protection, and clear weekly review feedback while keeping your data on your own machine.",
     year: "2026",
     client: "Personal Project",
     services: "Desktop App, Productivity",
@@ -29,6 +29,7 @@ const rawProjects: Project[] = [
       "SQLite",
       "Drizzle ORM",
       "Vite",
+      "Framer Motion",
       "Tailwind",
       "Zustand",
     ],
@@ -147,7 +148,7 @@ const rawProjects: Project[] = [
       "Tailwind",
       "TypeScript",
       "shadcn/ui",
-      "Framer",
+      "Framer Motion",
       "Supabase",
     ],
     features: [
