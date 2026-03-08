@@ -34,11 +34,11 @@ const rawProjects: Project[] = [
       "Zustand",
     ],
     features: [
-      "**Local-first habit tracking** with on-device data storage",
-      "**Fast daily check-ins** for daily and longer-cycle routines",
-      "**Streaks and freezes** that protect consistency during busy periods",
-      "**Desktop reminders** and tray behavior for low-friction follow-through",
-      "**History and weekly reviews** that make progress trends easy to spot",
+      "**Local-first tracking** with on-device storage",
+      "**Fast daily check-ins** for regular routines",
+      "**Streaks and freezes** that protect consistency",
+      "**Desktop reminders** for low-friction habits",
+      "**History and reviews** to spot progress trends",
     ],
   },
   {

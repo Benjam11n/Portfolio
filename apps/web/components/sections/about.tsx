@@ -217,7 +217,7 @@ export const About = () => {
           {/* Image 1 (Back) */}
           <div className="about-image-wrapper absolute top-0 left-0">
             <Magnetic strength={0.3}>
-              <div className="about-image relative h-20 w-20 rotate-[-6deg] overflow-hidden rounded-xl border border-border bg-secondary shadow-lg sm:h-32 sm:w-32">
+              <div className="about-image relative h-20 w-20 rotate-6 overflow-hidden rounded-xl border border-border bg-secondary shadow-lg sm:h-32 sm:w-32">
                 {image1Error ? (
                   <div className="flex h-full w-full items-center justify-center text-muted-foreground text-xs">
                     Photo
@@ -239,19 +239,19 @@ export const About = () => {
           {/* Image 2 (Front) */}
           <div className="about-image-wrapper absolute top-4 left-8 z-10 sm:left-12">
             <Magnetic strength={0.4}>
-              <div className="about-image relative h-20 w-20 rotate-[3deg] overflow-hidden rounded-xl border-4 border-card bg-card shadow-xl sm:h-32 sm:w-32">
+              <div className="about-image relative h-20 w-20 rotate-3 overflow-hidden rounded-xl border-4 border-card bg-card shadow-xl sm:h-32 sm:w-32">
                 {image2Error ? (
                   <div className="flex h-full w-full items-center justify-center text-muted-foreground text-xs">
                     Workspace
                   </div>
                 ) : (
                   <Image
-                    alt="Minimal Workspace"
+                    alt="Hero Image"
                     className="object-cover opacity-80"
                     fill
                     onError={() => setImage2Error(true)}
                     sizes="(max-width: 640px) 100px, 150px"
-                    src="/assets/workspace.png"
+                    src="/assets/hero.png"
                   />
                 )}
               </div>
