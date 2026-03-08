@@ -33,7 +33,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.27.3",
     "gsap": "^3.14.2",
-    "lucide-react": "^0.562.0",
+    "lucide-react": "^0.563.0",
     "next": "16.1.1",
     "next-themes": "^0.4.6",
     "postprocessing": "^6.38.2",
@@ -48,21 +48,21 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.57.0",
+    "@playwright/test": "^1.58.0",
     "@repo/testing": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.1",
+    "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/canvas-confetti": "^1.9.0",
-    "@types/node": "25.0.9",
-    "@types/react": "19.2.8",
+    "@types/node": "25.0.10",
+    "@types/react": "19.2.9",
     "@types/react-dom": "19.2.3",
     "@types/three": "^0.182.0",
     "jsdom": "^27.4.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
-    "ultracite": "^7.0.11",
+    "ultracite": "^7.0.12",
     "vitest": "^4.0.17"
   }
 }
