@@ -88,18 +88,22 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
           <h3 className="font-bold font-mono text-muted-foreground text-xs uppercase tracking-widest">
             Key Features
           </h3>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {project.features.map((feature: string) => (
               <div
-                className="feature-card flex items-center gap-4 rounded-xl border border-border/60 border-dashed bg-card p-4 shadow-sm transition-all hover:border-border/80"
+                className="feature-card flex flex-col justify-center rounded-2xl border border-border/60 bg-card/90 p-5 shadow-sm transition-all hover:border-border/80 hover:bg-card"
                 key={feature}
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border-4 border-white bg-muted shadow-xl dark:border-black">
-                  <CheckCircle2 className="h-5 w-5 text-muted-foreground" />
+                <div className="flex items-start gap-4">
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted/50 text-foreground">
+                    <CheckCircle2 className="h-4 w-4" />
+                  </div>
+                  <div className="min-w-0 flex-1 text-[15px] text-foreground leading-relaxed">
+                    <Markdown className="[&_strong]:text-foreground">
+                      {feature}
+                    </Markdown>
+                  </div>
                 </div>
-                <span className="font-medium text-foreground text-sm leading-tight">
-                  <Markdown>{feature}</Markdown>
-                </span>
               </div>
             ))}
           </div>
