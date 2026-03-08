@@ -1,6 +1,40 @@
 import { ProficiencyLevel, TechCategory } from "@/lib/types";
 
 export const TECH_STACK = [
+  // --- Languages ---
+  {
+    name: "TypeScript",
+    icon: "/assets/typescript.svg",
+    category: TechCategory.LANGUAGE,
+    colorLight: "#E3F2FD",
+    colorDark: "#00273F",
+    proficiency: ProficiencyLevel.EXPERT,
+  },
+  {
+    name: "Python",
+    icon: "/assets/python.svg",
+    category: TechCategory.LANGUAGE,
+    colorLight: "#E3F2FD",
+    colorDark: "#1E2D3B",
+    proficiency: ProficiencyLevel.EXPERT,
+  },
+  {
+    name: "Java",
+    icon: "/assets/java.svg",
+    category: TechCategory.LANGUAGE,
+    colorLight: "#FBE9E7",
+    colorDark: "#002c39ff",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
+  },
+  {
+    name: "Golang",
+    icon: "/assets/golang.svg",
+    category: TechCategory.LANGUAGE,
+    colorLight: "#E0F7FA",
+    colorDark: "#d8f7ffff",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
+  },
+
   // --- AI/ML ---
   {
     name: "Numpy",
@@ -37,12 +71,28 @@ export const TECH_STACK = [
 
   // --- Web Development ---
   {
+    name: "Electron",
+    icon: "/assets/electron.svg",
+    category: TechCategory.FRAMEWORK,
+    colorLight: "#E8FFF8",
+    colorDark: "#10332a",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
+  },
+  {
     name: "Framer",
     icon: "/assets/framer.png",
     category: TechCategory.ANIMATION,
     colorLight: "#F3E5F5",
     colorDark: "#180036",
     proficiency: ProficiencyLevel.BEGINNER,
+  },
+  {
+    name: "GSAP",
+    icon: "/assets/gsap.svg",
+    category: TechCategory.ANIMATION,
+    colorLight: "#F4FFE3",
+    colorDark: "#DFF7A8",
+    proficiency: ProficiencyLevel.ADVANCED,
   },
   {
     name: "Ionic",
@@ -93,20 +143,12 @@ export const TECH_STACK = [
     proficiency: ProficiencyLevel.EXPERT,
   },
   {
-    name: "TypeScript",
-    icon: "/assets/typescript.svg",
-    category: TechCategory.LANGUAGE,
-    colorLight: "#E3F2FD",
-    colorDark: "#00273F",
-    proficiency: ProficiencyLevel.EXPERT,
-  },
-  {
     name: "Zustand",
     icon: "/assets/zustand.png",
     category: TechCategory.FRONTEND,
     colorLight: "#FFFDE7",
     colorDark: "#6f675fff",
-    proficiency: ProficiencyLevel.INTERMEDIATE,
+    proficiency: ProficiencyLevel.ADVANCED,
   },
 
   // --- Databases & DevOps ---
@@ -117,22 +159,6 @@ export const TECH_STACK = [
     colorLight: "#E1F5FE",
     colorDark: "#0D2C4A",
     proficiency: ProficiencyLevel.ADVANCED,
-  },
-  {
-    name: "Golang",
-    icon: "/assets/golang.svg",
-    category: TechCategory.LANGUAGE,
-    colorLight: "#E0F7FA",
-    colorDark: "#d8f7ffff",
-    proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
-  {
-    name: "Java",
-    icon: "/assets/java.svg",
-    category: TechCategory.LANGUAGE,
-    colorLight: "#FBE9E7",
-    colorDark: "#002c39ff",
-    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {
     name: "MongoDB",
@@ -148,14 +174,6 @@ export const TECH_STACK = [
     category: TechCategory.DATABASE,
     colorLight: "#E3F2FD",
     colorDark: "#0E1A2B",
-    proficiency: ProficiencyLevel.ADVANCED,
-  },
-  {
-    name: "Python",
-    icon: "/assets/python.svg",
-    category: TechCategory.LANGUAGE,
-    colorLight: "#E3F2FD",
-    colorDark: "#1E2D3B",
     proficiency: ProficiencyLevel.ADVANCED,
   },
   {

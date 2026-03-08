@@ -3,6 +3,44 @@ import { projectsArraySchema } from "@/lib/validations/constants";
 
 const rawProjects: Project[] = [
   {
+    id: "zucchini",
+    title: "Zucchini - Local-First Habit Tracker",
+    description:
+      "**Zucchini** is a **local-first desktop habit tracker** built for people who want consistent daily momentum without handing their routines over to a cloud service.",
+    subdesc:
+      "Built with **Electron, React, TypeScript, SQLite, Drizzle ORM, Vite**, and **Tailwind CSS**, **Zucchini** focuses on fast daily check-ins, reminder-driven routines, streak protection, and clear weekly review feedback while keeping your data on your own machine.",
+    year: "2026",
+    client: "Personal Project",
+    services: "Desktop App, Productivity",
+    location: "Singapore",
+    status: "in-development",
+    video_overview: "/projects/zucchini/video.mp4",
+    hero_image: "/projects/zucchini/hero.png",
+    logo: "/projects/zucchini/logo.png",
+    logoStyle: {
+      backgroundColor: "#0f291d",
+      border: "0.2px solid #28503e",
+      boxShadow: "0px 0px 60px 0px #6bbf7a4d",
+    },
+    techStack: [
+      "Electron",
+      "React",
+      "TypeScript",
+      "SQLite",
+      "Drizzle ORM",
+      "Vite",
+      "Tailwind",
+      "Zustand",
+    ],
+    features: [
+      "**Local-first habit tracking** with on-device data storage",
+      "**Fast daily check-ins** for daily and longer-cycle routines",
+      "**Streaks and freezes** that protect consistency during busy periods",
+      "**Desktop reminders** and tray behavior for low-friction follow-through",
+      "**History and weekly reviews** that make progress trends easy to spot",
+    ],
+  },
+  {
     id: "disknee",
     title:
       "DisKnee - Advanced Computer Vision Platform for Sports Medicine & Rehabilitation",
@@ -79,45 +117,6 @@ const rawProjects: Project[] = [
       "**Contextual, condition-specific** responses",
       "**Learning** from therapeutic techniques",
       "**Seamless voice processing** interaction",
-    ],
-  },
-  {
-    id: "quickie",
-    title: "Quickie - AI-Powered Marketplace",
-    description:
-      "**Quickie** is an innovative **e-commerce platform** that leverages **AI technology** to provide **personalized perfume recommendations**.",
-    subdesc:
-      "Built as a unique e-commerce app with **Next.js 15, Tailwind CSS, TypeScript, Framer Motion**, and **MongoDB**. **Quickie** is designed to be **beautiful**, **memorable**, and **performant**.",
-    year: "2024",
-    client: "Personal Project",
-    services: "E-commerce, AI",
-    location: "Singapore",
-    status: "in-development",
-    github: "https://github.com/Benjam11n/Quickie",
-    video_overview: "/projects/quickie/video.mp4",
-    hero_image: "/projects/quickie/hero.png",
-    logo: "/projects/quickie/logo.png",
-    logoStyle: {
-      backgroundColor: "#170040",
-      border: "0.2px solid #0f0226",
-      boxShadow: "0px 0px 60px 0px #4f248f",
-    },
-    techStack: [
-      "Next.js",
-      "React",
-      "Tailwind",
-      "TypeScript",
-      "shadcn/ui",
-      "Framer",
-      "Zustand",
-      "MongoDB",
-    ],
-    features: [
-      "**Advanced product search** and filtering",
-      "**AI-powered recommendation** system",
-      "**Waitlist system** integration",
-      "**User authentication** and profiles",
-      "**Email confirmation** and notifications",
     ],
   },
   {

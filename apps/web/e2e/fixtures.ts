@@ -13,7 +13,7 @@ export const validContactData = {
 export const projectSlugs = [
   "disknee",
   "twinAI",
-  "quickie",
+  "zucchini",
   "chip",
   "worldquant",
   "birds-of-a-feather",
