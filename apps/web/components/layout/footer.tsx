@@ -37,10 +37,32 @@ export function Footer() {
         {/* Top Section: Massive CTA */}
         <div className="mb-16 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
           <div className="flex flex-col gap-2">
-            <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-              Let&apos;s Work <br />
-              <span className="text-muted-foreground">Together</span>
-            </h2>
+            <ScrollLink
+              aria-label="Contact Me"
+              className="group block overflow-hidden"
+              href={ROUTES.CONTACT}
+            >
+              <div className="h-[5.75rem] overflow-hidden sm:h-[7rem] md:h-[8.5rem] lg:h-[10rem]">
+                <div className="flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-1/2">
+                  <div className="flex h-[5.75rem] items-start sm:h-[7rem] md:h-[8.5rem] lg:h-[10rem]">
+                    <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+                      Let&apos;s Work <br />
+                      <span className="text-muted-foreground">Together</span>
+                    </h2>
+                  </div>
+
+                  <div className="flex h-[5.75rem] items-start sm:h-[7rem] md:h-[8.5rem] lg:h-[10rem]">
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+                        Contact <br />
+                        <span className="text-muted-foreground">Me</span>
+                      </h2>
+                      <ArrowUpRight className="mt-1 h-8 w-8 shrink-0 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 md:h-10 md:w-10 lg:h-12 lg:w-12" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ScrollLink>
           </div>
           <div className="footer-cta">
             <ScrollLink

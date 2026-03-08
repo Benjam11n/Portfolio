@@ -6,8 +6,12 @@ const rawWorkExperiences: Experience[] = [
     id: 1,
     name: "Aumovio",
     pos: "AI Web Developer Intern",
-    duration: "Jan 2026 - Jun 2026",
-    points: [],
+    duration: "Jan 2026 - Present",
+    points: [
+      "Provisioned the project's **PostgreSQL database** using **Docker**, establishing a reproducible local development and deployment setup.",
+      "Set up **LiteLLM middleware** for **LLM cost tracking**, giving the team clearer visibility into model usage and spend across the application.",
+      "Improved a key part of the application workflow, increasing **evaluation results by more than 30%** through iterative optimization and testing.",
+    ],
     icon: "/experiences/aumovio.png",
   },
   {
