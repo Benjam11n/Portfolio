@@ -75,7 +75,7 @@ export const TECH_STACK = [
     icon: "/assets/electron.svg",
     category: TechCategory.FRAMEWORK,
     colorLight: "#E8FFF8",
-    colorDark: "#1f5a4a",
+    colorDark: "#3dae91",
     proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {

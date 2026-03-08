@@ -10,6 +10,10 @@ import { CONTACT_INFO } from "@/lib/constants/socials";
 export function Footer() {
   const containerRef = useRef<HTMLElement>(null);
   const [time, setTime] = useState("");
+  const footerLinkClass =
+    "inline-block w-fit text-muted-foreground transition-[color,transform] duration-200 hover:translate-x-1 hover:text-foreground hover:underline";
+  const footerMetaLinkClass =
+    "inline-block w-fit transition-[color,transform] duration-200 hover:translate-x-1 hover:text-foreground hover:underline";
 
   useEffect(() => {
     const updateTime = () => {
@@ -42,16 +46,16 @@ export function Footer() {
               className="group block overflow-hidden"
               href={ROUTES.CONTACT}
             >
-              <div className="h-[5.75rem] overflow-hidden sm:h-[7rem] md:h-[8.5rem] lg:h-[10rem]">
+              <div className="h-23 overflow-hidden sm:h-28 md:h-34 lg:h-40">
                 <div className="flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-1/2">
-                  <div className="flex h-[5.75rem] items-start sm:h-[7rem] md:h-[8.5rem] lg:h-[10rem]">
+                  <div className="flex h-23 items-start sm:h-28 md:h-34 lg:h-40">
                     <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
                       Let&apos;s Work <br />
                       <span className="text-muted-foreground">Together</span>
                     </h2>
                   </div>
 
-                  <div className="flex h-[5.75rem] items-start sm:h-[7rem] md:h-[8.5rem] lg:h-[10rem]">
+                  <div className="flex h-23 items-start sm:h-28 md:h-34 lg:h-40">
                     <div className="flex items-start gap-3 sm:gap-4">
                       <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
                         Contact <br />
@@ -83,32 +87,20 @@ export function Footer() {
               Navigation
             </h3>
             <div className="flex flex-col gap-2">
-              <ScrollLink
-                className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
-                href={ROUTES.HOME}
-              >
+              <ScrollLink className={footerLinkClass} href={ROUTES.HOME}>
                 Home
               </ScrollLink>
-              <ScrollLink
-                className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
-                href={ROUTES.ABOUT}
-              >
+              <ScrollLink className={footerLinkClass} href={ROUTES.ABOUT}>
                 About
               </ScrollLink>
-              <ScrollLink
-                className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
-                href={ROUTES.EXPERIENCE}
-              >
+              <ScrollLink className={footerLinkClass} href={ROUTES.EXPERIENCE}>
                 Experience
               </ScrollLink>
-              <ScrollLink
-                className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
-                href={ROUTES.PROJECTS}
-              >
+              <ScrollLink className={footerLinkClass} href={ROUTES.PROJECTS}>
                 Projects
               </ScrollLink>
               <ScrollLink
-                className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
+                className={footerLinkClass}
                 href={ROUTES.CERTIFICATIONS}
               >
                 Certifications
@@ -130,7 +122,7 @@ export function Footer() {
             <div className="flex flex-col gap-2">
               {CONTACT_INFO.map((item) => (
                 <a
-                  className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
+                  className={footerLinkClass}
                   href={item.link}
                   key={item.title}
                   rel="noopener noreferrer"
@@ -151,16 +143,10 @@ export function Footer() {
               <p>{time || "Loading..."}</p>
               <p>© {new Date().getFullYear()} Benjamin Wang</p>
               <div className="mt-4 flex flex-col gap-2">
-                <Link
-                  className="w-fit transition-colors hover:text-foreground hover:underline"
-                  href={ROUTES.TERMS}
-                >
+                <Link className={footerMetaLinkClass} href={ROUTES.TERMS}>
                   Terms of Service
                 </Link>
-                <Link
-                  className="w-fit transition-colors hover:text-foreground hover:underline"
-                  href={ROUTES.PRIVACY}
-                >
+                <Link className={footerMetaLinkClass} href={ROUTES.PRIVACY}>
                   Privacy Policy
                 </Link>
               </div>
