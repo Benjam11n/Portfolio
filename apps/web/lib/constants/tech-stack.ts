@@ -58,7 +58,7 @@ export const TECH_STACK = [
     category: TechCategory.AI_ML,
     colorLight: "#FFF3E0",
     colorDark: "#64271bff",
-    proficiency: ProficiencyLevel.INTERMEDIATE,
+    proficiency: ProficiencyLevel.ADVANCED,
   },
   {
     name: "Tensorflow",
@@ -74,8 +74,8 @@ export const TECH_STACK = [
     name: "Electron",
     icon: "/assets/electron.svg",
     category: TechCategory.FRAMEWORK,
-    colorLight: "#E8FFF8",
-    colorDark: "#3dae91",
+    colorLight: "#f0f0f0",
+    colorDark: "#f0f0f0",
     proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {
@@ -116,7 +116,7 @@ export const TECH_STACK = [
     category: TechCategory.BACKEND,
     colorLight: "#F1F8E9",
     colorDark: "#518742ff",
-    proficiency: ProficiencyLevel.ADVANCED,
+    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {
     name: "React",
@@ -166,7 +166,7 @@ export const TECH_STACK = [
     category: TechCategory.DATABASE,
     colorLight: "#E8F5E9",
     colorDark: "#001E0E",
-    proficiency: ProficiencyLevel.ADVANCED,
+    proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {
     name: "Postgres",
@@ -182,6 +182,6 @@ export const TECH_STACK = [
     category: TechCategory.DATABASE,
     colorLight: "#E8F5E9",
     colorDark: "#146541ff",
-    proficiency: ProficiencyLevel.INTERMEDIATE,
+    proficiency: ProficiencyLevel.ADVANCED,
   },
 ];
