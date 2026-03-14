@@ -1,8 +1,9 @@
 "use client";
 
 import type React from "react";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAnimationFrame } from "@/lib/hooks/animation/use-animation-frame";
+import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useCanvasResize } from "@/lib/hooks/utils/use-canvas-resize";
 import { cn } from "@/lib/utils";
@@ -41,6 +42,8 @@ export const ClickSpark = ({
   const sparksRef = useRef<Spark[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const isVisible = useElementVisibility(containerRef);
+  const [hasActiveSparks, setHasActiveSparks] = useState(false);
 
   useCanvasResize(canvasRef, 100);
 
@@ -73,7 +76,7 @@ export const ClickSpark = ({
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      sparksRef.current = sparksRef.current.filter((spark: Spark) => {
+      const nextSparks = sparksRef.current.filter((spark: Spark) => {
         const elapsed = timestamp - spark.startTime;
         if (elapsed >= duration) {
           return false;
@@ -99,11 +102,20 @@ export const ClickSpark = ({
 
         return true;
       });
+
+      sparksRef.current = nextSparks;
+
+      if (nextSparks.length === 0) {
+        setHasActiveSparks(false);
+      }
     },
     [sparkColor, sparkSize, sparkRadius, duration, easeFunc, extraScale]
   );
 
-  useAnimationFrame(draw, { respectReducedMotion: false });
+  useAnimationFrame(draw, {
+    enabled: isVisible && !prefersReducedMotion && hasActiveSparks,
+    respectReducedMotion: false,
+  });
 
   const handleClick = useCallback(
     (e: globalThis.MouseEvent) => {
@@ -129,6 +141,7 @@ export const ClickSpark = ({
       }));
 
       sparksRef.current.push(...newSparks);
+      setHasActiveSparks(true);
     },
     [sparkCount, prefersReducedMotion]
   );

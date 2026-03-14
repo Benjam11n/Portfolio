@@ -28,7 +28,7 @@ describe("Footer", () => {
   it("renders call to action", () => {
     render(<Footer />);
     expect(screen.getByText(WORK_REGEX)).toBeDefined();
-    expect(screen.getByLabelText("Contact Me")).toBeDefined();
+    expect(screen.getAllByLabelText("Contact Me")).toHaveLength(2);
   });
 
   it("renders navigation links", () => {

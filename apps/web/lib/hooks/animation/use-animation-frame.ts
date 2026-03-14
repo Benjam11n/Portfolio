@@ -17,6 +17,12 @@ export type UseAnimationFrameOptions = {
    * @default true
    */
   respectReducedMotion?: boolean;
+  /**
+   * Whether the animation loop should be active.
+   * When false, no requestAnimationFrame is scheduled.
+   * @default true
+   */
+  enabled?: boolean;
 };
 
 export type UseAnimationFrameReturn = {
@@ -85,7 +91,7 @@ export function useAnimationFrame(
   callback: AnimationCallback,
   options: UseAnimationFrameOptions = {}
 ): UseAnimationFrameReturn {
-  const { fps, respectReducedMotion = true } = options;
+  const { fps, respectReducedMotion = true, enabled = true } = options;
 
   const animationFrameIdRef = useRef<number | null>(null);
   const lastFrameTimeRef = useRef<number>(0);
@@ -93,6 +99,11 @@ export function useAnimationFrame(
 
   useEffect(() => {
     isCancelledRef.current = false;
+
+    if (!enabled) {
+      animationFrameIdRef.current = null;
+      return;
+    }
 
     // Check if user prefers reduced motion
     if (respectReducedMotion) {
@@ -132,7 +143,7 @@ export function useAnimationFrame(
         window.cancelAnimationFrame(animationFrameIdRef.current);
       }
     };
-  }, [callback, fps, respectReducedMotion]);
+  }, [callback, enabled, fps, respectReducedMotion]);
 
   return {
     animationFrameId: animationFrameIdRef.current,

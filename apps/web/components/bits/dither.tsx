@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import type { Mesh } from "three";
 import { waveFragmentShader, waveVertexShader } from "@/lib/constants/shaders";
 import { useWaveParams } from "@/lib/hooks/animation/use-wave-params";
+import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
 import { useMouseInteraction } from "@/lib/hooks/ui/use-mouse-interaction";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { RetroEffect } from "@/lib/hooks/ui/use-retro-effect";
@@ -20,6 +21,7 @@ type DitheredWavesProps = {
   colorNum: number;
   pixelSize: number;
   disableAnimation: boolean;
+  isActive: boolean;
   enableMouseInteraction: boolean;
   mouseRadius: number;
 };
@@ -32,6 +34,7 @@ function DitheredWaves({
   colorNum,
   pixelSize,
   disableAnimation,
+  isActive,
   enableMouseInteraction,
   mouseRadius,
 }: DitheredWavesProps) {
@@ -39,7 +42,7 @@ function DitheredWaves({
   const { viewport, size, gl } = useThree();
 
   const { mousePos } = useMouseInteraction({
-    enabled: enableMouseInteraction,
+    enabled: isActive && enableMouseInteraction,
     gl,
   });
 
@@ -51,6 +54,7 @@ function DitheredWaves({
     enableMouseInteraction,
     mouseRadius,
     disableAnimation,
+    isActive,
     mousePos,
   });
 
@@ -107,6 +111,7 @@ export function Dither({
 }: DitherProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const isActive = useElementVisibility(containerRef);
 
   // Respect user's motion preference
   const shouldDisableAnimation = disableAnimation || prefersReducedMotion;
@@ -142,13 +147,19 @@ export function Dither({
       <Canvas
         camera={{ position: [0, 0, 6] }}
         className="relative h-full w-full"
-        dpr={1}
-        gl={{ antialias: true, preserveDrawingBuffer: true }}
+        dpr={[0.75, 1]}
+        frameloop={isActive ? "always" : "never"}
+        gl={{
+          antialias: false,
+          powerPreference: "low-power",
+          preserveDrawingBuffer: false,
+        }}
       >
         <DitheredWaves
           colorNum={colorNum}
           disableAnimation={shouldDisableAnimation}
           enableMouseInteraction={enableMouseInteraction}
+          isActive={isActive}
           mouseRadius={mouseRadius}
           pixelSize={pixelSize}
           waveAmplitude={waveAmplitude}

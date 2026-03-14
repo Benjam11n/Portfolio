@@ -16,6 +16,8 @@ export function Footer() {
     "inline-block w-fit transition-[color,transform] duration-200 hover:translate-x-1 hover:text-foreground hover:underline";
 
   useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
     const updateTime = () => {
       const now = new Date();
       setTime(
@@ -27,9 +29,44 @@ export function Footer() {
         })
       );
     };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+
+    const scheduleNextUpdate = () => {
+      if (document.hidden) {
+        return;
+      }
+
+      updateTime();
+
+      const now = new Date();
+      const millisecondsUntilNextMinute =
+        (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+
+      timeoutId = setTimeout(
+        scheduleNextUpdate,
+        Math.max(millisecondsUntilNextMinute, 1000)
+      );
+    };
+
+    const handleVisibilityChange = () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = undefined;
+      }
+
+      if (!document.hidden) {
+        scheduleNextUpdate();
+      }
+    };
+
+    handleVisibilityChange();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   return (

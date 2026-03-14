@@ -26,6 +26,7 @@ type WaveParamsOptions = {
   enableMouseInteraction?: boolean;
   mouseRadius?: number;
   disableAnimation?: boolean;
+  isActive?: boolean;
   mousePos?: RefObject<Vector2>;
 };
 
@@ -38,6 +39,7 @@ export const useWaveParams = (options: WaveParamsOptions = {}) => {
     enableMouseInteraction = true,
     mouseRadius = 1,
     disableAnimation = false,
+    isActive = true,
     mousePos: externalMousePos,
   } = options;
 
@@ -56,6 +58,10 @@ export const useWaveParams = (options: WaveParamsOptions = {}) => {
   const prevColor = useRef([...waveColor]);
 
   useFrame(({ clock }) => {
+    if (!isActive) {
+      return;
+    }
+
     const u = waveUniformsRef.current;
 
     if (!disableAnimation) {

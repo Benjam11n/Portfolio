@@ -4,7 +4,6 @@ import type { Page } from "@playwright/test";
 export const validContactData = {
   name: "John Doe",
   email: "john.doe@example.com",
-  subject: "Project Inquiry",
   message:
     "Hello! I am interested in discussing a potential project collaboration. Looking forward to hearing from you.",
 };
