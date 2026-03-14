@@ -208,15 +208,15 @@ async function initFuzzyCanvas(
   const metrics = offCtx.measureText(text);
   const actualLeft = metrics.actualBoundingBoxLeft ?? 0;
   const actualRight =
-    letterSpacing !== 0
-      ? totalWidth
-      : (metrics.actualBoundingBoxRight ?? metrics.width);
+    letterSpacing === 0
+      ? (metrics.actualBoundingBoxRight ?? metrics.width)
+      : totalWidth;
   const actualAscent = metrics.actualBoundingBoxAscent ?? numericFontSize;
   const actualDescent =
     metrics.actualBoundingBoxDescent ?? numericFontSize * 0.2;
 
   const textBoundingWidth = Math.ceil(
-    letterSpacing !== 0 ? totalWidth : actualLeft + actualRight
+    letterSpacing === 0 ? actualLeft + actualRight : totalWidth
   );
   const tightHeight = Math.ceil(actualAscent + actualDescent);
 
@@ -242,14 +242,14 @@ async function initFuzzyCanvas(
       offCtx.fillStyle = color;
     }
 
-    if (letterSpacing !== 0) {
+    if (letterSpacing === 0) {
+      offCtx.fillText(text, xOffset - actualLeft, actualAscent);
+    } else {
       let xPos = xOffset;
       for (const char of text) {
         offCtx.fillText(char, xPos, actualAscent);
         xPos += offCtx.measureText(char).width + letterSpacing;
       }
-    } else {
-      offCtx.fillText(text, xOffset - actualLeft, actualAscent);
     }
   };
 
