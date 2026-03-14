@@ -348,7 +348,6 @@ export const Hero = () => {
         </div>
 
         {/* Role */}
-        {/* Role */}
         <h2 className="hero-text mb-6 font-medium text-md text-muted-foreground">
           {HERO_CONTENT.role}
         </h2>

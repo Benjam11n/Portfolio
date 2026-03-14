@@ -34,9 +34,12 @@ describe("useAnimationFrame", () => {
 
   it("does not schedule animation frames when disabled", () => {
     renderHook(() =>
-      useAnimationFrame(() => {
-        // no-op
-      }, { enabled: false })
+      useAnimationFrame(
+        () => {
+          // no-op
+        },
+        { enabled: false }
+      )
     );
 
     expect(requestAnimationFrameMock).not.toHaveBeenCalled();
@@ -44,9 +47,12 @@ describe("useAnimationFrame", () => {
 
   it("schedules animation frames when enabled", () => {
     renderHook(() =>
-      useAnimationFrame(() => {
-        // no-op
-      }, { enabled: true })
+      useAnimationFrame(
+        () => {
+          // no-op
+        },
+        { enabled: true }
+      )
     );
 
     expect(requestAnimationFrameMock).toHaveBeenCalled();

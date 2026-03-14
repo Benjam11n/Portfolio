@@ -9,6 +9,7 @@ import { ContactForm } from "./contact-form";
 const NAME_REGEX = /name/i;
 const EMAIL_REGEX = /email/i;
 const HELLO_REGEX = /Hello!/i;
+const RECAPTCHA_REGEX = /This site is protected by reCAPTCHA/i;
 
 vi.mock("canvas-confetti", () => ({
   default: vi.fn(),
@@ -157,9 +158,7 @@ describe("ContactForm", () => {
 
   it("does not render reCAPTCHA copy", () => {
     render(<ContactForm />);
-    expect(
-      screen.queryByText(/This site is protected by reCAPTCHA/i)
-    ).toBeNull();
+    expect(screen.queryByText(RECAPTCHA_REGEX)).toBeNull();
   });
 
   it("includes an empty honeypot value in submission", async () => {
