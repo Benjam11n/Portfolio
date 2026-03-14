@@ -16,7 +16,7 @@ type UseContactFormSubmitOptions = {
 
 type UseContactFormSubmitReturn = {
   isPending: boolean;
-  handleSubmit: (values: ContactFormValues) => Promise<void>;
+  handleSubmit: (values: ContactFormValues) => void;
 };
 
 /**
@@ -39,7 +39,7 @@ export const useContactFormSubmit = ({
 }: UseContactFormSubmitOptions = {}): UseContactFormSubmitReturn => {
   const [isPending, startTransition] = useTransition();
 
-  const handleSubmit = async (values: ContactFormValues) => {
+  const handleSubmit = (values: ContactFormValues) => {
     startTransition(async () => {
       try {
         const result = await sendEmailAction(values);
