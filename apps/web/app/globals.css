@@ -4,6 +4,7 @@
 
 @theme {
   --font-sans: var(--font-sans), sans-serif;
+  --font-mono: var(--font-mono), monospace;
 
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
@@ -144,7 +145,6 @@
       "rlig" 1,
       "calt" 1;
   }
-
 }
 
 @layer utilities {
