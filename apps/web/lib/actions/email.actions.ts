@@ -8,7 +8,6 @@ import {
   generateContactEmailText,
 } from "@/lib/email/templates";
 import { env } from "@/lib/env";
-import { sanitizeRecaptchaData } from "@/lib/utils/sanitize";
 import {
   type ContactActionValues,
   contactActionSchema,
@@ -25,36 +24,10 @@ export async function sendEmailAction(formData: ContactActionValues) {
       };
     }
 
-    const { name, email, message, token } = formData;
+    const { name, email, message, website } = result.data;
 
-    if (!token) {
-      return {
-        error: "reCAPTCHA token is missing",
-      };
-    }
-
-    // Verify reCAPTCHA token
-    const verifyResponse = await fetch(
-      "https://www.google.com/recaptcha/api/siteverify",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `secret=${env.RECAPTCHA_SECRET_KEY}&response=${token}`,
-      }
-    );
-
-    const verifyData = await verifyResponse.json();
-
-    if (!verifyData.success) {
-      logger.error(
-        sanitizeRecaptchaData(verifyData),
-        "reCAPTCHA verification failed:"
-      );
-      return {
-        error: "reCAPTCHA verification failed",
-      };
+    if (website.trim()) {
+      return { success: true };
     }
 
     const htmlContent = generateContactEmailHtml(name, email, message);
@@ -79,6 +52,21 @@ export async function sendEmailAction(formData: ContactActionValues) {
     return { success: true, data };
   } catch (error) {
     logger.error(error, "Server error:");
+
+    if (error instanceof Error) {
+      const knownSecurityErrors = new Set([
+        "Potential bot detected.",
+        "You are sending too many requests. Please try again later.",
+        "Suspicious activity detected.",
+      ]);
+
+      if (knownSecurityErrors.has(error.message)) {
+        return {
+          error: error.message,
+        };
+      }
+    }
+
     return {
       error: "Internal server error",
     };

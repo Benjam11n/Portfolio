@@ -1,14 +1,13 @@
 "use client";
 
 import { logger } from "@repo/logger";
-import { useEffect, useRef, useTransition } from "react";
+import { useTransition } from "react";
 import { toast } from "sonner";
 import { sendEmailAction } from "@/lib/actions/email.actions";
 import {
   trackContactFormError,
   trackContactFormSuccess,
 } from "@/lib/analytics/conversion";
-import { useDeferredRecaptcha } from "@/lib/hooks/forms/use-deferred-recaptcha";
 import type { ContactFormValues } from "@/lib/validations/contact";
 
 type UseContactFormSubmitOptions = {
@@ -22,7 +21,7 @@ type UseContactFormSubmitReturn = {
 
 /**
  * Custom hook to handle contact form submission logic.
- * Manages reCAPTCHA verification, form submission, and success/error states.
+ * Manages contact form submission and success/error states.
  *
  * @example
  * ```tsx
@@ -39,63 +38,37 @@ export const useContactFormSubmit = ({
   onSuccess,
 }: UseContactFormSubmitOptions = {}): UseContactFormSubmitReturn => {
   const [isPending, startTransition] = useTransition();
-  const { executeRecaptcha, isRecaptchaReady, loadRecaptcha } =
-    useDeferredRecaptcha({});
 
-  // Queue for pending submission if reCAPTCHA loads late
-  const pendingSubmitRef = useRef<ContactFormValues | null>(null);
-
-  const performSubmit = async (values: ContactFormValues) => {
-    try {
-      const token = await executeRecaptcha();
-
-      if (!token) {
-        trackContactFormError("recaptcha_token_missing", "main_form");
-        toast.error("Security verification failed");
-        return;
-      }
-
-      startTransition(async () => {
-        const result = await sendEmailAction({ ...values, token });
+  const handleSubmit = async (values: ContactFormValues) => {
+    startTransition(async () => {
+      try {
+        const result = await sendEmailAction(values);
 
         if (result.error) {
-          trackContactFormError("submission", "main_form");
+          const isSpamBlocked =
+            result.error === "Potential bot detected." ||
+            result.error ===
+              "You are sending too many requests. Please try again later." ||
+            result.error === "Suspicious activity detected.";
+
+          trackContactFormError(
+            isSpamBlocked ? "spam_blocked" : "submission_failed",
+            "main_form"
+          );
           toast.error("Error", {
             description: result.error,
           });
-        } else {
-          trackContactFormSuccess("main_form");
-          onSuccess?.(values.name);
+          return;
         }
-      });
-    } catch (error) {
-      trackContactFormError("verification_error", "main_form");
-      toast.error("An error occurred during verification");
-      logger.error(error);
-    }
-  };
 
-  // Watch for reCAPTCHA readiness to retry pending submission
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Required for re-submission logic
-  useEffect(() => {
-    if (isRecaptchaReady && pendingSubmitRef.current) {
-      const values = pendingSubmitRef.current;
-      pendingSubmitRef.current = null;
-      toast.dismiss("recaptcha-loading");
-      performSubmit(values);
-    }
-  }, [isRecaptchaReady]);
-
-  const handleSubmit = async (values: ContactFormValues) => {
-    if (!isRecaptchaReady) {
-      trackContactFormError("recaptcha_not_ready", "main_form");
-      toast.loading("Verifying Security...", { id: "recaptcha-loading" });
-      pendingSubmitRef.current = values;
-      loadRecaptcha();
-      return;
-    }
-
-    await performSubmit(values);
+        trackContactFormSuccess("main_form");
+        onSuccess?.(values.name);
+      } catch (error) {
+        trackContactFormError("unexpected_error", "main_form");
+        toast.error("An unexpected error occurred");
+        logger.error(error);
+      }
+    });
   };
 
   return {

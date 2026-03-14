@@ -145,10 +145,6 @@
       "calt" 1;
   }
 
-  /* Hide reCAPTCHA badge */
-  .grecaptcha-badge {
-    visibility: hidden;
-  }
 }
 
 @layer utilities {

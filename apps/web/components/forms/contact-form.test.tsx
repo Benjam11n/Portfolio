@@ -4,10 +4,8 @@ import userEvent from "@testing-library/user-event";
 import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { sendEmailAction } from "@/lib/actions/email.actions";
-import { useDeferredRecaptcha } from "@/lib/hooks/forms/use-deferred-recaptcha";
 import { ContactForm } from "./contact-form";
 
-// Mock dependencies
 const NAME_REGEX = /name/i;
 const EMAIL_REGEX = /email/i;
 const HELLO_REGEX = /Hello!/i;
@@ -20,12 +18,10 @@ vi.mock("@/lib/actions/email.actions", () => ({
   sendEmailAction: vi.fn(),
 }));
 
-vi.mock("@/lib/hooks/forms/use-deferred-recaptcha", () => ({
-  useDeferredRecaptcha: vi.fn(() => ({
-    loadRecaptcha: vi.fn(),
-    executeRecaptcha: vi.fn().mockResolvedValue("mock-token"),
-    isRecaptchaReady: true,
-  })),
+vi.mock("@repo/logger", () => ({
+  logger: {
+    error: vi.fn(),
+  },
 }));
 
 vi.mock("sonner", () => ({
@@ -35,7 +31,6 @@ vi.mock("sonner", () => ({
   },
 }));
 
-// Mock ShiftSubmitButton since it might use animation libs not friendly to jsdom
 vi.mock("@/components/shared/shift-submit-button", () => ({
   ShiftSubmitButton: ({
     children,
@@ -70,21 +65,16 @@ describe("ContactForm", () => {
   it("validates empty fields", async () => {
     const user = userEvent.setup();
     render(<ContactForm />);
-    const submitButton = screen.getByTestId("submit-button");
 
-    await user.click(submitButton);
+    await user.click(screen.getByTestId("submit-button"));
 
     await waitFor(() => {
-      // Logic from Zod schema messages (assumed default or custom messages)
-      // Usually "Required" or specific messages.
-      // Checking for aria-invalid or similar is robust, but checking calls is easier for unit.
       expect(sendEmailAction).not.toHaveBeenCalled();
     });
   });
 
   it("submits successfully with valid data", async () => {
     const user = userEvent.setup();
-    // Setup successful mock response
     vi.mocked(sendEmailAction).mockResolvedValue({
       success: true,
       data: { id: "mock-id" },
@@ -99,15 +89,14 @@ describe("ContactForm", () => {
       "This is a test message with enough length."
     );
 
-    const submitButton = screen.getByTestId("submit-button");
-    await user.click(submitButton);
+    await user.click(screen.getByTestId("submit-button"));
 
     await waitFor(() => {
       expect(sendEmailAction).toHaveBeenCalledWith({
-        name: "John Doe",
         email: "john@example.com",
         message: "This is a test message with enough length.",
-        token: "mock-token",
+        name: "John Doe",
+        website: "",
       });
     });
   });
@@ -124,8 +113,7 @@ describe("ContactForm", () => {
     await user.type(screen.getByLabelText(EMAIL_REGEX), "john@example.com");
     await user.type(screen.getByPlaceholderText(HELLO_REGEX), "Test Message");
 
-    const submitButton = screen.getByTestId("submit-button");
-    await user.click(submitButton);
+    await user.click(screen.getByTestId("submit-button"));
 
     await waitFor(() => {
       expect(toast.error).toHaveBeenCalledWith(
@@ -134,6 +122,7 @@ describe("ContactForm", () => {
       );
     });
   });
+
   it("shows validation error for invalid email", async () => {
     const user = userEvent.setup();
     render(<ContactForm />);
@@ -142,25 +131,16 @@ describe("ContactForm", () => {
     await user.type(screen.getByLabelText(EMAIL_REGEX), "invalid-email");
     await user.type(screen.getByPlaceholderText(HELLO_REGEX), "Test Message");
 
-    const submitButton = screen.getByTestId("submit-button");
-    await user.click(submitButton);
+    await user.click(screen.getByTestId("submit-button"));
 
-    // Expect email validation error (checking for standard HTML5 validation or Zod message)
-    // Assuming Zod resolver prevents submission
     await waitFor(() => {
       expect(sendEmailAction).not.toHaveBeenCalled();
     });
   });
 
-  it("handles recaptcha execution failure gracefully", async () => {
+  it("handles unexpected submission errors", async () => {
     const user = userEvent.setup();
-    // Mock recaptcha failure (return null token)
-    vi.mocked(useDeferredRecaptcha).mockImplementation(() => ({
-      loadRecaptcha: vi.fn(),
-      executeRecaptcha: vi.fn().mockResolvedValue(null),
-      isRecaptchaReady: true,
-      isRecaptchaLoaded: true,
-    }));
+    vi.mocked(sendEmailAction).mockRejectedValue(new Error("Unexpected"));
 
     render(<ContactForm />);
 
@@ -168,39 +148,41 @@ describe("ContactForm", () => {
     await user.type(screen.getByLabelText(EMAIL_REGEX), "john@example.com");
     await user.type(screen.getByPlaceholderText(HELLO_REGEX), "Test Message");
 
-    const submitButton = screen.getByTestId("submit-button");
-    await user.click(submitButton);
+    await user.click(screen.getByTestId("submit-button"));
 
     await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith("Security verification failed");
-      expect(sendEmailAction).not.toHaveBeenCalled();
+      expect(toast.error).toHaveBeenCalledWith("An unexpected error occurred");
     });
   });
 
-  it("handles unexpected error during verification", async () => {
+  it("does not render reCAPTCHA copy", () => {
+    render(<ContactForm />);
+    expect(
+      screen.queryByText(/This site is protected by reCAPTCHA/i)
+    ).toBeNull();
+  });
+
+  it("includes an empty honeypot value in submission", async () => {
     const user = userEvent.setup();
-    // Mock verification error
-    vi.mocked(useDeferredRecaptcha).mockImplementation(() => ({
-      loadRecaptcha: vi.fn(),
-      executeRecaptcha: vi
-        .fn()
-        .mockRejectedValue(new Error("Verification Error")),
-      isRecaptchaReady: true,
-      isRecaptchaLoaded: true,
-    }));
+    vi.mocked(sendEmailAction).mockResolvedValue({
+      success: true,
+      data: { id: "mock-id" },
+    });
 
     render(<ContactForm />);
 
     await user.type(screen.getByLabelText(NAME_REGEX), "John Doe");
     await user.type(screen.getByLabelText(EMAIL_REGEX), "john@example.com");
-    await user.type(screen.getByPlaceholderText(HELLO_REGEX), "Test Message");
+    await user.type(
+      screen.getByPlaceholderText(HELLO_REGEX),
+      "This is a test message with enough length."
+    );
 
-    const submitButton = screen.getByTestId("submit-button");
-    await user.click(submitButton);
+    await user.click(screen.getByTestId("submit-button"));
 
     await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith(
-        "An error occurred during verification"
+      expect(sendEmailAction).toHaveBeenCalledWith(
+        expect.objectContaining({ website: "" })
       );
     });
   });
@@ -224,7 +206,6 @@ describe("ContactForm", () => {
       render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
-      // Type 50 characters
       await user.type(messageTextarea, "a".repeat(50));
 
       const progress = screen.getByRole("progressbar");
@@ -237,7 +218,6 @@ describe("ContactForm", () => {
       render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
-      // Type 500 characters (50%)
       await user.type(messageTextarea, "a".repeat(500));
 
       const progress = screen.getByRole("progressbar");
@@ -250,7 +230,6 @@ describe("ContactForm", () => {
       render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
-      // Type 700 characters (70%)
       await user.type(messageTextarea, "a".repeat(700));
 
       const progress = screen.getByRole("progressbar");
@@ -263,7 +242,6 @@ describe("ContactForm", () => {
       render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
-      // Type 900 characters (90%)
       await user.type(messageTextarea, "a".repeat(900));
 
       const progress = screen.getByRole("progressbar");
@@ -276,20 +254,16 @@ describe("ContactForm", () => {
       render(<ContactForm />);
       const messageTextarea = screen.getByPlaceholderText(HELLO_REGEX);
 
-      // Initial state
       expect(screen.getByText("0 / 1000")).toBeDefined();
 
-      // Type 10 characters
       await user.clear(messageTextarea);
       await user.type(messageTextarea, "a".repeat(10));
       expect(screen.getByText("10 / 1000")).toBeDefined();
 
-      // Type more to reach 100
       await user.clear(messageTextarea);
       await user.type(messageTextarea, "a".repeat(100));
       expect(screen.getByText("100 / 1000")).toBeDefined();
 
-      // Type more to reach 500
       await user.clear(messageTextarea);
       await user.type(messageTextarea, "a".repeat(500));
       expect(screen.getByText("500 / 1000")).toBeDefined();

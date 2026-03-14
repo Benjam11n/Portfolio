@@ -66,12 +66,3 @@ export type MockInputProps = {
   "data-testid"?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
-
-/**
- * Google reCAPTCHA mock interface for E2E tests
- */
-export type Grecaptcha = {
-  ready: (callback: () => void) => void;
-  execute: (siteKey: string, options: { action: string }) => Promise<string>;
-  render: (container: string, options: unknown) => string;
-};

@@ -1,14 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ThankYouAnimation } from "@/components/effects/thank-you-animation";
 import { ShiftSubmitButton } from "@/components/shared/shift-submit-button";
 import { Form } from "@/components/ui/form";
 import { useContactFormSubmit } from "@/lib/hooks/forms/use-contact-form-submit";
-import { useDeferredRecaptcha } from "@/lib/hooks/forms/use-deferred-recaptcha";
 import {
   type ContactFormValues,
   contactFormSchema,
@@ -18,12 +17,6 @@ import { FormTextArea } from "./form-textarea";
 
 export const ContactForm = () => {
   const [showThankYou, setShowThankYou] = useState(false);
-  const { loadRecaptcha } = useDeferredRecaptcha({});
-
-  // Load reCAPTCHA on mount
-  useEffect(() => {
-    loadRecaptcha();
-  }, [loadRecaptcha]);
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -32,6 +25,7 @@ export const ContactForm = () => {
       name: "",
       email: "",
       message: "",
+      website: "",
     },
   });
 
@@ -53,6 +47,15 @@ export const ContactForm = () => {
 
       <Form {...form}>
         <form className="space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
+          <input
+            aria-hidden="true"
+            autoComplete="off"
+            className="pointer-events-none absolute -left-[9999px] top-auto h-px w-px overflow-hidden opacity-0"
+            tabIndex={-1}
+            type="text"
+            {...form.register("website")}
+          />
+
           <div className="grid grid-cols-2 gap-4">
             <FormInput
               className="bg-card"
@@ -90,28 +93,6 @@ export const ContactForm = () => {
           <ShiftSubmitButton isLoading={isPending} type="submit">
             Submit
           </ShiftSubmitButton>
-
-          <p className="text-center text-[10px] text-muted-foreground/40">
-            This site is protected by reCAPTCHA and the Google{" "}
-            <a
-              className="hover:underline"
-              href="https://policies.google.com/privacy"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Privacy Policy
-            </a>{" "}
-            and{" "}
-            <a
-              className="hover:underline"
-              href="https://policies.google.com/terms"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Terms of Service
-            </a>{" "}
-            apply.
-          </p>
         </form>
       </Form>
     </div>
