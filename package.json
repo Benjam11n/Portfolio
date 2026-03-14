@@ -5,7 +5,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "biome check .",
+    "lint": "ultracite check",
     "lint:check": "ultracite check",
     "knip": "knip",
     "type-check": "turbo run type-check",
@@ -15,7 +15,7 @@
     "format": "biome format --write ."
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.12",
+    "@biomejs/biome": "2.4.5",
     "knip": "^5.86.0",
     "turbo": "^2.8.17",
     "typescript": "5.9.3",
