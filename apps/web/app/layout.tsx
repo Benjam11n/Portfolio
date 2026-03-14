@@ -1,6 +1,7 @@
 import { createMetadata } from "@repo/seo";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import {
   DynamicClickSpark,
   DynamicDither,
@@ -13,9 +14,32 @@ import { SITE_METADATA } from "@/lib/constants/metadata";
 
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
+const satoshi = localFont({
+  src: [
+    {
+      path: "../public/assets/fonts/satoshi/satoshi-400.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/satoshi/satoshi-500.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/assets/fonts/satoshi/satoshi-700.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -32,10 +56,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} relative flex min-h-screen flex-col items-center justify-center bg-background py-24 font-sans text-foreground antialiased`}
+        className={`${satoshi.variable} ${jetbrainsMono.variable} relative flex min-h-screen flex-col items-center justify-center bg-background py-24 font-sans text-foreground antialiased`}
       >
         <a
-          className="absolute top-4 left-4 z-[100] -translate-y-[150%] rounded bg-background px-4 py-2 font-medium text-primary shadow-lg transition-transform focus:translate-y-0"
+          className="absolute top-4 left-4 z-100 -translate-y-[150%] rounded bg-background px-4 py-2 font-medium text-primary shadow-lg transition-transform focus:translate-y-0"
           href="#main-content"
         >
           Skip to main content
