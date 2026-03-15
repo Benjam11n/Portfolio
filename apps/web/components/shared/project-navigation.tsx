@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { ROUTES } from "@/lib/constants/navigation";
 import { PROJECTS } from "@/lib/constants/projects";
@@ -19,6 +20,18 @@ export function ProjectNavigation({ currentId }: { currentId: string }) {
         href={ROUTES.PROJECT_DETAIL(nextProject.id)}
       >
         <div className="flex items-center gap-2 font-bold text-foreground text-md transition-colors hover:underline group-hover:text-muted-foreground">
+          <div
+            className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-md border border-border/50 bg-muted/80"
+            style={nextProject.logoStyle}
+          >
+            <Image
+              alt={`${nextProject.title} logo`}
+              className="h-5 w-5 object-contain"
+              height={20}
+              src={nextProject.logo}
+              width={20}
+            />
+          </div>
           <span>{nextProject.title.split(" - ")[0]}</span>
           <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
         </div>

@@ -79,7 +79,7 @@ export const TECH_STACK = [
     proficiency: ProficiencyLevel.INTERMEDIATE,
   },
   {
-    name: "Framer Motion",
+    name: "Framer",
     icon: "/assets/framer.png",
     category: TechCategory.ANIMATION,
     colorLight: "#F3E5F5",

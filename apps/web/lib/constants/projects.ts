@@ -30,7 +30,7 @@ const rawProjects: Project[] = [
       "SQLite",
       "Drizzle ORM",
       "Vite",
-      "Framer Motion",
+      "Framer",
       "Tailwind",
       "Zustand",
     ],
@@ -149,7 +149,7 @@ const rawProjects: Project[] = [
       "Tailwind",
       "TypeScript",
       "shadcn/ui",
-      "Framer Motion",
+      "Framer",
       "Supabase",
     ],
     features: [
