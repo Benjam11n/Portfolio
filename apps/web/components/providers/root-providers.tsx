@@ -26,7 +26,9 @@ export function RootProviders({ children }: { children: ReactNode }) {
       >
         <DynamicAnimationSkipProvider>
           <DynamicSelectiveHoverCursor />
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider delayDuration={60} skipDelayDuration={0}>
+            {children}
+          </TooltipProvider>
           <Toaster />
         </DynamicAnimationSkipProvider>
       </ThemeProvider>
