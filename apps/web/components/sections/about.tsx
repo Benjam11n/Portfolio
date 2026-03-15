@@ -17,14 +17,20 @@ import {
 import { ROUTES } from "@/lib/constants/navigation";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useProfileImageSource } from "@/lib/hooks/ui/use-profile-image-source";
 import { Markdown } from "../shared/markdown";
 
 export const About = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const profileImageRef = useRef<HTMLDivElement>(null);
   const [image1Error, setImage1Error] = useState(false);
   const [image2Error, setImage2Error] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
   const { skipAnimations } = useAnimationSkipContext();
+  const profileImageSrc = useProfileImageSource({
+    animationRef: profileImageRef,
+    prefersReducedMotion,
+  });
 
   useGSAP(
     () => {
@@ -217,7 +223,10 @@ export const About = () => {
           {/* Image 1 (Front) */}
           <div className="about-image-wrapper absolute top-4 left-8 z-10 sm:left-12">
             <Magnetic strength={0.3}>
-              <div className="about-image relative h-20 w-20 rotate-6 overflow-hidden rounded-xl border border-border bg-secondary shadow-lg sm:h-32 sm:w-32">
+              <div
+                className="about-image relative h-20 w-20 rotate-6 overflow-hidden rounded-xl border border-border bg-secondary shadow-lg sm:h-32 sm:w-32"
+                ref={profileImageRef}
+              >
                 {image1Error ? (
                   <div className="flex h-full w-full items-center justify-center text-muted-foreground text-xs">
                     Photo
@@ -229,7 +238,7 @@ export const About = () => {
                     fill
                     onError={() => setImage1Error(true)}
                     sizes="(max-width: 640px) 100px, 150px"
-                    src="/benjamin.png"
+                    src={profileImageSrc}
                   />
                 )}
               </div>

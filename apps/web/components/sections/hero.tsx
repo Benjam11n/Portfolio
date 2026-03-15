@@ -18,6 +18,7 @@ import { ROUTES } from "@/lib/constants/navigation";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useAnimationPerformance } from "@/lib/hooks/animation/use-animation-performance";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useProfileImageSource } from "@/lib/hooks/ui/use-profile-image-source";
 import { Markdown } from "../shared/markdown";
 
 export const Hero = () => {
@@ -28,6 +29,10 @@ export const Hero = () => {
   const { skipAnimations } = useAnimationSkipContext();
   const [showSkipIndicator, setShowSkipIndicator] = useState(false);
   const performanceMetrics = useAnimationPerformance();
+  const profileImageSrc = useProfileImageSource({
+    animationRef: imageRef,
+    prefersReducedMotion,
+  });
 
   useGSAP(
     () => {
@@ -316,7 +321,7 @@ export const Hero = () => {
               colorLight="#3f3f3fff"
               containerClassName="mb-6 h-[72px] w-[72px]"
               height={72}
-              src="/benjamin.png"
+              src={profileImageSrc}
               width={72}
             />
           </Magnetic>
