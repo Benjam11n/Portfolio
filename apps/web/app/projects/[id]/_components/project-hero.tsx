@@ -19,6 +19,7 @@ type ProjectHeroProps = {
 export const ProjectHero = ({ project }: ProjectHeroProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [heroImageError, setHeroImageError] = useState(false);
+  const projectTitle = project.title.split(" - ")[0];
 
   useGSAP(
     () => {
@@ -87,15 +88,19 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
     <div className="w-full" ref={containerRef}>
       {/* Back Button */}
       <Link
-        className="hero-back group mb-8 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+        aria-label="Back to portfolio"
+        className="hero-back group mb-5 inline-flex items-center gap-2 rounded-full border border-border/60 bg-secondary/80 px-3 py-2 text-muted-foreground shadow-sm ring-1 ring-black/5 backdrop-blur-md transition-all duration-300 hover:border-border hover:bg-secondary hover:text-foreground"
         href={ROUTES.HOME + ROUTES.PROJECTS}
       >
-        <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-0.5" />
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-background/80 text-foreground shadow-inner ring-1 ring-border/40 transition-transform duration-300 group-hover:-translate-x-0.5">
+          <ArrowLeft className="h-4 w-4" />
+        </span>
+        <span className="pr-1 font-medium text-sm tracking-tight">Back</span>
       </Link>
 
       {/* Header Section */}
-      <div className="mb-12">
-        <div className="mb-6 flex items-center gap-4">
+      <div className="mb-8">
+        <div className="mb-4 flex items-center gap-4">
           {project.logo && (
             <BorderedImage
               alt={`${project.title} logo`}
@@ -107,16 +112,16 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
               width={48}
             />
           )}
-          <h1 className="hero-title text-balance font-bold text-3xl tracking-tight sm:text-5xl">
-            {project.title.split(" - ")[0]}
+          <h1 className="hero-title text-balance font-bold text-3xl tracking-tight sm:text-4xl">
+            {projectTitle}
           </h1>
         </div>
-        <div className="hero-header-item mb-8 max-w-2xl text-pretty text-lg text-muted-foreground leading-relaxed">
+        <div className="hero-header-item mb-6 max-w-2xl text-pretty text-base text-muted-foreground leading-relaxed sm:text-lg">
           <Markdown>{project.description}</Markdown>
         </div>
 
         {(project.href || project.github) && (
-          <div className="hero-header-item flex flex-wrap gap-4">
+          <div className="hero-header-item flex flex-wrap gap-3">
             {project.href && (
               <ShiftButton
                 href={project.href}
@@ -145,8 +150,8 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
 
       {/* Hero Visual (Hero Image) */}
       {project.hero_image && (
-        <div className="hero-visual group mb-12 w-full overflow-hidden rounded-2xl border border-border/50 bg-secondary shadow-lg transition-transform duration-500 hover:scale-[1.01]">
-          <div className="relative aspect-video w-full">
+        <div className="hero-visual group w-full overflow-hidden rounded-2xl border border-border/50 bg-secondary shadow-lg transition-transform duration-500 hover:scale-[1.005]">
+          <div className="relative aspect-[2/1] w-full">
             {heroImageError ? (
               <div className="flex h-full w-full items-center justify-center text-muted-foreground">
                 Hero image not available
