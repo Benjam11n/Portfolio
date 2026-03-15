@@ -3,10 +3,10 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { CheckCircle2 } from "lucide-react";
 import { useRef } from "react";
 import { Markdown } from "@/components/shared/markdown";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
+import { Card, CardContent } from "@/components/ui/card";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
 import type { Project } from "@/lib/types/index";
 
@@ -25,7 +25,7 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
     () => {
       // Set initial states
       gsap.set(".overview-text", { y: 20, autoAlpha: 0 });
-      gsap.set(".feature-card", { scale: 0.9, autoAlpha: 0, y: 20 });
+      gsap.set(".feature-card", { autoAlpha: 0, y: 24 });
       gsap.set(".tech-item", { scale: 0.8, autoAlpha: 0 });
 
       const tl = gsap.timeline({
@@ -48,12 +48,10 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
       tl.to(
         ".feature-card",
         {
-          scale: 1,
           autoAlpha: 1,
           y: 0,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: "back.out(1.5)",
+          duration: 0.7,
+          stagger: 0.08,
         },
         "-=0.4"
       );
@@ -82,31 +80,30 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
         </div>
       </div>
 
-      {/* Row 2: Features (Redesigned as Cards) */}
+      {/* Row 2: Features */}
       {project.features && project.features.length > 0 && (
-        <div className="space-y-6">
+        <div className="space-y-4">
           <h3 className="font-bold font-mono text-muted-foreground text-xs uppercase tracking-widest">
             Key Features
           </h3>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {project.features.map((feature: string) => (
-              <div
-                className="feature-card flex flex-col justify-center rounded-2xl border border-border/60 bg-card/90 p-5 shadow-sm transition-all hover:border-border/80 hover:bg-card"
-                key={feature}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted/50 text-foreground">
-                    <CheckCircle2 className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0 flex-1 text-[15px] text-foreground leading-relaxed">
-                    <Markdown className="[&_strong]:text-foreground">
-                      {feature}
-                    </Markdown>
-                  </div>
-                </div>
-              </div>
+          <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {project.features.map((feature: string, index: number) => (
+              <li className="feature-card" key={feature}>
+                <Card className="h-full rounded-md border-border/50 bg-card shadow-sm">
+                  <CardContent className="flex items-start gap-4 p-4">
+                    <span className="inline-flex h-8 min-w-8 shrink-0 items-center justify-center rounded-md bg-muted px-2 font-medium font-mono text-[11px] text-muted-foreground tracking-[0.2em]">
+                      {(index + 1).toString().padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0 text-[15px] text-foreground leading-relaxed">
+                      <Markdown className="[&_strong]:text-foreground">
+                        {feature}
+                      </Markdown>
+                    </div>
+                  </CardContent>
+                </Card>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       )}
 
