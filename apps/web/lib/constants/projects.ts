@@ -1,5 +1,5 @@
-import type { Project } from "@/lib/types";
-import { projectsArraySchema } from "@/lib/validations/constants";
+import type { Project } from "@/lib/types/index.ts";
+import { projectsArraySchema } from "@/lib/validations/constants.ts";
 
 const rawProjects: Project[] = [
   {
@@ -13,6 +13,7 @@ const rawProjects: Project[] = [
     client: "Personal Project",
     services: "Desktop App, Productivity",
     location: "Singapore",
+    github: "https://github.com/Benjam11n/zucchini",
     status: "in-development",
     video_overview: "/projects/zucchini/video.mp4",
     hero_image: "/projects/zucchini/hero.png",
