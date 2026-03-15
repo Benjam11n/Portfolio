@@ -57,9 +57,7 @@ export const Navbar = () => {
                 </TooltipTrigger>
               </Magnetic>
               <TooltipContent
-                className={cn(
-                  "font-medium text-[10px] text-foreground"
-                )}
+                className={cn("font-medium text-[10px] text-foreground")}
                 side="top"
                 sideOffset={10}
               >
