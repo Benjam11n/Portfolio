@@ -146,9 +146,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         rotationIntensity={isMobile ? 0 : 5}
         thickness={10}
       >
-        <div className="group" data-hover-cursor="">
-          {content}
-        </div>
+        <div className="group">{content}</div>
       </Card3D>
     );
   }
@@ -166,7 +164,6 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         aria-expanded={isOpen}
         aria-labelledby={headingId}
         className="group block w-full cursor-pointer p-4 text-left transition-transform hover:scale-[1.005]"
-        data-hover-cursor=""
         onClick={(e) => toggleOpen(e)}
         onKeyDown={(e) => {
           if (e.key === "Escape" && isOpen) {

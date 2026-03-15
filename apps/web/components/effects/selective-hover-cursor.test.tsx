@@ -91,7 +91,11 @@ describe("SelectiveHoverCursor", () => {
   it("activates over marked targets and follows the pointer", async () => {
     render(
       <div>
-        <button data-hover-cursor type="button">
+        <button
+          data-hover-cursor
+          data-hover-cursor-label="Learn more"
+          type="button"
+        >
           Hover me
         </button>
         <SelectiveHoverCursor />
@@ -113,6 +117,14 @@ describe("SelectiveHoverCursor", () => {
     });
 
     expect(overlay).toHaveAttribute("data-active", "true");
+    expect(screen.getByText("Learn more")).toBeInTheDocument();
+    expect(
+      overlay.querySelector(".selective-hover-cursor--label")
+    ).not.toBeNull();
+    expect(mocks.gsapSet).toHaveBeenCalledWith(overlay, {
+      x: 36,
+      y: 48,
+    });
   });
 
   it("hides when moving onto an unmarked element", async () => {

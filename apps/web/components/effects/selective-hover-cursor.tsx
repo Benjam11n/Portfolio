@@ -3,18 +3,24 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
-import { HOVER_CURSOR_SELECTOR } from "@/lib/constants/interaction";
+import {
+  HOVER_CURSOR_LABEL_ATTRIBUTE,
+  HOVER_CURSOR_SELECTOR,
+} from "@/lib/constants/interaction";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { cn } from "@/lib/utils";
 
 const POINTER_OFFSET = 12;
 const POINTER_MEDIA_QUERY = "(hover: hover) and (pointer: fine)";
 
 export const SelectiveHoverCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef("");
   const moveXRef = useRef<((value: number) => gsap.core.Tween) | null>(null);
   const moveYRef = useRef<((value: number) => gsap.core.Tween) | null>(null);
   const isVisibleRef = useRef(false);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const [label, setLabel] = useState("");
   const [supportsFinePointer, setSupportsFinePointer] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const shouldEnable = supportsFinePointer && !prefersReducedMotion;
@@ -65,6 +71,7 @@ export const SelectiveHoverCursor = () => {
   useEffect(() => {
     if (!(shouldEnable && cursorRef.current)) {
       setIsActive(false);
+      setLabel("");
       return;
     }
 
@@ -72,6 +79,15 @@ export const SelectiveHoverCursor = () => {
       setIsActive((currentState) =>
         currentState === nextState ? currentState : nextState
       );
+    };
+
+    const setCursorLabel = (nextLabel: string) => {
+      if (labelRef.current === nextLabel) {
+        return;
+      }
+
+      labelRef.current = nextLabel;
+      setLabel(nextLabel);
     };
 
     const showCursor = () => {
@@ -95,10 +111,12 @@ export const SelectiveHoverCursor = () => {
     const hideCursor = () => {
       if (!cursorRef.current) {
         setActiveState(false);
+        setCursorLabel("");
         return;
       }
 
       setActiveState(false);
+      setCursorLabel("");
 
       if (!isVisibleRef.current) {
         return;
@@ -126,8 +144,21 @@ export const SelectiveHoverCursor = () => {
         return;
       }
 
-      moveXRef.current?.(event.clientX + POINTER_OFFSET);
-      moveYRef.current?.(event.clientY + POINTER_OFFSET);
+      const nextX = event.clientX + POINTER_OFFSET;
+      const nextY = event.clientY + POINTER_OFFSET;
+
+      if (!isVisibleRef.current && cursorRef.current) {
+        gsap.set(cursorRef.current, {
+          x: nextX,
+          y: nextY,
+        });
+      }
+
+      setCursorLabel(
+        hoverTarget.getAttribute(HOVER_CURSOR_LABEL_ATTRIBUTE) ?? ""
+      );
+      moveXRef.current?.(nextX);
+      moveYRef.current?.(nextY);
       showCursor();
     };
 
@@ -155,10 +186,19 @@ export const SelectiveHoverCursor = () => {
   return (
     <div
       aria-hidden="true"
-      className="selective-hover-cursor"
+      className="selective-hover-cursor-layer"
       data-active={isActive}
       data-hover-cursor-overlay
       ref={cursorRef}
-    />
+    >
+      <div
+        className={cn(
+          "selective-hover-cursor",
+          label.length > 0 && "selective-hover-cursor--label"
+        )}
+      >
+        {label.length > 0 && <span>{label}</span>}
+      </div>
+    </div>
   );
 };

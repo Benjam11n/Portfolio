@@ -8,7 +8,7 @@ import { useRef } from "react";
 import { Markdown } from "@/components/shared/markdown";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
-import type { Project } from "@/lib/types/index.ts";
+import type { Project } from "@/lib/types/index";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);

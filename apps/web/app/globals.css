@@ -71,7 +71,6 @@
 
 @layer base {
   :root {
-    /* Nue Design System - Light Mode (Updated for Contrast) */
     --background: 0 0% 92%; /* Visible Light Grey BG */
     --foreground: 0 0% 9%;
 
@@ -104,11 +103,10 @@
   }
 
   .dark {
-    /* Nue Design System - Dark Mode (Updated for Contrast) */
-    --background: 0 0% 12%; /* Dark Grey BG */
+    --background: 0 0% 12%;
     --foreground: 0 0% 98%;
 
-    --card: 0 0% 0%; /* Pure Black Base Card */
+    --card: 0 0% 0%;
     --card-foreground: 0 0% 98%;
 
     --popover: 0 0% 3.9%;
@@ -120,7 +118,7 @@
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 12%; /* Dark Grey for Inner Cards (visible on black) */
+    --muted: 0 0% 12%;
     --muted-foreground: 0 0% 63.9%;
 
     --accent: 0 0% 14.9%;
@@ -152,20 +150,48 @@
     text-wrap: balance;
   }
 
-  .selective-hover-cursor {
+  .selective-hover-cursor-layer {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 70;
-    width: 18px;
-    height: 18px;
     pointer-events: none;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  .selective-hover-cursor {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+    padding-inline: 0;
+    overflow: hidden;
+    font-size: 0;
+    font-weight: 600;
+    line-height: 1;
+    color: hsl(var(--primary-foreground));
+    letter-spacing: 0.02em;
+    white-space: nowrap;
     background: hsl(var(--primary));
     border: 1px solid hsl(var(--primary));
     border-radius: 9999px;
-    opacity: 0;
     backdrop-filter: blur(2px);
-    will-change: transform, opacity;
+  }
+
+  .selective-hover-cursor--label {
+    width: auto;
+    min-width: 84px;
+    height: 28px;
+    padding-inline: 11px;
+    font-size: 10px;
+  }
+
+  .selective-hover-cursor span {
+    display: block;
   }
 
   /* Safe area utilities for notched devices */
