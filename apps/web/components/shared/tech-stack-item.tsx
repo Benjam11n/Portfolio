@@ -92,7 +92,6 @@ export const TechStackItem = ({
       <button
         aria-label={`View details for ${stack.name}`}
         className="flex h-full w-full cursor-pointer items-center rounded-xl border-0 bg-transparent p-0 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-        data-hover-cursor=""
         onClick={onClick}
         type="button"
       >
@@ -101,9 +100,5 @@ export const TechStackItem = ({
     );
   }
 
-  return (
-    <div className="h-full" data-hover-cursor="">
-      {CardContent}
-    </div>
-  );
+  return CardContent;
 };
