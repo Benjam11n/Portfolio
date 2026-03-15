@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Maximize2 } from "lucide-react";
 import { useRef, useState } from "react";
 import { MediaPreviewOverlay } from "@/components/ui/media-preview-overlay";
-import type { Project } from "@/lib/types";
+import type { Project } from "@/lib/types/index.ts";
 import { cn } from "@/lib/utils";
 import { FullscreenMedia } from "./fullscreen-media";
 
@@ -24,9 +24,9 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
 
   const details = [
     { label: "Client", value: project.client, uppercase: false },
-    { label: "Year", value: project.year, uppercase: true },
-    { label: "Services", value: project.services, uppercase: true },
-    { label: "Location", value: project.location, uppercase: true },
+    { label: "Year", value: project.year, uppercase: false },
+    { label: "Services", value: project.services, uppercase: false },
+    { label: "Location", value: project.location, uppercase: false },
   ];
 
   useGSAP(

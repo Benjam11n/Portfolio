@@ -26,6 +26,12 @@ const mockExperience = {
   icon: "/company-logo.png",
 };
 
+const mockExperienceWithoutPoints = {
+  ...mockExperience,
+  id: 2,
+  points: [],
+};
+
 const TEXT_INTEGRATED = /Integrated/;
 const TEXT_IMPROVED = /improved performance by 50%/;
 
@@ -53,5 +59,17 @@ describe("ExperienceItem", () => {
     render(<ExperienceItem item={mockExperience} />);
     const listItems = screen.getAllByRole("listitem");
     expect(listItems).toHaveLength(2);
+  });
+
+  it("marks expandable items as hover cursor targets", () => {
+    render(<ExperienceItem item={mockExperience} />);
+    expect(screen.getByRole("button")).toHaveAttribute("data-hover-cursor");
+  });
+
+  it("marks non-expandable items as hover cursor targets", () => {
+    render(<ExperienceItem item={mockExperienceWithoutPoints} />);
+    expect(
+      screen.getByText("Test Company").closest("[data-hover-cursor]")
+    ).toHaveAttribute("data-hover-cursor");
   });
 });

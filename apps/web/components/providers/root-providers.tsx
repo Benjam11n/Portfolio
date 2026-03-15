@@ -6,6 +6,7 @@ import { Toaster } from "sonner";
 import {
   DynamicAnimationSkipProvider,
   DynamicPerformanceMonitor,
+  DynamicSelectiveHoverCursor,
 } from "@/components/layout/dynamic-layout-components";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -24,6 +25,7 @@ export function RootProviders({ children }: { children: ReactNode }) {
         disableTransitionOnChange
       >
         <DynamicAnimationSkipProvider>
+          <DynamicSelectiveHoverCursor />
           <TooltipProvider>{children}</TooltipProvider>
           <Toaster />
         </DynamicAnimationSkipProvider>

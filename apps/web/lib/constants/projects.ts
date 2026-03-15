@@ -1,5 +1,5 @@
-import type { Project } from "@/lib/types/index.ts";
-import { projectsArraySchema } from "@/lib/validations/constants.ts";
+import type { Project } from "@/lib/types/index";
+import { projectsArraySchema } from "@/lib/validations/constants";
 
 const rawProjects: Project[] = [
   {
