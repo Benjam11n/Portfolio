@@ -58,4 +58,24 @@ describe("TechStackItem", () => {
     // Verify it doesn't crash.
     expect(screen.getByAltText("React")).toBeDefined();
   });
+
+  it("marks clickable items as hover cursor targets", () => {
+    render(
+      <TooltipProvider>
+        <TechStackItem onClick={vi.fn()} stack={mockStackItem} />
+      </TooltipProvider>
+    );
+    expect(screen.getByRole("button")).toHaveAttribute("data-hover-cursor");
+  });
+
+  it("marks non-clickable items as hover cursor targets", () => {
+    render(
+      <TooltipProvider>
+        <TechStackItem stack={mockStackItem} />
+      </TooltipProvider>
+    );
+    expect(
+      screen.getByAltText("React").closest("[data-hover-cursor]")
+    ).toHaveAttribute("data-hover-cursor");
+  });
 });

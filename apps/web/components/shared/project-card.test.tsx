@@ -47,6 +47,7 @@ describe("ProjectCard", () => {
       name: VIEW_PROJECT_REGEX,
     });
     expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute("data-hover-cursor");
     expect(link).toHaveAttribute("href", "/projects/test-project");
   });
 });

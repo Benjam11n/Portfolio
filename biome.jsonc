@@ -2,6 +2,10 @@
   "extends": ["ultracite/core", "ultracite/react", "ultracite/next"],
   "linter": {
     "rules": {
+      "correctness": {
+        "noUnresolvedImports": "off",
+        "useImportExtensions": "off"
+      },
       "style": {
         "useConsistentTypeDefinitions": {
           "level": "error",

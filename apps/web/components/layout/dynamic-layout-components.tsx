@@ -38,6 +38,14 @@ export const DynamicSmoothScroll = dynamic(
   { ssr: true }
 );
 
+export const DynamicSelectiveHoverCursor = dynamic(
+  () =>
+    import("@/components/effects/selective-hover-cursor").then(
+      (mod) => mod.SelectiveHoverCursor
+    ),
+  { ssr: false }
+);
+
 export const DynamicAnimationSkipProvider = dynamic(
   () =>
     import("@/lib/contexts/animation-skip-context").then(

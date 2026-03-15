@@ -152,6 +152,22 @@
     text-wrap: balance;
   }
 
+  .selective-hover-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 70;
+    width: 18px;
+    height: 18px;
+    pointer-events: none;
+    background: hsl(var(--primary));
+    border: 1px solid hsl(var(--primary));
+    border-radius: 9999px;
+    opacity: 0;
+    backdrop-filter: blur(2px);
+    will-change: transform, opacity;
+  }
+
   /* Safe area utilities for notched devices */
   .pt-safe {
     padding-top: env(safe-area-inset-top);

@@ -8,6 +8,7 @@ vi.mock("gsap", () => ({
     from: vi.fn(),
     fromTo: vi.fn(),
     set: vi.fn(),
+    quickTo: vi.fn(() => vi.fn()),
     timeline: vi.fn(() => ({
       to: vi.fn(),
       from: vi.fn(),
