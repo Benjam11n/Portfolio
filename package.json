@@ -6,7 +6,6 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "ultracite check",
-    "lint:check": "ultracite check",
     "knip": "knip",
     "type-check": "turbo run type-check",
     "clean": "turbo run clean",
