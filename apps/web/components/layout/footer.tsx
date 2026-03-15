@@ -3,9 +3,9 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ScrollLink } from "@/components/shared/scroll-link";
-import { ROUTES } from "@/lib/constants/navigation";
-import { CONTACT_INFO } from "@/lib/constants/socials";
+import { ScrollLink } from "@/components/shared/scroll-link.tsx";
+import { ROUTES } from "@/lib/constants/navigation.ts";
+import { CONTACT_INFO } from "@/lib/constants/socials.ts";
 
 export function Footer() {
   const containerRef = useRef<HTMLElement>(null);
@@ -87,19 +87,16 @@ export function Footer() {
                 <div className="flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-1/2">
                   <div className="flex h-23 items-start sm:h-28 md:h-34 lg:h-40">
                     <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                      Let&apos;s Work <br />
-                      <span className="text-muted-foreground">Together</span>
+                      Have A <br />
+                      <span className="text-muted-foreground">Question?</span>
                     </h2>
                   </div>
 
                   <div className="flex h-23 items-start sm:h-28 md:h-34 lg:h-40">
-                    <div className="flex items-start gap-3 sm:gap-4">
-                      <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                        Contact <br />
-                        <span className="text-muted-foreground">Me</span>
-                      </h2>
-                      <ArrowUpRight className="mt-1 h-8 w-8 shrink-0 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 md:h-10 md:w-10 lg:h-12 lg:w-12" />
-                    </div>
+                    <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+                      Contact <br />
+                      <span className="text-muted-foreground">Me!</span>
+                    </h2>
                   </div>
                 </div>
               </div>

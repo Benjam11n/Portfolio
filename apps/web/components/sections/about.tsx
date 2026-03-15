@@ -269,12 +269,9 @@ export const About = () => {
         </div>
 
         {/* Text */}
-        <div className="space-y-6 text-foreground text-md leading-relaxed">
+        <div className="text-foreground text-md leading-relaxed">
           <div className="about-text">
-            <Markdown>{ABOUT_CONTENT.p1}</Markdown>
-          </div>
-          <div className="about-text">
-            <Markdown>{ABOUT_CONTENT.p2}</Markdown>
+            <Markdown>{ABOUT_CONTENT.description}</Markdown>
           </div>
         </div>
 
