@@ -22,7 +22,7 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@vercel/analytics": "^1.6.1",
+    "@vercel/analytics": "^2.0.1",
     "posthog-js": "^1.360.2"
   }
 }
