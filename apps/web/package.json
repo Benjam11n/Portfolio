@@ -59,7 +59,7 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@types/three": "^0.182.0",
-    "jsdom": "^27.4.0",
+    "jsdom": "^29.0.0",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.1",
     "ultracite": "^7.3.0",
