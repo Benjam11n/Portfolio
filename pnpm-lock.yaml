@@ -238,8 +238,8 @@ importers:
   packages/security:
     dependencies:
       '@arcjet/next':
-        specifier: ^1.0.0-beta.17
-        version: 1.0.0-beta.17(next@16.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
+        specifier: ^1.3.0
+        version: 1.3.0(next@16.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
       '@nosecone/next':
         specifier: 1.3.0
         version: 1.3.0(next@16.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
@@ -345,66 +345,66 @@ packages:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
 
-  '@arcjet/analyze-wasm@1.0.0-beta.17':
-    resolution: {integrity: sha512-E1m1zStsOYv3yH8zyFKaSV43ki50KeVFoBoPET5ZWcd2t6K5xFmbVZzGmdVD4okarehz84INAs8ogTKW/ljBlg==}
+  '@arcjet/analyze-wasm@1.3.0':
+    resolution: {integrity: sha512-N2hYM2/AW8eXlyLofBCtvduE5kcwL8wBvnBH010+nAVdVn3Fx0J5b0aQEQ17XtXVH2B2QlHm3sUn9LhUpQfHIg==}
     engines: {node: '>=20'}
 
-  '@arcjet/analyze@1.0.0-beta.17':
-    resolution: {integrity: sha512-avn1IIG8xb3zpefqWwNUu/EkrHHqTlTBCkvKo1taBXhUsu7uk7/+e1+Pj8Jngmkcvu+1Ww0olMoVtvycIQfwpw==}
+  '@arcjet/analyze@1.3.0':
+    resolution: {integrity: sha512-2lqS8T1IIWTvEmC93siSd2iiE2pjSEEjoIsMxQzYWSIiBG3Efr1dI0RgHpcaCyXsglSeBkWkhjJiZbKlMw+nhw==}
     engines: {node: '>=20'}
 
-  '@arcjet/body@1.0.0-beta.17':
-    resolution: {integrity: sha512-XjrbtIXIkHxPq5vepnv2IZmz1Tpjb66GMs016yDJGIsummQMiKk07qcyr2VecdUd/lfa/cjGGOjFHKGpQaqMmg==}
+  '@arcjet/body@1.3.0':
+    resolution: {integrity: sha512-OwxQd1gYJVKmDLTbwbDvc3E1w5twxlJujpxpL+PqaU72l/HjDytRIe21eMsCCzSE1uYb7gZ/D9XWoy89CMWFmA==}
     engines: {node: '>=20'}
 
-  '@arcjet/cache@1.0.0-beta.17':
-    resolution: {integrity: sha512-rDxuyo/iU+gJReuKzG5fvbxpXSzV6K+9kbFXQfrw9j4Zf0ZU8K71H1TXw5OJVqXZAEAXsLe2f+BUVh2Ie0hPPQ==}
+  '@arcjet/cache@1.3.0':
+    resolution: {integrity: sha512-CQuyTbRAwsZjxK/w3QxOIrOyD5msQNYQDsJ5ng4fdE1l1vz9WRYvZDUZ8oYztg5qgswwILxBogPDFl1vSOhh3A==}
     engines: {node: '>=20'}
 
-  '@arcjet/duration@1.0.0-beta.17':
-    resolution: {integrity: sha512-YolR+ZGc+eBPwsOI20kOfUrDil3jHMsMMjp5/cgA2UG94jovWJ4BPTt8KR76M44ohRV0Pgj0CofFMy1l73XH2A==}
+  '@arcjet/duration@1.3.0':
+    resolution: {integrity: sha512-O0Mx2Gc5JkDSnMQ1asYLwG3fTbou1V8mwkUl+rzT+cOfGiDX6j2r3YMgZYV6jQlwqsoS/PSS6odAFUWrjrQPHA==}
     engines: {node: '>=20'}
 
-  '@arcjet/env@1.0.0-beta.17':
-    resolution: {integrity: sha512-63uvv6u8ZFK6vQFpn8NS3DQvLCnKvqKYoy9b9L89w2tnOav4YEdy6Cx5+eWH3oqJb8sZAyO89xpgvV18CXVRqQ==}
+  '@arcjet/env@1.3.0':
+    resolution: {integrity: sha512-p/ckMZrw0sgo4ezvTFb7olBO+9aWVQZtwtmBARkDYOYclhFqo5PjrqQcKoRwSRxDE6MtLw4XADYgkzLkmSgxXQ==}
     engines: {node: '>=20'}
 
-  '@arcjet/headers@1.0.0-beta.17':
-    resolution: {integrity: sha512-aijpaE43soAYHIYmYdMT95yvsgdvVqmltNiGxXbCqm8ubDj5UYy2iVJVC+uyIEV6oVx0RHt8GFFag+BTHB7GHQ==}
+  '@arcjet/headers@1.3.0':
+    resolution: {integrity: sha512-B+OYGaTozwhxNFfWnRcDkSD/wMbnhzzSmOyCnXEbxroJrmguflTEUyyMUQ4MCp92+djggr35565kWyZAy/Ls/w==}
     engines: {node: '>=20'}
 
-  '@arcjet/ip@1.0.0-beta.17':
-    resolution: {integrity: sha512-MGUwyDhLwehll/JCiysZqh+vyPVT0fzqfj12/oCt190sGVpiSReX3SvRCq/PgxkiK51y5FaBOqcTU1aZybfSrg==}
+  '@arcjet/ip@1.3.0':
+    resolution: {integrity: sha512-yXdj1G1LoM8BAZH9Q+pf7TbGvkQht8zj/T6DhfT0UBTB3Zp4l6GM5h/yDVPuvRHfVmEu00z6b6KwDkjU+CCMXw==}
     engines: {node: '>=20'}
 
-  '@arcjet/logger@1.0.0-beta.17':
-    resolution: {integrity: sha512-1k8QpATso81gSaAnFml0H82JKST147FK5bK2EG6vugMF2yjAGgEgWTzuxKCJxEEkbSGDe9JB+qqKvurn0LtzBg==}
+  '@arcjet/logger@1.3.0':
+    resolution: {integrity: sha512-fEyCcA8oIMGDneiLAzJNbF6l2trUciEit+V8XlRUbd7NjyvGQUDhnPOzBD6APEuoLJb/UVtYHN9g7++r/ZG/XQ==}
     engines: {node: '>=20'}
 
-  '@arcjet/next@1.0.0-beta.17':
-    resolution: {integrity: sha512-nIgDjfbCfImtE9YM+aA5ccY2DUYuQlhaL4CzvGKFy97sVzRcjCQnvWdI67fyvyseRy2pg+Yj/JxRzry2xY8dkA==}
+  '@arcjet/next@1.3.0':
+    resolution: {integrity: sha512-ZdexsdSTjJVYIo9+sc2+dGHYn/AyzNFOn3lyUpN8ymf9SnRTtiD7UUHEjF9OE2Ybzlu9NQc/ZvvW6rVErwQTkw==}
     engines: {node: '>=20'}
     peerDependencies:
       next: '>=13'
 
-  '@arcjet/protocol@1.0.0-beta.17':
-    resolution: {integrity: sha512-2LzpRimpmEakinMGLZb9CCIHWqBfXACz8+8C3cMwqadOgIS8EL+6m5H7DGYE9I9i5kDRsMcr12UXo6aaFntIKg==}
+  '@arcjet/protocol@1.3.0':
+    resolution: {integrity: sha512-sb1uCa65tmwSJn8/TYxV9nNiBGHlviUzJlKNAk8VIT4i7DSVMaNVOingH6A6F9KZj//iysEIoLzpnUbDb1vNpg==}
     engines: {node: '>=20'}
 
-  '@arcjet/runtime@1.0.0-beta.17':
-    resolution: {integrity: sha512-MGB6C9coMPb3skm4i5ZrPxqZx+oFEGtBkE+7147WlRodyfm53/ke2xfAV+3TAPg8QczyukQzarjigFkUmoNwFA==}
+  '@arcjet/runtime@1.3.0':
+    resolution: {integrity: sha512-/wmVXc0csYK6H3ny/MGM5yreP8uXRAaoEXkRs3ZeZjJ75u2Xc5w8+COKyTrGH/Ii1+rUNtmuo/Ak1K2ZtxQ3IA==}
     engines: {node: '>=20'}
 
-  '@arcjet/sprintf@1.0.0-beta.17':
-    resolution: {integrity: sha512-eBbSZG41Ak72cwfb4x63u5biL7P21xaIoEKIMRDBQdDrc0qhhx39MlKuaEN3mKTvkUjMuHtCPgof/UgzAKND/w==}
+  '@arcjet/sprintf@1.3.0':
+    resolution: {integrity: sha512-YXMamDqnLSc4Bc7pcOQI7xaacfi2eJWVz/c6708hCfJYWsnq/IV53WQHLFGLMKErD0mjs4gqEmR3UUqUb70EVw==}
     engines: {node: '>=20'}
 
-  '@arcjet/stable-hash@1.0.0-beta.17':
-    resolution: {integrity: sha512-bzHyaMRHIEIxZqyWncGo8AfQB7D6y+lg6uIqKmjl9UzETN1jeQT+bwWrfy87MuBc0SW3Q3LfiaXY+fHJwJBUHA==}
+  '@arcjet/stable-hash@1.3.0':
+    resolution: {integrity: sha512-clmSelOZNTKxBjOg0yPT6xeh61eDN44K4SyJa1LRkbiAG9QWT+I4m9vcEgwYI7aRB4V7Y1gcQa/SqioEmZRvIg==}
     engines: {node: '>=20'}
 
-  '@arcjet/transport@1.0.0-beta.17':
-    resolution: {integrity: sha512-7l+0zPPMBb/Bk0Povbmk42F3ThEnycIVqceGADoc3anTMstADNVa4QgZkjAasl0oLkrFGUtZCmxz2KIlHzxHYQ==}
+  '@arcjet/transport@1.3.0':
+    resolution: {integrity: sha512-GdPRHFPE4qlht/ULKjdCOgarCwQfLT9MTTTzzFUyO6ytVEEhml8kchJxXOxjWYZR0j+tbb9VEqDuwuLSZC6H2Q==}
     engines: {node: '>=20'}
 
   '@asamuzakjp/css-color@4.1.1':
@@ -564,8 +564,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@bufbuild/protobuf@1.10.1':
-    resolution: {integrity: sha512-wJ8ReQbHxsAfXhrf9ixl0aYbZorRuOWpBNzm8pL8ftmSxQx/wnJD5Eg861NwJU/czy2VXFIebCeZnZrI9rktIQ==}
+  '@bufbuild/protobuf@2.11.0':
+    resolution: {integrity: sha512-sBXGT13cpmPR5BMgHE6UEEfEaShh5Ror6rfN3yEK5si7QVrtZg8LEPQb0VVhiLRUslD2yLnXtnRzG035J/mZXQ==}
 
   '@clack/core@1.1.0':
     resolution: {integrity: sha512-SVcm4Dqm2ukn64/8Gub2wnlA5nS2iWJyCkdNHcvNHPIeBTGojpdJ+9cZKwLfmqy7irD4N5qLteSilJlE0WLAtA==}
@@ -573,23 +573,23 @@ packages:
   '@clack/prompts@1.1.0':
     resolution: {integrity: sha512-pkqbPGtohJAvm4Dphs2M8xE29ggupihHdy1x84HNojZuMtFsHiUlRvqD24tM2+XmI+61LlfNceM3Wr7U5QES5g==}
 
-  '@connectrpc/connect-node@1.6.1':
-    resolution: {integrity: sha512-DxcD1wsF/aX9GegjAtl7VbpiZNjVJozy87VbaFoN6AF0Ln1Q757r5dgV59Gz0wmlk5f17txUsrEr1f2inlnnAg==}
-    engines: {node: '>=16.0.0'}
+  '@connectrpc/connect-node@2.1.1':
+    resolution: {integrity: sha512-s3TfsI1XF+n+1z6MBS9rTnFsxxR4Rw5wmdEnkQINli81ESGxcsfaEet8duzq8LVuuCupmhUsgpRo0Nv9pZkufg==}
+    engines: {node: '>=20'}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.10.0
-      '@connectrpc/connect': 1.6.1
+      '@bufbuild/protobuf': ^2.7.0
+      '@connectrpc/connect': 2.1.1
 
-  '@connectrpc/connect-web@1.6.1':
-    resolution: {integrity: sha512-GVfxQOmt3TtgTaKeXLS/EA2IHa3nHxwe2BCHT7X0Q/0hohM+nP5DDnIItGEjGrGdt3LTTqWqE4s70N4h+qIMlQ==}
+  '@connectrpc/connect-web@2.1.1':
+    resolution: {integrity: sha512-J8317Q2MaFRCT1jzVR1o06bZhDIBmU0UAzWx6xOIXzOq8+k71/+k7MUF7AwcBUX+34WIvbm5syRgC5HXQA8fOg==}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.10.0
-      '@connectrpc/connect': 1.6.1
+      '@bufbuild/protobuf': ^2.7.0
+      '@connectrpc/connect': 2.1.1
 
-  '@connectrpc/connect@1.6.1':
-    resolution: {integrity: sha512-KchMDNtU4CDTdkyf0qG7ugJ6qHTOR/aI7XebYn3OTCNagaDYWiZUVKgRgwH79yeMkpNgvEUaXSK7wKjaBK9b/Q==}
+  '@connectrpc/connect@2.1.1':
+    resolution: {integrity: sha512-JzhkaTvM73m2K1URT6tv53k2RwngSmCXLZJgK580qNQOXRzZRR/BCMfZw3h+90JpnG6XksP5bYT+cz0rpUzUWQ==}
     peerDependencies:
-      '@bufbuild/protobuf': ^1.10.0
+      '@bufbuild/protobuf': ^2.7.0
 
   '@csstools/color-helpers@5.1.0':
     resolution: {integrity: sha512-S11EXWJyy0Mz5SYvRmY8nJYTFFd1LCNV+7cXyAgQtOOuzb4EsgfqDufL+9esx72/eLhsRdGZwaldu/h+E4t4BA==}
@@ -803,10 +803,6 @@ packages:
     peerDependenciesMeta:
       '@noble/hashes':
         optional: true
-
-  '@fastify/busboy@2.1.1':
-    resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
-    engines: {node: '>=14'}
 
   '@floating-ui/core@1.7.3':
     resolution: {integrity: sha512-sGnvb5dmrJaKEZ+LDIpguvdX3bDlEllmv4/ClQ9awcmCZrlx5jQyyMWFM5kBI+EyNOCDDiKk8il0zeuX3Zlg/w==}
@@ -2152,8 +2148,8 @@ packages:
     resolution: {integrity: sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==}
     engines: {node: '>=10'}
 
-  arcjet@1.0.0-beta.17:
-    resolution: {integrity: sha512-7LA55aVHbRNnKGJt9x58MCy6ql0b7jkmx1mgX2CwqwcD4AvUfMm+ELvh0U68U6i6b8D7GODe5pcrEecHLDoyZg==}
+  arcjet@1.3.0:
+    resolution: {integrity: sha512-15V0B83ta/Kv+1/KtuqgkdTHYXsv43U5qq+rIWgvzOxUWXpRd8fj41Vr4jxguSaL8yg7fvSFvdzPn3TlvwQAyw==}
     engines: {node: '>=20'}
 
   aria-query@5.3.0:
@@ -3385,10 +3381,6 @@ packages:
   undici-types@7.18.2:
     resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
 
-  undici@5.29.0:
-    resolution: {integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==}
-    engines: {node: '>=14.0'}
-
   unified@11.0.5:
     resolution: {integrity: sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA==}
 
@@ -3659,60 +3651,60 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@arcjet/analyze-wasm@1.0.0-beta.17': {}
+  '@arcjet/analyze-wasm@1.3.0': {}
 
-  '@arcjet/analyze@1.0.0-beta.17':
+  '@arcjet/analyze@1.3.0':
     dependencies:
-      '@arcjet/analyze-wasm': 1.0.0-beta.17
-      '@arcjet/protocol': 1.0.0-beta.17
+      '@arcjet/analyze-wasm': 1.3.0
+      '@arcjet/protocol': 1.3.0
 
-  '@arcjet/body@1.0.0-beta.17': {}
+  '@arcjet/body@1.3.0': {}
 
-  '@arcjet/cache@1.0.0-beta.17': {}
+  '@arcjet/cache@1.3.0': {}
 
-  '@arcjet/duration@1.0.0-beta.17': {}
+  '@arcjet/duration@1.3.0': {}
 
-  '@arcjet/env@1.0.0-beta.17': {}
+  '@arcjet/env@1.3.0': {}
 
-  '@arcjet/headers@1.0.0-beta.17': {}
+  '@arcjet/headers@1.3.0': {}
 
-  '@arcjet/ip@1.0.0-beta.17': {}
+  '@arcjet/ip@1.3.0': {}
 
-  '@arcjet/logger@1.0.0-beta.17':
+  '@arcjet/logger@1.3.0':
     dependencies:
-      '@arcjet/sprintf': 1.0.0-beta.17
+      '@arcjet/sprintf': 1.3.0
 
-  '@arcjet/next@1.0.0-beta.17(next@16.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))':
+  '@arcjet/next@1.3.0(next@16.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))':
     dependencies:
-      '@arcjet/body': 1.0.0-beta.17
-      '@arcjet/env': 1.0.0-beta.17
-      '@arcjet/headers': 1.0.0-beta.17
-      '@arcjet/ip': 1.0.0-beta.17
-      '@arcjet/logger': 1.0.0-beta.17
-      '@arcjet/protocol': 1.0.0-beta.17
-      '@arcjet/transport': 1.0.0-beta.17
-      arcjet: 1.0.0-beta.17
+      '@arcjet/body': 1.3.0
+      '@arcjet/env': 1.3.0
+      '@arcjet/headers': 1.3.0
+      '@arcjet/ip': 1.3.0
+      '@arcjet/logger': 1.3.0
+      '@arcjet/protocol': 1.3.0
+      '@arcjet/transport': 1.3.0
+      arcjet: 1.3.0
       next: 16.1.6(@opentelemetry/api@1.9.0)(@playwright/test@1.58.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
 
-  '@arcjet/protocol@1.0.0-beta.17':
+  '@arcjet/protocol@1.3.0':
     dependencies:
-      '@arcjet/cache': 1.0.0-beta.17
-      '@bufbuild/protobuf': 1.10.1
-      '@connectrpc/connect': 1.6.1(@bufbuild/protobuf@1.10.1)
+      '@arcjet/cache': 1.3.0
+      '@bufbuild/protobuf': 2.11.0
+      '@connectrpc/connect': 2.1.1(@bufbuild/protobuf@2.11.0)
       typeid-js: 1.2.0
 
-  '@arcjet/runtime@1.0.0-beta.17': {}
+  '@arcjet/runtime@1.3.0': {}
 
-  '@arcjet/sprintf@1.0.0-beta.17': {}
+  '@arcjet/sprintf@1.3.0': {}
 
-  '@arcjet/stable-hash@1.0.0-beta.17': {}
+  '@arcjet/stable-hash@1.3.0': {}
 
-  '@arcjet/transport@1.0.0-beta.17':
+  '@arcjet/transport@1.3.0':
     dependencies:
-      '@bufbuild/protobuf': 1.10.1
-      '@connectrpc/connect': 1.6.1(@bufbuild/protobuf@1.10.1)
-      '@connectrpc/connect-node': 1.6.1(@bufbuild/protobuf@1.10.1)(@connectrpc/connect@1.6.1(@bufbuild/protobuf@1.10.1))
-      '@connectrpc/connect-web': 1.6.1(@bufbuild/protobuf@1.10.1)(@connectrpc/connect@1.6.1(@bufbuild/protobuf@1.10.1))
+      '@bufbuild/protobuf': 2.11.0
+      '@connectrpc/connect': 2.1.1(@bufbuild/protobuf@2.11.0)
+      '@connectrpc/connect-node': 2.1.1(@bufbuild/protobuf@2.11.0)(@connectrpc/connect@2.1.1(@bufbuild/protobuf@2.11.0))
+      '@connectrpc/connect-web': 2.1.1(@bufbuild/protobuf@2.11.0)(@connectrpc/connect@2.1.1(@bufbuild/protobuf@2.11.0))
 
   '@asamuzakjp/css-color@4.1.1':
     dependencies:
@@ -3887,7 +3879,7 @@ snapshots:
   '@biomejs/cli-win32-x64@2.4.5':
     optional: true
 
-  '@bufbuild/protobuf@1.10.1': {}
+  '@bufbuild/protobuf@2.11.0': {}
 
   '@clack/core@1.1.0':
     dependencies:
@@ -3898,20 +3890,19 @@ snapshots:
       '@clack/core': 1.1.0
       sisteransi: 1.0.5
 
-  '@connectrpc/connect-node@1.6.1(@bufbuild/protobuf@1.10.1)(@connectrpc/connect@1.6.1(@bufbuild/protobuf@1.10.1))':
+  '@connectrpc/connect-node@2.1.1(@bufbuild/protobuf@2.11.0)(@connectrpc/connect@2.1.1(@bufbuild/protobuf@2.11.0))':
     dependencies:
-      '@bufbuild/protobuf': 1.10.1
-      '@connectrpc/connect': 1.6.1(@bufbuild/protobuf@1.10.1)
-      undici: 5.29.0
+      '@bufbuild/protobuf': 2.11.0
+      '@connectrpc/connect': 2.1.1(@bufbuild/protobuf@2.11.0)
 
-  '@connectrpc/connect-web@1.6.1(@bufbuild/protobuf@1.10.1)(@connectrpc/connect@1.6.1(@bufbuild/protobuf@1.10.1))':
+  '@connectrpc/connect-web@2.1.1(@bufbuild/protobuf@2.11.0)(@connectrpc/connect@2.1.1(@bufbuild/protobuf@2.11.0))':
     dependencies:
-      '@bufbuild/protobuf': 1.10.1
-      '@connectrpc/connect': 1.6.1(@bufbuild/protobuf@1.10.1)
+      '@bufbuild/protobuf': 2.11.0
+      '@connectrpc/connect': 2.1.1(@bufbuild/protobuf@2.11.0)
 
-  '@connectrpc/connect@1.6.1(@bufbuild/protobuf@1.10.1)':
+  '@connectrpc/connect@2.1.1(@bufbuild/protobuf@2.11.0)':
     dependencies:
-      '@bufbuild/protobuf': 1.10.1
+      '@bufbuild/protobuf': 2.11.0
 
   '@csstools/color-helpers@5.1.0': {}
 
@@ -4034,8 +4025,6 @@ snapshots:
     optional: true
 
   '@exodus/bytes@1.9.0': {}
-
-  '@fastify/busboy@2.1.1': {}
 
   '@floating-ui/core@1.7.3':
     dependencies:
@@ -5112,15 +5101,15 @@ snapshots:
 
   ansi-styles@5.2.0: {}
 
-  arcjet@1.0.0-beta.17:
+  arcjet@1.3.0:
     dependencies:
-      '@arcjet/analyze': 1.0.0-beta.17
-      '@arcjet/cache': 1.0.0-beta.17
-      '@arcjet/duration': 1.0.0-beta.17
-      '@arcjet/headers': 1.0.0-beta.17
-      '@arcjet/protocol': 1.0.0-beta.17
-      '@arcjet/runtime': 1.0.0-beta.17
-      '@arcjet/stable-hash': 1.0.0-beta.17
+      '@arcjet/analyze': 1.3.0
+      '@arcjet/cache': 1.3.0
+      '@arcjet/duration': 1.3.0
+      '@arcjet/headers': 1.3.0
+      '@arcjet/protocol': 1.3.0
+      '@arcjet/runtime': 1.3.0
+      '@arcjet/stable-hash': 1.3.0
 
   aria-query@5.3.0:
     dependencies:
@@ -6521,10 +6510,6 @@ snapshots:
   unbash@2.2.0: {}
 
   undici-types@7.18.2: {}
-
-  undici@5.29.0:
-    dependencies:
-      '@fastify/busboy': 2.1.1
 
   unified@11.0.5:
     dependencies:
