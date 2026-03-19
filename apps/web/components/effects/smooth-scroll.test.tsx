@@ -74,4 +74,26 @@ describe("SmoothScroll", () => {
       block: "start",
     });
   });
+
+  it("responds to hash changes on the home page without resetting to top", () => {
+    const scrollIntoView = vi.fn();
+    vi.spyOn(document, "getElementById").mockReturnValue({
+      scrollIntoView,
+    } as unknown as HTMLElement);
+
+    render(
+      <SmoothScroll>
+        <div>Content</div>
+      </SmoothScroll>
+    );
+
+    window.history.pushState(null, "", "/#contact");
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
+
+    expect(document.getElementById).toHaveBeenCalledWith("contact");
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      behavior: "smooth",
+      block: "start",
+    });
+  });
 });
