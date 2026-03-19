@@ -1,9 +1,8 @@
 import { render, screen, waitFor } from "@repo/testing/test-utils";
 import { fireEvent } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
-  gsapKillTweensOf: vi.fn(),
   gsapSet: vi.fn(),
   gsapTo: vi.fn((_: unknown, vars?: { onComplete?: () => void }) => {
     vars?.onComplete?.();
@@ -34,7 +33,6 @@ vi.mock("@gsap/react", () => ({
 
 vi.mock("gsap", () => ({
   default: {
-    killTweensOf: mocks.gsapKillTweensOf,
     quickTo: vi.fn((_: Element, property: string) =>
       property === "x" ? mocks.quickToX : mocks.quickToY
     ),
@@ -65,7 +63,6 @@ const setPointerSupport = (matches: boolean) => {
 describe("SelectiveHoverCursor", () => {
   beforeEach(() => {
     mocks.prefersReducedMotion = false;
-    mocks.gsapKillTweensOf.mockReset();
     mocks.quickToX.mockReset();
     mocks.quickToY.mockReset();
     mocks.gsapTo.mockReset();
@@ -76,6 +73,10 @@ describe("SelectiveHoverCursor", () => {
     );
     mocks.gsapSet.mockReset();
     setPointerSupport(true);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it("does not render on coarse pointers", async () => {
@@ -135,6 +136,8 @@ describe("SelectiveHoverCursor", () => {
   });
 
   it("shrinks the label back into a dot when the label is cleared", async () => {
+    vi.useFakeTimers();
+
     render(
       <div>
         <button
@@ -163,6 +166,9 @@ describe("SelectiveHoverCursor", () => {
       clientY: 42,
     });
 
+    const label = screen.getByText("Click me!");
+    expect(label).toHaveAttribute("data-visible", "true");
+
     hoverTarget.setAttribute("data-hover-cursor-label", "");
 
     fireEvent.pointerMove(hoverTarget, {
@@ -170,14 +176,14 @@ describe("SelectiveHoverCursor", () => {
       clientY: 46,
     });
 
-    expect(mocks.gsapTo).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.objectContaining({
-        width: 18,
-        height: 18,
-        paddingInline: 0,
-      })
-    );
+    expect(screen.getByText("Click me!")).toHaveAttribute("data-visible", "false");
+
+    vi.advanceTimersByTime(180);
+
+    await waitFor(() => {
+      expect(screen.queryByText("Click me!")).not.toBeInTheDocument();
+    });
+
   });
 
   it("hides when moving onto an unmarked element", async () => {
