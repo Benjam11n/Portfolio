@@ -1,12 +1,17 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const prefersReducedMotion = usePrefersReducedMotion();
+  const prefersReducedMotionRef = useRef(prefersReducedMotion);
+
+  useEffect(() => {
+    prefersReducedMotionRef.current = prefersReducedMotion;
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     // Apply smooth scroll behavior via CSS
@@ -21,26 +26,53 @@ export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
     };
   }, [prefersReducedMotion]);
 
-  // Handle hash scrolling on mount or path change
   useEffect(() => {
-    if (pathname === "/" && window.location.hash) {
-      // Small timeout to ensure DOM is ready
-      setTimeout(() => {
-        const id = window.location.hash.substring(1);
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({
-            behavior: prefersReducedMotion ? "auto" : "smooth",
-            block: "start",
-          });
-        }
-      }, 100);
+    if (pathname !== "/" || !window.location.hash) {
+      return;
     }
-    // Scroll to top when navigating to new pages without hash
-    else if (!window.location.hash) {
-      window.scrollTo(0, 0);
+
+    const timeoutId = window.setTimeout(() => {
+      const id = window.location.hash.substring(1);
+      const element = document.getElementById(id);
+
+      if (element) {
+        element.scrollIntoView({
+          behavior: prefersReducedMotionRef.current ? "auto" : "smooth",
+          block: "start",
+        });
+      }
+    }, 100);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [pathname]);
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      return;
     }
-  }, [pathname, prefersReducedMotion]);
+
+    const handleHashChange = () => {
+      const id = window.location.hash.substring(1);
+      if (!id) {
+        return;
+      }
+
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({
+          behavior: prefersReducedMotionRef.current ? "auto" : "smooth",
+          block: "start",
+        });
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, [pathname]);
 
   return <>{children}</>;
 };
