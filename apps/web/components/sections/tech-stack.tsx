@@ -1,21 +1,92 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Search } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import {
+  ArrowDownWideNarrow,
+  Blocks,
+  Braces,
+  BrainCircuit,
+  Code2,
+  Layers3,
+  Search,
+  Sparkles,
+} from "lucide-react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { TechDetailModal } from "@/components/modals/tech-detail-modal";
 import { SectionCard } from "@/components/shared/section-card";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
-import { TechCategory } from "@/lib/types";
+import { ProficiencyLevel, TechCategory } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-const CATEGORIES = ["All", "Frontend", "Backend", "AI/ML", "Language"];
+const CATEGORY_FILTERS = [
+  {
+    label: "All",
+    icon: Layers3,
+    matches: null,
+  },
+  {
+    label: "Frontend",
+    icon: Sparkles,
+    matches: [
+      TechCategory.FRONTEND,
+      TechCategory.ANIMATION,
+      TechCategory.STYLING,
+      TechCategory.FRAMEWORK,
+      TechCategory.MOBILE,
+    ],
+  },
+  {
+    label: "Backend",
+    icon: Blocks,
+    matches: [TechCategory.BACKEND, TechCategory.DATABASE, TechCategory.DEVOPS],
+  },
+  {
+    label: "AI/ML",
+    icon: BrainCircuit,
+    matches: [TechCategory.AI_ML],
+  },
+  {
+    label: "Language",
+    icon: Braces,
+    matches: [TechCategory.LANGUAGE],
+  },
+] as const;
+
+type CategoryFilter = {
+  label: string;
+  icon: (typeof CATEGORY_FILTERS)[number]["icon"];
+  matches: readonly TechCategory[] | null;
+};
+
+const SORT_OPTIONS = [
+  {
+    label: "Featured",
+    icon: Code2,
+    value: "featured",
+  },
+  {
+    label: "Skill Level",
+    icon: ArrowDownWideNarrow,
+    value: "proficiency",
+  },
+] as const;
+
+const PROFICIENCY_ORDER: Record<ProficiencyLevel, number> = {
+  beginner: 1,
+  intermediate: 2,
+  advanced: 3,
+  expert: 4,
+};
+
+type SortMode = (typeof SORT_OPTIONS)[number]["value"];
 
 export const TechStack = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+  const [sortMode, setSortMode] = useState<SortMode>("featured");
   const { skipAnimations } = useAnimationSkipContext();
   const [showSkipIndicator, setShowSkipIndicator] = useState(false);
   const [selectedTech, setSelectedTech] = useState<
@@ -23,41 +94,41 @@ export const TechStack = () => {
   >(null);
 
   const filteredStack = useMemo(() => {
-    return TECH_STACK.filter((item) => {
-      // Category Filter
-      let matchesCategory = true;
-      if (selectedCategory !== "All") {
-        const categoryMap: Record<string, TechCategory[]> = {
-          Frontend: [
-            TechCategory.FRONTEND,
-            TechCategory.ANIMATION,
-            TechCategory.STYLING,
-            TechCategory.FRAMEWORK,
-            TechCategory.MOBILE,
-          ],
-          Backend: [
-            TechCategory.BACKEND,
-            TechCategory.DATABASE,
-            TechCategory.DEVOPS,
-          ],
-          "AI/ML": [TechCategory.AI_ML],
-          Language: [TechCategory.LANGUAGE],
-        };
+    const selectedFilter = CATEGORY_FILTERS.find(
+      (filter) => filter.label === selectedCategory
+    ) as CategoryFilter | undefined;
+    const normalizedQuery = deferredSearchQuery.trim().toLowerCase();
+    const matchingItems = TECH_STACK.filter((item) => {
+      const matchesCategory =
+        !selectedFilter?.matches ||
+        selectedFilter.matches.includes(item.category as TechCategory);
 
-        const validCategories = categoryMap[selectedCategory] || [];
-        matchesCategory = validCategories.includes(
-          item.category as TechCategory
+      const matchesSearch =
+        !normalizedQuery ||
+        [item.name, item.category, item.proficiency ?? ""].some((value) =>
+          value.toLowerCase().includes(normalizedQuery)
         );
-      }
-
-      // Search Filter
-      const matchesSearch = item.name
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
 
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+
+    if (sortMode !== "proficiency") {
+      return matchingItems;
+    }
+
+    return [...matchingItems].sort((left, right) => {
+      const proficiencyDelta =
+        (PROFICIENCY_ORDER[right.proficiency ?? ProficiencyLevel.BEGINNER] ??
+          0) -
+        (PROFICIENCY_ORDER[left.proficiency ?? ProficiencyLevel.BEGINNER] ?? 0);
+
+      if (proficiencyDelta !== 0) {
+        return proficiencyDelta;
+      }
+
+      return left.name.localeCompare(right.name);
+    });
+  }, [deferredSearchQuery, selectedCategory, sortMode]);
 
   /**
    * TECH STACK ANIMATION TIMELINE
@@ -111,12 +182,21 @@ export const TechStack = () => {
     ? {
         initial: { opacity: 1, scale: 1 },
         animate: { opacity: 1, scale: 1 },
-        exit: { opacity: 0, scale: 0.8 },
+        exit: { opacity: 0, scale: 0.96 },
       }
     : {
-        initial: { opacity: 0, scale: 0.8 },
+        initial: { opacity: 0, scale: 0.92, y: 10 },
         animate: { opacity: 1, scale: 1 },
-        exit: { opacity: 0, scale: 0.8 },
+        exit: { opacity: 0, scale: 0.96, y: -8 },
+      };
+
+  const itemTransition = skipAnimations
+    ? { duration: 0 }
+    : {
+        type: "spring" as const,
+        stiffness: 310,
+        damping: 26,
+        mass: 0.75,
       };
 
   return (
@@ -124,33 +204,93 @@ export const TechStack = () => {
       <SectionCard title="Stacks & Skills">
         <div className="space-y-6">
           {/* Controls */}
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            {/* Categories */}
-            <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map((category) => (
-                <button
-                  className={cn(
-                    "rounded-full px-3 py-1 font-medium text-xs transition-colors",
-                    selectedCategory === category
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-                  )}
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  type="button"
-                >
-                  {category}
-                </button>
-              ))}
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+            <div className="space-y-3">
+              <div className="flex flex-wrap gap-3">
+                <div className="inline-flex flex-wrap gap-1 rounded-2xl border border-border/60 bg-background/80 p-1 shadow-sm">
+                  {CATEGORY_FILTERS.map((category) => {
+                    const Icon = category.icon;
+                    const isActive = selectedCategory === category.label;
+
+                    return (
+                      <button
+                        className={cn(
+                          "relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-3 py-2 font-medium text-xs transition-colors duration-200",
+                          isActive
+                            ? "text-foreground"
+                            : "text-muted-foreground hover:text-foreground"
+                        )}
+                        key={category.label}
+                        onClick={() => setSelectedCategory(category.label)}
+                        type="button"
+                      >
+                        {isActive && (
+                          <motion.span
+                            className="absolute inset-0 rounded-xl bg-secondary shadow-[inset_0_1px_0_rgba(255,255,255,0.28)]"
+                            layoutId="tech-stack-active-filter"
+                            transition={itemTransition}
+                          />
+                        )}
+                        <span className="relative flex items-center gap-2">
+                          <Icon className="h-3.5 w-3.5" />
+                          {category.label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="inline-flex gap-1 rounded-2xl border border-border/60 bg-background/80 p-1 shadow-sm">
+                  {SORT_OPTIONS.map((option) => {
+                    const Icon = option.icon;
+                    const isActive = sortMode === option.value;
+
+                    return (
+                      <button
+                        className={cn(
+                          "relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-3 py-2 font-medium text-xs transition-colors duration-200",
+                          isActive
+                            ? "text-foreground"
+                            : "text-muted-foreground hover:text-foreground"
+                        )}
+                        key={option.value}
+                        onClick={() => setSortMode(option.value)}
+                        type="button"
+                      >
+                        {isActive && (
+                          <motion.span
+                            className="absolute inset-0 rounded-xl bg-secondary shadow-[inset_0_1px_0_rgba(255,255,255,0.28)]"
+                            layoutId="tech-stack-active-sort"
+                            transition={itemTransition}
+                          />
+                        )}
+                        <span className="relative flex items-center gap-2">
+                          <Icon className="h-3.5 w-3.5" />
+                          {option.label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 text-muted-foreground text-xs">
+                <Sparkles className="h-3.5 w-3.5" />
+                <span>
+                  {filteredStack.length} skill
+                  {filteredStack.length === 1 ? "" : "s"} surfaced
+                </span>
+              </div>
             </div>
 
             {/* Search */}
-            <div className="relative w-full md:w-48">
-              <Search className="absolute top-1/2 left-2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <div className="relative w-full lg:w-64">
+              <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
-                className="h-8 w-full rounded-md border border-input bg-background pr-3 pl-8 text-xs ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                aria-label="Search tech stack"
+                className="h-11 w-full rounded-2xl border border-border/60 bg-background/80 pr-4 pl-10 text-sm ring-offset-background transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search..."
+                placeholder="Search tools, categories, or skill level"
                 type="text"
                 value={searchQuery}
               />
@@ -158,16 +298,20 @@ export const TechStack = () => {
           </div>
 
           {/* Grid */}
-          <motion.div className="grid grid-cols-1 gap-4 md:grid-cols-2" layout>
+          <motion.div
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"
+            layout
+          >
             <AnimatePresence mode="popLayout">
               {filteredStack.map((stack) => (
                 <motion.div
                   {...itemVariants}
                   key={stack.name}
                   layout
-                  transition={{ duration: skipAnimations ? 0 : 0.15 }}
+                  transition={itemTransition}
                 >
                   <TechStackItem
+                    highlightQuery={deferredSearchQuery}
                     onClick={() => setSelectedTech(stack)}
                     stack={stack}
                   />
