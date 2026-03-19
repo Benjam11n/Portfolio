@@ -121,7 +121,7 @@ export const TechStack = () => {
 
   return (
     <>
-      <SectionCard title="Stacks & Skills">
+      <SectionCard id="skills" title="Stacks & Skills">
         <div className="space-y-6">
           {/* Controls */}
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">

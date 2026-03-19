@@ -25,6 +25,7 @@ describe("Navbar", () => {
       screen.getByRole("link", { name: "Experience" })
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Projects" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Skills" })).toBeInTheDocument();
   });
 
   it("renders theme toggle", () => {

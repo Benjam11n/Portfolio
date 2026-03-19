@@ -1,4 +1,4 @@
-import { Award, Briefcase, Hammer, Home, Mail, User } from "lucide-react";
+import { Blocks, Briefcase, Hammer, Home, Mail, User } from "lucide-react";
 import type { NavItem } from "@/lib/types";
 
 export const ROUTES = {
@@ -6,6 +6,7 @@ export const ROUTES = {
   ABOUT: "#about",
   EXPERIENCE: "#experience",
   PROJECTS: "#projects",
+  SKILLS: "#skills",
   CERTIFICATIONS: "#certifications",
   CONTACT: "#contact",
   BLOG: "/blog",
@@ -19,6 +20,6 @@ export const NAVITEMS: NavItem[] = [
   { name: "About", href: ROUTES.ABOUT, icon: User },
   { name: "Experience", href: ROUTES.EXPERIENCE, icon: Briefcase },
   { name: "Projects", href: ROUTES.PROJECTS, icon: Hammer },
-  { name: "Certifications", href: ROUTES.CERTIFICATIONS, icon: Award },
+  { name: "Skills", href: ROUTES.SKILLS, icon: Blocks },
   { name: "Contact", href: ROUTES.CONTACT, icon: Mail },
 ];

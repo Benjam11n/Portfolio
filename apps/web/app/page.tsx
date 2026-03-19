@@ -17,8 +17,8 @@ export default function Home() {
       <About />
       <Experience />
       <Projects />
-      <Certifications />
       <TechStack />
+      <Certifications />
       <Contact />
     </main>
   );

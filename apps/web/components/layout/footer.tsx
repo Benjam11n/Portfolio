@@ -88,7 +88,9 @@ export function Footer() {
                   <div className="flex h-23 items-start sm:h-28 md:h-34 lg:h-40">
                     <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
                       Have A <br />
-                      <span className="text-muted-foreground">Question?</span>
+                      <span className="inline-block pr-[0.08em] text-muted-foreground">
+                        Question?
+                      </span>
                     </h2>
                   </div>
 

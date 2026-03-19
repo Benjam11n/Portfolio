@@ -2,6 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { ChevronDown } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { Card3D } from "@/components/effects/card-3d";
 import { BorderedImage } from "@/components/shared/bordered-image";
@@ -9,6 +10,7 @@ import { Markdown } from "@/components/shared/markdown";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Experience } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 type ExperienceItemProps = {
   item: Experience;
@@ -130,9 +132,26 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         </div>
       </div>
       <div className="pl-[72px] sm:pl-0">
-        <span className="font-mono font-semibold text-muted-foreground text-sm">
-          {item.duration}
-        </span>
+        <div className="flex items-center gap-2 sm:justify-end">
+          <span className="font-mono font-semibold text-muted-foreground text-sm">
+            {item.duration}
+          </span>
+          {hasPoints && (
+            <span
+              className={cn(
+                "hidden h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-background/80 text-muted-foreground transition-all sm:inline-flex",
+                isOpen && "border-primary/40 bg-primary/10 text-primary"
+              )}
+            >
+              <ChevronDown
+                className={cn(
+                  "h-4 w-4 transition-transform duration-300",
+                  isOpen && "rotate-180"
+                )}
+              />
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -164,6 +183,8 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         aria-expanded={isOpen}
         aria-labelledby={headingId}
         className="group block w-full cursor-pointer p-4 text-left transition-transform hover:scale-[1.005]"
+        data-hover-cursor=""
+        data-hover-cursor-label={isOpen ? "" : "Click me!"}
         onClick={(e) => toggleOpen(e)}
         onKeyDown={(e) => {
           if (e.key === "Escape" && isOpen) {
@@ -175,6 +196,25 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         type="button"
       >
         {content}
+
+        {isMobile && (
+          <div
+            className={cn(
+              "mt-4 flex items-center justify-between rounded-xl border border-border/60 bg-secondary/55 px-3 py-2 text-xs text-muted-foreground sm:hidden",
+              isOpen && "border-primary/30 bg-primary/10 text-foreground"
+            )}
+          >
+            <span className="font-medium tracking-wide">
+              {isOpen ? "Tap to collapse" : "Tap to expand"}
+            </span>
+            <ChevronDown
+              className={cn(
+                "h-4 w-4 transition-transform duration-300",
+                isOpen && "rotate-180"
+              )}
+            />
+          </div>
+        )}
 
         <div
           className="h-0 overflow-hidden opacity-0"
