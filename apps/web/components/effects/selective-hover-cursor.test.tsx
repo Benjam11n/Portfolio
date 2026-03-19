@@ -176,14 +176,16 @@ describe("SelectiveHoverCursor", () => {
       clientY: 46,
     });
 
-    expect(screen.getByText("Click me!")).toHaveAttribute("data-visible", "false");
+    expect(screen.getByText("Click me!")).toHaveAttribute(
+      "data-visible",
+      "false"
+    );
 
     vi.advanceTimersByTime(180);
 
     await waitFor(() => {
       expect(screen.queryByText("Click me!")).not.toBeInTheDocument();
     });
-
   });
 
   it("hides when moving onto an unmarked element", async () => {

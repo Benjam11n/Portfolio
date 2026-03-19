@@ -240,7 +240,7 @@ export const SelectiveHoverCursor = () => {
     setExpandedWidth((currentWidth) =>
       currentWidth === nextWidth ? currentWidth : nextWidth
     );
-  }, [displayLabel, label, shouldEnable]);
+  }, [label, shouldEnable]);
 
   const showLabel = label.length > 0;
   const hasDisplayLabel = displayLabel.length > 0;
@@ -263,7 +263,11 @@ export const SelectiveHoverCursor = () => {
       data-hover-cursor-overlay
       ref={cursorRef}
     >
-      <div className="selective-hover-cursor" ref={cursorBodyRef} style={cursorStyle}>
+      <div
+        className="selective-hover-cursor"
+        ref={cursorBodyRef}
+        style={cursorStyle}
+      >
         {hasDisplayLabel && (
           <span data-visible={showLabel} ref={labelElementRef}>
             {displayLabel}

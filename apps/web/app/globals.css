@@ -180,12 +180,12 @@
     border: 1px solid hsl(var(--primary));
     border-radius: 9999px;
     backdrop-filter: blur(2px);
-    will-change: width, height, padding;
     transition:
       width 0.26s cubic-bezier(0.22, 1, 0.36, 1),
       min-width 0.26s cubic-bezier(0.22, 1, 0.36, 1),
       height 0.24s cubic-bezier(0.4, 0, 0.2, 1),
       padding 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: width, height, padding;
   }
 
   .selective-hover-cursor span {
