@@ -200,7 +200,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         {isMobile && (
           <div
             className={cn(
-              "mt-4 flex items-center justify-between rounded-xl border border-border/60 bg-secondary/55 px-3 py-2 text-xs text-muted-foreground sm:hidden",
+              "mt-4 flex items-center justify-between rounded-xl border border-border/60 bg-secondary/55 px-3 py-2 text-muted-foreground text-xs sm:hidden",
               isOpen && "border-primary/30 bg-primary/10 text-foreground"
             )}
           >
