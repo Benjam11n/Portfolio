@@ -27,7 +27,9 @@ const NAME_REGEX = /Benjamin Wang/i;
 describe("Footer", () => {
   it("renders call to action", () => {
     render(<Footer />);
-    expect(screen.getByRole("heading", { name: CTA_REGEX })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: CTA_REGEX })
+    ).toBeInTheDocument();
     expect(screen.getAllByLabelText("Contact Me")).toHaveLength(2);
   });
 
