@@ -6,16 +6,73 @@ import { TechProficiencyIndicator } from "@/components/shared/tech-proficiency-i
 import type { TECH_STACK } from "@/lib/constants/tech-stack";
 import { cn } from "@/lib/utils";
 
+const escapeRegExp = (value: string) =>
+  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const EMPTY_SEARCH_TERMS: string[] = [];
+
+const highlightText = (text: string, searchTerms: string[]) => {
+  if (searchTerms.length === 0) {
+    return text;
+  }
+
+  const uniqueTerms = [...new Set(searchTerms.filter(Boolean))];
+
+  if (uniqueTerms.length === 0) {
+    return text;
+  }
+
+  const matcher = new RegExp(
+    uniqueTerms.map((term) => escapeRegExp(term)).join("|"),
+    "gi"
+  );
+
+  const segments: React.ReactNode[] = [];
+  let lastIndex = 0;
+
+  for (const match of text.matchAll(matcher)) {
+    const matchedText = match[0];
+    const matchIndex = match.index ?? 0;
+
+    if (matchIndex > lastIndex) {
+      segments.push(text.slice(lastIndex, matchIndex));
+    }
+
+    segments.push(
+      <mark
+        className="rounded-[0.35rem] bg-primary/15 px-1 py-0.5 text-foreground"
+        key={`${matchedText}-${matchIndex}`}
+      >
+        {matchedText}
+      </mark>
+    );
+
+    lastIndex = matchIndex + matchedText.length;
+  }
+
+  if (segments.length === 0) {
+    return text;
+  }
+
+  if (lastIndex < text.length) {
+    segments.push(text.slice(lastIndex));
+  }
+
+  return segments;
+};
+
 type TechStackItemProps = {
   stack: (typeof TECH_STACK)[0];
   small?: boolean;
   onClick?: () => void;
+  searchTerms?: string[];
 };
 
 export const TechStackItem = ({
   stack,
   small = false,
   onClick,
+  searchTerms = EMPTY_SEARCH_TERMS,
 }: TechStackItemProps) => {
   const imageSize = small ? 40 : 56;
   const imageContainerClass = small ? "h-10 w-10" : "h-14 w-14";
@@ -59,10 +116,11 @@ export const TechStackItem = ({
             <span
               className={cn(
                 "w-full truncate font-semibold text-foreground leading-tight",
+                searchTerms.length > 0 && "flex flex-wrap items-center gap-1",
                 small ? "text-sm" : "text-base"
               )}
             >
-              {stack.name}
+              {highlightText(stack.name, searchTerms)}
             </span>
           </div>
 
@@ -77,8 +135,13 @@ export const TechStackItem = ({
                   />
                 </div>
               )}
-              <span className="w-full truncate font-medium text-muted-foreground text-xs">
-                {stack.category}
+              <span
+                className={cn(
+                  "w-full truncate font-medium text-muted-foreground text-xs",
+                  searchTerms.length > 0 && "flex flex-wrap items-center gap-1"
+                )}
+              >
+                {highlightText(stack.category, searchTerms)}
               </span>
             </div>
           )}
