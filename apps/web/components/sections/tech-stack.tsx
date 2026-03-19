@@ -12,7 +12,13 @@ import {
   Search,
   Server,
 } from "lucide-react";
-import { startTransition, useDeferredValue, useMemo, useState } from "react";
+import {
+  startTransition,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { TechDetailModal } from "@/components/modals/tech-detail-modal";
 import { SectionCard } from "@/components/shared/section-card";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
@@ -154,17 +160,6 @@ export const TechStack = () => {
    * Strategy: Fast, responsive transitions that feel instant.
    * Framer Motion's layout prop enables smooth position animations during filtering.
    */
-
-  // Show skip indicator when animations are skipped via Escape key
-  useEffect(() => {
-    if (skipAnimations) {
-      setShowSkipIndicator(true);
-      const timer = setTimeout(() => {
-        setShowSkipIndicator(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [skipAnimations]);
 
   useEffect(() => {
     if (selectedTech) {
