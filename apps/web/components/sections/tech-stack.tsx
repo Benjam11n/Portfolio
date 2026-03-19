@@ -313,9 +313,7 @@ export const TechStack = () => {
 
               <div className="flex items-center gap-2 text-muted-foreground text-xs">
                 <Sparkles className="h-3.5 w-3.5" />
-                <span>
-                  Animated filters, sorting, and highlighted matches
-                </span>
+                <span>Animated filters, sorting, and highlighted matches</span>
               </div>
             </div>
 
@@ -335,7 +333,7 @@ export const TechStack = () => {
 
           {/* Grid */}
           <motion.div
-            className="grid grid-cols-1 gap-4 min-[460px]:grid-cols-2 xl:grid-cols-3"
+            className="grid grid-cols-1 gap-4 xl:grid-cols-3 min-[460px]:grid-cols-2"
             layout
           >
             <AnimatePresence mode="popLayout">
