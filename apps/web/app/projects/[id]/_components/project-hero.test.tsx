@@ -50,7 +50,7 @@ const mockProject = {
 };
 
 const DESCRIPTION_REGEX = /project description/;
-const BACK_TO_PROJECTS_REGEX = /back to projects/i;
+const BACK_TO_PORTFOLIO_REGEX = /back to portfolio/i;
 
 describe("ProjectHero", () => {
   it("renders project title splitted correctly", () => {
@@ -76,9 +76,9 @@ describe("ProjectHero", () => {
   it("renders the redesigned back link", () => {
     render(<ProjectHero project={mockProject} />);
     expect(
-      screen.getByRole("link", { name: BACK_TO_PROJECTS_REGEX })
+      screen.getByRole("link", { name: BACK_TO_PORTFOLIO_REGEX })
     ).toHaveAttribute("href", "/#projects");
-    expect(screen.getByText("Projects")).toBeInTheDocument();
+    expect(screen.getByText("Back")).toBeInTheDocument();
   });
 
   it("renders hero image", () => {

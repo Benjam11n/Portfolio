@@ -21,13 +21,13 @@ vi.mock("gsap", () => ({
 }));
 
 const GITHUB_REGEX = /Github/i;
-const CTA_REGEX = /Start A/i;
+const CTA_REGEX = /Have A Question\?/i;
 const NAME_REGEX = /Benjamin Wang/i;
 
 describe("Footer", () => {
   it("renders call to action", () => {
     render(<Footer />);
-    expect(screen.getByText(CTA_REGEX)).toBeDefined();
+    expect(screen.getByRole("heading", { name: CTA_REGEX })).toBeInTheDocument();
     expect(screen.getAllByLabelText("Contact Me")).toHaveLength(2);
   });
 
