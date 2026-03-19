@@ -16,6 +16,15 @@ type ExperienceItemProps = {
   item: Experience;
 };
 
+const ExpandIcon = ({ isOpen }: { isOpen: boolean }) => (
+  <ChevronDown
+    className={cn(
+      "h-4 w-4 transition-transform duration-300",
+      isOpen && "rotate-180"
+    )}
+  />
+);
+
 export const ExperienceItem = ({ item }: ExperienceItemProps) => {
   const containerRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -142,12 +151,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
                 "hidden h-8 w-8 items-center justify-center text-muted-foreground transition-all sm:inline-flex"
               )}
             >
-              <ChevronDown
-                className={cn(
-                  "h-4 w-4 transition-transform duration-300",
-                  isOpen && "rotate-180"
-                )}
-              />
+              <ExpandIcon isOpen={isOpen} />
             </span>
           )}
         </div>
@@ -206,12 +210,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
             <span className="font-medium tracking-wide">
               {isOpen ? "Tap to collapse" : "Tap to expand"}
             </span>
-            <ChevronDown
-              className={cn(
-                "h-4 w-4 transition-transform duration-300",
-                isOpen && "rotate-180"
-              )}
-            />
+            <ExpandIcon isOpen={isOpen} />
           </div>
         )}
 
