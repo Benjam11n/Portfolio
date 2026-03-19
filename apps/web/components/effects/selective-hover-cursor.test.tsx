@@ -3,8 +3,11 @@ import { fireEvent } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
+  gsapKillTweensOf: vi.fn(),
   gsapSet: vi.fn(),
-  gsapTo: vi.fn(),
+  gsapTo: vi.fn((_: unknown, vars?: { onComplete?: () => void }) => {
+    vars?.onComplete?.();
+  }),
   prefersReducedMotion: false,
   quickToX: vi.fn(),
   quickToY: vi.fn(),
@@ -31,6 +34,7 @@ vi.mock("@gsap/react", () => ({
 
 vi.mock("gsap", () => ({
   default: {
+    killTweensOf: mocks.gsapKillTweensOf,
     quickTo: vi.fn((_: Element, property: string) =>
       property === "x" ? mocks.quickToX : mocks.quickToY
     ),
@@ -61,9 +65,15 @@ const setPointerSupport = (matches: boolean) => {
 describe("SelectiveHoverCursor", () => {
   beforeEach(() => {
     mocks.prefersReducedMotion = false;
+    mocks.gsapKillTweensOf.mockReset();
     mocks.quickToX.mockReset();
     mocks.quickToY.mockReset();
     mocks.gsapTo.mockReset();
+    mocks.gsapTo.mockImplementation(
+      (_: unknown, vars?: { onComplete?: () => void }) => {
+        vars?.onComplete?.();
+      }
+    );
     mocks.gsapSet.mockReset();
     setPointerSupport(true);
   });
@@ -118,13 +128,56 @@ describe("SelectiveHoverCursor", () => {
 
     expect(overlay).toHaveAttribute("data-active", "true");
     expect(screen.getByText("Learn more")).toBeInTheDocument();
-    expect(
-      overlay.querySelector(".selective-hover-cursor--label")
-    ).not.toBeNull();
     expect(mocks.gsapSet).toHaveBeenCalledWith(overlay, {
       x: 36,
       y: 48,
     });
+  });
+
+  it("shrinks the label back into a dot when the label is cleared", async () => {
+    render(
+      <div>
+        <button
+          data-hover-cursor
+          data-hover-cursor-label="Click me!"
+          type="button"
+        >
+          Hover me
+        </button>
+        <SelectiveHoverCursor />
+      </div>
+    );
+
+    await waitFor(() => {
+      expect(
+        document.querySelector("[data-hover-cursor-overlay]")
+      ).toBeInTheDocument();
+    });
+
+    const hoverTarget = document.querySelector(
+      "[data-hover-cursor]"
+    ) as HTMLElement;
+
+    fireEvent.pointerMove(hoverTarget, {
+      clientX: 30,
+      clientY: 42,
+    });
+
+    hoverTarget.setAttribute("data-hover-cursor-label", "");
+
+    fireEvent.pointerMove(hoverTarget, {
+      clientX: 34,
+      clientY: 46,
+    });
+
+    expect(mocks.gsapTo).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        width: 18,
+        height: 18,
+        paddingInline: 0,
+      })
+    );
   });
 
   it("hides when moving onto an unmarked element", async () => {

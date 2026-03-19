@@ -180,18 +180,13 @@
     border: 1px solid hsl(var(--primary));
     border-radius: 9999px;
     backdrop-filter: blur(2px);
-  }
-
-  .selective-hover-cursor--label {
-    width: auto;
-    min-width: 84px;
-    height: 28px;
-    padding-inline: 11px;
-    font-size: 10px;
+    will-change: width, height, padding;
   }
 
   .selective-hover-cursor span {
     display: block;
+    font-size: 10px;
+    will-change: transform, opacity;
   }
 
   /* Safe area utilities for notched devices */
