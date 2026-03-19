@@ -136,8 +136,6 @@ describe("SelectiveHoverCursor", () => {
   });
 
   it("shrinks the label back into a dot when the label is cleared", async () => {
-    vi.useFakeTimers();
-
     render(
       <div>
         <button
@@ -180,8 +178,6 @@ describe("SelectiveHoverCursor", () => {
       "data-visible",
       "false"
     );
-
-    vi.advanceTimersByTime(180);
 
     await waitFor(() => {
       expect(screen.queryByText("Click me!")).not.toBeInTheDocument();
