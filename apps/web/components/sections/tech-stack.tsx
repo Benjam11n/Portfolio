@@ -12,18 +12,13 @@ import {
   Search,
   Server,
 } from "lucide-react";
-import {
-  startTransition,
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { startTransition, useDeferredValue, useMemo, useState } from "react";
 import { TechDetailModal } from "@/components/modals/tech-detail-modal";
 import { SectionCard } from "@/components/shared/section-card";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
+import { useAnimationSkipIndicator } from "@/lib/hooks/ui/use-animation-skip-indicator";
 import { ProficiencyLevel, TechCategory } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -90,7 +85,7 @@ export const TechStack = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const deferredSearchQuery = useDeferredValue(searchQuery);
   const { skipAnimations } = useAnimationSkipContext();
-  const [showSkipIndicator, setShowSkipIndicator] = useState(false);
+  const showSkipIndicator = useAnimationSkipIndicator(skipAnimations);
   const [selectedTech, setSelectedTech] = useState<
     (typeof TECH_STACK)[0] | null
   >(null);
@@ -159,17 +154,6 @@ export const TechStack = () => {
    * Strategy: Fast, responsive transitions that feel instant.
    * Framer Motion's layout prop enables smooth position animations during filtering.
    */
-
-  // Show skip indicator when animations are skipped via Escape key
-  useEffect(() => {
-    if (skipAnimations) {
-      setShowSkipIndicator(true);
-      const timer = setTimeout(() => {
-        setShowSkipIndicator(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [skipAnimations]);
 
   /**
    * FILTER TRANSITION ANIMATION
@@ -274,7 +258,7 @@ export const TechStack = () => {
                             opacity: 1,
                             scale: 1,
                           }}
-                          className="-z-5 absolute inset-[1px] rounded-2xl border border-primary-foreground/10"
+                          className="absolute inset-[1px] -z-5 rounded-2xl border border-primary-foreground/10"
                           initial={
                             skipAnimations
                               ? { opacity: 1, scale: 1 }

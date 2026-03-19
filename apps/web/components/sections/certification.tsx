@@ -2,16 +2,17 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { CertificationCard } from "@/components/shared/certification-card";
 import { SectionCard } from "@/components/shared/section-card";
 import { CERTIFICATIONS } from "@/lib/constants/certifications";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
+import { useAnimationSkipIndicator } from "@/lib/hooks/ui/use-animation-skip-indicator";
 
 export const Certifications = () => {
   const containerRef = useRef<HTMLElement>(null);
   const { skipAnimations } = useAnimationSkipContext();
-  const [showSkipIndicator, setShowSkipIndicator] = useState(false);
+  const showSkipIndicator = useAnimationSkipIndicator(skipAnimations);
 
   useGSAP(
     () => {
@@ -81,17 +82,6 @@ export const Certifications = () => {
     },
     { scope: containerRef, dependencies: [skipAnimations] }
   );
-
-  // Show skip indicator when animations are skipped via Escape key
-  useEffect(() => {
-    if (skipAnimations) {
-      setShowSkipIndicator(true);
-      const timer = setTimeout(() => {
-        setShowSkipIndicator(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [skipAnimations]);
 
   return (
     <SectionCard id="certifications" ref={containerRef} title="Certifications">
