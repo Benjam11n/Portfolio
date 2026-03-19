@@ -2,25 +2,31 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   HOVER_CURSOR_LABEL_ATTRIBUTE,
   HOVER_CURSOR_SELECTOR,
 } from "@/lib/constants/interaction";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
-import { cn } from "@/lib/utils";
 
 const POINTER_OFFSET = 12;
 const POINTER_MEDIA_QUERY = "(hover: hover) and (pointer: fine)";
+const CURSOR_DOT_SIZE = 18;
+const CURSOR_LABEL_HEIGHT = 28;
+const CURSOR_LABEL_PADDING = 11;
+const CURSOR_LABEL_MIN_WIDTH = 84;
 
 export const SelectiveHoverCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const cursorBodyRef = useRef<HTMLDivElement>(null);
+  const labelElementRef = useRef<HTMLSpanElement>(null);
   const labelRef = useRef("");
   const moveXRef = useRef<((value: number) => gsap.core.Tween) | null>(null);
   const moveYRef = useRef<((value: number) => gsap.core.Tween) | null>(null);
   const isVisibleRef = useRef(false);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [label, setLabel] = useState("");
+  const [renderedLabel, setRenderedLabel] = useState("");
   const [supportsFinePointer, setSupportsFinePointer] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const shouldEnable = supportsFinePointer && !prefersReducedMotion;
@@ -55,6 +61,17 @@ export const SelectiveHoverCursor = () => {
         opacity: 0,
         scale: 0.7,
       });
+      gsap.set(cursorBodyRef.current, {
+        width: CURSOR_DOT_SIZE,
+        minWidth: CURSOR_DOT_SIZE,
+        height: CURSOR_DOT_SIZE,
+        paddingInline: 0,
+      });
+      gsap.set(labelElementRef.current, {
+        opacity: 0,
+        scale: 0.9,
+        y: 4,
+      });
 
       moveXRef.current = gsap.quickTo(cursorRef.current, "x", {
         duration: 0.3,
@@ -72,6 +89,7 @@ export const SelectiveHoverCursor = () => {
     if (!(shouldEnable && cursorRef.current)) {
       setIsActive(false);
       setLabel("");
+      setRenderedLabel("");
       return;
     }
 
@@ -179,6 +197,102 @@ export const SelectiveHoverCursor = () => {
     };
   }, [shouldEnable]);
 
+  useEffect(() => {
+    if (!shouldEnable) {
+      return;
+    }
+
+    if (label.length > 0 && label !== renderedLabel) {
+      setRenderedLabel(label);
+    }
+  }, [label, renderedLabel, shouldEnable]);
+
+  useLayoutEffect(() => {
+    if (!(shouldEnable && cursorBodyRef.current)) {
+      return;
+    }
+
+    const cursorBody = cursorBodyRef.current;
+    const labelElement = labelElementRef.current;
+    const hasRenderedLabel = renderedLabel.length > 0;
+    const hasActiveLabel = label.length > 0;
+
+    gsap.killTweensOf(cursorBody);
+    if (labelElement) {
+      gsap.killTweensOf(labelElement);
+    }
+
+    if (!hasRenderedLabel) {
+      gsap.set(cursorBody, {
+        width: CURSOR_DOT_SIZE,
+        minWidth: CURSOR_DOT_SIZE,
+        height: CURSOR_DOT_SIZE,
+        paddingInline: 0,
+      });
+      return;
+    }
+
+    if (hasActiveLabel && labelElement) {
+      const nextWidth = Math.max(
+        CURSOR_LABEL_MIN_WIDTH,
+        Math.ceil(labelElement.getBoundingClientRect().width) +
+          CURSOR_LABEL_PADDING * 2
+      );
+
+      gsap.set(labelElement, {
+        opacity: 0,
+        scale: 0.92,
+        y: 4,
+      });
+      gsap.to(cursorBody, {
+        width: nextWidth,
+        minWidth: nextWidth,
+        height: CURSOR_LABEL_HEIGHT,
+        paddingInline: CURSOR_LABEL_PADDING,
+        duration: 0.26,
+        ease: "power3.out",
+        overwrite: "auto",
+      });
+      gsap.to(labelElement, {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        duration: 0.18,
+        delay: 0.07,
+        ease: "power2.out",
+        overwrite: "auto",
+      });
+      return;
+    }
+
+    if (labelElement) {
+      gsap.to(labelElement, {
+        opacity: 0,
+        scale: 0.82,
+        y: -3,
+        duration: 0.12,
+        ease: "power2.in",
+        overwrite: "auto",
+      });
+    }
+
+    gsap.to(cursorBody, {
+      width: CURSOR_DOT_SIZE,
+      minWidth: CURSOR_DOT_SIZE,
+      height: CURSOR_DOT_SIZE,
+      paddingInline: 0,
+      duration: 0.24,
+      delay: 0.04,
+      ease: "power3.inOut",
+      overwrite: "auto",
+      onComplete: () => {
+        if (!labelRef.current) {
+          setRenderedLabel("");
+        }
+      },
+    });
+  }, [label, renderedLabel, shouldEnable]);
+
   if (!shouldEnable) {
     return null;
   }
@@ -191,13 +305,10 @@ export const SelectiveHoverCursor = () => {
       data-hover-cursor-overlay
       ref={cursorRef}
     >
-      <div
-        className={cn(
-          "selective-hover-cursor",
-          label.length > 0 && "selective-hover-cursor--label"
+      <div className="selective-hover-cursor" ref={cursorBodyRef}>
+        {renderedLabel.length > 0 && (
+          <span ref={labelElementRef}>{renderedLabel}</span>
         )}
-      >
-        {label.length > 0 && <span>{label}</span>}
       </div>
     </div>
   );

@@ -38,7 +38,7 @@ export const ProjectCard = memo(({ project }: ProjectCardProps) => {
         aria-label={`View project: ${project.title}`}
         className="project-card-item group block w-full cursor-pointer"
         data-hover-cursor=""
-        data-hover-cursor-label="View Details"
+        data-hover-cursor-label="Click me!"
         href={ROUTES.PROJECT_DETAIL(project.id)}
       >
         {/* Visual Part */}

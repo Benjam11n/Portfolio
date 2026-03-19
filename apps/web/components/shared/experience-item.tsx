@@ -139,8 +139,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
           {hasPoints && (
             <span
               className={cn(
-                "hidden h-8 w-8 items-center justify-center rounded-full border border-border/70 bg-background/80 text-muted-foreground transition-all sm:inline-flex",
-                isOpen && "border-primary/40 bg-primary/10 text-primary"
+                "hidden h-8 w-8 items-center justify-center text-muted-foreground transition-all sm:inline-flex"
               )}
             >
               <ChevronDown
