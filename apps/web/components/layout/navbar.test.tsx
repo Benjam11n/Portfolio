@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@repo/testing/test-utils";
 import { describe, expect, it, vi } from "vitest";
 import { Navbar } from "./navbar";
 
@@ -19,15 +19,18 @@ describe("Navbar", () => {
   it("renders navigation items", () => {
     render(<Navbar />);
 
-    // Check for Home, About, Experience, Projects
-    expect(screen.getAllByText("Home").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("About").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Experience").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Projects").length).toBeGreaterThan(0);
+    expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "About" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Experience" })
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Projects" })).toBeInTheDocument();
   });
 
   it("renders theme toggle", () => {
     render(<Navbar />);
-    expect(screen.getByText("Toggle Theme")).toBeDefined();
+    expect(
+      screen.getByRole("button", { name: "Toggle Theme" })
+    ).toBeInTheDocument();
   });
 });

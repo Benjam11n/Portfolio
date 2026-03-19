@@ -48,7 +48,7 @@ describe("ProjectCard", () => {
     });
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute("data-hover-cursor");
-    expect(link).toHaveAttribute("data-hover-cursor-label", "Learn more");
+    expect(link).toHaveAttribute("data-hover-cursor-label", "View Details");
     expect(link).toHaveAttribute("href", "/projects/test-project");
   });
 });
