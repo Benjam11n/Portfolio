@@ -71,10 +71,10 @@
 
 @layer base {
   :root {
-    --background: 0 0% 92%; /* Visible Light Grey BG */
+    --background: 0 0% 92%;
     --foreground: 0 0% 9%;
 
-    --card: 0 0% 100%; /* Pure White Base Card */
+    --card: 0 0% 100%;
     --card-foreground: 0 0% 9%;
 
     --popover: 0 0% 100%;
@@ -142,6 +142,11 @@
       "rlig" 1,
       "calt" 1;
     @apply bg-background text-foreground tracking-tight antialiased;
+  }
+
+  body[data-skills-dialog-open="true"] .site-navbar {
+    pointer-events: none;
+    opacity: 0;
   }
 }
 

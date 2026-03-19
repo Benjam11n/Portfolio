@@ -155,6 +155,28 @@ export const TechStack = () => {
    * Framer Motion's layout prop enables smooth position animations during filtering.
    */
 
+  // Show skip indicator when animations are skipped via Escape key
+  useEffect(() => {
+    if (skipAnimations) {
+      setShowSkipIndicator(true);
+      const timer = setTimeout(() => {
+        setShowSkipIndicator(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [skipAnimations]);
+
+  useEffect(() => {
+    if (selectedTech) {
+      document.body.dataset.skillsDialogOpen = "true";
+    } else {
+      delete document.body.dataset.skillsDialogOpen;
+    }
+
+    return () => {
+      delete document.body.dataset.skillsDialogOpen;
+    };
+  }, [selectedTech]);
   /**
    * FILTER TRANSITION ANIMATION
    * ===========================

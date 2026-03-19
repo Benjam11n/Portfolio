@@ -143,7 +143,7 @@ export const TechDetailModal = ({
       {/* Overlay */}
       <button
         aria-label="Close tech detail modal"
-        className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+        className="fixed inset-0 z-50 bg-black/70"
         onClick={handleClose}
         onKeyDown={(e) => {
           if (e.key === "Escape") {
@@ -155,73 +155,89 @@ export const TechDetailModal = ({
       />
 
       {/* Modal Content */}
-      <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
         <div
           aria-labelledby={`tech-modal-title-${tech.name}`}
           aria-modal="true"
-          className="pointer-events-auto relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+          className="pointer-events-auto relative w-full max-w-3xl rounded-xl bg-card p-1 shadow-xl"
           ref={contentRef}
           role="dialog"
         >
-          {/* Header */}
-          <div
-            className="flex items-start justify-between border-border border-b p-6"
-            ref={headerRef}
-          >
-            <div className="flex items-center gap-4">
-              <BorderedImage
-                alt={tech.name}
-                colorDark={tech.colorDark}
-                colorLight={tech.colorLight}
-                containerClassName="h-16 w-16 shrink-0"
-                height={64}
-                imageClassName="p-3"
-                src={tech.icon}
-                width={64}
-              />
-              <div>
-                <h2
-                  className="font-bold text-2xl text-foreground"
-                  id={`tech-modal-title-${tech.name}`}
-                >
-                  {tech.name}
-                </h2>
-                <p className="font-medium text-muted-foreground text-sm">
-                  {tech.category}
-                </p>
+          <div className="flex max-h-[90vh] flex-col overflow-hidden rounded-xl border border-border/40 bg-muted text-foreground">
+            {/* Header */}
+            <div
+              className="flex items-start justify-between p-4 pb-0 sm:p-6 sm:pb-0"
+              ref={headerRef}
+            >
+              <div className="min-w-0">
+                <div className="mb-4">
+                  <h2
+                    className="font-bold font-mono text-foreground text-md uppercase"
+                    id={`tech-modal-title-${tech.name}`}
+                  >
+                    Stacks & Skills
+                  </h2>
+                </div>
+                <div className="flex min-w-0 items-center gap-4">
+                  <BorderedImage
+                    alt={tech.name}
+                    colorDark={tech.colorDark}
+                    colorLight={tech.colorLight}
+                    containerClassName="h-16 w-16 shrink-0"
+                    height={64}
+                    imageClassName="p-3"
+                    src={tech.icon}
+                    width={64}
+                  />
+                  <div className="min-w-0">
+                    <p className="text-muted-foreground text-sm">
+                      {tech.category}
+                    </p>
+                    <p className="text-foreground text-xl sm:text-2xl">
+                      {tech.name}
+                    </p>
+                  </div>
+                </div>
               </div>
+
+              {/* Close Button */}
+              <button
+                aria-label="Close modal"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border/40 bg-background/60 transition-colors hover:bg-background"
+                onClick={handleClose}
+                type="button"
+              >
+                <X className="h-4 w-4 text-muted-foreground" />
+              </button>
             </div>
 
-            {/* Close Button */}
-            <button
-              aria-label="Close modal"
-              className="flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:bg-muted"
-              onClick={handleClose}
-              type="button"
+            {/* Body */}
+            <div
+              className="flex-1 space-y-6 overflow-y-auto p-4 sm:p-6"
+              ref={bodyRef}
             >
-              <X className="h-5 w-5 text-muted-foreground" />
-            </button>
-          </div>
+              {/* Proficiency Level */}
+              {tech.proficiency && (
+                <div className="space-y-3">
+                  <h3 className="font-bold font-mono text-foreground text-md uppercase">
+                    Proficiency Level
+                  </h3>
+                  <div className="rounded-xl border border-border/40 bg-background/55 p-4">
+                    <div className="[&_[role=progressbar]]:bg-background [&_span]:text-muted-foreground">
+                      <TechProficiencyIndicator
+                        proficiency={tech.proficiency}
+                        showLabel
+                        variant="bar"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
 
-          {/* Body */}
-          <div className="flex-1 space-y-6 overflow-y-auto p-6" ref={bodyRef}>
-            {/* Proficiency Level */}
-            {tech.proficiency && (
-              <div>
-                <h3 className="mb-3 font-bold font-mono text-muted-foreground text-xs uppercase tracking-widest">
-                  Proficiency Level
-                </h3>
-                <TechProficiencyIndicator
-                  proficiency={tech.proficiency}
-                  showLabel
-                  variant="bar"
-                />
+              {/* Related Projects */}
+              <div className="space-y-3">
+                <RelatedProjectsList techName={tech.name} />
               </div>
-            )}
-
-            {/* Related Projects */}
-            <div>
-              <RelatedProjectsList techName={tech.name} />
             </div>
           </div>
         </div>
