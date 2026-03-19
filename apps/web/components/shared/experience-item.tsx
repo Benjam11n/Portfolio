@@ -207,12 +207,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
             <span className="font-medium tracking-wide">
               {isOpen ? "Tap to collapse" : "Tap to expand"}
             </span>
-            <ChevronDown
-              className={cn(
-                "h-4 w-4 transition-transform duration-300",
-                isOpen && "rotate-180"
-              )}
-            />
+            <ExpandIcon isOpen={isOpen} />
           </div>
         )}
 
