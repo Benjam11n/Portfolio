@@ -3,7 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ArrowUpRight, BadgeCheck, Mail } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Magnetic } from "@/components/effects/magnetic";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { SectionCard } from "@/components/shared/section-card";
@@ -17,6 +17,7 @@ import { HERO_CONTENT } from "@/lib/constants/hero";
 import { ROUTES } from "@/lib/constants/navigation";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useAnimationPerformance } from "@/lib/hooks/animation/use-animation-performance";
+import { useAnimationSkipIndicator } from "@/lib/hooks/ui/use-animation-skip-indicator";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useProfileImageSource } from "@/lib/hooks/ui/use-profile-image-source";
 import { Markdown } from "../shared/markdown";
@@ -27,7 +28,9 @@ export const Hero = () => {
   const buttonsRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
   const { skipAnimations } = useAnimationSkipContext();
-  const [showSkipIndicator, setShowSkipIndicator] = useState(false);
+  const showSkipIndicator = useAnimationSkipIndicator(
+    skipAnimations && !prefersReducedMotion
+  );
   const performanceMetrics = useAnimationPerformance();
   const profileImageSrc = useProfileImageSource({
     animationRef: imageRef,
@@ -297,17 +300,6 @@ export const Hero = () => {
       dependencies: [prefersReducedMotion, skipAnimations],
     }
   );
-
-  // Show skip indicator when animations are skipped via Escape key
-  useEffect(() => {
-    if (skipAnimations && !prefersReducedMotion) {
-      setShowSkipIndicator(true);
-      const timer = setTimeout(() => {
-        setShowSkipIndicator(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [skipAnimations, prefersReducedMotion]);
 
   return (
     <SectionCard id="hero">

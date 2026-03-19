@@ -180,13 +180,28 @@
     border: 1px solid hsl(var(--primary));
     border-radius: 9999px;
     backdrop-filter: blur(2px);
+    transition:
+      width 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+      min-width 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+      height 0.24s cubic-bezier(0.4, 0, 0.2, 1),
+      padding 0.24s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: width, height, padding;
   }
 
   .selective-hover-cursor span {
     display: block;
     font-size: 10px;
+    opacity: 0;
+    transform: translateY(4px) scale(0.92);
+    transition:
+      opacity 0.16s ease,
+      transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform, opacity;
+  }
+
+  .selective-hover-cursor span[data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 
   /* Safe area utilities for notched devices */

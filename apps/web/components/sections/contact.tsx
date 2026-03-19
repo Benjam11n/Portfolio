@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { ContactForm } from "@/components/forms/contact-form";
 import { SectionCard } from "@/components/shared/section-card";
 import { CONTACT_INFO } from "@/lib/constants/socials";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useScrollReveal } from "@/lib/hooks/animation/use-scroll-reveal";
+import { useAnimationSkipIndicator } from "@/lib/hooks/ui/use-animation-skip-indicator";
 
 export const Contact = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { skipAnimations } = useAnimationSkipContext();
-  const [showSkipIndicator, setShowSkipIndicator] = useState(false);
+  const showSkipIndicator = useAnimationSkipIndicator(skipAnimations);
 
   /**
    * CONTACT ANIMATION TIMELINE
@@ -55,17 +56,6 @@ export const Contact = () => {
     y: 15,
     skipAnimations,
   });
-
-  // Show skip indicator when animations are skipped via Escape key
-  useEffect(() => {
-    if (skipAnimations) {
-      setShowSkipIndicator(true);
-      const timer = setTimeout(() => {
-        setShowSkipIndicator(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [skipAnimations]);
 
   return (
     <SectionCard id="contact" title="Contact">

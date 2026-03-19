@@ -15,18 +15,21 @@ const CURSOR_DOT_SIZE = 18;
 const CURSOR_LABEL_HEIGHT = 28;
 const CURSOR_LABEL_PADDING = 11;
 const CURSOR_LABEL_MIN_WIDTH = 84;
+const CURSOR_LABEL_EXIT_DURATION_MS = 180;
 
 export const SelectiveHoverCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorBodyRef = useRef<HTMLDivElement>(null);
   const labelElementRef = useRef<HTMLSpanElement>(null);
+  const clearLabelTimeoutRef = useRef<number | null>(null);
   const labelRef = useRef("");
   const moveXRef = useRef<((value: number) => gsap.core.Tween) | null>(null);
   const moveYRef = useRef<((value: number) => gsap.core.Tween) | null>(null);
   const isVisibleRef = useRef(false);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [label, setLabel] = useState("");
-  const [renderedLabel, setRenderedLabel] = useState("");
+  const [displayLabel, setDisplayLabel] = useState("");
+  const [expandedWidth, setExpandedWidth] = useState(CURSOR_LABEL_MIN_WIDTH);
   const [supportsFinePointer, setSupportsFinePointer] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const shouldEnable = supportsFinePointer && !prefersReducedMotion;
@@ -67,11 +70,6 @@ export const SelectiveHoverCursor = () => {
         height: CURSOR_DOT_SIZE,
         paddingInline: 0,
       });
-      gsap.set(labelElementRef.current, {
-        opacity: 0,
-        scale: 0.9,
-        y: 4,
-      });
 
       moveXRef.current = gsap.quickTo(cursorRef.current, "x", {
         duration: 0.3,
@@ -89,7 +87,8 @@ export const SelectiveHoverCursor = () => {
     if (!(shouldEnable && cursorRef.current)) {
       setIsActive(false);
       setLabel("");
-      setRenderedLabel("");
+      setDisplayLabel("");
+      setExpandedWidth(CURSOR_LABEL_MIN_WIDTH);
       return;
     }
 
@@ -198,100 +197,59 @@ export const SelectiveHoverCursor = () => {
   }, [shouldEnable]);
 
   useEffect(() => {
+    if (clearLabelTimeoutRef.current !== null) {
+      window.clearTimeout(clearLabelTimeoutRef.current);
+      clearLabelTimeoutRef.current = null;
+    }
+
     if (!shouldEnable) {
+      setDisplayLabel("");
       return;
     }
 
-    if (label.length > 0 && label !== renderedLabel) {
-      setRenderedLabel(label);
+    if (label.length > 0) {
+      setDisplayLabel(label);
+      return;
     }
-  }, [label, renderedLabel, shouldEnable]);
+
+    clearLabelTimeoutRef.current = window.setTimeout(() => {
+      setDisplayLabel("");
+      clearLabelTimeoutRef.current = null;
+    }, CURSOR_LABEL_EXIT_DURATION_MS);
+
+    return () => {
+      if (clearLabelTimeoutRef.current !== null) {
+        window.clearTimeout(clearLabelTimeoutRef.current);
+        clearLabelTimeoutRef.current = null;
+      }
+    };
+  }, [label, shouldEnable]);
 
   useLayoutEffect(() => {
-    if (!(shouldEnable && cursorBodyRef.current)) {
+    if (!(shouldEnable && label.length > 0 && labelElementRef.current)) {
       return;
     }
 
-    const cursorBody = cursorBodyRef.current;
     const labelElement = labelElementRef.current;
-    const hasRenderedLabel = renderedLabel.length > 0;
-    const hasActiveLabel = label.length > 0;
+    const nextWidth = Math.max(
+      CURSOR_LABEL_MIN_WIDTH,
+      Math.ceil(labelElement.getBoundingClientRect().width) +
+        CURSOR_LABEL_PADDING * 2
+    );
 
-    gsap.killTweensOf(cursorBody);
-    if (labelElement) {
-      gsap.killTweensOf(labelElement);
-    }
+    setExpandedWidth((currentWidth) =>
+      currentWidth === nextWidth ? currentWidth : nextWidth
+    );
+  }, [label, shouldEnable]);
 
-    if (!hasRenderedLabel) {
-      gsap.set(cursorBody, {
-        width: CURSOR_DOT_SIZE,
-        minWidth: CURSOR_DOT_SIZE,
-        height: CURSOR_DOT_SIZE,
-        paddingInline: 0,
-      });
-      return;
-    }
-
-    if (hasActiveLabel && labelElement) {
-      const nextWidth = Math.max(
-        CURSOR_LABEL_MIN_WIDTH,
-        Math.ceil(labelElement.getBoundingClientRect().width) +
-          CURSOR_LABEL_PADDING * 2
-      );
-
-      gsap.set(labelElement, {
-        opacity: 0,
-        scale: 0.92,
-        y: 4,
-      });
-      gsap.to(cursorBody, {
-        width: nextWidth,
-        minWidth: nextWidth,
-        height: CURSOR_LABEL_HEIGHT,
-        paddingInline: CURSOR_LABEL_PADDING,
-        duration: 0.26,
-        ease: "power3.out",
-        overwrite: "auto",
-      });
-      gsap.to(labelElement, {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 0.18,
-        delay: 0.07,
-        ease: "power2.out",
-        overwrite: "auto",
-      });
-      return;
-    }
-
-    if (labelElement) {
-      gsap.to(labelElement, {
-        opacity: 0,
-        scale: 0.82,
-        y: -3,
-        duration: 0.12,
-        ease: "power2.in",
-        overwrite: "auto",
-      });
-    }
-
-    gsap.to(cursorBody, {
-      width: CURSOR_DOT_SIZE,
-      minWidth: CURSOR_DOT_SIZE,
-      height: CURSOR_DOT_SIZE,
-      paddingInline: 0,
-      duration: 0.24,
-      delay: 0.04,
-      ease: "power3.inOut",
-      overwrite: "auto",
-      onComplete: () => {
-        if (!labelRef.current) {
-          setRenderedLabel("");
-        }
-      },
-    });
-  }, [label, renderedLabel, shouldEnable]);
+  const showLabel = label.length > 0;
+  const hasDisplayLabel = displayLabel.length > 0;
+  const cursorStyle = {
+    width: showLabel ? expandedWidth : CURSOR_DOT_SIZE,
+    minWidth: showLabel ? expandedWidth : CURSOR_DOT_SIZE,
+    height: showLabel ? CURSOR_LABEL_HEIGHT : CURSOR_DOT_SIZE,
+    paddingInline: showLabel ? CURSOR_LABEL_PADDING : 0,
+  };
 
   if (!shouldEnable) {
     return null;
@@ -305,9 +263,15 @@ export const SelectiveHoverCursor = () => {
       data-hover-cursor-overlay
       ref={cursorRef}
     >
-      <div className="selective-hover-cursor" ref={cursorBodyRef}>
-        {renderedLabel.length > 0 && (
-          <span ref={labelElementRef}>{renderedLabel}</span>
+      <div
+        className="selective-hover-cursor"
+        ref={cursorBodyRef}
+        style={cursorStyle}
+      >
+        {hasDisplayLabel && (
+          <span data-visible={showLabel} ref={labelElementRef}>
+            {displayLabel}
+          </span>
         )}
       </div>
     </div>
