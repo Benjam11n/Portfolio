@@ -43,7 +43,7 @@ const highlightText = (text: string, query: string) => {
 
     return (
       <mark
-        className="rounded-sm bg-primary/20 px-0.5 text-foreground"
+        className="rounded-md border border-primary/20 bg-primary/12 px-1 py-0.5 text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]"
         key={key}
       >
         {part}
