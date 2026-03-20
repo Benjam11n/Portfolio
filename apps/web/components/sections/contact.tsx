@@ -6,13 +6,10 @@ import { SectionCard } from "@/components/shared/section-card";
 import { CONTACT_INFO } from "@/lib/constants/socials";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useScrollReveal } from "@/lib/hooks/animation/use-scroll-reveal";
-import { useAnimationSkipIndicator } from "@/lib/hooks/ui/use-animation-skip-indicator";
 
 export const Contact = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { skipAnimations } = useAnimationSkipContext();
-  const showSkipIndicator = useAnimationSkipIndicator(skipAnimations);
-
   /**
    * CONTACT ANIMATION TIMELINE
    * ==========================
@@ -74,13 +71,13 @@ export const Contact = () => {
           <div className="flex items-center gap-4">
             {CONTACT_INFO.map((item) => (
               <a
-                className="group relative transition-transform hover:scale-110"
+                className="group relative inline-flex items-center justify-center"
                 href={item.link}
                 key={item.title}
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <item.icon className="h-5 w-5 text-foreground transition-colors duration-300" />
+                <item.icon className="h-5 w-5 text-foreground transition-transform duration-100 group-hover:-translate-y-1 group-hover:scale-110" />
                 <span className="sr-only">{item.title}</span>
               </a>
             ))}
@@ -89,13 +86,6 @@ export const Contact = () => {
 
         <ContactForm />
       </div>
-
-      {/* Skip Indicator */}
-      {showSkipIndicator && (
-        <div className="fade-in mt-4 animate-in text-muted-foreground text-sm opacity-0 duration-300">
-          Animations skipped
-        </div>
-      )}
     </SectionCard>
   );
 };
