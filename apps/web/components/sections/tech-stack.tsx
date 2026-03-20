@@ -39,14 +39,14 @@ const CATEGORIES = [
 const SORT_OPTIONS = [
   { label: "Featured", value: "default", icon: ArrowUpDown },
   {
-    label: "Skill Level Asc",
-    value: "proficiency-asc",
-    icon: ArrowUpNarrowWide,
-  },
-  {
     label: "Skill Level Desc",
     value: "proficiency-desc",
     icon: ArrowDownWideNarrow,
+  },
+  {
+    label: "Skill Level Asc",
+    value: "proficiency-asc",
+    icon: ArrowUpNarrowWide,
   },
 ] as const;
 
@@ -275,7 +275,7 @@ export const TechStack = () => {
                             opacity: 1,
                             scale: 1,
                           }}
-                          className="absolute inset-[1px] -z-5 rounded-2xl border border-primary-foreground/10"
+                          className="absolute inset-px -z-5 rounded-2xl border border-primary-foreground/10"
                           initial={
                             skipAnimations
                               ? { opacity: 1, scale: 1 }
