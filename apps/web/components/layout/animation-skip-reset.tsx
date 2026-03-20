@@ -9,7 +9,7 @@ export function AnimationSkipReset() {
   const { skipAnimations } = useAnimationSkipContext();
 
   return (
-    <Card className="fixed right-4 bottom-4 z-120 flex items-center gap-2 border-border/60 bg-background/92 px-2 py-1 shadow-lg backdrop-blur sm:right-6 sm:bottom-6 sm:px-3">
+    <Card className="fixed right-4 bottom-4 z-120 flex items-center gap-2 border-border/60 bg-background/92 p-1 shadow-lg backdrop-blur sm:right-6 sm:bottom-6 sm:px-3">
       <div
         aria-hidden="true"
         className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-foreground/6"
