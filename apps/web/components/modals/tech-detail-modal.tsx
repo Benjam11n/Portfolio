@@ -193,7 +193,7 @@ export const TechDetailModal = ({
                     <p className="text-muted-foreground text-sm">
                       {tech.category}
                     </p>
-                    <p className="text-foreground text-xl sm:text-2xl">
+                    <p className="font-semibold text-foreground text-xl sm:text-2xl">
                       {tech.name}
                     </p>
                   </div>
@@ -222,8 +222,8 @@ export const TechDetailModal = ({
                   <h3 className="font-bold font-mono text-foreground text-md uppercase">
                     Proficiency Level
                   </h3>
-                  <div className="rounded-xl border border-border/40 bg-background/55 p-4">
-                    <div className="[&_[role=progressbar]]:bg-background [&_span]:text-muted-foreground">
+                  <div className="rounded-xl border border-border/40 bg-background/55">
+                    <div className="[&_span]:text-muted-foreground **:[[role=progressbar]]:bg-background">
                       <TechProficiencyIndicator
                         proficiency={tech.proficiency}
                         showLabel
