@@ -43,7 +43,7 @@ export const RelatedProjectsList = ({ techName }: RelatedProjectsListProps) => {
 
   if (projects.length === 0) {
     return (
-      <div className="flex items-center justify-center rounded-xl border border-border/40 border-dashed bg-background/40 p-6">
+      <div className="flex items-center justify-center rounded-xl border border-primary-foreground/50 border-dashed bg-background/40 p-6">
         <p className="font-medium text-muted-foreground text-sm">
           No projects found using {techName}
         </p>
