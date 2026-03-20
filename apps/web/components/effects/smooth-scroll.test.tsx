@@ -2,12 +2,7 @@ import { render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SmoothScroll } from "./smooth-scroll";
 
-let mockPathname = "/";
 let mockPrefersReducedMotion = false;
-
-vi.mock("next/navigation", () => ({
-  usePathname: () => mockPathname,
-}));
 
 vi.mock("@/lib/hooks/ui/use-prefers-reduced-motion", () => ({
   usePrefersReducedMotion: () => mockPrefersReducedMotion,
@@ -15,22 +10,18 @@ vi.mock("@/lib/hooks/ui/use-prefers-reduced-motion", () => ({
 
 describe("SmoothScroll", () => {
   beforeEach(() => {
-    vi.useFakeTimers();
-    mockPathname = "/";
     mockPrefersReducedMotion = false;
-    window.history.replaceState(null, "", "/");
     document.documentElement.style.scrollBehavior = "";
   });
 
   afterEach(() => {
-    vi.runOnlyPendingTimers();
-    vi.useRealTimers();
     vi.restoreAllMocks();
-    window.history.replaceState(null, "", "/");
+    document.documentElement.style.scrollBehavior = "";
   });
 
   it("does not reset scroll position when reduced motion preference resolves", () => {
     const scrollToSpy = vi.spyOn(window, "scrollTo");
+    const getElementByIdSpy = vi.spyOn(document, "getElementById");
 
     const { rerender } = render(
       <SmoothScroll>
@@ -46,54 +37,30 @@ describe("SmoothScroll", () => {
       </SmoothScroll>
     );
 
-    vi.runAllTimers();
-
     expect(scrollToSpy).not.toHaveBeenCalled();
+    expect(getElementByIdSpy).not.toHaveBeenCalled();
     expect(document.documentElement.style.scrollBehavior).toBe("auto");
   });
 
-  it("scrolls to the current hash on the home page", () => {
-    const scrollIntoView = vi.fn();
-    vi.spyOn(document, "getElementById").mockReturnValue({
-      scrollIntoView,
-    } as unknown as HTMLElement);
-
-    window.history.replaceState(null, "", "/#projects");
-
+  it("applies smooth scroll behavior when reduced motion is not preferred", () => {
     render(
       <SmoothScroll>
         <div>Content</div>
       </SmoothScroll>
     );
 
-    vi.runAllTimers();
-
-    expect(document.getElementById).toHaveBeenCalledWith("projects");
-    expect(scrollIntoView).toHaveBeenCalledWith({
-      behavior: "smooth",
-      block: "start",
-    });
+    expect(document.documentElement.style.scrollBehavior).toBe("smooth");
   });
 
-  it("responds to hash changes on the home page without resetting to top", () => {
-    const scrollIntoView = vi.fn();
-    vi.spyOn(document, "getElementById").mockReturnValue({
-      scrollIntoView,
-    } as unknown as HTMLElement);
-
-    render(
+  it("cleans up scroll behavior on unmount", () => {
+    const { unmount } = render(
       <SmoothScroll>
         <div>Content</div>
       </SmoothScroll>
     );
 
-    window.history.pushState(null, "", "/#contact");
-    window.dispatchEvent(new HashChangeEvent("hashchange"));
+    unmount();
 
-    expect(document.getElementById).toHaveBeenCalledWith("contact");
-    expect(scrollIntoView).toHaveBeenCalledWith({
-      behavior: "smooth",
-      block: "start",
-    });
+    expect(document.documentElement.style.scrollBehavior).toBe("auto");
   });
 });
