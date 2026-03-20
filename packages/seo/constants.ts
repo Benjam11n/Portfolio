@@ -43,7 +43,6 @@ export const ICONS = {
 };
 
 export const VERIFICATION = {
-  google: process.env.GOOGLE_SITE_VERIFICATION || "",
   yandex: process.env.YANDEX_SITE_VERIFICATION || "",
   yahoo: process.env.YAHOO_SITE_VERIFICATION || "",
 } as const;
