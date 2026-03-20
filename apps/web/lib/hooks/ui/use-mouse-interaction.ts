@@ -6,6 +6,7 @@ import { Vector2, type WebGLRenderer } from "three";
 type MouseInteractionOptions = {
   enabled: boolean;
   gl: WebGLRenderer;
+  onPointerEnter?: () => void;
   onPointerMove?: () => void;
 };
 
@@ -38,9 +39,12 @@ type MouseInteractionReturn = {
 export function useMouseInteraction(
   options: MouseInteractionOptions
 ): MouseInteractionReturn {
-  const { enabled, gl, onPointerMove } = options;
+  const { enabled, gl, onPointerEnter, onPointerMove } = options;
 
   const mousePos = useRef(new Vector2());
+  const handlePointerEnterEvent = useEffectEvent(() => {
+    onPointerEnter?.();
+  });
   const handlePointerMoveEvent = useEffectEvent(() => {
     onPointerMove?.();
   });
@@ -50,14 +54,20 @@ export function useMouseInteraction(
       return;
     }
 
+    const handlePointerEnter = () => {
+      handlePointerEnterEvent();
+    };
+
     const handlePointerMove = (e: PointerEvent) => {
       const dpr = gl.getPixelRatio();
       mousePos.current.set(e.offsetX * dpr, e.offsetY * dpr);
       handlePointerMoveEvent();
     };
 
+    gl.domElement.addEventListener("pointerenter", handlePointerEnter);
     gl.domElement.addEventListener("pointermove", handlePointerMove);
     return () => {
+      gl.domElement.removeEventListener("pointerenter", handlePointerEnter);
       gl.domElement.removeEventListener("pointermove", handlePointerMove);
     };
   }, [enabled, gl]);

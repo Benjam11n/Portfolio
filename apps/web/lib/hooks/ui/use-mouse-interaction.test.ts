@@ -20,10 +20,42 @@ describe("useMouseInteraction", () => {
     renderHook(() => useMouseInteraction({ enabled: true, gl }));
 
     expect(addEventListenerSpy).toHaveBeenCalledWith(
+      "pointerenter",
+      expect.any(Function)
+    );
+    expect(addEventListenerSpy).toHaveBeenCalledWith(
       "pointermove",
       expect.any(Function)
     );
     expect(windowAddEventListenerSpy).not.toHaveBeenCalled();
+  });
+
+  it("calls the pointer-enter callback", () => {
+    const canvas = document.createElement("canvas");
+    const gl = {
+      domElement: canvas,
+      getPixelRatio: () => 1,
+    } as unknown as WebGLRenderer;
+    const onPointerEnter = vi.fn();
+    let pointerEnterHandler: (() => void) | undefined;
+
+    vi.spyOn(canvas, "addEventListener").mockImplementation(
+      (type, listener) => {
+        if (type === "pointerenter") {
+          pointerEnterHandler = listener as () => void;
+        }
+      }
+    );
+
+    renderHook(() =>
+      useMouseInteraction({ enabled: true, gl, onPointerEnter })
+    );
+
+    act(() => {
+      pointerEnterHandler?.();
+    });
+
+    expect(onPointerEnter).toHaveBeenCalledTimes(1);
   });
 
   it("updates mouse position from event-local coordinates", () => {

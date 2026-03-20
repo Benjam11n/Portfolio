@@ -18,8 +18,9 @@ import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
 import { useMouseInteraction } from "@/lib/hooks/ui/use-mouse-interaction";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
-const INITIAL_WAKE_MS = 5000;
-const INTERACTION_WAKE_MS = 200;
+const INITIAL_WAKE_MS = 1000 * 60;
+const POINTER_ENTER_WAKE_MS = 700;
+const INTERACTION_WAKE_MS = 400;
 const PROP_CHANGE_WAKE_MS = 250;
 
 type DitheredWavesProps = {
@@ -99,6 +100,7 @@ function DitheredWaves({
   const { mousePos } = useMouseInteraction({
     enabled: isActive && shouldWake && enableMouseInteraction,
     gl,
+    onPointerEnter: () => wake(POINTER_ENTER_WAKE_MS),
     onPointerMove: () => wake(INTERACTION_WAKE_MS),
   });
 
