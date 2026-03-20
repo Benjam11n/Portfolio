@@ -55,7 +55,7 @@ export const FullscreenMedia = ({
             className="absolute top-6 right-6 z-[110] rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
             exit={{ opacity: 0, scale: 0.8 }}
             initial={{ opacity: 0, scale: 0.8 }}
-            onClick={(e) => {
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation();
               onClose();
             }}
@@ -68,7 +68,9 @@ export const FullscreenMedia = ({
             className="relative h-full w-full max-w-7xl"
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent<HTMLDivElement>) =>
+              e.stopPropagation()
+            }
           >
             {type === "image" ? (
               <div className="relative h-full w-full">
