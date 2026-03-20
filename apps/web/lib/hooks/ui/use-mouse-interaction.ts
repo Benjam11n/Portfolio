@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useEffectEvent, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Vector2, type WebGLRenderer } from "three";
 
 type MouseInteractionOptions = {
   enabled: boolean;
   gl: WebGLRenderer;
-  onPointerEnter?: () => void;
-  onPointerMove?: () => void;
 };
 
 type MouseInteractionReturn = {
@@ -39,36 +37,27 @@ type MouseInteractionReturn = {
 export function useMouseInteraction(
   options: MouseInteractionOptions
 ): MouseInteractionReturn {
-  const { enabled, gl, onPointerEnter, onPointerMove } = options;
+  const { enabled, gl } = options;
 
   const mousePos = useRef(new Vector2());
-  const handlePointerEnterEvent = useEffectEvent(() => {
-    onPointerEnter?.();
-  });
-  const handlePointerMoveEvent = useEffectEvent(() => {
-    onPointerMove?.();
-  });
 
   useEffect(() => {
     if (!enabled) {
       return;
     }
 
-    const handlePointerEnter = () => {
-      handlePointerEnterEvent();
-    };
-
-    const handlePointerMove = (e: PointerEvent) => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = gl.domElement.getBoundingClientRect();
       const dpr = gl.getPixelRatio();
-      mousePos.current.set(e.offsetX * dpr, e.offsetY * dpr);
-      handlePointerMoveEvent();
+      mousePos.current.set(
+        (e.clientX - rect.left) * dpr,
+        (e.clientY - rect.top) * dpr
+      );
     };
 
-    gl.domElement.addEventListener("pointerenter", handlePointerEnter);
-    gl.domElement.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("mousemove", handleMouseMove);
     return () => {
-      gl.domElement.removeEventListener("pointerenter", handlePointerEnter);
-      gl.domElement.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, [enabled, gl]);
 
