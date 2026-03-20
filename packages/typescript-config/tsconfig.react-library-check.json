@@ -1,0 +1,4 @@
+{
+  "extends": "./react-library.json",
+  "include": ["./validation/react-library-check.tsx"]
+}

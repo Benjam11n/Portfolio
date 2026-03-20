@@ -36,6 +36,22 @@ This portfolio showcases my projects, skills, and experience as a web developer.
 - **Tailwind CSS**: For responsive and utility-first styling
 - **Framer Motion**: For smooth animations and transitions
 
+## Type Checking
+
+This repo now uses `tsgo` as the default type-check engine for local development and CI.
+
+- Pinned version: `@typescript/native-preview@7.0.0-dev.20260319.1`
+- Default repo command: `pnpm type-check`
+
+Known compatibility risk areas for this experiment:
+
+- `moduleResolution: "Bundler"` in Next-oriented tsconfig presets
+- Next TypeScript plugin usage
+- Declaration emit behavior
+- Path aliases and workspace resolution
+
+`tsgo` is still an upstream preview build. If it fails on a parity gap, revert this experiment from git history.
+
 ## Setup and Installation
 
 To run this project locally, follow these steps:
