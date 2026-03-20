@@ -3,6 +3,7 @@
 import { AnalyticsProvider } from "@repo/analytics";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
+import { AnimationSkipReset } from "@/components/layout/animation-skip-reset";
 import {
   DynamicAnimationSkipProvider,
   DynamicPerformanceMonitor,
@@ -26,6 +27,7 @@ export function RootProviders({ children }: { children: ReactNode }) {
       >
         <DynamicAnimationSkipProvider>
           <DynamicSelectiveHoverCursor />
+          <AnimationSkipReset />
           <TooltipProvider delayDuration={60} skipDelayDuration={0}>
             {children}
           </TooltipProvider>

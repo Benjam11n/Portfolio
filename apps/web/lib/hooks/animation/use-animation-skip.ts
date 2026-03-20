@@ -74,8 +74,12 @@ export function useAnimationSkip(): {
   // Listen for Escape key to toggle skip state
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.repeat) {
+        return;
+      }
+
       if (event.key === "Escape") {
-        setSkipAnimationsState(true);
+        setSkipAnimationsState((current) => !current);
       }
     };
 

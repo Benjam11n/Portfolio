@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useEffectEvent, useRef } from "react";
 import { Vector2, type WebGLRenderer } from "three";
 
 type MouseInteractionOptions = {
   enabled: boolean;
   gl: WebGLRenderer;
+  onPointerMove?: () => void;
 };
 
 type MouseInteractionReturn = {
@@ -37,27 +38,27 @@ type MouseInteractionReturn = {
 export function useMouseInteraction(
   options: MouseInteractionOptions
 ): MouseInteractionReturn {
-  const { enabled, gl } = options;
+  const { enabled, gl, onPointerMove } = options;
 
   const mousePos = useRef(new Vector2());
+  const handlePointerMoveEvent = useEffectEvent(() => {
+    onPointerMove?.();
+  });
 
   useEffect(() => {
     if (!enabled) {
       return;
     }
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = gl.domElement.getBoundingClientRect();
+    const handlePointerMove = (e: PointerEvent) => {
       const dpr = gl.getPixelRatio();
-      mousePos.current.set(
-        (e.clientX - rect.left) * dpr,
-        (e.clientY - rect.top) * dpr
-      );
+      mousePos.current.set(e.offsetX * dpr, e.offsetY * dpr);
+      handlePointerMoveEvent();
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    gl.domElement.addEventListener("pointermove", handlePointerMove);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      gl.domElement.removeEventListener("pointermove", handlePointerMove);
     };
   }, [enabled, gl]);
 

@@ -7,7 +7,7 @@
       "@repo/analytics": ["../../packages/analytics/index.tsx"],
       "@repo/analytics/*": ["../../packages/analytics/*"]
     },
-    "types": ["@testing-library/jest-dom"]
+    "types": ["@react-three/fiber", "@testing-library/jest-dom"]
   },
   "include": [
     "next-env.d.ts",
