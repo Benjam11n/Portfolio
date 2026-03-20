@@ -41,13 +41,13 @@ describe("Dither", () => {
     canvasMock.mockClear();
   });
 
-  it("uses demand rendering while visible", () => {
+  it("uses continuous rendering while active", () => {
     vi.mocked(useElementVisibility).mockReturnValue(true);
 
     render(<Dither />);
 
     expect(canvasMock).toHaveBeenCalledWith(
-      expect.objectContaining({ frameloop: "demand" })
+      expect.objectContaining({ frameloop: "always" })
     );
   });
 

@@ -8,9 +8,19 @@ describe("useMouseInteraction", () => {
     vi.restoreAllMocks();
   });
 
-  it("attaches pointermove to the canvas element, not window", () => {
+  it("attaches mousemove to window", () => {
     const canvas = document.createElement("canvas");
-    const addEventListenerSpy = vi.spyOn(canvas, "addEventListener");
+    vi.spyOn(canvas, "getBoundingClientRect").mockReturnValue({
+      bottom: 120,
+      height: 100,
+      left: 10,
+      right: 210,
+      toJSON: () => ({}),
+      top: 20,
+      width: 200,
+      x: 10,
+      y: 20,
+    });
     const windowAddEventListenerSpy = vi.spyOn(window, "addEventListener");
     const gl = {
       domElement: canvas,
@@ -19,57 +29,35 @@ describe("useMouseInteraction", () => {
 
     renderHook(() => useMouseInteraction({ enabled: true, gl }));
 
-    expect(addEventListenerSpy).toHaveBeenCalledWith(
-      "pointerenter",
+    expect(windowAddEventListenerSpy).toHaveBeenCalledWith(
+      "mousemove",
       expect.any(Function)
     );
-    expect(addEventListenerSpy).toHaveBeenCalledWith(
-      "pointermove",
-      expect.any(Function)
-    );
-    expect(windowAddEventListenerSpy).not.toHaveBeenCalled();
   });
 
-  it("calls the pointer-enter callback", () => {
+  it("updates mouse position from window coordinates", () => {
     const canvas = document.createElement("canvas");
-    const gl = {
-      domElement: canvas,
-      getPixelRatio: () => 1,
-    } as unknown as WebGLRenderer;
-    const onPointerEnter = vi.fn();
-    let pointerEnterHandler: (() => void) | undefined;
-
-    vi.spyOn(canvas, "addEventListener").mockImplementation(
-      (type, listener) => {
-        if (type === "pointerenter") {
-          pointerEnterHandler = listener as () => void;
-        }
-      }
-    );
-
-    renderHook(() =>
-      useMouseInteraction({ enabled: true, gl, onPointerEnter })
-    );
-
-    act(() => {
-      pointerEnterHandler?.();
+    vi.spyOn(canvas, "getBoundingClientRect").mockReturnValue({
+      bottom: 220,
+      height: 200,
+      left: 10,
+      right: 210,
+      toJSON: () => ({}),
+      top: 20,
+      width: 200,
+      x: 10,
+      y: 20,
     });
-
-    expect(onPointerEnter).toHaveBeenCalledTimes(1);
-  });
-
-  it("updates mouse position from event-local coordinates", () => {
-    const canvas = document.createElement("canvas");
     const gl = {
       domElement: canvas,
       getPixelRatio: () => 2,
     } as unknown as WebGLRenderer;
-    let pointerMoveHandler: ((event: PointerEvent) => void) | undefined;
+    let mouseMoveHandler: ((event: MouseEvent) => void) | undefined;
 
-    vi.spyOn(canvas, "addEventListener").mockImplementation(
+    vi.spyOn(window, "addEventListener").mockImplementation(
       (type, listener) => {
-        if (type === "pointermove") {
-          pointerMoveHandler = listener as (event: PointerEvent) => void;
+        if (type === "mousemove") {
+          mouseMoveHandler = listener as (event: MouseEvent) => void;
         }
       }
     );
@@ -79,19 +67,19 @@ describe("useMouseInteraction", () => {
     );
 
     act(() => {
-      pointerMoveHandler?.({
-        offsetX: 12,
-        offsetY: 18,
-      } as PointerEvent);
+      mouseMoveHandler?.({
+        clientX: 22,
+        clientY: 38,
+      } as MouseEvent);
     });
 
     expect(result.current.mousePos.current.x).toBe(24);
     expect(result.current.mousePos.current.y).toBe(36);
   });
 
-  it("does not attach listeners when disabled", () => {
+  it("does not attach window listeners when disabled", () => {
     const canvas = document.createElement("canvas");
-    const addEventListenerSpy = vi.spyOn(canvas, "addEventListener");
+    const addEventListenerSpy = vi.spyOn(window, "addEventListener");
     const gl = {
       domElement: canvas,
       getPixelRatio: () => 1,

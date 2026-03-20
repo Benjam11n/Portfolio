@@ -1,15 +1,9 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import gsap from "gsap";
-import {
-  createElement,
-  useEffect,
-  useEffectEvent,
-  useMemo,
-  useRef,
-} from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 import type { Mesh } from "three";
 import { waveFragmentShader, waveVertexShader } from "@/lib/constants/shaders";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
@@ -18,10 +12,7 @@ import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
 import { useMouseInteraction } from "@/lib/hooks/ui/use-mouse-interaction";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
-const INITIAL_WAKE_MS = 1000 * 60;
-const POINTER_ENTER_WAKE_MS = 700;
-const INTERACTION_WAKE_MS = 400;
-const PROP_CHANGE_WAKE_MS = 250;
+const AUTO_PAUSE_AFTER_MS = 1000 * 60;
 
 type DitheredWavesProps = {
   waveSpeed: number;
@@ -34,7 +25,6 @@ type DitheredWavesProps = {
   isActive: boolean;
   enableMouseInteraction: boolean;
   mouseRadius: number;
-  shouldWake: boolean;
 };
 
 function DitheredWaves({
@@ -48,60 +38,13 @@ function DitheredWaves({
   isActive,
   enableMouseInteraction,
   mouseRadius,
-  shouldWake,
 }: DitheredWavesProps) {
-  const lastWakeTriggerKeyRef = useRef("");
   const mesh = useRef<Mesh>(null);
-  const wakeUntilRef = useRef(0);
-  const { invalidate, viewport, size, gl } = useThree();
-
-  const wake = useEffectEvent((durationMs: number) => {
-    if (!(isActive && shouldWake)) {
-      return;
-    }
-
-    wakeUntilRef.current = Math.max(
-      wakeUntilRef.current,
-      performance.now() + durationMs
-    );
-    invalidate();
-  });
-
-  const wakeTriggerKey = useMemo(
-    () =>
-      [
-        waveSpeed,
-        waveFrequency,
-        waveAmplitude,
-        waveColor[0],
-        waveColor[1],
-        waveColor[2],
-        colorNum,
-        pixelSize,
-        enableMouseInteraction,
-        mouseRadius,
-        size.width,
-        size.height,
-      ].join(":"),
-    [
-      colorNum,
-      enableMouseInteraction,
-      mouseRadius,
-      pixelSize,
-      size.height,
-      size.width,
-      waveAmplitude,
-      waveColor,
-      waveFrequency,
-      waveSpeed,
-    ]
-  );
+  const { viewport, size, gl } = useThree();
 
   const { mousePos } = useMouseInteraction({
-    enabled: isActive && shouldWake && enableMouseInteraction,
+    enabled: isActive && enableMouseInteraction,
     gl,
-    onPointerEnter: () => wake(POINTER_ENTER_WAKE_MS),
-    onPointerMove: () => wake(INTERACTION_WAKE_MS),
   });
 
   const { waveUniforms } = useWaveParams({
@@ -115,7 +58,6 @@ function DitheredWaves({
     mouseRadius,
     disableAnimation,
     isActive,
-    wakeUntilRef,
     mousePos,
   });
 
@@ -128,50 +70,6 @@ function DitheredWaves({
       currentRes.set(newWidth, newHeight);
     }
   }, [size, gl, waveUniforms]);
-
-  useEffect(() => {
-    if (!isActive) {
-      wakeUntilRef.current = 0;
-      return;
-    }
-
-    if (!shouldWake) {
-      invalidate();
-      return;
-    }
-
-    wake(INITIAL_WAKE_MS);
-  }, [invalidate, isActive, shouldWake]);
-
-  useEffect(() => {
-    if (!isActive) {
-      lastWakeTriggerKeyRef.current = "";
-      return;
-    }
-
-    if (!shouldWake) {
-      lastWakeTriggerKeyRef.current = wakeTriggerKey;
-      invalidate();
-      return;
-    }
-
-    if (lastWakeTriggerKeyRef.current === wakeTriggerKey) {
-      return;
-    }
-
-    lastWakeTriggerKeyRef.current = wakeTriggerKey;
-    wake(PROP_CHANGE_WAKE_MS);
-  }, [invalidate, isActive, shouldWake, wakeTriggerKey]);
-
-  useFrame(() => {
-    if (!(isActive && shouldWake)) {
-      return;
-    }
-
-    if (performance.now() < wakeUntilRef.current) {
-      invalidate();
-    }
-  });
 
   return createElement(
     "mesh",
@@ -209,17 +107,42 @@ export function Dither({
   mouseRadius = 1,
 }: DitherProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const pauseAtRef = useRef<number | null>(null);
+  const [hasTimedOut, setHasTimedOut] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
   const { skipAnimations } = useAnimationSkipContext();
   const isActive = useElementVisibility(containerRef);
 
-  // Respect user's motion preference
   const shouldDisableAnimation =
     disableAnimation || prefersReducedMotion || skipAnimations;
+  const shouldAnimate = isActive && !shouldDisableAnimation && !hasTimedOut;
+
+  useEffect(() => {
+    if (pauseAtRef.current === null) {
+      pauseAtRef.current = Date.now() + AUTO_PAUSE_AFTER_MS;
+    }
+
+    if (hasTimedOut || shouldDisableAnimation) {
+      return;
+    }
+
+    const remainingMs = pauseAtRef.current - Date.now();
+    if (remainingMs <= 0) {
+      setHasTimedOut(true);
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setHasTimedOut(true);
+    }, remainingMs);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [hasTimedOut, shouldDisableAnimation]);
 
   useGSAP(
     () => {
-      // Skip animation if user prefers reduced motion
       if (prefersReducedMotion || skipAnimations) {
         if (containerRef.current) {
           containerRef.current.style.opacity = "1";
@@ -250,7 +173,7 @@ export function Dither({
         <Canvas
           camera={{ position: [0, 0, 6] }}
           dpr={[0.75, 1]}
-          frameloop={isActive ? "demand" : "never"}
+          frameloop={shouldAnimate ? "always" : "never"}
           gl={{
             antialias: false,
             powerPreference: "low-power",
@@ -259,14 +182,13 @@ export function Dither({
         >
           <DitheredWaves
             colorNum={colorNum}
-            disableAnimation={shouldDisableAnimation}
+            disableAnimation={shouldDisableAnimation || hasTimedOut}
             enableMouseInteraction={
-              enableMouseInteraction && !shouldDisableAnimation
+              enableMouseInteraction && !shouldDisableAnimation && !hasTimedOut
             }
             isActive={isActive}
             mouseRadius={mouseRadius}
             pixelSize={pixelSize}
-            shouldWake={!shouldDisableAnimation}
             waveAmplitude={waveAmplitude}
             waveColor={waveColor}
             waveFrequency={waveFrequency}
