@@ -55,6 +55,7 @@ const rawProjects: Project[] = [
     services: "Computer Vision, Healthcare Tech",
     location: "Singapore",
     hero_image: "/projects/disknee/hero.png",
+    video_overview: "/projects/disknee/video.mp4",
     logo: "/projects/disknee/logo.png",
     logoStyle: {
       backgroundColor: "#0a1628",
