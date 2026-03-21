@@ -75,7 +75,7 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
     <div className="flex flex-col gap-8" ref={containerRef}>
       {/* Row 1: Overview and Description */}
       <div className="space-y-4">
-        <div className="overview-text max-w-3xl text-lg text-muted-foreground leading-relaxed">
+        <div className="overview-text max-w-2xl text-lg text-muted-foreground leading-relaxed">
           <Markdown>{project.subdesc || ""}</Markdown>
         </div>
       </div>
