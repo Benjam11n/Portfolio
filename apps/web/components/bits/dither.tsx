@@ -3,6 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import { Canvas, useThree } from "@react-three/fiber";
 import gsap from "gsap";
+import { useTheme } from "next-themes";
 import { createElement, useEffect, useRef, useState } from "react";
 import type { Mesh } from "three";
 import { waveFragmentShader, waveVertexShader } from "@/lib/constants/shaders";
@@ -99,7 +100,7 @@ export function Dither({
   waveSpeed = 0.05,
   waveFrequency = 3,
   waveAmplitude = 0.3,
-  waveColor = [0.5, 0.5, 0.5],
+  waveColor,
   colorNum = 4,
   pixelSize = 2,
   disableAnimation = false,
@@ -112,6 +113,11 @@ export function Dither({
   const prefersReducedMotion = usePrefersReducedMotion();
   const { skipAnimations } = useAnimationSkipContext();
   const isActive = useElementVisibility(containerRef);
+  const { resolvedTheme } = useTheme();
+
+  const currentWaveColor = waveColor || (resolvedTheme === "light" 
+    ? [0.95, 0.95, 0.95] 
+    : [0.42, 0.42, 0.42]);
 
   const shouldDisableAnimation =
     disableAnimation || prefersReducedMotion || skipAnimations;
@@ -190,7 +196,7 @@ export function Dither({
             mouseRadius={mouseRadius}
             pixelSize={pixelSize}
             waveAmplitude={waveAmplitude}
-            waveColor={waveColor}
+            waveColor={currentWaveColor as [number, number, number]}
             waveFrequency={waveFrequency}
             waveSpeed={waveSpeed}
           />
