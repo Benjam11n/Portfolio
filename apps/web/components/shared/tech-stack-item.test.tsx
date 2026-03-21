@@ -1,5 +1,9 @@
 import { render, screen } from "@repo/testing/test-utils";
 import { describe, expect, it, vi } from "vitest";
+import {
+  HOVER_CURSOR_ATTRIBUTE,
+  HOVER_CURSOR_LABEL_ATTRIBUTE,
+} from "@/lib/constants/interaction";
 
 // Mock GSAP for Card3D
 vi.mock("@gsap/react", () => ({
@@ -45,5 +49,19 @@ describe("TechStackItem", () => {
     render(<TechStackItem searchTerms={["act"]} stack={mockStackItem} />);
 
     expect(screen.getByText("act").tagName).toBe("MARK");
+  });
+
+  it("adds the hover cursor label for clickable cards", () => {
+    render(<TechStackItem onClick={vi.fn()} stack={mockStackItem} />);
+
+    const button = screen.getByRole("button", {
+      name: "View details for React",
+    });
+
+    expect(button).toHaveAttribute(HOVER_CURSOR_ATTRIBUTE, "");
+    expect(button).toHaveAttribute(
+      HOVER_CURSOR_LABEL_ATTRIBUTE,
+      "Click me!"
+    );
   });
 });
