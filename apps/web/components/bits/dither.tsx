@@ -115,9 +115,9 @@ export function Dither({
   const isActive = useElementVisibility(containerRef);
   const { resolvedTheme } = useTheme();
 
-  const currentWaveColor = waveColor || (resolvedTheme === "light" 
-    ? [0.95, 0.95, 0.95] 
-    : [0.42, 0.42, 0.42]);
+  const currentWaveColor =
+    waveColor ||
+    (resolvedTheme === "light" ? [0.95, 0.95, 0.95] : [0.42, 0.42, 0.42]);
 
   const shouldDisableAnimation =
     disableAnimation || prefersReducedMotion || skipAnimations;
