@@ -159,7 +159,7 @@ export const TechDetailModal = ({
         <div
           aria-labelledby={`tech-modal-title-${tech.name}`}
           aria-modal="true"
-          className="pointer-events-auto relative w-full max-w-3xl rounded-xl bg-card p-1 shadow-xl"
+          className="pointer-events-auto relative w-full max-w-xl rounded-xl bg-card p-1 shadow-xl"
           ref={contentRef}
           role="dialog"
         >
