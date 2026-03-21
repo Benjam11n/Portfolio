@@ -73,10 +73,7 @@ export default function RootLayout({
               mouseRadius={0.6}
               pixelSize={2}
               waveAmplitude={0.2}
-              waveColor={[
-                0.419_607_843_137_254_9, 0.419_607_843_137_254_9,
-                0.419_607_843_137_254_9,
-              ]}
+              waveColor={undefined}
               waveFrequency={2}
               waveSpeed={0.04}
             />
