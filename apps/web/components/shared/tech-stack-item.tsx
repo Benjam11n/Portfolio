@@ -3,6 +3,10 @@
 import { Card3D } from "@/components/effects/card-3d";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { TechProficiencyIndicator } from "@/components/shared/tech-proficiency-indicator";
+import {
+  HOVER_CURSOR_ATTRIBUTE,
+  HOVER_CURSOR_LABEL_ATTRIBUTE,
+} from "@/lib/constants/interaction";
 import type { TECH_STACK } from "@/lib/constants/tech-stack";
 import { cn } from "@/lib/utils";
 
@@ -155,6 +159,10 @@ export const TechStackItem = ({
       <button
         aria-label={`View details for ${stack.name}`}
         className="flex h-full w-full cursor-pointer items-center rounded-xl border-0 bg-transparent p-0 text-left outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        {...{
+          [HOVER_CURSOR_ATTRIBUTE]: "",
+          [HOVER_CURSOR_LABEL_ATTRIBUTE]: "Click me!",
+        }}
         onClick={onClick}
         type="button"
       >
