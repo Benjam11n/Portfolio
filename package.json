@@ -15,6 +15,7 @@
     "type-check": "turbo run type-check",
     "clean": "turbo run clean",
     "test": "turbo run test",
+    "test:ci": "turbo run test:ci",
     "test:e2e": "turbo run test:e2e"
   },
   "devDependencies": {

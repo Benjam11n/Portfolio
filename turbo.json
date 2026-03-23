@@ -25,6 +25,10 @@
       "dependsOn": ["^test"],
       "outputs": ["coverage/**"]
     },
+    "test:ci": {
+      "dependsOn": ["^test:ci"],
+      "outputs": []
+    },
     "test:e2e": {
       "cache": false
     }

@@ -11,6 +11,7 @@
     "type-check": "tsgo --noEmit",
     "clean": "rm -rf .next",
     "test": "vitest",
+    "test:ci": "vitest run",
     "test:e2e": "playwright test"
   },
   "dependencies": {
