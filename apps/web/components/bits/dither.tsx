@@ -116,7 +116,7 @@ export const Dither = ({
   const lastActivityRef = useRef<number>(Date.now());
 
   const prefersReducedMotion = usePrefersReducedMotion();
-  const { skipAnimations } = useAnimationSkipContext();
+  const { skipAnimations, setSkipAnimations } = useAnimationSkipContext();
   const isActive = useElementVisibility(containerRef);
   const { resolvedTheme } = useTheme();
 
@@ -202,6 +202,14 @@ export const Dither = ({
 
   // 3. Handle Direct Click on Background
   const handleContainerClick = useCallback(() => {
+    if (skipAnimations) {
+      setSkipAnimations(false);
+      setIsManuallyPaused(false);
+      lastActivityRef.current = Date.now();
+      setIsIdle(false);
+      return;
+    }
+
     setIsManuallyPaused((prev) => {
       const nextState = !prev;
       if (!nextState) {
@@ -211,7 +219,7 @@ export const Dither = ({
       }
       return nextState;
     });
-  }, []);
+  }, [skipAnimations, setSkipAnimations]);
 
   useGSAP(
     () => {
