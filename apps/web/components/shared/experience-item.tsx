@@ -165,7 +165,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         className="p-4"
         glare={!isMobile}
         parallaxIntensity={0}
-        rotationIntensity={isMobile ? 0 : 5}
+        rotationIntensity={isMobile ? 0 : 3}
         thickness={10}
       >
         <div className="group">{content}</div>
@@ -178,7 +178,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
       className="shadow-sm"
       glare={!isMobile}
       parallaxIntensity={0}
-      rotationIntensity={isMobile ? 0 : 5}
+      rotationIntensity={isMobile ? 0 : 3}
       thickness={8}
     >
       <button

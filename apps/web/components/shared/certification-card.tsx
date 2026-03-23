@@ -17,11 +17,11 @@ export const CertificationCard = ({ cert }: CertificationCardProps) => {
     <Card3D
       className="p-6 shadow-sm"
       glare
-      parallaxIntensity={0.1}
-      rotationIntensity={15}
-      thickness={12}
+      parallaxIntensity={0.05}
+      rotationIntensity={6}
+      thickness={4}
     >
-      <div className="relative z-10">
+      <div className="relative">
         <div className="relative mb-4 aspect-video w-full overflow-hidden rounded-lg bg-secondary shadow-inner">
           {imageError ? (
             <div className="flex h-full w-full items-center justify-center text-muted-foreground text-sm">

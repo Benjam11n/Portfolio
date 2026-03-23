@@ -10,28 +10,28 @@ import { cn } from "@/lib/utils";
 // Variant preset configurations for common 3D card styles
 const CARD_VARIANTS = {
   subtle: {
-    rotationIntensity: 5,
+    rotationIntensity: 3,
     thickness: 8,
     glare: false,
-    parallaxIntensity: 0.05,
+    parallaxIntensity: 0.02,
   },
   standard: {
-    rotationIntensity: 15,
+    rotationIntensity: 8,
     thickness: 12,
+    glare: true,
+    parallaxIntensity: 0.05,
+  },
+  dramatic: {
+    rotationIntensity: 15,
+    thickness: 16,
     glare: true,
     parallaxIntensity: 0.1,
   },
-  dramatic: {
-    rotationIntensity: 25,
-    thickness: 16,
-    glare: true,
-    parallaxIntensity: 0.15,
-  },
   book: {
-    rotationIntensity: 12,
+    rotationIntensity: 8,
     thickness: 20,
     glare: true,
-    parallaxIntensity: 0.08,
+    parallaxIntensity: 0.04,
   },
 } as const;
 
@@ -86,9 +86,9 @@ export const Card3D = ({
   >;
   const mergedThickness = thickness ?? variantDefaults.thickness ?? 12;
   const mergedRotationIntensity =
-    rotationIntensity ?? variantDefaults.rotationIntensity ?? 15;
+    rotationIntensity ?? variantDefaults.rotationIntensity ?? 8;
   const mergedParallaxIntensity =
-    parallaxIntensity ?? variantDefaults.parallaxIntensity ?? 0.1;
+    parallaxIntensity ?? variantDefaults.parallaxIntensity ?? 0.05;
   const mergedGlare = glare ?? variantDefaults.glare ?? true;
 
   const { contextSafe } = useGSAP({ scope: containerRef });
@@ -100,14 +100,14 @@ export const Card3D = ({
 
     // Use container rect instead of transforming card rect to avoid jitter loop
     const rect = containerRef.current.getBoundingClientRect();
-    
+
     // Calculate cursor position relative to the container's center
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    
+
     // Normalize values between -1 and 1
     const normalizedX = (x - centerX) / centerX;
     const normalizedY = (y - centerY) / centerY;
@@ -183,20 +183,20 @@ export const Card3D = ({
 
   return (
     <div
-      ref={containerRef}
       className={cn("relative h-full w-full", containerClassName)}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
+      ref={containerRef}
       role="presentation"
       style={{ perspective: 1000 }}
     >
       <div
-        ref={cardRef}
         className={cn(
           "relative h-full w-full rounded-xl transition-shadow",
           shadow && !prefersReducedMotion && "hover:shadow-2xl",
           shadow && prefersReducedMotion && "shadow-xl"
         )}
+        ref={cardRef}
         style={{ transformStyle: "preserve-3d" }}
       >
         <div
@@ -207,7 +207,7 @@ export const Card3D = ({
           style={{
             transform: `translateZ(${halfThickness}px)`,
             backfaceVisibility: "hidden",
-            transformStyle: "preserve-3d"
+            transformStyle: "preserve-3d",
           }}
         >
           <div className="relative z-10 h-full w-full" ref={contentRef}>
@@ -216,7 +216,7 @@ export const Card3D = ({
 
           {mergedGlare && (
             <div
-              className="pointer-events-none absolute left-1/2 top-1/2 h-[250%] w-[250%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_50%)] opacity-0 mix-blend-plus-lighter"
+              className="pointer-events-none absolute top-1/2 left-1/2 h-[250%] w-[250%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_50%)] opacity-0 mix-blend-plus-lighter"
               ref={glareRef}
               style={{ transform: "translateZ(1px)" }}
             />
@@ -248,7 +248,7 @@ export const Card3D = ({
         />
 
         <div
-          className="pointer-events-none absolute right-0 top-0 h-full rounded-r-xl"
+          className="pointer-events-none absolute top-0 right-0 h-full rounded-r-xl"
           style={{
             width: mergedThickness,
             background: `linear-gradient(to right, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
@@ -258,7 +258,7 @@ export const Card3D = ({
         />
 
         <div
-          className="pointer-events-none absolute left-0 top-0 h-full rounded-l-xl"
+          className="pointer-events-none absolute top-0 left-0 h-full rounded-l-xl"
           style={{
             width: mergedThickness,
             background: `linear-gradient(to left, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
@@ -268,7 +268,7 @@ export const Card3D = ({
         />
 
         <div
-          className="pointer-events-none absolute left-0 top-0 h-full w-full rounded-xl bg-muted"
+          className="pointer-events-none absolute top-0 left-0 h-full w-full rounded-xl bg-muted"
           style={{
             transform: `translateZ(-${halfThickness}px) rotateY(180deg)`,
             backfaceVisibility: "hidden",
