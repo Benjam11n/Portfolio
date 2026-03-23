@@ -18,9 +18,7 @@ export const projectSlugs = [
   "birds-of-a-feather",
 ] as const;
 
-// Wait for page to be fully loaded (including animations)
+// Wait for page to be fully loaded
 export const waitForPageReady = async (page: Page) => {
   await page.waitForLoadState("networkidle");
-  // Give animations time to start
-  await page.waitForTimeout(500);
 };
