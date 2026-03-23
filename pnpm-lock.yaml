@@ -52,10 +52,10 @@ importers:
         version: 1.2.8(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@react-three/fiber':
         specifier: ^9.5.0
-        version: 9.5.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.182.0)
+        version: 9.5.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.183.2)
       '@react-three/postprocessing':
         specifier: ^3.0.4
-        version: 3.0.4(@react-three/fiber@9.5.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.182.0))(@types/three@0.182.0)(react@19.2.4)(three@0.182.0)
+        version: 3.0.4(@react-three/fiber@9.5.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.183.2))(@types/three@0.182.0)(react@19.2.4)(three@0.183.2)
       '@repo/analytics':
         specifier: workspace:*
         version: link:../../packages/analytics
@@ -106,7 +106,7 @@ importers:
         version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       postprocessing:
         specifier: ^6.38.3
-        version: 6.38.3(three@0.182.0)
+        version: 6.38.3(three@0.183.2)
       react:
         specifier: 19.2.4
         version: 19.2.4
@@ -129,8 +129,8 @@ importers:
         specifier: ^3.5.0
         version: 3.5.0
       three:
-        specifier: ^0.182.0
-        version: 0.182.0
+        specifier: ^0.183.2
+        version: 0.183.2
       zod:
         specifier: ^3.25.76
         version: 3.25.76
@@ -3598,8 +3598,8 @@ packages:
     resolution: {integrity: sha512-4iMVL6HAINXWf1ZKZjIPcz5wYaOdPhtO8ATvZ+Xqp3BTdaqtAwQkNmKORqcIo5YkQqGXq5cwfswDwMqqQNrpJA==}
     engines: {node: '>=20'}
 
-  three@0.182.0:
-    resolution: {integrity: sha512-GbHabT+Irv+ihI1/f5kIIsZ+Ef9Sl5A1Y7imvS5RQjWgtTPfPnZ43JmlYI7NtCRDK9zir20lQpfg8/9Yd02OvQ==}
+  three@0.183.2:
+    resolution: {integrity: sha512-di3BsL2FEQ1PA7Hcvn4fyJOlxRRgFYBpMTcyOgkwJIaDOdJMebEFPA+t98EvjuljDx4hNulAGwF6KIjtwI5jgQ==}
 
   tiny-inflate@1.0.3:
     resolution: {integrity: sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==}
@@ -5052,7 +5052,7 @@ snapshots:
       react-promise-suspense: 0.3.4
     optional: true
 
-  '@react-three/fiber@9.5.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.182.0)':
+  '@react-three/fiber@9.5.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.183.2)':
     dependencies:
       '@babel/runtime': 7.28.6
       '@types/webxr': 0.5.24
@@ -5063,7 +5063,7 @@ snapshots:
       react-use-measure: 2.1.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       scheduler: 0.27.0
       suspend-react: 0.1.3(react@19.2.4)
-      three: 0.182.0
+      three: 0.183.2
       use-sync-external-store: 1.6.0(react@19.2.4)
       zustand: 5.0.11(@types/react@19.2.14)(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4))
     optionalDependencies:
@@ -5072,14 +5072,14 @@ snapshots:
       - '@types/react'
       - immer
 
-  '@react-three/postprocessing@3.0.4(@react-three/fiber@9.5.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.182.0))(@types/three@0.182.0)(react@19.2.4)(three@0.182.0)':
+  '@react-three/postprocessing@3.0.4(@react-three/fiber@9.5.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.183.2))(@types/three@0.182.0)(react@19.2.4)(three@0.183.2)':
     dependencies:
-      '@react-three/fiber': 9.5.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.182.0)
-      maath: 0.6.0(@types/three@0.182.0)(three@0.182.0)
-      n8ao: 1.10.1(postprocessing@6.38.3(three@0.182.0))(three@0.182.0)
-      postprocessing: 6.38.3(three@0.182.0)
+      '@react-three/fiber': 9.5.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.183.2)
+      maath: 0.6.0(@types/three@0.182.0)(three@0.183.2)
+      n8ao: 1.10.1(postprocessing@6.38.3(three@0.183.2))(three@0.183.2)
+      postprocessing: 6.38.3(three@0.183.2)
       react: 19.2.4
-      three: 0.182.0
+      three: 0.183.2
     transitivePeerDependencies:
       - '@types/three'
 
@@ -6121,10 +6121,10 @@ snapshots:
 
   lz-string@1.5.0: {}
 
-  maath@0.6.0(@types/three@0.182.0)(three@0.182.0):
+  maath@0.6.0(@types/three@0.182.0)(three@0.183.2):
     dependencies:
       '@types/three': 0.182.0
-      three: 0.182.0
+      three: 0.183.2
 
   magic-string@0.30.21:
     dependencies:
@@ -6383,10 +6383,10 @@ snapshots:
 
   ms@2.1.3: {}
 
-  n8ao@1.10.1(postprocessing@6.38.3(three@0.182.0))(three@0.182.0):
+  n8ao@1.10.1(postprocessing@6.38.3(three@0.183.2))(three@0.183.2):
     dependencies:
-      postprocessing: 6.38.3(three@0.182.0)
-      three: 0.182.0
+      postprocessing: 6.38.3(three@0.183.2)
+      three: 0.183.2
 
   nanoid@3.3.11: {}
 
@@ -6631,9 +6631,9 @@ snapshots:
       query-selector-shadow-dom: 1.0.1
       web-vitals: 5.1.0
 
-  postprocessing@6.38.3(three@0.182.0):
+  postprocessing@6.38.3(three@0.183.2):
     dependencies:
-      three: 0.182.0
+      three: 0.183.2
 
   preact@10.29.0: {}
 
@@ -6949,7 +6949,7 @@ snapshots:
     dependencies:
       real-require: 0.2.0
 
-  three@0.182.0: {}
+  three@0.183.2: {}
 
   tiny-inflate@1.0.3: {}
 
