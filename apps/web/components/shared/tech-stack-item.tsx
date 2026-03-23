@@ -11,7 +11,7 @@ import type { TECH_STACK } from "@/lib/constants/tech-stack";
 import { cn } from "@/lib/utils";
 
 const escapeRegExp = (value: string) =>
-  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  value.replaceAll(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const EMPTY_SEARCH_TERMS: string[] = [];
 
@@ -35,7 +35,7 @@ const highlightText = (text: string, searchTerms: string[]) => {
   let lastIndex = 0;
 
   for (const match of text.matchAll(matcher)) {
-    const matchedText = match[0];
+    const [matchedText] = match;
     const matchIndex = match.index ?? 0;
 
     if (matchIndex > lastIndex) {
@@ -65,12 +65,12 @@ const highlightText = (text: string, searchTerms: string[]) => {
   return segments;
 };
 
-type TechStackItemProps = {
+interface TechStackItemProps {
   stack: (typeof TECH_STACK)[0];
   small?: boolean;
   onClick?: () => void;
   searchTerms?: string[];
-};
+}
 
 export const TechStackItem = ({
   stack,

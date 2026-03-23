@@ -1,11 +1,12 @@
 "use client";
 
 import { Pause, Waves } from "lucide-react";
+
 import { Card } from "@/components/ui/card";
 import { Kbd } from "@/components/ui/kbd";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 
-export function AnimationSkipReset() {
+export const AnimationSkipReset = () => {
   const { skipAnimations } = useAnimationSkipContext();
 
   return (
@@ -27,4 +28,4 @@ export function AnimationSkipReset() {
       <Kbd>Esc</Kbd>
     </Card>
   );
-}
+};

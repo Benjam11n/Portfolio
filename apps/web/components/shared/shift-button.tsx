@@ -1,5 +1,7 @@
 import type Link from "next/link";
-import { type ComponentProps, type ReactNode, useRef } from "react";
+import { useRef } from "react";
+import type { ComponentProps, ReactNode } from "react";
+
 import { ShiftText, useShiftAnimation } from "@/components/effects/shift-text";
 import { ScrollLink } from "@/components/shared/scroll-link";
 import { cn } from "@/lib/utils";

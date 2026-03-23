@@ -2,45 +2,45 @@
 
 import { useGSAP } from "@gsap/react";
 import confetti from "canvas-confetti";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { CheckCircle } from "lucide-react";
 import { useRef } from "react";
 
-type ThankYouAnimationProps = {
+interface ThankYouAnimationProps {
   onComplete: () => void;
-};
+}
 
 export const ThankYouAnimation = ({ onComplete }: ThankYouAnimationProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const tl = gsap.timeline({
+      const tl = gsapCore.timeline({
         onComplete,
       });
 
       // Entry animation
       tl.from(containerRef.current, {
-        opacity: 0,
-        scale: 0.8,
         duration: 0.5,
         ease: "back.out(1.7)",
+        opacity: 0,
+        scale: 0.8,
       });
 
       // Confetti burst
       const count = 200;
       const defaults = {
         origin: { y: 0.7 },
-        zIndex: 100, // Ensure confetti is on top
+        zIndex: 100,
       };
 
-      function fire(particleRatio: number, opts: confetti.Options) {
+      const fire = (particleRatio: number, opts: confetti.Options) => {
         confetti({
           ...defaults,
           ...opts,
           particleCount: Math.floor(count * particleRatio),
         });
-      }
+      };
 
       fire(0.25, {
         spread: 26,
@@ -50,15 +50,15 @@ export const ThankYouAnimation = ({ onComplete }: ThankYouAnimationProps) => {
         spread: 60,
       });
       fire(0.35, {
-        spread: 100,
         decay: 0.91,
         scalar: 0.8,
+        spread: 100,
       });
       fire(0.1, {
-        spread: 120,
-        startVelocity: 25,
         decay: 0.92,
         scalar: 1.2,
+        spread: 120,
+        startVelocity: 25,
       });
       fire(0.1, {
         spread: 120,
@@ -67,11 +67,11 @@ export const ThankYouAnimation = ({ onComplete }: ThankYouAnimationProps) => {
 
       // Exit animation after delay
       tl.to(containerRef.current, {
+        delay: 3.5,
+        duration: 0.5,
+        ease: "power2.in",
         opacity: 0,
         scale: 0.8,
-        duration: 0.5,
-        delay: 3.5, // Total visible time
-        ease: "power2.in",
       });
     },
     { scope: containerRef }
@@ -87,8 +87,8 @@ export const ThankYouAnimation = ({ onComplete }: ThankYouAnimationProps) => {
       </div>
       <h3 className="mb-2 font-bold text-3xl tracking-tight">Thank You!</h3>
       <p className="max-w-[80%] text-lg text-muted-foreground">
-        Your message has been sent successfully. <br /> I'll get back to you
-        soon!
+        Your message has been sent successfully. <br /> I&apos;ll get back to
+        you soon!
       </p>
     </div>
   );

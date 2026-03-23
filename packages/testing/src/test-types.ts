@@ -3,30 +3,28 @@ import type { Mock } from "vitest";
 /**
  * Mock IntersectionObserver entry factory options
  */
-export type MockIntersectionEntryOptions = {
+export interface MockIntersectionEntryOptions {
   id: string;
   isIntersecting: boolean;
   intersectionRatio: number;
-};
+}
 
 /**
  * Creates a mock IntersectionObserverEntry for testing
  * @param options - The entry configuration
  * @returns A properly typed IntersectionObserverEntry
  */
-export function createMockIntersectionEntry(
+export const createMockIntersectionEntry = (
   options: MockIntersectionEntryOptions
-): IntersectionObserverEntry {
-  return {
-    target: { id: options.id } as unknown as Element,
-    isIntersecting: options.isIntersecting,
-    intersectionRatio: options.intersectionRatio,
-    time: 0,
-    boundingClientRect: new DOMRect(),
-    intersectionRect: new DOMRect(),
-    rootBounds: null,
-  };
-}
+): IntersectionObserverEntry => ({
+  boundingClientRect: new DOMRect(),
+  intersectionRatio: options.intersectionRatio,
+  intersectionRect: new DOMRect(),
+  isIntersecting: options.isIntersecting,
+  rootBounds: null,
+  target: { id: options.id } as unknown as Element,
+  time: 0,
+});
 
 /**
  * Event listener types for media query testing
@@ -43,7 +41,7 @@ export type MockDisconnect = Mock<() => void>;
 /**
  * Props for mock button components in tests
  */
-export type MockButtonProps = {
+export interface MockButtonProps {
   children?: React.ReactNode;
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
@@ -51,12 +49,12 @@ export type MockButtonProps = {
   disabled?: boolean;
   className?: string;
   "data-testid"?: string;
-};
+}
 
 /**
  * Props for mock input components in tests
  */
-export type MockInputProps = {
+export interface MockInputProps {
   name?: string;
   type?: string;
   value?: string;
@@ -65,4 +63,4 @@ export type MockInputProps = {
   "aria-label"?: string;
   "data-testid"?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
+}

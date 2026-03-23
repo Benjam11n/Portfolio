@@ -1,10 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
 import { ROUTES } from "@/lib/constants/navigation";
 import { PROJECTS } from "@/lib/constants/projects";
 
-export function ProjectNavigation({ currentId }: { currentId: string }) {
+export const ProjectNavigation = ({ currentId }: { currentId: string }) => {
   const currentIndex = PROJECTS.findIndex((p) => p.id === currentId);
   const nextProjectIndex = (currentIndex + 1) % PROJECTS.length;
   const nextProject = PROJECTS[nextProjectIndex];
@@ -38,4 +39,4 @@ export function ProjectNavigation({ currentId }: { currentId: string }) {
       </Link>
     </div>
   );
-}
+};

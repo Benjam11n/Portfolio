@@ -1,33 +1,33 @@
 import { render, screen } from "@repo/testing/test-utils";
-import { describe, expect, it, vi } from "vitest";
+
 import {
   HOVER_CURSOR_ATTRIBUTE,
   HOVER_CURSOR_LABEL_ATTRIBUTE,
 } from "@/lib/constants/interaction";
 
+import { TechStackItem } from "./tech-stack-item";
+
 // Mock GSAP for Card3D
-vi.mock("@gsap/react", () => ({
+vi.mock(import("@gsap/react"), () => ({
   useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
 
-vi.mock("gsap", () => ({
+vi.mock(import("gsap"), () => ({
   default: {
     to: vi.fn(),
   },
 }));
 
-import { TechStackItem } from "./tech-stack-item";
-
 const mockStackItem = {
-  name: "React",
-  icon: "/react.png",
   category: "Frontend" as const,
-  colorLight: "#fff",
   colorDark: "#000",
+  colorLight: "#fff",
+  icon: "/react.png",
+  name: "React",
   proficiency: "expert" as const,
 };
 
-describe("TechStackItem", () => {
+describe(TechStackItem, () => {
   it("renders icon", () => {
     render(<TechStackItem stack={mockStackItem} />);
     const img = screen.getByAltText("React");

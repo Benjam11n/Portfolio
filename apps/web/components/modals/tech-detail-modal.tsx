@@ -1,20 +1,21 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { X } from "lucide-react";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
+
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { RelatedProjectsList } from "@/components/shared/related-projects-list";
 import { TechProficiencyIndicator } from "@/components/shared/tech-proficiency-indicator";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import type { TechStack } from "@/lib/types";
 
-type TechDetailModalProps = {
+interface TechDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   tech: TechStack;
-};
+}
 
 export const TechDetailModal = ({
   isOpen,
@@ -27,6 +28,57 @@ export const TechDetailModal = ({
   const headerRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const handleClose = useCallback(() => {
+    if (prefersReducedMotion) {
+      onClose();
+      return;
+    }
+
+    const tl = gsapCore.timeline({
+      onComplete: onClose,
+    });
+
+    tl.to(bodyRef.current, {
+      duration: 0.16,
+      opacity: 0,
+      y: 10,
+    })
+      .to(
+        headerRef.current,
+        {
+          duration: 0.16,
+          opacity: 0,
+          y: -10,
+        },
+        "-=0.1"
+      )
+      .to(
+        contentRef.current,
+        {
+          duration: 0.2,
+          opacity: 0,
+          scale: 0.96,
+          y: 16,
+        },
+        "-=0.1"
+      )
+      .to(
+        overlayRef.current,
+        {
+          duration: 0.16,
+          opacity: 0,
+        },
+        "-=0.08"
+      );
+  }, [onClose, prefersReducedMotion]);
+  const handleOverlayKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (event.key === "Escape") {
+        handleClose();
+      }
+    },
+    [handleClose]
+  );
 
   useGSAP(
     () => {
@@ -35,104 +87,60 @@ export const TechDetailModal = ({
       }
 
       if (prefersReducedMotion) {
-        gsap.set(overlayRef.current, { opacity: 1 });
-        gsap.set(contentRef.current, { scale: 1, y: 0, opacity: 1 });
-        gsap.set(headerRef.current, { y: 0, opacity: 1 });
-        gsap.set(bodyRef.current, { y: 0, opacity: 1 });
+        gsapCore.set(overlayRef.current, { opacity: 1 });
+        gsapCore.set(contentRef.current, { opacity: 1, scale: 1, y: 0 });
+        gsapCore.set(headerRef.current, { opacity: 1, y: 0 });
+        gsapCore.set(bodyRef.current, { opacity: 1, y: 0 });
         return;
       }
 
-      const tl = gsap.timeline({
+      const tl = gsapCore.timeline({
         defaults: { ease: "power2.out" },
       });
 
       // Initial states
-      gsap.set(overlayRef.current, { opacity: 0 });
-      gsap.set(contentRef.current, { scale: 0.96, y: 18, opacity: 0 });
-      gsap.set(headerRef.current, { y: -12, opacity: 0 });
-      gsap.set(bodyRef.current, { y: 12, opacity: 0 });
+      gsapCore.set(overlayRef.current, { opacity: 0 });
+      gsapCore.set(contentRef.current, { opacity: 0, scale: 0.96, y: 18 });
+      gsapCore.set(headerRef.current, { opacity: 0, y: -12 });
+      gsapCore.set(bodyRef.current, { opacity: 0, y: 12 });
 
       // Animation sequence
       tl.to(overlayRef.current, {
-        opacity: 1,
         duration: 0.18,
+        opacity: 1,
       })
         .to(
           contentRef.current,
           {
-            scale: 1,
-            y: 0,
-            opacity: 1,
             duration: 0.3,
             ease: "back.out(1.45)",
+            opacity: 1,
+            scale: 1,
+            y: 0,
           },
           "-=0.08"
         )
         .to(
           headerRef.current,
           {
-            y: 0,
-            opacity: 1,
             duration: 0.22,
+            opacity: 1,
+            y: 0,
           },
           "-=0.22"
         )
         .to(
           bodyRef.current,
           {
-            y: 0,
-            opacity: 1,
             duration: 0.22,
+            opacity: 1,
+            y: 0,
           },
           "-=0.16"
         );
     },
-    { scope: containerRef, dependencies: [isOpen, prefersReducedMotion] }
+    { dependencies: [isOpen, prefersReducedMotion], scope: containerRef }
   );
-
-  const handleClose = () => {
-    if (prefersReducedMotion) {
-      onClose();
-      return;
-    }
-
-    const tl = gsap.timeline({
-      onComplete: onClose,
-    });
-
-    tl.to(bodyRef.current, {
-      y: 10,
-      opacity: 0,
-      duration: 0.16,
-    })
-      .to(
-        headerRef.current,
-        {
-          y: -10,
-          opacity: 0,
-          duration: 0.16,
-        },
-        "-=0.1"
-      )
-      .to(
-        contentRef.current,
-        {
-          scale: 0.96,
-          y: 16,
-          opacity: 0,
-          duration: 0.2,
-        },
-        "-=0.1"
-      )
-      .to(
-        overlayRef.current,
-        {
-          opacity: 0,
-          duration: 0.16,
-        },
-        "-=0.08"
-      );
-  };
 
   if (!isOpen) {
     return null;
@@ -145,11 +153,7 @@ export const TechDetailModal = ({
         aria-label="Close tech detail modal"
         className="fixed inset-0 z-50 bg-black/70"
         onClick={handleClose}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") {
-            handleClose();
-          }
-        }}
+        onKeyDown={handleOverlayKeyDown}
         ref={overlayRef}
         type="button"
       />

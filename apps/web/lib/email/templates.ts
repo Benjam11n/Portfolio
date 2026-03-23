@@ -1,9 +1,8 @@
-export function generateContactEmailHtml(
+export const generateContactEmailHtml = (
   name: string,
   email: string,
   message: string
-) {
-  return `
+) => `
 <!DOCTYPE html>
 <html>
 <head>
@@ -89,7 +88,7 @@ export function generateContactEmailHtml(
 
       <div class="field">
         <div class="field-label">Message:</div>
-        <div class="message-content">${message.replace(/\n/g, "<br/>")}</div>
+        <div class="message-content">${message.replaceAll("\n", "<br/>")}</div>
       </div>
     </div>
     <div class="email-footer">
@@ -99,14 +98,12 @@ export function generateContactEmailHtml(
 </body>
 </html>
   `;
-}
 
-export function generateContactEmailText(
+export const generateContactEmailText = (
   name: string,
   email: string,
   message: string
-) {
-  return `
+) => `
 CONTACT FORM SUBMISSION
 
 Name: ${name}
@@ -117,4 +114,3 @@ ${message}
 
 Sent on: ${new Date().toLocaleDateString()}
   `;
-}

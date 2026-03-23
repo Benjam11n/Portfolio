@@ -1,10 +1,13 @@
 import { render } from "@testing-library/react";
 import type { ComponentProps } from "react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+
+import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
+
+import { Dither } from "./dither";
 
 const canvasMock = vi.fn((_: unknown) => <div data-testid="canvas" />);
 
-vi.mock("@react-three/fiber", () => ({
+vi.mock(import("@react-three/fiber"), () => ({
   Canvas: (props: ComponentProps<"div"> & { frameloop: string }) => {
     canvasMock(props);
     return <div data-testid="canvas" />;
@@ -18,25 +21,22 @@ vi.mock("@react-three/fiber", () => ({
   })),
 }));
 
-vi.mock("@/lib/contexts/animation-skip-context", () => ({
+vi.mock(import("@/lib/contexts/animation-skip-context"), () => ({
   useAnimationSkipContext: () => ({
-    skipAnimations: false,
     setSkipAnimations: vi.fn(),
+    skipAnimations: false,
   }),
 }));
 
-vi.mock("@/lib/hooks/ui/use-element-visibility", () => ({
+vi.mock(import("@/lib/hooks/ui/use-element-visibility"), () => ({
   useElementVisibility: vi.fn(),
 }));
 
-vi.mock("@/lib/hooks/ui/use-prefers-reduced-motion", () => ({
+vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
   usePrefersReducedMotion: vi.fn(() => false),
 }));
 
-import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
-import { Dither } from "./dither";
-
-describe("Dither", () => {
+describe(Dither, () => {
   beforeEach(() => {
     canvasMock.mockClear();
   });

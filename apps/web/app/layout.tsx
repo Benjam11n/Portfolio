@@ -2,6 +2,7 @@ import { createMetadata } from "@repo/seo";
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
+
 import {
   DynamicClickSpark,
   DynamicDither,
@@ -15,37 +16,37 @@ import { SITE_METADATA } from "@/lib/constants/metadata";
 import "./globals.css";
 
 const satoshi = localFont({
+  display: "swap",
   src: [
     {
       path: "../public/assets/fonts/satoshi/satoshi-400.woff2",
-      weight: "400",
       style: "normal",
+      weight: "400",
     },
     {
       path: "../public/assets/fonts/satoshi/satoshi-500.woff2",
-      weight: "500",
       style: "normal",
+      weight: "500",
     },
     {
       path: "../public/assets/fonts/satoshi/satoshi-700.woff2",
-      weight: "700",
       style: "normal",
+      weight: "700",
     },
   ],
   variable: "--font-sans",
-  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-mono",
   display: "swap",
+  subsets: ["latin"],
+  variable: "--font-mono",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = createMetadata({
-  title: SITE_METADATA.title,
   description: SITE_METADATA.description,
+  title: SITE_METADATA.title,
 });
 
 export default function RootLayout({

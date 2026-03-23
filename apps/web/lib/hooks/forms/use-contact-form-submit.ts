@@ -3,6 +3,7 @@
 import { logger } from "@repo/logger";
 import { useTransition } from "react";
 import { toast } from "sonner";
+
 import { sendEmailAction } from "@/lib/actions/email.actions";
 import {
   trackContactFormError,
@@ -10,14 +11,14 @@ import {
 } from "@/lib/analytics/conversion";
 import type { ContactFormValues } from "@/lib/validations/contact";
 
-type UseContactFormSubmitOptions = {
+interface UseContactFormSubmitOptions {
   onSuccess?: (name: string) => void;
-};
+}
 
-type UseContactFormSubmitReturn = {
+interface UseContactFormSubmitReturn {
   isPending: boolean;
   handleSubmit: (values: ContactFormValues) => void;
-};
+}
 
 /**
  * Custom hook to handle contact form submission logic.
@@ -72,7 +73,7 @@ export const useContactFormSubmit = ({
   };
 
   return {
-    isPending,
     handleSubmit,
+    isPending,
   };
 };

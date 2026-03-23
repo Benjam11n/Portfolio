@@ -2,33 +2,33 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export function GET() {
-  return new ImageResponse(
+export const GET = () =>
+  new ImageResponse(
     <div
       style={{
+        alignItems: "center",
+        backgroundColor: "#0a0a0a",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "#0a0a0a",
         fontFamily: "sans-serif",
+        height: "100%",
+        justifyContent: "center",
+        width: "100%",
       }}
     >
       <div
         style={{
+          alignItems: "center",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
           gap: "16px",
         }}
       >
         <span
           style={{
+            color: "#fafafa",
             fontSize: 72,
             fontWeight: 900,
-            color: "#fafafa",
             letterSpacing: "-2px",
           }}
         >
@@ -36,8 +36,8 @@ export function GET() {
         </span>
         <span
           style={{
-            fontSize: 28,
             color: "#a1a1aa",
+            fontSize: 28,
             fontWeight: 500,
           }}
         >
@@ -45,11 +45,11 @@ export function GET() {
         </span>
         <div
           style={{
+            color: "#71717a",
             display: "flex",
+            fontSize: 20,
             gap: "24px",
             marginTop: "16px",
-            color: "#71717a",
-            fontSize: 20,
           }}
         >
           <span>Singapore</span>
@@ -59,8 +59,7 @@ export function GET() {
       </div>
     </div>,
     {
-      width: 1200,
       height: 630,
+      width: 1200,
     }
   );
-}

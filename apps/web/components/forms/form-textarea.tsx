@@ -1,9 +1,11 @@
+import { useCallback } from "react";
 import type {
   ControllerProps,
   ControllerRenderProps,
   FieldPath,
   FieldValues,
 } from "react-hook-form";
+
 import {
   FormControl,
   FormField,
@@ -14,10 +16,10 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 
-type FormTextAreaProps<
+interface FormTextAreaProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = {
+> {
   control: ControllerProps<TFieldValues, TName>["control"];
   name: TName;
   label?: string;
@@ -28,7 +30,7 @@ type FormTextAreaProps<
   className?: string;
   rows?: number;
   disabled?: boolean;
-};
+}
 
 const getProgressColor = (percentage: number) => {
   if (percentage >= 90) {
@@ -54,52 +56,47 @@ export const FormTextArea = <
   rows = 8,
   disabled = false,
 }: FormTextAreaProps<TFieldValues, TName>) => {
-  return (
-    <FormField
-      control={control}
-      name={name}
-      render={({
-        field,
-      }: {
-        field: ControllerRenderProps<TFieldValues, TName>;
-      }) => {
-        const messageLength = field.value?.length || 0;
-        const percentage = (messageLength / maxLength) * 100;
+  const renderField = useCallback(
+    ({ field }: { field: ControllerRenderProps<TFieldValues, TName> }) => {
+      const messageLength = field.value?.length || 0;
+      const percentage = (messageLength / maxLength) * 100;
 
-        return (
-          <FormItem id={id}>
-            <FormLabel className="mb-2 block font-medium text-sm">
-              {label}
-            </FormLabel>
-            <FormControl>
-              <div className="relative">
-                <Textarea
-                  className={className}
-                  disabled={disabled}
-                  maxLength={maxLength}
-                  placeholder={placeholder}
-                  rows={rows}
-                  {...field}
-                />
-                <div className="mt-2 space-y-1">
-                  <div className="flex items-center justify-between">
-                    <Progress
-                      className="mr-2 flex-1"
-                      fillClassName={getProgressColor(percentage)}
-                      max={maxLength}
-                      value={messageLength}
-                    />
-                    <span className="shrink-0 text-right text-muted-foreground text-xs">
-                      {messageLength} / {maxLength}
-                    </span>
-                  </div>
+      return (
+        <FormItem id={id}>
+          <FormLabel className="mb-2 block font-medium text-sm">
+            {label}
+          </FormLabel>
+          <FormControl>
+            <div className="relative">
+              <Textarea
+                className={className}
+                disabled={disabled}
+                maxLength={maxLength}
+                placeholder={placeholder}
+                rows={rows}
+                {...field}
+              />
+              <div className="mt-2 space-y-1">
+                <div className="flex items-center justify-between">
+                  <Progress
+                    className="mr-2 flex-1"
+                    fillClassName={getProgressColor(percentage)}
+                    max={maxLength}
+                    value={messageLength}
+                  />
+                  <span className="shrink-0 text-right text-muted-foreground text-xs">
+                    {messageLength} / {maxLength}
+                  </span>
                 </div>
               </div>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        );
-      }}
-    />
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      );
+    },
+    [className, disabled, id, label, maxLength, placeholder, rows]
   );
+
+  return <FormField control={control} name={name} render={renderField} />;
 };

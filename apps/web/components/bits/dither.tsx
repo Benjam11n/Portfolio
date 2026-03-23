@@ -2,10 +2,11 @@
 
 import { useGSAP } from "@gsap/react";
 import { Canvas, useThree } from "@react-three/fiber";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { useTheme } from "next-themes";
-import { createElement, useEffect, useRef, useState } from "react";
+import { createElement, useCallback, useEffect, useRef, useState } from "react";
 import type { Mesh } from "three";
+
 import { waveFragmentShader, waveVertexShader } from "@/lib/constants/shaders";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useWaveParams } from "@/lib/hooks/animation/use-wave-params";
@@ -15,7 +16,7 @@ import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-moti
 
 const AUTO_PAUSE_AFTER_MS = 15_000;
 
-type DitheredWavesProps = {
+interface DitheredWavesProps {
   waveSpeed: number;
   waveFrequency: number;
   waveAmplitude: number;
@@ -26,9 +27,9 @@ type DitheredWavesProps = {
   isActive: boolean;
   enableMouseInteraction: boolean;
   mouseRadius: number;
-};
+}
 
-function DitheredWaves({
+const DitheredWaves = ({
   waveSpeed,
   waveFrequency,
   waveAmplitude,
@@ -39,7 +40,7 @@ function DitheredWaves({
   isActive,
   enableMouseInteraction,
   mouseRadius,
-}: DitheredWavesProps) {
+}: DitheredWavesProps) => {
   const mesh = useRef<Mesh>(null);
   const { viewport, size, gl } = useThree();
 
@@ -49,17 +50,17 @@ function DitheredWaves({
   });
 
   const { waveUniforms } = useWaveParams({
-    waveSpeed,
-    waveFrequency,
-    waveAmplitude,
-    waveColor,
     colorNum,
-    pixelSize,
-    enableMouseInteraction,
-    mouseRadius,
     disableAnimation,
+    enableMouseInteraction,
     isActive,
     mousePos,
+    mouseRadius,
+    pixelSize,
+    waveAmplitude,
+    waveColor,
+    waveFrequency,
+    waveSpeed,
   });
 
   useEffect(() => {
@@ -82,9 +83,9 @@ function DitheredWaves({
       vertexShader: waveVertexShader,
     })
   );
-}
+};
 
-type DitherProps = {
+export interface DitherProps {
   waveSpeed?: number;
   waveFrequency?: number;
   waveAmplitude?: number;
@@ -94,9 +95,9 @@ type DitherProps = {
   disableAnimation?: boolean;
   enableMouseInteraction?: boolean;
   mouseRadius?: number;
-};
+}
 
-export function Dither({
+export const Dither = ({
   waveSpeed = 0.05,
   waveFrequency = 3,
   waveAmplitude = 0.3,
@@ -106,7 +107,7 @@ export function Dither({
   disableAnimation = false,
   enableMouseInteraction = true,
   mouseRadius = 1,
-}: DitherProps) {
+}: DitherProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Animation Control States
@@ -200,7 +201,7 @@ export function Dither({
   }, []);
 
   // 3. Handle Direct Click on Background
-  const handleContainerClick = () => {
+  const handleContainerClick = useCallback(() => {
     setIsManuallyPaused((prev) => {
       const nextState = !prev;
       if (!nextState) {
@@ -210,7 +211,7 @@ export function Dither({
       }
       return nextState;
     });
-  };
+  }, []);
 
   useGSAP(
     () => {
@@ -221,16 +222,16 @@ export function Dither({
         return;
       }
 
-      gsap.to(containerRef.current, {
-        opacity: 1,
+      gsapCore.to(containerRef.current, {
+        delay: 0.2,
         duration: 1.5,
         ease: "power2.out",
-        delay: 0.2,
+        opacity: 1,
       });
     },
     {
-      scope: containerRef,
       dependencies: [prefersReducedMotion, skipAnimations],
+      scope: containerRef,
     }
   );
 
@@ -274,4 +275,4 @@ export function Dither({
       </div>
     </div>
   );
-}
+};

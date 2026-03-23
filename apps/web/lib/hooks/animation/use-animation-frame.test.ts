@@ -1,28 +1,28 @@
 import { renderHook } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import { useAnimationFrame } from "./use-animation-frame";
 
-describe("useAnimationFrame", () => {
+describe(useAnimationFrame, () => {
   const requestAnimationFrameMock = vi.fn();
   const cancelAnimationFrameMock = vi.fn();
 
   beforeEach(() => {
     requestAnimationFrameMock.mockImplementation(() => 1);
-    cancelAnimationFrameMock.mockImplementation(() => undefined);
+    cancelAnimationFrameMock.mockImplementation(() => {});
 
     vi.stubGlobal("requestAnimationFrame", requestAnimationFrameMock);
     vi.stubGlobal("cancelAnimationFrame", cancelAnimationFrameMock);
     vi.spyOn(window, "matchMedia").mockImplementation(
       (query) =>
         ({
+          addEventListener: vi.fn(),
+          addListener: vi.fn(),
+          dispatchEvent: vi.fn(),
           matches: false,
           media: query,
           onchange: null,
-          addEventListener: vi.fn(),
           removeEventListener: vi.fn(),
-          addListener: vi.fn(),
           removeListener: vi.fn(),
-          dispatchEvent: vi.fn(),
         }) as MediaQueryList
     );
   });
@@ -55,7 +55,9 @@ describe("useAnimationFrame", () => {
       )
     );
 
-    expect(requestAnimationFrameMock).toHaveBeenCalled();
+    expect(requestAnimationFrameMock).toHaveBeenCalledWith(
+      expect.any(Function)
+    );
   });
 
   it("cancels the active animation frame when disabled after mount", () => {

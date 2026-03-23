@@ -1,4 +1,7 @@
 {
   "extends": "./react-library.json",
-  "include": ["./validation/react-library-check.tsx"]
+  "include": ["./validation/react-library-check.tsx"],
+  "compilerOptions": {
+    "strictNullChecks": true
+  }
 }

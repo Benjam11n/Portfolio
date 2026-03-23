@@ -1,14 +1,14 @@
 import { fireEvent, render, screen } from "@repo/testing/test-utils";
-import { describe, expect, it, vi } from "vitest";
+
 import { ScrollLink } from "./scroll-link";
 
 const mockUsePathname = vi.fn();
 
-vi.mock("next/navigation", () => ({
+vi.mock(import("next/navigation"), () => ({
   usePathname: () => mockUsePathname(),
 }));
 
-describe("ScrollLink", () => {
+describe(ScrollLink, () => {
   it("does not intercept same-page anchor clicks", () => {
     mockUsePathname.mockReturnValue("/");
 
@@ -23,7 +23,7 @@ describe("ScrollLink", () => {
 
     fireEvent.click(screen.getByRole("link", { name: "Projects" }));
 
-    expect(onClick).toHaveBeenCalledOnce();
+    expect(onClick.mock.calls).toHaveLength(1);
     expect(getElementByIdSpy).not.toHaveBeenCalled();
   });
 

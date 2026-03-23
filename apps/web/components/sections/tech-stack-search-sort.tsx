@@ -2,33 +2,34 @@
 
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
-import { startTransition } from "react";
+import { startTransition, useCallback } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-type TechStackSortOption<T extends string> = {
+interface TechStackSortOption<T extends string> {
   label: string;
   value: T;
   icon: React.ComponentType<{ className?: string }>;
-};
+}
 
-type TechStackSearchSortProps<T extends string> = {
+interface TechStackSearchSortProps<T extends string> {
   searchQuery: string;
   onSearchQueryChange: (value: string) => void;
   sortOptions: readonly TechStackSortOption<T>[];
   selectedSort: T;
   onSelectSort: (value: T) => void;
   skipAnimations?: boolean;
-};
+}
 
-export function TechStackSearchSort<T extends string>({
+export const TechStackSearchSort = <T extends string>({
   searchQuery,
   onSearchQueryChange,
   sortOptions,
   selectedSort,
   onSelectSort,
   skipAnimations = false,
-}: TechStackSearchSortProps<T>) {
+}: TechStackSearchSortProps<T>) => {
   const activeSortOption =
     sortOptions.find((option) => option.value === selectedSort) ??
     sortOptions[0];
@@ -41,7 +42,7 @@ export function TechStackSearchSort<T extends string>({
     sortRotation = -90;
   }
 
-  const cycleSort = () => {
+  const cycleSort = useCallback(() => {
     const activeIndex = sortOptions.findIndex(
       (option) => option.value === selectedSort
     );
@@ -52,7 +53,14 @@ export function TechStackSearchSort<T extends string>({
     startTransition(() => {
       onSelectSort(nextOption.value);
     });
-  };
+  }, [onSelectSort, selectedSort, sortOptions]);
+
+  const handleSearchQueryChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      onSearchQueryChange(event.target.value);
+    },
+    [onSearchQueryChange]
+  );
 
   return (
     <div className="w-full">
@@ -62,7 +70,7 @@ export function TechStackSearchSort<T extends string>({
           <Input
             aria-label="Search technologies"
             className="pl-10"
-            onChange={(e) => onSearchQueryChange(e.target.value)}
+            onChange={handleSearchQueryChange}
             placeholder="Search by name, category, or level"
             type="text"
             value={searchQuery}
@@ -92,4 +100,4 @@ export function TechStackSearchSort<T extends string>({
       </div>
     </div>
   );
-}
+};

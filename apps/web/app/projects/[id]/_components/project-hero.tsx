@@ -1,58 +1,62 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { Markdown } from "@/components/shared/markdown";
 import { ShiftButton } from "@/components/shared/shift-button";
 import { ROUTES } from "@/lib/constants/navigation";
 import type { Project } from "@/lib/types";
 
-type ProjectHeroProps = {
+interface ProjectHeroProps {
   project: Project;
-};
+}
 
 export const ProjectHero = ({ project }: ProjectHeroProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [heroImageError, setHeroImageError] = useState(false);
-  const projectTitle = project.title.split(" - ")[0];
+  const [projectTitle] = project.title.split(" - ");
+  const handleHeroImageError = useCallback(() => {
+    setHeroImageError(true);
+  }, []);
 
   useGSAP(
     () => {
       // Set initial states
-      gsap.set(".hero-back", { x: -20, autoAlpha: 0 });
-      gsap.set(".hero-logo", { scale: 0.8, autoAlpha: 0 });
-      gsap.set(".hero-title", { y: 20, autoAlpha: 0 });
-      gsap.set(".hero-header-item", { y: 20, autoAlpha: 0 });
-      gsap.set(".hero-visual", {
-        scale: 0.98,
+      gsapCore.set(".hero-back", { autoAlpha: 0, x: -20 });
+      gsapCore.set(".hero-logo", { autoAlpha: 0, scale: 0.8 });
+      gsapCore.set(".hero-title", { autoAlpha: 0, y: 20 });
+      gsapCore.set(".hero-header-item", { autoAlpha: 0, y: 20 });
+      gsapCore.set(".hero-visual", {
         autoAlpha: 0,
+        scale: 0.98,
         transformOrigin: "center bottom",
       });
 
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      const tl = gsapCore.timeline({ defaults: { ease: "power3.out" } });
 
       // Back button
       tl.to(".hero-back", {
-        x: 0,
         autoAlpha: 1,
         duration: 0.6,
+        x: 0,
       });
 
       // Logo & Title
       tl.to(
         [".hero-logo", ".hero-title"],
         {
-          y: 0,
-          scale: 1,
           autoAlpha: 1,
           duration: 0.8,
-          stagger: 0.1,
           ease: "back.out(1.7)",
+          scale: 1,
+          stagger: 0.1,
+          y: 0,
         },
         "-=0.4"
       );
@@ -61,10 +65,10 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
       tl.to(
         ".hero-header-item",
         {
-          y: 0,
           autoAlpha: 1,
           duration: 0.8,
           stagger: 0.1,
+          y: 0,
         },
         "-=0.6"
       );
@@ -73,10 +77,10 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
       tl.to(
         ".hero-visual",
         {
-          scale: 1,
           autoAlpha: 1,
           duration: 1.2,
           ease: "expo.out",
+          scale: 1,
         },
         "-=0.6"
       );
@@ -161,7 +165,7 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
                 alt={`${project.title} hero`}
                 className="object-cover"
                 fill
-                onError={() => setHeroImageError(true)}
+                onError={handleHeroImageError}
                 priority
                 sizes="100vw"
                 src={project.hero_image}

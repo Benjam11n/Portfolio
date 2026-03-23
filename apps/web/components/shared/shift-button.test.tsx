@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+
 import { ShiftButton } from "./shift-button";
 
 const LINK_BUTTON_REGEX = /Link Button/;
 
-describe("ShiftButton", () => {
+describe(ShiftButton, () => {
   it("renders children text", () => {
     render(<ShiftButton href="#">Click Me</ShiftButton>);
     expect(screen.getByText("Click Me")).toBeDefined();

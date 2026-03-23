@@ -1,56 +1,64 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Maximize2 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+
 import { MediaPreviewOverlay } from "@/components/ui/media-preview-overlay";
 import type { Project } from "@/lib/types/index.ts";
 import { cn } from "@/lib/utils";
+
 import { FullscreenMedia } from "./fullscreen-media";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+  gsapCore.registerPlugin(ScrollTrigger);
 }
 
-type ProjectDetailsGridProps = {
+interface ProjectDetailsGridProps {
   project: Project;
-};
+}
 
 export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const handleOpenFullscreen = useCallback(() => {
+    setIsFullscreen(true);
+  }, []);
+  const handleCloseFullscreen = useCallback(() => {
+    setIsFullscreen(false);
+  }, []);
 
   const details = [
-    { label: "Client", value: project.client, uppercase: false },
-    { label: "Year", value: project.year, uppercase: false },
-    { label: "Services", value: project.services, uppercase: false },
-    { label: "Location", value: project.location, uppercase: false },
+    { label: "Client", uppercase: false, value: project.client },
+    { label: "Year", uppercase: false, value: project.year },
+    { label: "Services", uppercase: false, value: project.services },
+    { label: "Location", uppercase: false, value: project.location },
   ];
 
   useGSAP(
     () => {
       // Set initial states
-      gsap.set(".details-card", { scale: 0.9, autoAlpha: 0, y: 20 });
-      gsap.set(".details-video", { autoAlpha: 0, scale: 0.95 });
+      gsapCore.set(".details-card", { autoAlpha: 0, scale: 0.9, y: 20 });
+      gsapCore.set(".details-video", { autoAlpha: 0, scale: 0.95 });
 
-      const tl = gsap.timeline({
+      const tl = gsapCore.timeline({
+        defaults: { ease: "power3.out" },
         scrollTrigger: {
-          trigger: containerRef.current,
           start: "top 85%",
           toggleActions: "play none none none",
+          trigger: containerRef.current,
         },
-        defaults: { ease: "power3.out" },
       });
 
       // Cards stagger pop
       tl.to(".details-card", {
-        scale: 1,
         autoAlpha: 1,
-        y: 0,
         duration: 0.6,
+        scale: 1,
         stagger: 0.1,
+        y: 0,
       });
 
       // Video scale/fade
@@ -58,9 +66,9 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
         ".details-video",
         {
           autoAlpha: 1,
-          scale: 1,
           duration: 1,
           ease: "back.out(1.5)",
+          scale: 1,
         },
         "-=0.4"
       );
@@ -95,7 +103,7 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
       {project.video_overview && (
         <button
           className="details-video group relative mt-8 w-full cursor-zoom-in overflow-hidden rounded-xl bg-card p-3 shadow-sm"
-          onClick={() => setIsFullscreen(true)}
+          onClick={handleOpenFullscreen}
           type="button"
         >
           <div className="relative aspect-video w-full overflow-hidden rounded-xl">
@@ -115,7 +123,7 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
 
       <FullscreenMedia
         isOpen={isFullscreen}
-        onClose={() => setIsFullscreen(false)}
+        onClose={handleCloseFullscreen}
         src={project.video_overview || ""}
         type="video"
       />

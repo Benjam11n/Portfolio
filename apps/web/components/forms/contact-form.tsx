@@ -1,32 +1,35 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+
 import { ThankYouAnimation } from "@/components/effects/thank-you-animation";
 import { ShiftSubmitButton } from "@/components/shared/shift-submit-button";
 import { Form } from "@/components/ui/form";
 import { useContactFormSubmit } from "@/lib/hooks/forms/use-contact-form-submit";
-import {
-  type ContactFormValues,
-  contactFormSchema,
-} from "@/lib/validations/contact";
+import { contactFormSchema } from "@/lib/validations/contact";
+import type { ContactFormValues } from "@/lib/validations/contact";
+
 import { FormInput } from "./form-input";
 import { FormTextArea } from "./form-textarea";
 
 export const ContactForm = () => {
   const [showThankYou, setShowThankYou] = useState(false);
+  const handleThankYouComplete = useCallback(() => {
+    setShowThankYou(false);
+  }, []);
 
   const form = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
-    mode: "onChange",
     defaultValues: {
-      name: "",
       email: "",
       message: "",
+      name: "",
       website: "",
     },
+    mode: "onChange",
+    resolver: zodResolver(contactFormSchema),
   });
 
   const { isPending, handleSubmit } = useContactFormSubmit({
@@ -42,7 +45,7 @@ export const ContactForm = () => {
   return (
     <div className="relative">
       {showThankYou && (
-        <ThankYouAnimation onComplete={() => setShowThankYou(false)} />
+        <ThankYouAnimation onComplete={handleThankYouComplete} />
       )}
 
       <Form {...form}>

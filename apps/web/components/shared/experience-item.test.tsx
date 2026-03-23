@@ -1,40 +1,39 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+
+import { ExperienceItem } from "./experience-item";
 
 // Mock GSAP for Card3D
-vi.mock("@gsap/react", () => ({
+vi.mock(import("@gsap/react"), () => ({
   useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
 
-vi.mock("gsap", () => ({
+vi.mock(import("gsap"), () => ({
   default: {
     to: vi.fn(),
   },
 }));
 
-vi.mock("@/lib/hooks/utils/use-mobile-detection", () => ({
+vi.mock(import("@/lib/hooks/utils/use-mobile-detection"), () => ({
   useMobileDetection: () => false,
 }));
 
-import { ExperienceItem } from "./experience-item";
-
 const mockExperience = {
+  duration: "2023 - Present",
+  icon: "/company-logo.png",
   id: 1,
   name: "Test Company",
-  pos: "Senior Developer",
-  duration: "2023 - Present",
   points: [
     "Integrated **AI features** into the platform.",
     "improved performance by 50%.",
   ],
-  icon: "/company-logo.png",
+  pos: "Senior Developer",
 };
 
 const TEXT_INTEGRATED = /Integrated/;
 const TEXT_IMPROVED = /improved performance by 50%/;
 
-describe("ExperienceItem", () => {
+describe(ExperienceItem, () => {
   it("renders experience details", () => {
     render(<ExperienceItem item={mockExperience} />);
     expect(screen.getByText("Test Company")).toBeDefined();

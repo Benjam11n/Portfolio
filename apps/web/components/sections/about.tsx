@@ -1,10 +1,11 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { Mail } from "lucide-react";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+
 import { Magnetic } from "@/components/effects/magnetic";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
@@ -18,6 +19,7 @@ import { ROUTES } from "@/lib/constants/navigation";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useProfileImageSource } from "@/lib/hooks/ui/use-profile-image-source";
+
 import { Markdown } from "../shared/markdown";
 
 export const About = () => {
@@ -31,10 +33,16 @@ export const About = () => {
     animationRef: profileImageRef,
     prefersReducedMotion,
   });
+  const handleImage1Error = useCallback(() => {
+    setImage1Error(true);
+  }, []);
+  const handleImage2Error = useCallback(() => {
+    setImage2Error(true);
+  }, []);
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia();
+      const mm = gsapCore.matchMedia();
 
       mm.add(
         {
@@ -50,23 +58,23 @@ export const About = () => {
           // Skip all animations if user prefers reduced motion or if animations were skipped
           if (prefersReducedMotion || skipAnimations) {
             // Set all elements to their final state instantly
-            gsap.set(".about-image-wrapper", {
-              scale: 1,
+            gsapCore.set(".about-image-wrapper", {
               autoAlpha: 1,
               rotate: (i) => (i === 0 ? -6 : 3),
+              scale: 1,
             });
-            gsap.set(".about-text", { y: 0, autoAlpha: 1 });
-            gsap.set(".about-button", { scale: 1, autoAlpha: 1, x: 0 });
+            gsapCore.set(".about-text", { autoAlpha: 1, y: 0 });
+            gsapCore.set(".about-button", { autoAlpha: 1, scale: 1, x: 0 });
             return;
           }
 
-          const tl = gsap.timeline({
+          const tl = gsapCore.timeline({
+            defaults: { ease: ANIMATION_EASING.DEFAULT },
             scrollTrigger: {
-              trigger: containerRef.current,
               start: "top 80%",
               toggleActions: "play none none none",
+              trigger: containerRef.current,
             },
-            defaults: { ease: ANIMATION_EASING.DEFAULT },
           });
 
           /**
@@ -106,17 +114,19 @@ export const About = () => {
           tl.fromTo(
             ".about-image-wrapper",
             {
-              scale: 0,
               autoAlpha: 0,
               rotate: (i) => (i === 0 ? -15 : 15),
+              scale: 0,
             },
             {
-              scale: 1,
               autoAlpha: 1,
-              rotate: (i) => (i === 0 ? -6 : 3),
-              duration: ANIMATION_DURATION.LONG / 1000, // 0.8s
-              stagger: ANIMATION_STAGGER.SLOW, // 0.15s
+              // 0.8s
+              duration: ANIMATION_DURATION.LONG / 1000,
               ease: ANIMATION_EASING.ELASTIC,
+              rotate: (i) => (i === 0 ? -6 : 3),
+              scale: 1,
+              // 0.15s
+              stagger: ANIMATION_STAGGER.SLOW,
             }
           );
 
@@ -135,15 +145,15 @@ export const About = () => {
            *   Users with reduced motion preferences won't notice this effect anyway due to
            *   system-level motion reduction settings.
            */
-          gsap.to(".about-image", {
-            yPercent: -10,
+          gsapCore.to(".about-image", {
             ease: ANIMATION_EASING.NONE,
             scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top bottom",
               end: "bottom top",
               scrub: true,
+              start: "top bottom",
+              trigger: containerRef.current,
             },
+            yPercent: -10,
           });
 
           /**
@@ -162,15 +172,18 @@ export const About = () => {
            *   in their final position (y: 0, fully visible). Users can immediately
            *   read the content without waiting for the staggered reveal.
            */
+          // 0.8s overlap
           tl.from(
             ".about-text",
             {
-              y: 30,
               autoAlpha: 0,
-              duration: ANIMATION_DURATION.MEDIUM_SLOW / 1000, // 0.7s
-              stagger: ANIMATION_STAGGER.STANDARD, // 0.1s
+              // 0.7s
+              duration: ANIMATION_DURATION.MEDIUM_SLOW / 1000,
+              // 0.1s
+              stagger: ANIMATION_STAGGER.STANDARD,
+              y: 30,
             },
-            `-=${ANIMATION_DURATION.LONG / 1000}` // 0.8s overlap
+            `-=${ANIMATION_DURATION.LONG / 1000}`
           );
 
           /**
@@ -189,28 +202,30 @@ export const About = () => {
            *   final state (scale: 1, fully visible, no offset). Users can immediately
            *   see and interact with the call-to-action.
            */
+          // 0.5s overlap
           tl.fromTo(
             ".about-button",
             {
-              scale: 0,
               autoAlpha: 0,
+              scale: 0,
               x: offset,
             },
             {
-              scale: 1,
               autoAlpha: 1,
-              x: 0,
-              duration: ANIMATION_DURATION.STANDARD / 1000, // 0.6s
+              // 0.6s
+              duration: ANIMATION_DURATION.STANDARD / 1000,
               ease: ANIMATION_EASING.BACK_MEDIUM,
+              scale: 1,
+              x: 0,
             },
-            `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000}` // 0.5s overlap
+            `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000}`
           );
         }
       );
     },
     {
-      scope: containerRef,
       dependencies: [prefersReducedMotion, skipAnimations],
+      scope: containerRef,
     }
   );
 
@@ -236,7 +251,7 @@ export const About = () => {
                     alt="Benjamin Wang"
                     className="object-cover transition-transform duration-500 hover:scale-110"
                     fill
-                    onError={() => setImage1Error(true)}
+                    onError={handleImage1Error}
                     sizes="(max-width: 640px) 100px, 150px"
                     src={profileImageSrc}
                   />
@@ -258,7 +273,7 @@ export const About = () => {
                     alt="Hero Image"
                     className="object-cover opacity-80"
                     fill
-                    onError={() => setImage2Error(true)}
+                    onError={handleImage2Error}
                     sizes="(max-width: 640px) 100px, 150px"
                     src="/hero.png"
                   />

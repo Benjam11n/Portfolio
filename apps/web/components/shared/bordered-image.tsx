@@ -1,5 +1,7 @@
-import Image, { type ImageProps } from "next/image";
-import { useState } from "react";
+import Image from "next/image";
+import type { ImageProps } from "next/image";
+import { useCallback, useState } from "react";
+
 import { cn } from "@/lib/utils";
 
 type BorderedImageProps = Omit<ImageProps, "className"> & {
@@ -25,6 +27,9 @@ export const BorderedImage = ({
   ...props
 }: BorderedImageProps) => {
   const [hasError, setHasError] = useState(false);
+  const handleImageError = useCallback(() => {
+    setHasError(true);
+  }, []);
 
   const style = {
     ...(backgroundColor && { backgroundColor }),
@@ -62,7 +67,7 @@ export const BorderedImage = ({
         alt={alt}
         className={cn("h-full w-full object-cover", imageClassName)}
         height={height}
-        onError={() => setHasError(true)}
+        onError={handleImageError}
         src={src}
         width={width}
         {...props}

@@ -3,10 +3,10 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-type UseActiveSectionOptions = {
+interface UseActiveSectionOptions {
   threshold?: number[];
   rootMargin?: string;
-};
+}
 
 export const useActiveSection = (
   sectionIds: string[],
@@ -19,17 +19,16 @@ export const useActiveSection = (
 
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const initialSectionId = sectionIds[0] ?? null;
 
   // Use ref to persist sectionRatios across re-renders
   const sectionRatiosRef = useRef<Map<string, number>>(new Map());
 
-  // Reset to first section when pathname changes (e.g., navigating back from project page)
-  // biome-ignore lint/correctness/useExhaustiveDependencies: only pathname should trigger reset
   useEffect(() => {
-    if (sectionIds.length > 0) {
-      setActiveSection(sectionIds[0]);
+    if (initialSectionId) {
+      setActiveSection(initialSectionId);
     }
-  }, [pathname]); // Only depend on pathname, not sectionIds
+  }, [initialSectionId, pathname]);
 
   useEffect(() => {
     if (sectionIds.length === 0) {
@@ -73,13 +72,13 @@ export const useActiveSection = (
     };
 
     const observer = new IntersectionObserver(handleIntersect, {
-      threshold,
       rootMargin,
+      threshold,
     });
 
     // Observe all sections
     for (const id of sectionIds) {
-      const element = document.getElementById(id);
+      const element = document.querySelector(`#${id}`);
       if (element) {
         observer.observe(element);
       }

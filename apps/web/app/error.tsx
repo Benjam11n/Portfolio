@@ -2,7 +2,8 @@
 
 import { logger } from "@repo/logger";
 import { RotateCcw } from "lucide-react";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+
 import { Button } from "@/components/ui/button";
 
 export default function GlobalError({
@@ -12,6 +13,10 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const handleReset = useCallback(() => {
+    reset();
+  }, [reset]);
+
   useEffect(() => {
     // Log the error to an error reporting service
     logger.error(error);
@@ -26,7 +31,7 @@ export default function GlobalError({
         </h2>
         <p className="text-muted-foreground">An unexpected error occurred.</p>
       </div>
-      <Button onClick={() => reset()}>
+      <Button onClick={handleReset}>
         <RotateCcw className="mr-2 h-4 w-4" />
         Try again
       </Button>

@@ -4,21 +4,21 @@ import "@testing-library/jest-dom";
 // Mock GSAP
 vi.mock("gsap", () => ({
   default: {
-    to: vi.fn(),
     from: vi.fn(),
     fromTo: vi.fn(),
-    set: vi.fn(),
     quickTo: vi.fn(() => vi.fn()),
+    registerPlugin: vi.fn(),
+    set: vi.fn(),
     timeline: vi.fn(() => ({
-      to: vi.fn(),
       from: vi.fn(),
       fromTo: vi.fn(),
-      set: vi.fn(),
-      paused: vi.fn(),
       pause: vi.fn(),
+      paused: vi.fn(),
       play: vi.fn(),
+      set: vi.fn(),
+      to: vi.fn(),
     })),
-    registerPlugin: vi.fn(),
+    to: vi.fn(),
   },
 }));
 
@@ -30,9 +30,9 @@ vi.mock("@gsap/react", () => ({
 
 // Mock ResizeObserver
 const ResizeObserverMock = vi.fn(() => ({
+  disconnect: vi.fn(),
   observe: vi.fn(),
   unobserve: vi.fn(),
-  disconnect: vi.fn(),
 }));
 
 vi.stubGlobal("ResizeObserver", ResizeObserverMock);
@@ -64,22 +64,22 @@ vi.stubGlobal("IntersectionObserver", IntersectionObserverMock);
 
 // Mock Canvas 2D context
 const mockCanvasContext = {
-  clearRect: vi.fn(),
-  beginPath: vi.fn(),
-  moveTo: vi.fn(),
-  lineTo: vi.fn(),
-  stroke: vi.fn(),
-  fill: vi.fn(),
   arc: vi.fn(),
-  save: vi.fn(),
-  restore: vi.fn(),
-  translate: vi.fn(),
-  rotate: vi.fn(),
-  scale: vi.fn(),
+  beginPath: vi.fn(),
+  clearRect: vi.fn(),
   drawImage: vi.fn(),
+  fill: vi.fn(),
   fillRect: vi.fn(),
   fillText: vi.fn(),
+  lineTo: vi.fn(),
   measureText: vi.fn(() => ({ width: 0 })),
+  moveTo: vi.fn(),
+  restore: vi.fn(),
+  rotate: vi.fn(),
+  save: vi.fn(),
+  scale: vi.fn(),
+  stroke: vi.fn(),
+  translate: vi.fn(),
 };
 
 HTMLCanvasElement.prototype.getContext = ((type: string) => {
@@ -97,15 +97,17 @@ vi.stubGlobal("cancelAnimationFrame", (id: number) => clearTimeout(id));
 
 // Mock matchMedia
 Object.defineProperty(window, "matchMedia", {
-  writable: true,
   value: vi.fn().mockImplementation((query) => ({
+    addEventListener: vi.fn(),
+    // deprecated
+    addListener: vi.fn(),
+    dispatchEvent: vi.fn(),
     matches: false,
     media: query,
     onchange: null,
-    addListener: vi.fn(), // deprecated
-    removeListener: vi.fn(), // deprecated
-    addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
+    // deprecated
+    removeListener: vi.fn(),
   })),
+  writable: true,
 });

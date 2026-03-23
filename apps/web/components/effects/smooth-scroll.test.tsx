@@ -1,14 +1,14 @@
 import { render } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import { SmoothScroll } from "./smooth-scroll";
 
 let mockPrefersReducedMotion = false;
 
-vi.mock("@/lib/hooks/ui/use-prefers-reduced-motion", () => ({
+vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
   usePrefersReducedMotion: () => mockPrefersReducedMotion,
 }));
 
-describe("SmoothScroll", () => {
+describe(SmoothScroll, () => {
   beforeEach(() => {
     mockPrefersReducedMotion = false;
     document.documentElement.style.scrollBehavior = "";

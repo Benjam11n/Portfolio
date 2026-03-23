@@ -1,13 +1,13 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import type { RefObject } from "react";
 
 /**
  * Options for character reveal animations.
  */
-type CharacterRevealOptions = {
+interface CharacterRevealOptions {
   /** Initial Y offset for characters (in pixels) */
   y?: number;
   /** Animation duration in seconds */
@@ -18,7 +18,7 @@ type CharacterRevealOptions = {
   ease?: string;
   /** Initial opacity */
   autoAlpha?: number;
-};
+}
 
 /**
  * Custom hook for character-by-character reveal animations using GSAP.
@@ -62,12 +62,12 @@ export const useCharacterReveal = (
    * Characters should have the class "char-reveal" for this to work.
    */
   const animateIn = contextSafe(() => {
-    gsap.to(".char-reveal", {
-      y: 0,
+    gsapCore.to(".char-reveal", {
       autoAlpha: 1,
       duration,
-      stagger,
       ease,
+      stagger,
+      y: 0,
     });
   });
 
@@ -76,12 +76,12 @@ export const useCharacterReveal = (
    * Useful for reset or exit animations.
    */
   const animateOut = contextSafe(() => {
-    gsap.to(".char-reveal", {
-      y,
+    gsapCore.to(".char-reveal", {
       autoAlpha,
       duration,
-      stagger,
       ease,
+      stagger,
+      y,
     });
   });
 
@@ -90,9 +90,9 @@ export const useCharacterReveal = (
    * Call this before the first animateIn to ensure proper starting position.
    */
   const setInitialState = contextSafe(() => {
-    gsap.set(".char-reveal", {
-      y,
+    gsapCore.set(".char-reveal", {
       autoAlpha,
+      y,
     });
   });
 

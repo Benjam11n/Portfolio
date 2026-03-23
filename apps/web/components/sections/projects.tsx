@@ -1,16 +1,17 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
+
 import { ProjectCard } from "@/components/shared/project-card";
 import { SectionCard } from "@/components/shared/section-card";
 import { PROJECTS } from "@/lib/constants/projects";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
-gsap.registerPlugin(ScrollTrigger);
+gsapCore.registerPlugin(ScrollTrigger);
 
 export const Projects = () => {
   const projects = Object.values(PROJECTS);
@@ -39,9 +40,9 @@ export const Projects = () => {
       // Skip all animations if user prefers reduced motion or if animations were skipped
       if (prefersReducedMotion || skipAnimations) {
         // Set all elements to their final state instantly
-        gsap.set(".project-card-item", {
-          scale: 1,
+        gsapCore.set(".project-card-item", {
           autoAlpha: 1,
+          scale: 1,
         });
         return;
       }
@@ -63,24 +64,24 @@ export const Projects = () => {
        *   at their final state (scale: 1, fully visible). Users can immediately
        *   browse the portfolio without waiting for the staggered animation.
        */
-      gsap.set(".project-card-item", { autoAlpha: 0, scale: 0.9 });
+      gsapCore.set(".project-card-item", { autoAlpha: 0, scale: 0.9 });
 
-      gsap.to(".project-card-item", {
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-        scale: 1,
+      gsapCore.to(".project-card-item", {
         autoAlpha: 1,
         duration: 0.6,
-        stagger: 0.1,
         ease: "back.out(1.2)",
+        scale: 1,
+        scrollTrigger: {
+          start: "top 80%",
+          toggleActions: "play none none none",
+          trigger: containerRef.current,
+        },
+        stagger: 0.1,
       });
     },
     {
-      scope: containerRef,
       dependencies: [prefersReducedMotion, skipAnimations],
+      scope: containerRef,
     }
   );
 

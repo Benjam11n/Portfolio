@@ -3,11 +3,12 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+
 import { ScrollLink } from "@/components/shared/scroll-link";
 import { ROUTES } from "@/lib/constants/navigation";
 import { CONTACT_INFO } from "@/lib/constants/socials";
 
-export function Footer() {
+export const Footer = () => {
   const containerRef = useRef<HTMLElement>(null);
   const [time, setTime] = useState("");
   const footerLinkClass =
@@ -23,8 +24,8 @@ export function Footer() {
       setTime(
         now.toLocaleTimeString("en-US", {
           hour: "2-digit",
-          minute: "2-digit",
           hour12: true,
+          minute: "2-digit",
           timeZoneName: "short",
         })
       );
@@ -192,4 +193,4 @@ export function Footer() {
       </div>
     </footer>
   );
-}
+};

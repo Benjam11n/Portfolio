@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import Link from "next/link";
 
 import { Button } from "./button";
 
@@ -8,7 +8,7 @@ const LINK_BUTTON_REGEX = /link button/i;
 const LOADING_REGEX = /loading/i;
 const SUCCESS_REGEX = /success/i;
 
-describe("Button", () => {
+describe(Button, () => {
   it("renders correctly", () => {
     render(<Button>Click me</Button>);
     const button = screen.getByRole("button", { name: CLICK_ME_REGEX });
@@ -26,18 +26,18 @@ describe("Button", () => {
     render(<Button onClick={handleClick}>Click me</Button>);
     const button = screen.getByRole("button", { name: CLICK_ME_REGEX });
     fireEvent.click(button);
-    expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(handleClick.mock.calls).toHaveLength(1);
   });
 
   it("renders as a child (Slot) when asChild is true", () => {
     render(
       <Button asChild>
-        <a href="/link">Link Button</a>
+        <Link href="/link">Link Button</Link>
       </Button>
     );
     const link = screen.getByRole("link", { name: LINK_BUTTON_REGEX });
     expect(link).toBeDefined();
-    expect(link.className).toContain("inline-flex"); // Should still have button classes
+    expect(link.className).toContain("inline-flex");
   });
 
   it("renders loading variant with spinner icon", () => {
@@ -101,6 +101,6 @@ describe("Button", () => {
     );
     const button = screen.getByRole("button", { name: SUCCESS_REGEX });
     fireEvent.click(button);
-    expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(handleClick.mock.calls).toHaveLength(1);
   });
 });

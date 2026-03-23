@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
  * }
  * ```
  */
-export function usePrefersReducedMotion(): boolean {
+export const usePrefersReducedMotion = (): boolean => {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -36,4 +36,4 @@ export function usePrefersReducedMotion(): boolean {
   }, []);
 
   return prefersReducedMotion;
-}
+};

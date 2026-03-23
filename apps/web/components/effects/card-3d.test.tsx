@@ -1,20 +1,19 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+
+import { Card3D } from "./card-3d";
 
 // Mock GSAP
-vi.mock("@gsap/react", () => ({
+vi.mock(import("@gsap/react"), () => ({
   useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
 
-vi.mock("gsap", () => ({
+vi.mock(import("gsap"), () => ({
   default: {
     to: vi.fn(),
   },
 }));
 
-import { Card3D } from "./card-3d";
-
-describe("Card3D", () => {
+describe(Card3D, () => {
   it("renders children correctly", () => {
     render(
       <Card3D>

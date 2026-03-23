@@ -1,6 +1,7 @@
 import { JsonLd } from "@repo/seo/json-ld";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import { About } from "@/components/sections/about";
 import { Certifications } from "@/components/sections/certification";
 import { Contact } from "@/components/sections/contact";
@@ -9,7 +10,7 @@ import { Hero } from "@/components/sections/hero";
 import { Projects } from "@/components/sections/projects";
 import { TechStack } from "@/components/sections/tech-stack";
 
-gsap.registerPlugin(ScrollTrigger);
+gsapCore.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   return (
@@ -18,20 +19,20 @@ export default function Home() {
         code={{
           "@context": "https://schema.org",
           "@type": "Person",
+          alumniOf: {
+            "@type": "CollegeOrUniversity",
+            name: "National University of Singapore",
+          },
+          jobTitle: "Full Stack Software Engineer",
           name: "Benjamin Wang",
-          url: "https://codedbyben.com",
           sameAs: [
             "https://github.com/Benjam11n",
             "https://www.linkedin.com/in/benjaminwang-sg/",
           ],
-          jobTitle: "Full Stack Software Engineer",
+          url: "https://codedbyben.com",
           worksFor: {
             "@type": "Organization",
             name: "Aumovio",
-          },
-          alumniOf: {
-            "@type": "CollegeOrUniversity",
-            name: "National University of Singapore",
           },
         }}
       />
@@ -39,10 +40,10 @@ export default function Home() {
         code={{
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "Benjamin Wang Portfolio",
-          url: "https://codedbyben.com",
           description:
             "Full Stack Software Engineer & AI Enthusiast based in Singapore.",
+          name: "Benjamin Wang Portfolio",
+          url: "https://codedbyben.com",
         }}
       />
       <Hero />

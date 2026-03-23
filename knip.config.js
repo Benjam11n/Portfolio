@@ -3,7 +3,6 @@ export default {
   workspaces: {
     "apps/web": {
       entry: ["app/**/*.{ts,tsx}"],
-      project: ["**/*.{ts,tsx}"],
       ignore: [
         "app/**/layout.tsx",
         "app/**/page.tsx",
@@ -12,17 +11,18 @@ export default {
         "components/ui/**/*.{ts,tsx}",
       ],
       ignoreDependencies: ["tailwindcss", "ultracite"],
+      project: ["**/*.{ts,tsx}"],
+    },
+    "packages/*": {
+      project: ["**/*.{ts,tsx}"],
     },
     "packages/logger": {
       ignoreDependencies: ["pino-pretty"],
     },
     "packages/typescript-config": {
       entry: [],
-      project: [],
       ignoreDependencies: ["next"],
-    },
-    "packages/*": {
-      project: ["**/*.{ts,tsx}"],
+      project: [],
     },
   },
 };

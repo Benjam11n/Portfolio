@@ -1,5 +1,6 @@
 import merge from "lodash.merge";
 import type { Metadata } from "next";
+
 import {
   APPLICATION_NAME,
   AUTHOR,
@@ -37,46 +38,46 @@ export const createMetadata = ({
 }: MetadataGenerator): Metadata => {
   const parsedTitle = `${title} | ${APPLICATION_NAME}`;
   const defaultMetadata: Metadata = {
-    title: parsedTitle,
-    description,
-    keywords,
-    applicationName: APPLICATION_NAME,
-    metadataBase: new URL(SITE_URL),
-    authors: [AUTHOR],
-    creator: CREATOR,
-    publisher: PUBLISHER,
-    referrer: REFERRER,
-    category: "Technology",
-    classification: "Portfolio",
-    formatDetection: {
-      email: false,
-      address: false,
-      telephone: false,
-    },
-    robots,
     alternates: canonical ? { canonical } : undefined,
-    openGraph: {
-      ...OPEN_GRAPH_DEFAULTS,
-      title,
-      description,
-      url: SITE_URL,
-      images: image ? [image] : [DEFAULT_IMAGE],
-    },
-    twitter: {
-      ...TWITTER_CARD_DEFAULTS,
-      title: parsedTitle,
-      description,
-      images: image ? [image] : [DEFAULT_IMAGE.url],
-    },
-    icons: ICONS,
-    manifest: "/manifest.json",
-    verification: VERIFICATION,
-    other: OTHER_META,
     appleWebApp: {
       capable: true,
       statusBarStyle: "default",
       title: parsedTitle,
     },
+    applicationName: APPLICATION_NAME,
+    authors: [AUTHOR],
+    category: "Technology",
+    classification: "Portfolio",
+    creator: CREATOR,
+    description,
+    formatDetection: {
+      address: false,
+      email: false,
+      telephone: false,
+    },
+    icons: ICONS,
+    keywords,
+    manifest: "/manifest.json",
+    metadataBase: new URL(SITE_URL),
+    openGraph: {
+      ...OPEN_GRAPH_DEFAULTS,
+      description,
+      images: image ? [image] : [DEFAULT_IMAGE],
+      title,
+      url: SITE_URL,
+    },
+    other: OTHER_META,
+    publisher: PUBLISHER,
+    referrer: REFERRER,
+    robots,
+    title: parsedTitle,
+    twitter: {
+      ...TWITTER_CARD_DEFAULTS,
+      description,
+      images: image ? [image] : [DEFAULT_IMAGE.url],
+      title: parsedTitle,
+    },
+    verification: VERIFICATION,
   };
 
   const metadata: Metadata = merge(defaultMetadata, properties);

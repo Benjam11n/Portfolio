@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export function useAnimationSkipIndicator(
+export const useAnimationSkipIndicator = (
   isActive: boolean,
   duration = 2000
-): boolean {
+): boolean => {
   const [showIndicator, setShowIndicator] = useState(false);
   const hasMountedRef = useRef(false);
 
@@ -29,4 +29,4 @@ export function useAnimationSkipIndicator(
   }, [duration, isActive]);
 
   return showIndicator;
-}
+};

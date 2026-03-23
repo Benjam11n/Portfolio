@@ -15,7 +15,7 @@ type ConversionEventType =
 /**
  * Properties for conversion events
  */
-type ConversionEventProperties = {
+interface ConversionEventProperties {
   /**
    * The type of conversion event
    */
@@ -32,7 +32,7 @@ type ConversionEventProperties = {
    * Any additional metadata
    */
   metadata?: Record<string, string | number | boolean>;
-};
+}
 
 /**
  * Track a conversion event using Vercel Analytics
@@ -47,7 +47,7 @@ type ConversionEventProperties = {
  * });
  * ```
  */
-function trackConversion(properties: ConversionEventProperties): void {
+const trackConversion = (properties: ConversionEventProperties): void => {
   try {
     trackEvent(properties.event, {
       context: properties.context,
@@ -58,7 +58,7 @@ function trackConversion(properties: ConversionEventProperties): void {
     // Silently fail to avoid disrupting user experience
     logger.error(error, "Failed to track conversion event:");
   }
-}
+};
 
 /**
  * Track a successful contact form submission
@@ -69,13 +69,13 @@ function trackConversion(properties: ConversionEventProperties): void {
  * trackContactFormSuccess("main_form");
  * ```
  */
-export function trackContactFormSuccess(source?: string): void {
+export const trackContactFormSuccess = (source?: string): void => {
   trackConversion({
+    context: "form_submission",
     event: "contact_form_success",
     source: source ?? "main_form",
-    context: "form_submission",
   });
-}
+};
 
 /**
  * Track a contact form error
@@ -87,16 +87,16 @@ export function trackContactFormSuccess(source?: string): void {
  * trackContactFormError("validation", "main_form");
  * ```
  */
-export function trackContactFormError(
+export const trackContactFormError = (
   errorType: string,
   source?: string
-): void {
+): void => {
   trackConversion({
-    event: "contact_form_error",
-    source: source ?? "main_form",
     context: "form_error",
+    event: "contact_form_error",
     metadata: {
       error_type: errorType,
     },
+    source: source ?? "main_form",
   });
-}
+};

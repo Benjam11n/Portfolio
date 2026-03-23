@@ -1,16 +1,17 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Vector2, type WebGLRenderer } from "three";
+import { Vector2 } from "three";
+import type { WebGLRenderer } from "three";
 
-type MouseInteractionOptions = {
+interface MouseInteractionOptions {
   enabled: boolean;
   gl: WebGLRenderer;
-};
+}
 
-type MouseInteractionReturn = {
+interface MouseInteractionReturn {
   mousePos: React.MutableRefObject<Vector2>;
-};
+}
 
 /**
  * Custom hook to track mouse position relative to a canvas element.
@@ -34,9 +35,9 @@ type MouseInteractionReturn = {
  * uniforms.mousePos.value.copy(mousePos.current);
  * ```
  */
-export function useMouseInteraction(
+export const useMouseInteraction = (
   options: MouseInteractionOptions
-): MouseInteractionReturn {
+): MouseInteractionReturn => {
   const { enabled, gl } = options;
 
   const mousePos = useRef(new Vector2());
@@ -64,4 +65,4 @@ export function useMouseInteraction(
   return {
     mousePos,
   };
-}
+};

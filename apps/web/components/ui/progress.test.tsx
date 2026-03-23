@@ -1,9 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
 
 import { Progress } from "./progress";
 
-describe("Progress", () => {
+describe(Progress, () => {
   it("renders correctly", () => {
     render(<Progress value={50} />);
     const progress = screen.getByRole("progressbar");

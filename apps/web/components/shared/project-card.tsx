@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { memo } from "react";
+
 import { Card3D } from "@/components/effects/card-3d";
 import {
   Tooltip,
@@ -13,12 +14,13 @@ import { ROUTES } from "@/lib/constants/navigation";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Project } from "@/lib/types";
+
 import { Magnetic } from "../effects/magnetic";
 import { BorderedImage } from "./bordered-image";
 
-type ProjectCardProps = {
+interface ProjectCardProps {
   project: Project;
-};
+}
 
 export const ProjectCard = memo(({ project }: ProjectCardProps) => {
   const isMobile = useMobileDetection();
@@ -141,3 +143,5 @@ export const ProjectCard = memo(({ project }: ProjectCardProps) => {
     </Card3D>
   );
 });
+
+ProjectCard.displayName = "ProjectCard";

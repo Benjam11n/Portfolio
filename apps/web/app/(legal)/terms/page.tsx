@@ -1,10 +1,11 @@
 import { createMetadata } from "@repo/seo";
 import { Sparkles } from "lucide-react";
+
 import { SectionCard } from "@/components/shared/section-card";
 
 export const metadata = createMetadata({
-  title: "Terms of Service",
   description: "Terms of service for Benjamin Wang's portfolio website.",
+  title: "Terms of Service",
 });
 
 export default function TermsPage() {
@@ -22,7 +23,7 @@ export default function TermsPage() {
           <p>
             By accessing and using this website, you accept and agree to be
             bound by the terms and provision of this agreement. In addition,
-            when using this website's services, you shall be subject to any
+            when using this website&apos;s services, you shall be subject to any
             posted guidelines or rules applicable to such services.
           </p>
 
@@ -42,8 +43,8 @@ export default function TermsPage() {
           <ul className="list-disc pl-5">
             <li>
               Send unsolicited or unauthorized advertising, promotional
-              materials, "junk mail," "spam," "chain letters," or any other form
-              of solicitation.
+              materials, &quot;junk mail,&quot; &quot;spam,&quot; &quot;chain
+              letters,&quot; or any other form of solicitation.
             </li>
             <li>
               Transmit any worms, viruses, or any code of a destructive nature.

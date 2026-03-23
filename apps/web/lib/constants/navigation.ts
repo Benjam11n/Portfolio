@@ -1,25 +1,26 @@
 import { Blocks, Briefcase, Hammer, Home, Mail, User } from "lucide-react";
+
 import type { NavItem } from "@/lib/types";
 
 export const ROUTES = {
-  HOME: "/",
   ABOUT: "#about",
-  EXPERIENCE: "#experience",
-  PROJECTS: "#projects",
-  SKILLS: "#skills",
+  BLOG: "/blog",
   CERTIFICATIONS: "#certifications",
   CONTACT: "#contact",
-  BLOG: "/blog",
-  TERMS: "/terms",
+  EXPERIENCE: "#experience",
+  HOME: "/",
   PRIVACY: "/privacy",
+  PROJECTS: "#projects",
   PROJECT_DETAIL: (id: string) => `/projects/${id}`,
+  SKILLS: "#skills",
+  TERMS: "/terms",
 } as const;
 
 export const NAVITEMS: NavItem[] = [
-  { name: "Home", href: ROUTES.HOME, icon: Home },
-  { name: "About", href: ROUTES.ABOUT, icon: User },
-  { name: "Experience", href: ROUTES.EXPERIENCE, icon: Briefcase },
-  { name: "Projects", href: ROUTES.PROJECTS, icon: Hammer },
-  { name: "Skills", href: ROUTES.SKILLS, icon: Blocks },
-  { name: "Contact", href: ROUTES.CONTACT, icon: Mail },
+  { href: ROUTES.HOME, icon: Home, name: "Home" },
+  { href: ROUTES.ABOUT, icon: User, name: "About" },
+  { href: ROUTES.EXPERIENCE, icon: Briefcase, name: "Experience" },
+  { href: ROUTES.PROJECTS, icon: Hammer, name: "Projects" },
+  { href: ROUTES.SKILLS, icon: Blocks, name: "Skills" },
+  { href: ROUTES.CONTACT, icon: Mail, name: "Contact" },
 ];

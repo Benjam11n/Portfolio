@@ -1,9 +1,10 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
+
 import { Markdown } from "@/components/shared/markdown";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,12 +12,12 @@ import { TECH_STACK } from "@/lib/constants/tech-stack";
 import type { Project } from "@/lib/types/index";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+  gsapCore.registerPlugin(ScrollTrigger);
 }
 
-type ProjectOverviewProps = {
+interface ProjectOverviewProps {
   project: Project;
-};
+}
 
 export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -24,24 +25,24 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
   useGSAP(
     () => {
       // Set initial states
-      gsap.set(".overview-text", { y: 20, autoAlpha: 0 });
-      gsap.set(".feature-card", { autoAlpha: 0, y: 24 });
-      gsap.set(".tech-item", { scale: 0.8, autoAlpha: 0 });
+      gsapCore.set(".overview-text", { autoAlpha: 0, y: 20 });
+      gsapCore.set(".feature-card", { autoAlpha: 0, y: 24 });
+      gsapCore.set(".tech-item", { autoAlpha: 0, scale: 0.8 });
 
-      const tl = gsap.timeline({
+      const tl = gsapCore.timeline({
+        defaults: { ease: "power3.out" },
         scrollTrigger: {
-          trigger: containerRef.current,
           start: "top 85%",
           toggleActions: "play none none none",
+          trigger: containerRef.current,
         },
-        defaults: { ease: "power3.out" },
       });
 
       // Overview text
       tl.to(".overview-text", {
-        y: 0,
         autoAlpha: 1,
         duration: 0.8,
+        y: 0,
       });
 
       // Features
@@ -49,9 +50,9 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
         ".feature-card",
         {
           autoAlpha: 1,
-          y: 0,
           duration: 0.7,
           stagger: 0.08,
+          y: 0,
         },
         "-=0.4"
       );
@@ -60,9 +61,9 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
       tl.to(
         ".tech-item",
         {
-          scale: 1,
           autoAlpha: 1,
           duration: 0.5,
+          scale: 1,
           stagger: 0.05,
         },
         "-=0.4"

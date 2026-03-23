@@ -34,40 +34,40 @@ export const PUBLISHER = "Benjamin Wang";
 export const REFERRER = "origin-when-cross-origin" as const;
 
 export const ROBOTS = {
-  index: true,
   follow: true,
-  nocache: false,
   googleBot: {
-    index: true,
     follow: true,
-    noimageindex: false,
-    "max-video-preview": -1,
+    index: true,
     "max-image-preview": "large" as const,
     "max-snippet": -1,
+    "max-video-preview": -1,
+    noimageindex: false,
   },
+  index: true,
+  nocache: false,
 } as const;
 
 export const ICONS = {
+  apple: [{ sizes: "180x180", type: "image/png", url: "/apple-icon.png" }],
   icon: [
-    { url: "/icon.png", sizes: "32x32", type: "image/png" },
-    { url: "/icon.png", sizes: "16x16", type: "image/png" },
+    { sizes: "32x32", type: "image/png", url: "/icon.png" },
+    { sizes: "16x16", type: "image/png", url: "/icon.png" },
   ],
-  apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   shortcut: "/icon.png",
 };
 
 export const VERIFICATION = {
-  yandex: process.env.YANDEX_SITE_VERIFICATION || "",
   yahoo: process.env.YAHOO_SITE_VERIFICATION || "",
+  yandex: process.env.YANDEX_SITE_VERIFICATION || "",
 } as const;
 
 export const THEME_COLOR = "#000000";
 export const MSAPPLICATION_TILE_COLOR = "#000000";
 
 export const OPEN_GRAPH_DEFAULTS = {
-  type: "website" as const,
   locale: "en_US" as const,
   siteName: APPLICATION_NAME,
+  type: "website" as const,
 } as const;
 
 export const TWITTER_CARD_DEFAULTS = {
@@ -75,20 +75,20 @@ export const TWITTER_CARD_DEFAULTS = {
 } as const;
 
 export const DEFAULT_IMAGE = {
+  alt: "Benjamin Wang Portfolio",
+  height: 630,
+  type: "image/png" as const,
   url: "/api/og",
   width: 1200,
-  height: 630,
-  alt: "Benjamin Wang Portfolio",
-  type: "image/png" as const,
 } as const;
 
 export const OTHER_META = {
-  "theme-color": THEME_COLOR,
-  "color-scheme": "dark",
   "apple-mobile-web-app-capable": "yes",
   "apple-mobile-web-app-status-bar-style": "default",
   "apple-mobile-web-app-title": APPLICATION_NAME,
   "application-name": APPLICATION_NAME,
+  "color-scheme": "dark",
   "msapplication-TileColor": MSAPPLICATION_TILE_COLOR,
   "msapplication-config": "/browserconfig.xml",
+  "theme-color": THEME_COLOR,
 } as const;

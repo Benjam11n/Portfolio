@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 export type AnimationCallback = (timestamp: number) => void;
 
-export type UseAnimationFrameOptions = {
+export interface UseAnimationFrameOptions {
   /**
    * Target FPS for the animation loop.
    * If not provided, runs at screen refresh rate (typically 60fps).
@@ -23,14 +23,14 @@ export type UseAnimationFrameOptions = {
    * @default true
    */
   enabled?: boolean;
-};
+}
 
-export type UseAnimationFrameReturn = {
+export interface UseAnimationFrameReturn {
   /**
    * The current animation frame ID, can be used with cancelAnimationFrame if needed.
    */
   animationFrameId: number | null;
-};
+}
 
 /**
  * Custom hook for managing requestAnimationFrame loops with automatic cleanup.
@@ -87,10 +87,10 @@ export type UseAnimationFrameReturn = {
  * }
  * ```
  */
-export function useAnimationFrame(
+export const useAnimationFrame = (
   callback: AnimationCallback,
   options: UseAnimationFrameOptions = {}
-): UseAnimationFrameReturn {
+): UseAnimationFrameReturn => {
   const { fps, respectReducedMotion = true, enabled = true } = options;
 
   const animationFrameIdRef = useRef<number | null>(null);
@@ -148,4 +148,4 @@ export function useAnimationFrame(
   return {
     animationFrameId: animationFrameIdRef.current,
   };
-}
+};

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
@@ -16,5 +17,5 @@ export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
     };
   }, [prefersReducedMotion]);
 
-  return <>{children}</>;
+  return children;
 };

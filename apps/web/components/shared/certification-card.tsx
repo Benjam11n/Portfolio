@@ -1,17 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+
 import { Card3D } from "@/components/effects/card-3d";
 import type { Certification } from "@/lib/types";
+
 import { Markdown } from "../shared/markdown";
 
-type CertificationCardProps = {
+interface CertificationCardProps {
   cert: Certification;
-};
+}
 
 export const CertificationCard = ({ cert }: CertificationCardProps) => {
   const [imageError, setImageError] = useState(false);
+  const handleImageError = useCallback(() => {
+    setImageError(true);
+  }, []);
 
   return (
     <Card3D
@@ -32,7 +37,7 @@ export const CertificationCard = ({ cert }: CertificationCardProps) => {
               alt={cert.name}
               className="object-cover transition-opacity hover:opacity-100"
               fill
-              onError={() => setImageError(true)}
+              onError={handleImageError}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               src={cert.image}
             />

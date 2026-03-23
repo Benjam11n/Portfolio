@@ -1,12 +1,12 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { type RefObject, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import type { RefObject } from "react";
 import { Color, Uniform, Vector2 } from "three";
 
-type WaveUniforms = {
-  // biome-ignore lint/suspicious/noExplicitAny: Three.js uniforms can be any type
-  [key: string]: Uniform<any>;
+interface WaveUniforms {
+  [key: string]: Uniform<unknown>;
   time: Uniform<number>;
   resolution: Uniform<Vector2>;
   waveSpeed: Uniform<number>;
@@ -18,9 +18,9 @@ type WaveUniforms = {
   mousePos: Uniform<Vector2>;
   enableMouseInteraction: Uniform<number>;
   mouseRadius: Uniform<number>;
-};
+}
 
-type WaveParamsOptions = {
+interface WaveParamsOptions {
   waveSpeed?: number;
   waveFrequency?: number;
   waveAmplitude?: number;
@@ -33,7 +33,7 @@ type WaveParamsOptions = {
   isActive?: boolean;
   wakeUntilRef?: RefObject<number>;
   mousePos?: RefObject<Vector2>;
-};
+}
 
 export const useWaveParams = (options: WaveParamsOptions = {}) => {
   const {
@@ -50,19 +50,22 @@ export const useWaveParams = (options: WaveParamsOptions = {}) => {
     wakeUntilRef,
     mousePos: externalMousePos,
   } = options;
+  const [waveColorRed, waveColorGreen, waveColorBlue] = waveColor;
 
   const waveUniformsRef = useRef<WaveUniforms>({
-    time: new Uniform(0),
-    resolution: new Uniform(new Vector2(0, 0)),
-    waveSpeed: new Uniform(waveSpeed),
-    waveFrequency: new Uniform(waveFrequency),
-    waveAmplitude: new Uniform(waveAmplitude),
-    waveColor: new Uniform(new Color(...waveColor)),
     colorNum: new Uniform(colorNum),
-    pixelSize: new Uniform(pixelSize),
-    mousePos: new Uniform(new Vector2(0, 0)),
     enableMouseInteraction: new Uniform(enableMouseInteraction ? 1 : 0),
+    mousePos: new Uniform(new Vector2(0, 0)),
     mouseRadius: new Uniform(mouseRadius),
+    pixelSize: new Uniform(pixelSize),
+    resolution: new Uniform(new Vector2(0, 0)),
+    time: new Uniform(0),
+    waveAmplitude: new Uniform(waveAmplitude),
+    waveColor: new Uniform(
+      new Color(waveColorRed, waveColorGreen, waveColorBlue)
+    ),
+    waveFrequency: new Uniform(waveFrequency),
+    waveSpeed: new Uniform(waveSpeed),
   });
 
   useEffect(() => {
@@ -78,8 +81,12 @@ export const useWaveParams = (options: WaveParamsOptions = {}) => {
   }, [waveAmplitude]);
 
   useEffect(() => {
-    waveUniformsRef.current.waveColor.value.set(...waveColor);
-  }, [waveColor[0], waveColor[1], waveColor[2]]);
+    waveUniformsRef.current.waveColor.value.set(
+      waveColorRed,
+      waveColorGreen,
+      waveColorBlue
+    );
+  }, [waveColorBlue, waveColorGreen, waveColorRed]);
 
   useEffect(() => {
     waveUniformsRef.current.colorNum.value = colorNum;

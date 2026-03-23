@@ -11,13 +11,13 @@
     "clean": "rm -rf .cache .turbo dist node_modules",
     "type-check": "tsgo --noEmit --emitDeclarationOnly false"
   },
-  "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
-    "next": "16.1.6"
-  },
   "dependencies": {
     "@next/bundle-analyzer": "16.1.6",
     "@t3-oss/env-nextjs": "^0.13.10",
     "zod": "^4.3.5"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "next": "16.1.6"
   }
 }

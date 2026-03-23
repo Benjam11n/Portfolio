@@ -1,9 +1,11 @@
+import { useCallback } from "react";
 import type {
   ControllerProps,
   ControllerRenderProps,
   FieldPath,
   FieldValues,
 } from "react-hook-form";
+
 import {
   FormControl,
   FormField,
@@ -13,10 +15,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-type FormInputProps<
+interface FormInputProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = {
+> {
   control: ControllerProps<TFieldValues, TName>["control"];
   name: TName;
   label?: string;
@@ -25,7 +27,7 @@ type FormInputProps<
   id?: string;
   className?: string;
   disabled?: boolean;
-};
+}
 
 export const FormInput = <
   TFieldValues extends FieldValues = FieldValues,
@@ -39,30 +41,25 @@ export const FormInput = <
   className,
   disabled = false,
 }: FormInputProps<TFieldValues, TName>) => {
-  return (
-    <FormField
-      control={control}
-      name={name}
-      render={({
-        field,
-      }: {
-        field: ControllerRenderProps<TFieldValues, TName>;
-      }) => (
-        <FormItem id={id}>
-          <FormLabel className="mb-2 block font-medium text-sm">
-            {label}
-          </FormLabel>
-          <FormControl>
-            <Input
-              className={className}
-              disabled={disabled}
-              placeholder={placeholder}
-              {...field}
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+  const renderField = useCallback(
+    ({ field }: { field: ControllerRenderProps<TFieldValues, TName> }) => (
+      <FormItem id={id}>
+        <FormLabel className="mb-2 block font-medium text-sm">
+          {label}
+        </FormLabel>
+        <FormControl>
+          <Input
+            className={className}
+            disabled={disabled}
+            placeholder={placeholder}
+            {...field}
+          />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    ),
+    [className, disabled, id, label, placeholder]
   );
+
+  return <FormField control={control} name={name} render={renderField} />;
 };
