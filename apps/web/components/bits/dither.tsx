@@ -14,7 +14,7 @@ import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
 import { useMouseInteraction } from "@/lib/hooks/ui/use-mouse-interaction";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
-const AUTO_PAUSE_AFTER_MS = 15_000;
+const AUTO_PAUSE_AFTER_MS = 10_000;
 
 interface DitheredWavesProps {
   waveSpeed: number;
