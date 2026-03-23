@@ -19,7 +19,7 @@
     "test:e2e": "turbo run test:e2e"
   },
   "devDependencies": {
-    "@typescript/native-preview": "7.0.0-dev.20260319.1",
+    "@typescript/native-preview": "7.0.0-dev.20260323.1",
     "knip": "^5.86.0",
     "lefthook": "^2.1.4",
     "oxfmt": "^0.41.0",
