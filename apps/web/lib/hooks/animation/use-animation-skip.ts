@@ -26,14 +26,14 @@ import { useCallback, useEffect, useState } from "react";
  * }
  * ```
  */
-export function useAnimationSkip(): {
+export const useAnimationSkip = (): {
   /** Whether animations should be skipped */
   skipAnimations: boolean;
   /** Set the skip state manually */
   setSkipAnimations: (value: boolean) => void;
   /** Reset the skip state to false */
   resetSkipAnimations: () => void;
-} {
+} => {
   const [skipAnimations, setSkipAnimationsState] = useState(false);
 
   const setSkipAnimations = useCallback((value: boolean) => {
@@ -64,8 +64,8 @@ export function useAnimationSkip(): {
   }, []);
 
   return {
-    skipAnimations,
-    setSkipAnimations,
     resetSkipAnimations,
+    setSkipAnimations,
+    skipAnimations,
   };
-}
+};

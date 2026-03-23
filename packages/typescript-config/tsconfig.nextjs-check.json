@@ -1,4 +1,7 @@
 {
   "extends": "./nextjs.json",
-  "include": ["./validation/nextjs-check.tsx"]
+  "include": ["./validation/nextjs-check.tsx"],
+  "compilerOptions": {
+    "strictNullChecks": true
+  }
 }

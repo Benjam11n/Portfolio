@@ -1,33 +1,33 @@
 import { render, screen } from "@repo/testing/test-utils";
-import { describe, expect, it } from "vitest";
+
 import { ProjectCard } from "./project-card";
 
 const VIEW_PROJECT_REGEX = /View project: Test Project - Subtitle/i;
 
 const mockProject = {
-  id: "test-project",
-  title: "Test Project - Subtitle",
+  challenges: [],
+  client: "Personal",
   description: "A test project description",
-  tags: ["React", "TypeScript"],
+  features: [],
+  githubLink: "https://github.com",
   hero_image: "/test-image.jpg",
+  id: "test-project",
+  learnings: [],
+  liveLink: "https://example.com",
+  location: "Remote",
   logo: "/test-logo.png",
   logoStyle: {},
-  techStack: ["React"],
-  liveLink: "https://example.com",
-  githubLink: "https://github.com",
-  video_overview: undefined,
-  features: [],
-  challenges: [],
-  learnings: [],
-  year: "2024",
-  client: "Personal",
   services: "Web Development",
-  location: "Remote",
+  tags: ["React", "TypeScript"],
+  techStack: ["React"],
+  title: "Test Project - Subtitle",
+  video_overview: undefined,
+  year: "2024",
 };
 
 const SUBTITLE_REGEX = /Subtitle/;
 
-describe("ProjectCard", () => {
+describe(ProjectCard, () => {
   it("renders project title and subtitle", () => {
     render(<ProjectCard project={mockProject} />);
     expect(screen.getAllByText("Test Project")).toHaveLength(2);

@@ -16,6 +16,3 @@ export const createVitestConfig = (options: UserConfig = {}) =>
       ...options.test,
     },
   });
-
-// biome-ignore lint/performance/noBarrelFile: intentional re-export for shared config
-export { defineConfig } from "vitest/config";

@@ -31,11 +31,13 @@ Our goal is to impress recruiters and visitors with polished, thoughtful interac
 Every animation must answer: **"What user feedback or guidance does this provide?"**
 
 Valid animation purposes:
+
 - **Guide attention**: Draw focus to important elements (e.g., profile image, call-to-action)
 - **Provide feedback**: Confirm user interactions (e.g., hover states, button clicks)
 - **Demonstrate capability**: Showcase technical skill in a subtle way (e.g., 3D effects, smooth transitions)
 
 Invalid animation purposes:
+
 - Pure decoration without functional value
 - Filling space or adding "movement for movement's sake"
 - Showing off complex animations that don't enhance user experience
@@ -43,6 +45,7 @@ Invalid animation purposes:
 ### 2. Performance First
 
 Animations must stay within performance budgets:
+
 - **Target FPS**: 60fps (16.67ms per frame)
 - **Minimum FPS**: 30fps (33ms per frame)
 - **Frame drops**: Max 10% of frames during animation
@@ -52,6 +55,7 @@ Monitor performance in development using the `useAnimationPerformance` hook.
 ### 3. Accessibility Always
 
 Respect user preferences:
+
 - **Reduced motion**: Check `prefersReducedMotion` for all animations
 - **Skip functionality**: Allow users to skip animations via Escape key
 - **Keyboard navigation**: Ensure all animations are keyboard-accessible
@@ -103,6 +107,7 @@ The hero section completes in **1.05 seconds** total:
 ### Escape Key Support
 
 Users can skip all animations by pressing the **Escape key**. This feature:
+
 - Is implemented via `useAnimationSkipContext`
 - Persists state in `localStorage` across sessions
 - Shows a brief "Animations skipped" indicator
@@ -135,6 +140,7 @@ useGSAP(() => {
 ### Components with Skip Support
 
 All section components support skip functionality:
+
 - ✅ Hero
 - ✅ Projects
 - ✅ Experience
@@ -175,6 +181,7 @@ useGSAP(() => {
 ### Components with Reduced Motion Support
 
 All animations respect reduced motion preference:
+
 - ✅ Section entrance animations (Hero, Projects, Experience, etc.)
 - ✅ Interactive effects (Card3D, ShiftText, Magnetic)
 - ✅ Layout animations (Footer, ClickSpark, Dither background)
@@ -182,6 +189,7 @@ All animations respect reduced motion preference:
 ### Reduced Motion Behavior
 
 When reduced motion is enabled:
+
 - **Entrance animations**: Elements appear instantly at final state
 - **Interactive effects**: No hover animations, tilt, or parallax
 - **Background effects**: Static pattern, no continuous animation
@@ -197,10 +205,10 @@ All animation values should use constants from `@/lib/constants/animation.ts` to
 import { ANIMATION_DURATION } from "@/lib/constants/animation";
 
 // ✅ Correct
-duration: ANIMATION_DURATION.MEDIUM_FAST / 1000
+duration: ANIMATION_DURATION.MEDIUM_FAST / 1000;
 
 // ❌ Wrong - magic number
-duration: 0.5
+duration: 0.5;
 ```
 
 ### Easing Constants
@@ -209,12 +217,12 @@ duration: 0.5
 import { ANIMATION_EASING } from "@/lib/constants/animation";
 
 // ✅ Correct
-ease: ANIMATION_EASING.DEFAULT    // power4.out (smooth deceleration)
-ease: ANIMATION_EASING.ELASTIC    // elastic.out(1, 0.75) (playful bounce)
-ease: ANIMATION_EASING.BACK_STRONG // back.out(2) (strong overshoot)
+ease: ANIMATION_EASING.DEFAULT; // power4.out (smooth deceleration)
+ease: ANIMATION_EASING.ELASTIC; // elastic.out(1, 0.75) (playful bounce)
+ease: ANIMATION_EASING.BACK_STRONG; // back.out(2) (strong overshoot)
 
 // ❌ Wrong - string literal
-ease: "power4.out"
+ease: "power4.out";
 ```
 
 ### Easing Guide
@@ -232,10 +240,10 @@ ease: "power4.out"
 import { ANIMATION_STAGGER } from "@/lib/constants/animation";
 
 // ✅ Correct
-stagger: ANIMATION_STAGGER.STANDARD // 0.1s between elements
+stagger: ANIMATION_STAGGER.STANDARD; // 0.1s between elements
 
 // ❌ Wrong - magic number
-stagger: 0.1
+stagger: 0.1;
 ```
 
 ### Stagger Guide
@@ -251,10 +259,10 @@ stagger: 0.1
 import { SCROLL_TRIGGER } from "@/lib/constants/animation";
 
 // ✅ Correct
-start: "top 80%" // SCROLL_TRIGGER.STANDARD
+start: "top 80%"; // SCROLL_TRIGGER.STANDARD
 
 // ❌ Wrong - magic number
-start: "top 80%" // (without comment explaining why)
+start: "top 80%"; // (without comment explaining why)
 ```
 
 ### Performance Budget Constants
@@ -263,10 +271,10 @@ start: "top 80%" // (without comment explaining why)
 import { ANIMATION_BUDGET } from "@/lib/constants/animation";
 
 // Performance thresholds
-ANIMATION_BUDGET.TARGET_FPS           // 60
-ANIMATION_BUDGET.MIN_FPS              // 30
-ANIMATION_BUDGET.MAX_FRAME_TIME       // 33ms
-ANIMATION_BUDGET.MAX_FRAME_DROPS_PERCENTAGE // 0.1 (10%)
+ANIMATION_BUDGET.TARGET_FPS; // 60
+ANIMATION_BUDGET.MIN_FPS; // 30
+ANIMATION_BUDGET.MAX_FRAME_TIME; // 33ms
+ANIMATION_BUDGET.MAX_FRAME_DROPS_PERCENTAGE; // 0.1 (10%)
 ```
 
 ## Performance Monitoring
@@ -288,11 +296,11 @@ const duration = performanceMetrics.stopTracking();
 
 // Check performance
 if (performanceMetrics.fps < 30) {
-  console.warn('Animation performance is poor');
+  console.warn("Animation performance is poor");
 }
 
 if (performanceMetrics.frameTime > 33) {
-  console.warn('Frame time exceeds 33ms budget');
+  console.warn("Frame time exceeds 33ms budget");
 }
 ```
 
@@ -304,8 +312,8 @@ Log performance metrics in development to identify issues:
 onComplete: () => {
   const duration = performanceMetrics.stopTracking();
 
-  if (process.env.NODE_ENV === 'development') {
-    console.log('[Component] Animation complete - Performance metrics:', {
+  if (process.env.NODE_ENV === "development") {
+    console.log("[Component] Animation complete - Performance metrics:", {
       fps: performanceMetrics.fps,
       frameTime: performanceMetrics.frameTime,
       duration: `${duration.toFixed(2)}ms`,
@@ -315,20 +323,20 @@ onComplete: () => {
     // Warn if performance is below budget
     if (performanceMetrics.fps < 30) {
       console.warn(
-        '[Component] ⚠️ Poor FPS detected:',
+        "[Component] ⚠️ Poor FPS detected:",
         performanceMetrics.fps,
-        '- Consider reducing animation complexity'
+        "- Consider reducing animation complexity"
       );
     }
     if (performanceMetrics.frameTime > 33) {
       console.warn(
-        '[Component] ⚠️ High frame time detected:',
+        "[Component] ⚠️ High frame time detected:",
         `${performanceMetrics.frameTime}ms`,
-        '- Exceeds 33ms budget (30 FPS)'
+        "- Exceeds 33ms budget (30 FPS)"
       );
     }
   }
-}
+};
 ```
 
 ### Performance Budget Thresholds

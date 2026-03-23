@@ -31,18 +31,20 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+
 import { useAnimationPerformance } from "@/lib/hooks/animation/use-animation-performance";
 
-export function PerformanceMonitor() {
-  // Only render in development mode
-  if (process.env.NODE_ENV !== "development") {
-    return null;
+const getStatusColor = (fpsValue: number) => {
+  if (fpsValue < 30) {
+    return "text-red-500";
   }
+  if (fpsValue < 50) {
+    return "text-yellow-500";
+  }
+  return "text-green-500";
+};
 
-  return <PerformanceMonitorContent />;
-}
-
-function PerformanceMonitorContent() {
+const PerformanceMonitorContent = () => {
   const { fps, frameTime, frameDrops, isTracking } = useAnimationPerformance();
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -55,17 +57,6 @@ function PerformanceMonitorContent() {
   if (!mounted) {
     return null;
   }
-
-  // Determine status color based on performance
-  const getStatusColor = (fps: number) => {
-    if (fps < 30) {
-      return "text-red-500";
-    }
-    if (fps < 50) {
-      return "text-yellow-500";
-    }
-    return "text-green-500";
-  };
 
   const bgColor =
     theme === "dark"
@@ -135,4 +126,13 @@ function PerformanceMonitorContent() {
       </div>
     </div>
   );
-}
+};
+
+export const PerformanceMonitor = () => {
+  // Only render in development mode
+  if (process.env.NODE_ENV !== "development") {
+    return null;
+  }
+
+  return <PerformanceMonitorContent />;
+};

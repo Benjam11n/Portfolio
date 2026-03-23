@@ -1,43 +1,43 @@
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: Interaction is hover-only */
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { useRef } from "react";
+
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
 // Variant preset configurations for common 3D card styles
 const CARD_VARIANTS = {
-  subtle: {
-    rotationIntensity: 3,
-    thickness: 8,
-    glare: false,
-    parallaxIntensity: 0.02,
-  },
-  standard: {
-    rotationIntensity: 8,
-    thickness: 12,
-    glare: true,
-    parallaxIntensity: 0.05,
-  },
-  dramatic: {
-    rotationIntensity: 15,
-    thickness: 16,
-    glare: true,
-    parallaxIntensity: 0.1,
-  },
   book: {
-    rotationIntensity: 8,
-    thickness: 20,
     glare: true,
     parallaxIntensity: 0.04,
+    rotationIntensity: 8,
+    thickness: 20,
+  },
+  dramatic: {
+    glare: true,
+    parallaxIntensity: 0.1,
+    rotationIntensity: 15,
+    thickness: 16,
+  },
+  standard: {
+    glare: true,
+    parallaxIntensity: 0.05,
+    rotationIntensity: 8,
+    thickness: 12,
+  },
+  subtle: {
+    glare: false,
+    parallaxIntensity: 0.02,
+    rotationIntensity: 3,
+    thickness: 8,
   },
 } as const;
 
 type Card3DVariant = keyof typeof CARD_VARIANTS;
 
-export type Card3DProps = {
+export interface Card3DProps {
   children: React.ReactNode;
 
   // Variant preset for common configurations
@@ -59,7 +59,7 @@ export type Card3DProps = {
   // Styling
   className?: string;
   containerClassName?: string;
-};
+}
 
 export const Card3D = ({
   children,
@@ -115,29 +115,29 @@ export const Card3D = ({
     const rotateX = normalizedY * -mergedRotationIntensity;
     const rotateY = normalizedX * mergedRotationIntensity;
 
-    gsap.to(cardRef.current, {
-      rotateX,
-      rotateY,
+    gsapCore.to(cardRef.current, {
       duration: 0.3,
       ease: "power2.out",
+      rotateX,
+      rotateY,
     });
 
     if (contentRef.current && mergedParallaxIntensity > 0) {
-      gsap.to(contentRef.current, {
-        x: normalizedX * (rect.width * mergedParallaxIntensity),
-        y: normalizedY * (rect.height * mergedParallaxIntensity),
+      gsapCore.to(contentRef.current, {
         duration: 0.3,
         ease: "power2.out",
+        x: normalizedX * (rect.width * mergedParallaxIntensity),
+        y: normalizedY * (rect.height * mergedParallaxIntensity),
       });
     }
 
     if (glareRef.current && mergedGlare) {
-      gsap.to(glareRef.current, {
-        x: (normalizedX * rect.width) / -1.5,
-        y: (normalizedY * rect.height) / -1.5,
-        opacity: glareIntensity,
+      gsapCore.to(glareRef.current, {
         duration: 0.3,
         ease: "power2.out",
+        opacity: glareIntensity,
+        x: (normalizedX * rect.width) / -1.5,
+        y: (normalizedY * rect.height) / -1.5,
       });
     }
   });
@@ -147,32 +147,32 @@ export const Card3D = ({
       return;
     }
 
-    gsap.to(cardRef.current, {
-      rotateX: 0,
-      rotateY: 0,
+    gsapCore.to(cardRef.current, {
       duration: 0.5,
       ease: "power2.out",
       overwrite: true,
+      rotateX: 0,
+      rotateY: 0,
     });
 
     if (contentRef.current && mergedParallaxIntensity > 0) {
-      gsap.to(contentRef.current, {
-        x: 0,
-        y: 0,
+      gsapCore.to(contentRef.current, {
         duration: 0.5,
         ease: "power2.out",
         overwrite: true,
+        x: 0,
+        y: 0,
       });
     }
 
     if (glareRef.current && mergedGlare) {
-      gsap.to(glareRef.current, {
-        opacity: 0,
-        x: 0,
-        y: 0,
+      gsapCore.to(glareRef.current, {
         duration: 0.5,
         ease: "power2.out",
+        opacity: 0,
         overwrite: true,
+        x: 0,
+        y: 0,
       });
     }
   });
@@ -205,8 +205,8 @@ export const Card3D = ({
             className
           )}
           style={{
-            transform: `translateZ(${halfThickness}px)`,
             backfaceVisibility: "hidden",
+            transform: `translateZ(${halfThickness}px)`,
             transformStyle: "preserve-3d",
           }}
         >
@@ -226,52 +226,52 @@ export const Card3D = ({
         <div
           className="pointer-events-none absolute bottom-0"
           style={{
+            backfaceVisibility: "hidden",
+            background: `linear-gradient(to bottom, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
             height: mergedThickness,
             left: halfThickness,
             right: halfThickness,
-            background: `linear-gradient(to bottom, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
             transform: `translateY(${halfThickness}px) rotateX(-90deg)`,
-            backfaceVisibility: "hidden",
           }}
         />
 
         <div
           className="pointer-events-none absolute top-0"
           style={{
+            backfaceVisibility: "hidden",
+            background: `linear-gradient(to top, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
             height: mergedThickness,
             left: halfThickness,
             right: halfThickness,
-            background: `linear-gradient(to top, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
             transform: `translateY(-${halfThickness}px) rotateX(90deg)`,
-            backfaceVisibility: "hidden",
           }}
         />
 
         <div
           className="pointer-events-none absolute top-0 right-0 h-full rounded-r-xl"
           style={{
-            width: mergedThickness,
+            backfaceVisibility: "hidden",
             background: `linear-gradient(to right, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
             transform: `translateX(${halfThickness}px) rotateY(90deg)`,
-            backfaceVisibility: "hidden",
+            width: mergedThickness,
           }}
         />
 
         <div
           className="pointer-events-none absolute top-0 left-0 h-full rounded-l-xl"
           style={{
-            width: mergedThickness,
+            backfaceVisibility: "hidden",
             background: `linear-gradient(to left, ${primaryEdgeColor}, ${secondaryEdgeColor})`,
             transform: `translateX(-${halfThickness}px) rotateY(-90deg)`,
-            backfaceVisibility: "hidden",
+            width: mergedThickness,
           }}
         />
 
         <div
           className="pointer-events-none absolute top-0 left-0 h-full w-full rounded-xl bg-muted"
           style={{
-            transform: `translateZ(-${halfThickness}px) rotateY(180deg)`,
             backfaceVisibility: "hidden",
+            transform: `translateZ(-${halfThickness}px) rotateY(180deg)`,
           }}
         />
       </div>

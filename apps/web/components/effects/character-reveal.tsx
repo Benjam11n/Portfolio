@@ -1,14 +1,15 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import type React from "react";
-import { useEffect, useMemo, useRef } from "react";
+import { createElement, useEffect, useMemo, useRef } from "react";
+
 import { useCharacterReveal } from "@/lib/hooks/ui/use-character-reveal";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
-type CharacterRevealProps = {
+interface CharacterRevealProps {
   children: string;
   className?: string;
   as?: React.ElementType;
@@ -18,7 +19,7 @@ type CharacterRevealProps = {
   ease?: string;
   autoAlpha?: number;
   delay?: number;
-};
+}
 
 /**
  * CharacterReveal component for animated character-by-character text reveals.
@@ -50,26 +51,54 @@ export const CharacterReveal = ({
 
   const chars = useMemo(
     () =>
-      children.split("").map((char, i) => ({
+      [...children].map((char, i) => ({
         char,
         id: `char-${char}-${i}`,
         isSpace: char === " ",
       })),
     [children]
   );
+  const componentProps = {
+    children: (
+      <>
+        {/* Animated Characters */}
+        <span aria-hidden="true" className="inline-block">
+          {chars.map(({ char, id, isSpace }) => (
+            <span
+              className={cn(
+                "char-reveal inline-block whitespace-pre",
+                isSpace && "w-[0.25em]"
+              )}
+              key={id}
+            >
+              {char}
+            </span>
+          ))}
+        </span>
+
+        {/* Screen reader only text */}
+        <span className="sr-only">{children}</span>
+      </>
+    ),
+    className: cn("relative inline-block", className),
+    ref: containerRef,
+  } as React.HTMLAttributes<HTMLElement> & {
+    children: React.ReactNode;
+    ref: React.RefObject<HTMLSpanElement | null>;
+  };
 
   const { setInitialState, animateIn } = useCharacterReveal(containerRef, {
-    y,
-    duration,
-    stagger,
-    ease,
     autoAlpha,
+    duration,
+    ease,
+    stagger,
+    y,
   });
 
   useGSAP(() => {
     if (prefersReducedMotion) {
       // Skip animation for users who prefer reduced motion
-      gsap.set(".char-reveal", { y: 0, autoAlpha: 1 });
+      gsapCore.set(".char-reveal", { autoAlpha: 1, y: 0 });
       return;
     }
 
@@ -89,28 +118,5 @@ export const CharacterReveal = ({
     return () => clearTimeout(timer);
   }, [prefersReducedMotion, animateIn, delay]);
 
-  // biome-ignore lint/suspicious/noExplicitAny: Polymorphic component handling
-  const Comp = Component as any;
-
-  return (
-    <Comp className={cn("relative inline-block", className)} ref={containerRef}>
-      {/* Animated Characters */}
-      <span aria-hidden="true" className="inline-block">
-        {chars.map(({ char, id, isSpace }) => (
-          <span
-            className={cn(
-              "char-reveal inline-block whitespace-pre",
-              isSpace && "w-[0.25em]"
-            )}
-            key={id}
-          >
-            {char}
-          </span>
-        ))}
-      </span>
-
-      {/* Screen reader only text */}
-      <span className="sr-only">{children}</span>
-    </Comp>
-  );
+  return createElement(Component, componentProps);
 };

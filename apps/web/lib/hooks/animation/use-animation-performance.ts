@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 /**
  * Performance metrics for animation monitoring.
  */
-type AnimationPerformanceMetrics = {
+interface AnimationPerformanceMetrics {
   /** Current frames per second */
   fps: number;
   /** Average frame time in milliseconds */
@@ -16,7 +16,7 @@ type AnimationPerformanceMetrics = {
   duration: number;
   /** Number of frame drops during tracking */
   frameDrops: number;
-};
+}
 
 /**
  * Custom hook to monitor animation frame rate and duration.
@@ -55,16 +55,16 @@ type AnimationPerformanceMetrics = {
  * }
  * ```
  */
-export function useAnimationPerformance(): AnimationPerformanceMetrics & {
+export const useAnimationPerformance = (): AnimationPerformanceMetrics & {
   startTracking: () => void;
   stopTracking: () => number;
-} {
+} => {
   const [metrics, setMetrics] = useState<AnimationPerformanceMetrics>({
+    duration: 0,
     fps: 60,
+    frameDrops: 0,
     frameTime: 16.67,
     isTracking: false,
-    duration: 0,
-    frameDrops: 0,
   });
 
   const frameCountRef = useRef(0);
@@ -119,8 +119,8 @@ export function useAnimationPerformance(): AnimationPerformanceMetrics & {
       setMetrics((prev) => ({
         ...prev,
         fps,
-        frameTime,
         frameDrops: totalFrameDropsRef.current,
+        frameTime,
       }));
 
       logPerformanceWarnings(fps, frameTime);
@@ -136,13 +136,13 @@ export function useAnimationPerformance(): AnimationPerformanceMetrics & {
         return;
       }
 
-      frameCountRef.current++;
+      frameCountRef.current += 1;
       const deltaTime = currentTime - lastFrameTimeRef.current;
       lastFrameTimeRef.current = currentTime;
 
       // Check for frame drops (if frame time > 33ms, which is < 30fps)
       if (deltaTime > 33) {
-        totalFrameDropsRef.current++;
+        totalFrameDropsRef.current += 1;
       }
 
       // Update metrics every second
@@ -169,9 +169,9 @@ export function useAnimationPerformance(): AnimationPerformanceMetrics & {
     startTimeRef.current = performance.now();
     setMetrics((prev) => ({
       ...prev,
-      isTracking: true,
       duration: 0,
       frameDrops: 0,
+      isTracking: true,
     }));
     totalFrameDropsRef.current = 0;
   }, []);
@@ -181,8 +181,8 @@ export function useAnimationPerformance(): AnimationPerformanceMetrics & {
       const duration = performance.now() - startTimeRef.current;
       setMetrics((prev) => ({
         ...prev,
-        isTracking: false,
         duration,
+        isTracking: false,
       }));
       startTimeRef.current = null;
       return duration;
@@ -195,4 +195,4 @@ export function useAnimationPerformance(): AnimationPerformanceMetrics & {
     startTracking,
     stopTracking,
   };
-}
+};

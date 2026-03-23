@@ -1,6 +1,7 @@
 "use client";
 
-import { type RefObject, useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import type { RefObject } from "react";
 
 /**
  * Custom hook to handle canvas resizing with ResizeObserver and debouncing.
@@ -26,10 +27,10 @@ import { type RefObject, useCallback, useEffect } from "react";
  * // Can also manually trigger: resizeCanvas()
  * ```
  */
-export function useCanvasResize(
+export const useCanvasResize = (
   canvasRef: RefObject<HTMLCanvasElement | null>,
   debounceMs = 100
-): () => void {
+): (() => void) => {
   const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
@@ -79,4 +80,4 @@ export function useCanvasResize(
   }, [canvasRef, resizeCanvas, debounceMs]);
 
   return resizeCanvas;
-}
+};

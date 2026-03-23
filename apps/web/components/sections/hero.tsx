@@ -1,9 +1,10 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { ArrowUpRight, BadgeCheck, Mail } from "lucide-react";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
+
 import { Magnetic } from "@/components/effects/magnetic";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { Markdown } from "@/components/shared/markdown";
@@ -29,6 +30,19 @@ export const Hero = () => {
   const { skipAnimations } = useAnimationSkipContext();
 
   const performanceMetrics = useAnimationPerformance();
+  const heroNameCharacters = useMemo(() => {
+    const counts = new Map<string, number>();
+
+    return [...HERO_CONTENT.name].map((char) => {
+      const nextCount = (counts.get(char) ?? 0) + 1;
+      counts.set(char, nextCount);
+
+      return {
+        char,
+        key: `${char}-${nextCount}`,
+      };
+    });
+  }, []);
   const profileImageSrc = useProfileImageSource({
     animationRef: imageRef,
     prefersReducedMotion,
@@ -36,7 +50,7 @@ export const Hero = () => {
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia();
+      const mm = gsapCore.matchMedia();
 
       mm.add(
         {
@@ -53,34 +67,34 @@ export const Hero = () => {
           // Skip all animations if user prefers reduced motion or if animations were skipped
           if (prefersReducedMotion || skipAnimations) {
             // Set all elements to their final state instantly
-            gsap.set(imageRef.current, {
-              scale: 1,
-              x: isDesktop ? 0 : offset,
+            gsapCore.set(imageRef.current, {
               autoAlpha: 1,
               rotate: 0,
+              scale: 1,
+              x: isDesktop ? 0 : offset,
             });
-            gsap.set(".char", { y: 0, autoAlpha: 1 });
-            gsap.set(".hero-badge", { scale: 1, autoAlpha: 1 });
-            gsap.set(".hero-text", { y: 0, autoAlpha: 1 });
-            gsap.set(buttonsRef.current?.children || [], {
-              y: 0,
+            gsapCore.set(".char", { autoAlpha: 1, y: 0 });
+            gsapCore.set(".hero-badge", { autoAlpha: 1, scale: 1 });
+            gsapCore.set(".hero-text", { autoAlpha: 1, y: 0 });
+            gsapCore.set(buttonsRef.current?.children || [], {
               autoAlpha: 1,
+              y: 0,
             });
 
             // Stop tracking and log metrics for skipped animations
             const duration = performanceMetrics.stopTracking();
             if (process.env.NODE_ENV === "development") {
               console.log("[Hero] Animations skipped - Performance metrics:", {
-                fps: performanceMetrics.fps,
-                frameTime: performanceMetrics.frameTime,
                 duration: `${duration.toFixed(2)}ms`,
+                fps: performanceMetrics.fps,
                 frameDrops: performanceMetrics.frameDrops,
+                frameTime: performanceMetrics.frameTime,
               });
             }
             return;
           }
 
-          const tl = gsap.timeline({
+          const tl = gsapCore.timeline({
             defaults: { ease: ANIMATION_EASING.DEFAULT },
             onComplete: () => {
               // Stop tracking and log metrics when animation completes
@@ -89,10 +103,10 @@ export const Hero = () => {
                 console.log(
                   "[Hero] Animation complete - Performance metrics:",
                   {
-                    fps: performanceMetrics.fps,
-                    frameTime: performanceMetrics.frameTime,
                     duration: `${duration.toFixed(2)}ms`,
+                    fps: performanceMetrics.fps,
                     frameDrops: performanceMetrics.frameDrops,
+                    frameTime: performanceMetrics.frameTime,
                   }
                 );
 
@@ -151,18 +165,19 @@ export const Hero = () => {
           tl.fromTo(
             imageRef.current,
             {
-              scale: 0,
-              x: offset,
               autoAlpha: 0,
               rotate: -15,
+              scale: 0,
+              x: offset,
             },
             {
+              autoAlpha: 1,
+              // 0.5s (optimized from 0.8s)
+              duration: ANIMATION_DURATION.MEDIUM_FAST / 1000,
+              ease: ANIMATION_EASING.ELASTIC,
+              rotate: 0,
               scale: 1,
               x: 0,
-              autoAlpha: 1,
-              rotate: 0,
-              duration: ANIMATION_DURATION.MEDIUM_FAST / 1000, // 0.5s (optimized from 0.8s)
-              ease: ANIMATION_EASING.ELASTIC,
             }
           );
 
@@ -182,16 +197,19 @@ export const Hero = () => {
            *   final position (y: 0, fully visible). Users can immediately read the name
            *   without waiting for the staggered reveal to complete.
            */
+          // Start at 0.2s (more overlap)
           tl.to(
             ".char",
             {
-              y: 0,
               autoAlpha: 1,
-              duration: ANIMATION_DURATION.MEDIUM_FAST / 1000, // 0.5s
-              stagger: ANIMATION_STAGGER.QUICK, // 0.05s between each char
+              // 0.5s
+              duration: ANIMATION_DURATION.MEDIUM_FAST / 1000,
               ease: ANIMATION_EASING.DEFAULT,
+              // 0.05s between each char
+              stagger: ANIMATION_STAGGER.QUICK,
+              y: 0,
             },
-            `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000 - 0.1}` // Start at 0.2s (more overlap)
+            `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000 - 0.1}`
           );
 
           /**
@@ -210,16 +228,18 @@ export const Hero = () => {
            *   size and opacity. The verification status is immediately visible, providing
            *   instant social proof without any animation delay.
            */
+          // Start at 0.6s (more overlap)
           tl.fromTo(
             ".hero-badge",
-            { scale: 0, autoAlpha: 0 },
+            { autoAlpha: 0, scale: 0 },
             {
-              scale: 1,
               autoAlpha: 1,
-              duration: ANIMATION_DURATION.QUICK / 1000, // 0.3s (optimized from 0.35s)
+              // 0.3s (optimized from 0.35s)
+              duration: ANIMATION_DURATION.QUICK / 1000,
               ease: ANIMATION_EASING.BACK_STRONG,
+              scale: 1,
             },
-            `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000 - 0.05}` // Start at 0.6s (more overlap)
+            `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000 - 0.05}`
           );
 
           /**
@@ -239,20 +259,23 @@ export const Hero = () => {
            *   their final position (y: 0, fully visible). Users can immediately read the role
            *   and description without waiting for the animated fade-in.
            */
+          // Start at 0.4s (more overlap)
           tl.fromTo(
             ".hero-text",
             {
-              y: 40,
               autoAlpha: 0,
+              y: 40,
             },
             {
-              y: 0,
               autoAlpha: 1,
-              duration: ANIMATION_DURATION.MEDIUM_FAST / 1000, // 0.5s (optimized from 0.6s)
-              stagger: ANIMATION_STAGGER.QUICK, // 0.05s between elements (optimized from 0.1s)
+              // 0.5s (optimized from 0.6s)
+              duration: ANIMATION_DURATION.MEDIUM_FAST / 1000,
               ease: ANIMATION_EASING.DEFAULT,
+              // 0.05s between elements (optimized from 0.1s)
+              stagger: ANIMATION_STAGGER.QUICK,
+              y: 0,
             },
-            `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000}` // Start at 0.4s (more overlap)
+            `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000}`
           );
 
           /**
@@ -274,27 +297,30 @@ export const Hero = () => {
            *   final position (y: 0, fully visible). Users can immediately see and interact
            *   with the contact and project navigation buttons without animation delay.
            */
+          // Start at 0.6s (more overlap)
           tl.fromTo(
             buttonsRef.current?.children || [],
             {
-              y: 20,
               autoAlpha: 0,
+              y: 20,
             },
             {
-              y: 0,
               autoAlpha: 1,
-              duration: ANIMATION_DURATION.MEDIUM_FAST / 1000, // 0.5s (optimized from 0.6s)
-              stagger: ANIMATION_STAGGER.QUICK, // 0.05s between buttons
+              // 0.5s (optimized from 0.6s)
+              duration: ANIMATION_DURATION.MEDIUM_FAST / 1000,
               ease: ANIMATION_EASING.POWER3,
+              // 0.05s between buttons
+              stagger: ANIMATION_STAGGER.QUICK,
+              y: 0,
             },
-            `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000}` // Start at 0.6s (more overlap)
+            `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000}`
           );
         }
       );
     },
     {
-      scope: containerRef,
       dependencies: [prefersReducedMotion, skipAnimations],
+      scope: containerRef,
     }
   );
 
@@ -319,11 +345,10 @@ export const Hero = () => {
         {/* Name and Badge */}
         <div className="mb-2 flex items-center gap-2">
           <h1 className="hero-name flex overflow-hidden font-bold text-foreground text-xl tracking-tight sm:text-2xl">
-            {HERO_CONTENT.name.split("").map((char, i) => (
+            {heroNameCharacters.map(({ char, key }) => (
               <span
                 className="char inline-block translate-y-full opacity-0"
-                // biome-ignore lint/suspicious/noArrayIndexKey: Static text, order never changes
-                key={i}
+                key={key}
               >
                 {char === " " ? "\u00A0" : char}
               </span>
@@ -334,8 +359,8 @@ export const Hero = () => {
               className="h-6 w-6"
               strokeWidth={2.5}
               style={{
-                fill: "#1DA1F2",
                 color: "white",
+                fill: "#1DA1F2",
               }}
             />
           </div>

@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import type React from "react";
 
-export type Project = {
+export interface Project {
   id: string;
   title: string;
   description: string;
@@ -29,68 +29,68 @@ export type Project = {
   // Features
   features?: string[];
   featureIcon?: (props: { className: string }) => React.JSX.Element;
-};
+}
 
-export type Experience = {
+export interface Experience {
   id: number;
   name: string;
   pos: string;
   duration: string;
   points: string[];
   icon: string;
-};
+}
 
-export type Certification = {
+export interface Certification {
   name: string;
   organization: string;
   date: string;
   image: string;
   description: string;
-};
+}
 
-export type NavItem = {
+export interface NavItem {
   name: string;
   href: string;
   icon: LucideIcon;
-};
+}
 
 export const TechCategory = {
   AI_ML: "AI/ML",
   ANIMATION: "Animation",
-  MOBILE: "Mobile",
-  FRAMEWORK: "Framework",
   BACKEND: "Backend",
-  FRONTEND: "Frontend",
-  STYLING: "Styling",
-  LANGUAGE: "Language",
   DATABASE: "Database",
   DEVOPS: "DevOps",
+  FRAMEWORK: "Framework",
+  FRONTEND: "Frontend",
+  LANGUAGE: "Language",
+  MOBILE: "Mobile",
+  STYLING: "Styling",
 } as const;
 
 export type TechCategory = (typeof TechCategory)[keyof typeof TechCategory];
 
 export const ProficiencyLevel = {
-  BEGINNER: "beginner",
-  INTERMEDIATE: "intermediate",
   ADVANCED: "advanced",
+  BEGINNER: "beginner",
   EXPERT: "expert",
+  INTERMEDIATE: "intermediate",
 } as const;
 
 export type ProficiencyLevel =
   (typeof ProficiencyLevel)[keyof typeof ProficiencyLevel];
 
-export type TechStack = {
+export interface TechStack {
   name: string;
   icon: string;
   category: TechCategory;
   colorLight: string;
   colorDark: string;
   proficiency?: ProficiencyLevel;
-};
+}
 
-export type ContactInfo = {
+export interface ContactInfo {
   icon: LucideIcon;
   title: string;
   value?: string;
   link: string;
-};
+}

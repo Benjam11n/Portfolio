@@ -3,13 +3,17 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
 export const ThemeToggle = () => {
   const { setTheme, theme, systemTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const currentTheme = theme === "system" ? systemTheme : theme;
+  const handleThemeToggle = useCallback(() => {
+    setTheme(currentTheme === "light" ? "dark" : "light");
+  }, [currentTheme, setTheme]);
 
   // Prevent hydration mismatch
   useEffect(() => {
@@ -20,21 +24,19 @@ export const ThemeToggle = () => {
     return <Button className="size-11" size="icon" variant="ghost" />;
   }
 
-  const currentTheme = theme === "system" ? systemTheme : theme;
-
   return (
     <Button
       className="group relative size-11 hover:bg-transparent"
-      onClick={() => setTheme(currentTheme === "light" ? "dark" : "light")}
+      onClick={handleThemeToggle}
       size="icon"
       variant="ghost"
     >
       <AnimatePresence initial={false} mode="wait">
         <motion.div
-          animate={{ scale: 1, rotate: 0 }}
+          animate={{ rotate: 0, scale: 1 }}
           className="absolute inset-0 flex items-center justify-center"
-          exit={{ scale: 0, rotate: currentTheme === "light" ? 180 : -180 }}
-          initial={{ scale: 0, rotate: currentTheme === "light" ? -180 : 180 }}
+          exit={{ rotate: currentTheme === "light" ? 180 : -180, scale: 0 }}
+          initial={{ rotate: currentTheme === "light" ? -180 : 180, scale: 0 }}
           key={currentTheme === "light" ? "sun" : "moon"}
           transition={{ duration: 0.2, ease: "easeInOut" }}
         >

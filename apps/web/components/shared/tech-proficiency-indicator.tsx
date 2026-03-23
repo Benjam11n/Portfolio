@@ -3,37 +3,37 @@
 import type { ProficiencyLevel } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-type TechProficiencyIndicatorProps = {
+interface TechProficiencyIndicatorProps {
   proficiency: ProficiencyLevel;
   showLabel?: boolean;
   variant?: "dots" | "bar";
   size?: "sm" | "md" | "lg";
-};
+}
 
 const proficiencyConfig = {
-  beginner: {
-    level: 1,
-    label: "Beginner",
-    color: "bg-yellow-500",
-    description: "Familiar with basics",
-  },
-  intermediate: {
-    level: 2,
-    label: "Intermediate",
-    color: "bg-blue-500",
-    description: "Comfortable with daily use",
-  },
   advanced: {
-    level: 3,
-    label: "Advanced",
     color: "bg-green-500",
     description: "Deep understanding",
+    label: "Advanced",
+    level: 3,
+  },
+  beginner: {
+    color: "bg-yellow-500",
+    description: "Familiar with basics",
+    label: "Beginner",
+    level: 1,
   },
   expert: {
-    level: 4,
-    label: "Expert",
     color: "bg-purple-500",
     description: "Mastery and leadership",
+    label: "Expert",
+    level: 4,
+  },
+  intermediate: {
+    color: "bg-blue-500",
+    description: "Comfortable with daily use",
+    label: "Intermediate",
+    level: 2,
   },
 } as const satisfies Record<
   ProficiencyLevel,

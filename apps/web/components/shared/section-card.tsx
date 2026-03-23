@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
+
 import { cn } from "@/lib/utils";
 
 type SectionCardProps = React.HTMLAttributes<HTMLElement> & {
@@ -9,27 +10,25 @@ type SectionCardProps = React.HTMLAttributes<HTMLElement> & {
 };
 
 export const SectionCard = forwardRef<HTMLElement, SectionCardProps>(
-  ({ children, title, className, ...props }, ref) => {
-    return (
-      <section
-        className={cn(
-          "rounded-xl border border-border/40 bg-muted p-4 sm:p-6",
-          className
-        )}
-        ref={ref}
-        {...props}
-      >
-        {title && (
-          <div className="mb-4">
-            <h2 className="font-bold font-mono text-foreground text-md uppercase">
-              {title}
-            </h2>
-          </div>
-        )}
-        {children}
-      </section>
-    );
-  }
+  ({ children, title, className, ...props }, ref) => (
+    <section
+      className={cn(
+        "rounded-xl border border-border/40 bg-muted p-4 sm:p-6",
+        className
+      )}
+      ref={ref}
+      {...props}
+    >
+      {title && (
+        <div className="mb-4">
+          <h2 className="font-bold font-mono text-foreground text-md uppercase">
+            {title}
+          </h2>
+        </div>
+      )}
+      {children}
+    </section>
+  )
 );
 
 SectionCard.displayName = "SectionCard";

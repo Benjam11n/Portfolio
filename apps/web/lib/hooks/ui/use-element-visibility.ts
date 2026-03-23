@@ -24,9 +24,9 @@ import { useEffect, useState } from "react";
  * }
  * ```
  */
-export function useElementVisibility(
+export const useElementVisibility = (
   ref: RefObject<HTMLElement | null>
-): boolean {
+): boolean => {
   const [isVisible, setIsVisible] = useState(false);
   const [isPageVisible, setIsPageVisible] = useState(true);
 
@@ -70,4 +70,4 @@ export function useElementVisibility(
 
   // Element is only "visible" if both it's in viewport AND page is active
   return isVisible && isPageVisible;
-}
+};

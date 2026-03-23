@@ -1,9 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
 
 import { Input } from "./input";
 
-describe("Input", () => {
+describe(Input, () => {
   it("renders correctly", () => {
     render(<Input placeholder="Enter text" />);
     const input = screen.getByPlaceholderText("Enter text");
@@ -21,7 +20,7 @@ describe("Input", () => {
     render(<Input onChange={handleChange} />);
     const input = screen.getByRole("textbox");
     fireEvent.change(input, { target: { value: "test" } });
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    expect(handleChange.mock.calls).toHaveLength(1);
   });
 
   it("renders with different types", () => {
@@ -35,6 +34,6 @@ describe("Input", () => {
     render(<Input disabled />);
     const input = screen.getByRole("textbox");
     expect(input).toBeDefined();
-    expect(input.hasAttribute("disabled")).toBe(true);
+    expect(input.hasAttribute("disabled")).toBeTruthy();
   });
 });

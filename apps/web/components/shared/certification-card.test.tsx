@@ -1,30 +1,29 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+
+import { CertificationCard } from "./certification-card";
 
 // Mock GSAP for Card3D
-vi.mock("@gsap/react", () => ({
+vi.mock(import("@gsap/react"), () => ({
   useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
 
-vi.mock("gsap", () => ({
+vi.mock(import("gsap"), () => ({
   default: {
     to: vi.fn(),
   },
 }));
 
-import { CertificationCard } from "./certification-card";
-
 const mockCert = {
+  date: "Jan 2024",
+  description: "A **test** certification description.",
+  image: "/test-cert.png",
   name: "Test Certification",
   organization: "Test Org",
-  date: "Jan 2024",
-  image: "/test-cert.png",
-  description: "A **test** certification description.",
 };
 
 const DESCRIPTION_REGEX = /certification description/;
 
-describe("CertificationCard", () => {
+describe(CertificationCard, () => {
   it("renders certification details", () => {
     render(<CertificationCard cert={mockCert} />);
     expect(screen.getByText("Test Certification")).toBeDefined();

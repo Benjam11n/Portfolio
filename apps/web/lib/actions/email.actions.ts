@@ -2,25 +2,24 @@
 
 import { logger } from "@repo/logger";
 import { secure } from "@repo/security";
+
 import { fromEmail, resend } from "@/lib/email/resend";
 import {
   generateContactEmailHtml,
   generateContactEmailText,
 } from "@/lib/email/templates";
 import { env } from "@/lib/env";
-import {
-  type ContactActionValues,
-  contactActionSchema,
-} from "@/lib/validations/contact";
+import { contactActionSchema } from "@/lib/validations/contact";
+import type { ContactActionValues } from "@/lib/validations/contact";
 
-export async function sendEmailAction(formData: ContactActionValues) {
+export const sendEmailAction = async (formData: ContactActionValues) => {
   try {
     await secure([]);
     const result = contactActionSchema.safeParse(formData);
     if (!result.success) {
       return {
-        error: "Invalid form data",
         details: result.error.format(),
+        error: "Invalid form data",
       };
     }
 
@@ -35,11 +34,11 @@ export async function sendEmailAction(formData: ContactActionValues) {
 
     const { data, error } = await resend.emails.send({
       from: fromEmail,
-      to: [env.TO_EMAIL],
-      subject: "Contact Request from Portfolio",
-      replyTo: email,
-      text: textContent,
       html: htmlContent,
+      replyTo: email,
+      subject: "Contact Request from Portfolio",
+      text: textContent,
+      to: [env.TO_EMAIL],
     });
 
     if (error) {
@@ -49,7 +48,7 @@ export async function sendEmailAction(formData: ContactActionValues) {
       };
     }
 
-    return { success: true, data };
+    return { data, success: true };
   } catch (error) {
     logger.error(error, "Server error:");
 
@@ -71,4 +70,4 @@ export async function sendEmailAction(formData: ContactActionValues) {
       error: "Internal server error",
     };
   }
-}
+};

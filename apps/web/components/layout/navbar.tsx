@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+
 import { Magnetic } from "@/components/effects/magnetic";
 import { ScrollLink } from "@/components/shared/scroll-link";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
@@ -22,7 +23,7 @@ export const Navbar = () => {
         }
         return item.href.replace("#", "");
       }),
-    [] // Stable IDs
+    []
   );
 
   const activeSection = useActiveSection(sectionIds);

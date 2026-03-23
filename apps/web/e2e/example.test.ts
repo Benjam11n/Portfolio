@@ -8,5 +8,6 @@ test("homepage loads successfully", async ({ page }) => {
   // Check that the page content loads
   // We can check for the document body or specific layout elements
   // For now, let's just assert the title or a generic element presence
-  await expect(page).toHaveTitle(HOMEPAGE_TITLE_REGEX); // Assuming title contains name, adjust if needed
+  // Assuming title contains name, adjust if needed
+  await expect(page).toHaveTitle(HOMEPAGE_TITLE_REGEX);
 });

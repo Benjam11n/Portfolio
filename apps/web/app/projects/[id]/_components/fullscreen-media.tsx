@@ -3,14 +3,14 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-type FullscreenMediaProps = {
+interface FullscreenMediaProps {
   isOpen: boolean;
   onClose: () => void;
   src: string;
   type: "image" | "video";
-};
+}
 
 export const FullscreenMedia = ({
   isOpen,
@@ -19,6 +19,25 @@ export const FullscreenMedia = ({
   type,
 }: FullscreenMediaProps) => {
   const [imageError, setImageError] = useState(false);
+  const handleRootClick = useCallback(() => {
+    onClose();
+  }, [onClose]);
+  const handleButtonClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+      onClose();
+    },
+    [onClose]
+  );
+  const handleContentClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+    },
+    []
+  );
+  const handleImageError = useCallback(() => {
+    setImageError(true);
+  }, []);
 
   // Handle escape key
   useEffect(() => {
@@ -33,11 +52,7 @@ export const FullscreenMedia = ({
 
   // Prevent scroll when open
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
   }, [isOpen]);
 
   return (
@@ -48,17 +63,14 @@ export const FullscreenMedia = ({
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 md:p-10"
           exit={{ opacity: 0 }}
           initial={{ opacity: 0 }}
-          onClick={onClose}
+          onClick={handleRootClick}
         >
           <motion.button
             animate={{ opacity: 1, scale: 1 }}
             className="absolute top-6 right-6 z-[110] rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
             exit={{ opacity: 0, scale: 0.8 }}
             initial={{ opacity: 0, scale: 0.8 }}
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-              onClose();
-            }}
+            onClick={handleButtonClick}
           >
             <X className="h-6 w-6" />
           </motion.button>
@@ -68,9 +80,7 @@ export const FullscreenMedia = ({
             className="relative h-full w-full max-w-7xl"
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            onClick={(e: React.MouseEvent<HTMLDivElement>) =>
-              e.stopPropagation()
-            }
+            onClick={handleContentClick}
           >
             {type === "image" ? (
               <div className="relative h-full w-full">
@@ -83,7 +93,7 @@ export const FullscreenMedia = ({
                     alt="Full screen view"
                     className="object-contain"
                     fill
-                    onError={() => setImageError(true)}
+                    onError={handleImageError}
                     sizes="100vw"
                     src={src}
                   />

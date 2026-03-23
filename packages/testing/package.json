@@ -8,6 +8,9 @@
     "./test-types": "./src/test-types.ts",
     "./test-utils": "./src/test-utils.tsx"
   },
+  "dependencies": {
+    "@radix-ui/react-tooltip": "^1.2.8"
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -22,8 +25,5 @@
   "peerDependencies": {
     "react": "19.2.4",
     "react-dom": "19.2.4"
-  },
-  "dependencies": {
-    "@radix-ui/react-tooltip": "^1.2.8"
   }
 }

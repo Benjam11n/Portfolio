@@ -1,9 +1,10 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { ChevronDown } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
+
 import { Card3D } from "@/components/effects/card-3d";
 import { BorderedImage } from "@/components/shared/bordered-image";
 import { Markdown } from "@/components/shared/markdown";
@@ -12,9 +13,9 @@ import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Experience } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-type ExperienceItemProps = {
+interface ExperienceItemProps {
   item: Experience;
-};
+}
 
 const ExpandIcon = ({ isOpen }: { isOpen: boolean }) => (
   <ChevronDown
@@ -56,15 +57,15 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
       return;
     }
 
-    gsap.to(contentRef.current, {
-      height: "auto",
+    gsapCore.to(contentRef.current, {
       duration: 0.3,
       ease: "power2.out",
+      height: "auto",
     });
-    gsap.to(contentRef.current, {
-      opacity: 1,
-      duration: 0.2,
+    gsapCore.to(contentRef.current, {
       delay: 0.1,
+      duration: 0.2,
+      opacity: 1,
     });
   });
 
@@ -81,15 +82,15 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
       return;
     }
 
-    gsap.to(contentRef.current, {
-      height: 0,
+    gsapCore.to(contentRef.current, {
       duration: 0.25,
       ease: "power2.in",
+      height: 0,
     });
-    gsap.to(contentRef.current, {
-      opacity: 0,
+    gsapCore.to(contentRef.current, {
       duration: 0.15,
       onComplete: restorePreviousFocus,
+      opacity: 0,
     });
   });
 
@@ -109,13 +110,23 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
     }
   );
 
+  const handleButtonClick = contextSafe((e: React.MouseEvent) => {
+    toggleOpen(e);
+  });
+
+  const handleButtonKeyDown = contextSafe((e: React.KeyboardEvent) => {
+    if (e.key === "Escape" && isOpen) {
+      toggleOpen(e);
+    }
+  });
+
   const hasPoints = item.points.length > 0;
 
   // Generate unique IDs for ARIA attributes - memoized for stability
   const { headingId, contentId } = useMemo(
     () => ({
-      headingId: `experience-heading-${item.id}`,
       contentId: `experience-content-${item.id}`,
+      headingId: `experience-heading-${item.id}`,
     }),
     [item.id]
   );
@@ -188,12 +199,8 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         className="group block w-full cursor-pointer p-4 text-left transition-transform hover:scale-[1.005]"
         data-hover-cursor=""
         data-hover-cursor-label={isOpen ? "" : "Click me!"}
-        onClick={(e) => toggleOpen(e)}
-        onKeyDown={(e) => {
-          if (e.key === "Escape" && isOpen) {
-            toggleOpen(e);
-          }
-        }}
+        onClick={handleButtonClick}
+        onKeyDown={handleButtonKeyDown}
         ref={containerRef}
         tabIndex={0}
         type="button"
@@ -221,18 +228,15 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
         >
           <div className="pt-4 sm:pl-[72px]">
             <ul className="flex list-none flex-col gap-2">
-              {item.points.map((point) => {
-                // Render markdown for points
-                return (
-                  <li
-                    className="flex items-start gap-2 text-muted-foreground text-sm leading-relaxed"
-                    key={`${item.id}-point-${point}`}
-                  >
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/40" />
-                    <Markdown>{point}</Markdown>
-                  </li>
-                );
-              })}
+              {item.points.map((point) => (
+                <li
+                  className="flex items-start gap-2 text-muted-foreground text-sm leading-relaxed"
+                  key={`${item.id}-point-${point}`}
+                >
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/40" />
+                  <Markdown>{point}</Markdown>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

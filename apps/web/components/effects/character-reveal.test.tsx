@@ -1,12 +1,13 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+
+import { CharacterReveal } from "./character-reveal";
 
 // Mock GSAP
-vi.mock("@gsap/react", () => ({
+vi.mock(import("@gsap/react"), () => ({
   useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
 
-vi.mock("gsap", () => ({
+vi.mock(import("gsap"), () => ({
   default: {
     set: vi.fn(),
     to: vi.fn(),
@@ -14,20 +15,18 @@ vi.mock("gsap", () => ({
 }));
 
 // Mock hooks
-vi.mock("@/lib/hooks/ui/use-character-reveal", () => ({
+vi.mock(import("@/lib/hooks/ui/use-character-reveal"), () => ({
   useCharacterReveal: () => ({
-    setInitialState: vi.fn(),
     animateIn: vi.fn(),
+    setInitialState: vi.fn(),
   }),
 }));
 
-vi.mock("@/lib/hooks/ui/use-prefers-reduced-motion", () => ({
+vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
   usePrefersReducedMotion: () => false,
 }));
 
-import { CharacterReveal } from "./character-reveal";
-
-describe("CharacterReveal", () => {
+describe(CharacterReveal, () => {
   it("renders children correctly", () => {
     render(<CharacterReveal>Hello World</CharacterReveal>);
     expect(screen.getByText("Hello World")).toBeDefined();
@@ -45,7 +44,7 @@ describe("CharacterReveal", () => {
     const { container } = render(<CharacterReveal>Hi</CharacterReveal>);
     // Should have character reveal spans
     const charSpans = container.querySelectorAll(".char-reveal");
-    expect(charSpans.length).toBe(2);
+    expect(charSpans).toHaveLength(2);
   });
 
   it("handles spaces correctly with w-[0.25em] class", () => {

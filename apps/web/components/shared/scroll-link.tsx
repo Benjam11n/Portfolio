@@ -1,8 +1,11 @@
 "use client";
 
-import Link, { type LinkProps } from "next/link";
+import Link from "next/link";
+import type { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
-import { type AnchorHTMLAttributes, forwardRef } from "react";
+import { forwardRef } from "react";
+import type { AnchorHTMLAttributes } from "react";
+
 import { ROUTES } from "@/lib/constants/navigation";
 
 type ScrollLinkProps = Omit<

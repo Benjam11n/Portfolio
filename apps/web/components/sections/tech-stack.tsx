@@ -11,7 +11,14 @@ import {
   Monitor,
   Server,
 } from "lucide-react";
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
 import { TechDetailModal } from "@/components/modals/tech-detail-modal";
 import { TechStackCategoryTabs } from "@/components/sections/tech-stack-category-tabs";
 import { TechStackSearchSort } from "@/components/sections/tech-stack-search-sort";
@@ -23,24 +30,24 @@ import { useAnimationSkipIndicator } from "@/lib/hooks/ui/use-animation-skip-ind
 import { ProficiencyLevel, TechCategory } from "@/lib/types";
 
 const CATEGORIES = [
-  { label: "All", value: "All", icon: LayoutGrid },
-  { label: "Frontend", value: "Frontend", icon: Monitor },
-  { label: "Backend", value: "Backend", icon: Server },
-  { label: "AI/ML", value: "AI/ML", icon: Bot },
-  { label: "Language", value: "Language", icon: Code2 },
+  { icon: LayoutGrid, label: "All", value: "All" },
+  { icon: Monitor, label: "Frontend", value: "Frontend" },
+  { icon: Server, label: "Backend", value: "Backend" },
+  { icon: Bot, label: "AI/ML", value: "AI/ML" },
+  { icon: Code2, label: "Language", value: "Language" },
 ] as const;
 
 const SORT_OPTIONS = [
-  { label: "Featured", value: "default", icon: ArrowUpDown },
+  { icon: ArrowUpDown, label: "Featured", value: "default" },
   {
+    icon: ArrowDownWideNarrow,
     label: "Skill Level Desc",
     value: "proficiency-desc",
-    icon: ArrowDownWideNarrow,
   },
   {
+    icon: ArrowUpNarrowWide,
     label: "Skill Level Asc",
     value: "proficiency-asc",
-    icon: ArrowUpNarrowWide,
   },
 ] as const;
 
@@ -48,6 +55,8 @@ const CATEGORY_MAP: Record<
   Exclude<(typeof CATEGORIES)[number]["value"], "All">,
   TechCategory[]
 > = {
+  "AI/ML": [TechCategory.AI_ML],
+  Backend: [TechCategory.BACKEND, TechCategory.DATABASE, TechCategory.DEVOPS],
   Frontend: [
     TechCategory.FRONTEND,
     TechCategory.ANIMATION,
@@ -55,8 +64,6 @@ const CATEGORY_MAP: Record<
     TechCategory.FRAMEWORK,
     TechCategory.MOBILE,
   ],
-  Backend: [TechCategory.BACKEND, TechCategory.DATABASE, TechCategory.DEVOPS],
-  "AI/ML": [TechCategory.AI_ML],
   Language: [TechCategory.LANGUAGE],
 };
 
@@ -70,13 +77,38 @@ const PROFICIENCY_RANK: Record<ProficiencyLevel, number> = {
 const SEARCH_TERM_SPLIT_PATTERN = /\s+/;
 
 const TAB_TRANSITION = {
-  type: "spring",
   bounce: 0.19,
   duration: 0.4,
+  type: "spring",
 } as const;
 
 type CategoryFilter = (typeof CATEGORIES)[number]["value"];
 type SortFilter = (typeof SORT_OPTIONS)[number]["value"];
+type TechStackItemData = (typeof TECH_STACK)[number];
+
+interface SelectableTechStackItemProps {
+  searchTerms: string[];
+  stack: TechStackItemData;
+  onSelect: (stack: TechStackItemData) => void;
+}
+
+const SelectableTechStackItem = ({
+  searchTerms,
+  stack,
+  onSelect,
+}: SelectableTechStackItemProps) => {
+  const handleClick = useCallback(() => {
+    onSelect(stack);
+  }, [onSelect, stack]);
+
+  return (
+    <TechStackItem
+      onClick={handleClick}
+      searchTerms={searchTerms}
+      stack={stack}
+    />
+  );
+};
 
 export const TechStack = () => {
   const [selectedCategory, setSelectedCategory] =
@@ -123,22 +155,24 @@ export const TechStack = () => {
       return filtered;
     }
 
-    return [...filtered].sort((left, right) => {
-      const leftRank = left.proficiency
-        ? PROFICIENCY_RANK[left.proficiency]
-        : -1;
-      const rightRank = right.proficiency
-        ? PROFICIENCY_RANK[right.proficiency]
-        : -1;
+    return [...filtered].sort(
+      (left: TechStackItemData, right: TechStackItemData) => {
+        const leftRank = left.proficiency
+          ? PROFICIENCY_RANK[left.proficiency]
+          : -1;
+        const rightRank = right.proficiency
+          ? PROFICIENCY_RANK[right.proficiency]
+          : -1;
 
-      if (leftRank === rightRank) {
-        return left.name.localeCompare(right.name);
+        if (leftRank === rightRank) {
+          return left.name.localeCompare(right.name);
+        }
+
+        return selectedSort === "proficiency-desc"
+          ? rightRank - leftRank
+          : leftRank - rightRank;
       }
-
-      return selectedSort === "proficiency-desc"
-        ? rightRank - leftRank
-        : leftRank - rightRank;
-    });
+    );
   }, [searchTerms, selectedCategory, selectedSort]);
 
   useEffect(() => {
@@ -153,16 +187,24 @@ export const TechStack = () => {
     };
   }, [selectedTech]);
 
+  const handleCloseTechDetail = useCallback(() => {
+    setSelectedTech(null);
+  }, []);
+
+  const handleSelectTech = useCallback((stack: TechStackItemData) => {
+    setSelectedTech(stack);
+  }, []);
+
   const itemVariants = skipAnimations
     ? {
-        initial: { opacity: 1, scale: 1, y: 0 },
         animate: { opacity: 1, scale: 1, y: 0 },
         exit: { opacity: 0, scale: 0.96, y: -8 },
+        initial: { opacity: 1, scale: 1, y: 0 },
       }
     : {
-        initial: { opacity: 0, scale: 0.96, y: 18 },
         animate: { opacity: 1, scale: 1, y: 0 },
         exit: { opacity: 0, scale: 0.96, y: -12 },
+        initial: { opacity: 0, scale: 0.96, y: 18 },
       };
 
   return (
@@ -195,7 +237,7 @@ export const TechStack = () => {
             transition={skipAnimations ? { duration: 0 } : TAB_TRANSITION}
           >
             <AnimatePresence mode="popLayout">
-              {filteredStack.map((stack) => (
+              {filteredStack.map((stack: TechStackItemData) => (
                 <motion.div
                   {...itemVariants}
                   key={stack.name}
@@ -209,8 +251,8 @@ export const TechStack = () => {
                         }
                   }
                 >
-                  <TechStackItem
-                    onClick={() => setSelectedTech(stack)}
+                  <SelectableTechStackItem
+                    onSelect={handleSelectTech}
                     searchTerms={searchTerms}
                     stack={stack}
                   />
@@ -245,7 +287,7 @@ export const TechStack = () => {
       {selectedTech && (
         <TechDetailModal
           isOpen={!!selectedTech}
-          onClose={() => setSelectedTech(null)}
+          onClose={handleCloseTechDetail}
           tech={selectedTech}
         />
       )}

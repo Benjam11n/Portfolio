@@ -1,20 +1,24 @@
 import { JsonLd } from "@repo/seo/json-ld";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+
 import { ProjectNavigation } from "@/components/shared/project-navigation";
 import { SectionCard } from "@/components/shared/section-card";
 import { PROJECTS } from "@/lib/constants/projects";
+
 import { ProjectDetailsGrid } from "./_components/project-details-grid";
 import { ProjectHero } from "./_components/project-hero";
 import { ProjectOverview } from "./_components/project-overview";
 
-type Props = {
+interface Props {
   params: Promise<{
     id: string;
   }>;
-};
+}
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
   const { id } = await params;
   const project = PROJECTS.find((p) => p.id === id);
 
@@ -25,16 +29,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
+    description: project.description.replaceAll("**", ""),
     title: `${project.title} | Portfolio`,
-    description: project.description.replace(/\*\*/g, ""),
   };
-}
+};
 
-export function generateStaticParams() {
-  return PROJECTS.map((project) => ({
+export const generateStaticParams = () =>
+  PROJECTS.map((project) => ({
     id: project.id,
   }));
-}
 
 export default async function ProjectPage({ params }: Props) {
   const { id } = await params;
@@ -50,19 +53,19 @@ export default async function ProjectPage({ params }: Props) {
         code={{
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
-          name: project.title,
-          description: project.description,
           applicationCategory: "WebApplication",
-          operatingSystem: "Any",
+          author: {
+            "@type": "Person",
+            name: "Benjamin Wang",
+          },
+          description: project.description,
+          name: project.title,
           offers: {
             "@type": "Offer",
             price: "0",
             priceCurrency: "USD",
           },
-          author: {
-            "@type": "Person",
-            name: "Benjamin Wang",
-          },
+          operatingSystem: "Any",
         }}
       />
       {/* HERO SECTION */}

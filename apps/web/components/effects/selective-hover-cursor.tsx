@@ -1,8 +1,9 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+
 import {
   HOVER_CURSOR_LABEL_ATTRIBUTE,
   HOVER_CURSOR_SELECTOR,
@@ -23,8 +24,8 @@ export const SelectiveHoverCursor = () => {
   const labelElementRef = useRef<HTMLSpanElement>(null);
   const clearLabelTimeoutRef = useRef<number | null>(null);
   const labelRef = useRef("");
-  const moveXRef = useRef<((value: number) => gsap.core.Tween) | null>(null);
-  const moveYRef = useRef<((value: number) => gsap.core.Tween) | null>(null);
+  const moveXRef = useRef<ReturnType<typeof gsapCore.quickTo> | null>(null);
+  const moveYRef = useRef<ReturnType<typeof gsapCore.quickTo> | null>(null);
   const isVisibleRef = useRef(false);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [label, setLabel] = useState("");
@@ -58,24 +59,24 @@ export const SelectiveHoverCursor = () => {
         return;
       }
 
-      gsap.set(cursorRef.current, {
-        x: -9999,
-        y: -9999,
+      gsapCore.set(cursorRef.current, {
         opacity: 0,
         scale: 0.7,
+        x: -9999,
+        y: -9999,
       });
-      gsap.set(cursorBodyRef.current, {
-        width: CURSOR_DOT_SIZE,
-        minWidth: CURSOR_DOT_SIZE,
+      gsapCore.set(cursorBodyRef.current, {
         height: CURSOR_DOT_SIZE,
+        minWidth: CURSOR_DOT_SIZE,
         paddingInline: 0,
+        width: CURSOR_DOT_SIZE,
       });
 
-      moveXRef.current = gsap.quickTo(cursorRef.current, "x", {
+      moveXRef.current = gsapCore.quickTo(cursorRef.current, "x", {
         duration: 0.3,
         ease: "back.out(1.2)",
       });
-      moveYRef.current = gsap.quickTo(cursorRef.current, "y", {
+      moveYRef.current = gsapCore.quickTo(cursorRef.current, "y", {
         duration: 0.3,
         ease: "back.out(1.2)",
       });
@@ -116,12 +117,12 @@ export const SelectiveHoverCursor = () => {
       isVisibleRef.current = true;
       setActiveState(true);
 
-      gsap.to(cursorRef.current, {
-        opacity: 1,
-        scale: 1,
+      gsapCore.to(cursorRef.current, {
         duration: 0.22,
         ease: "back.out(1.8)",
+        opacity: 1,
         overwrite: "auto",
+        scale: 1,
       });
     };
 
@@ -141,12 +142,12 @@ export const SelectiveHoverCursor = () => {
 
       isVisibleRef.current = false;
 
-      gsap.to(cursorRef.current, {
-        opacity: 0,
-        scale: 0.85,
+      gsapCore.to(cursorRef.current, {
         duration: 0.16,
         ease: "power2.out",
+        opacity: 0,
         overwrite: "auto",
+        scale: 0.85,
       });
     };
 
@@ -165,7 +166,7 @@ export const SelectiveHoverCursor = () => {
       const nextY = event.clientY + POINTER_OFFSET;
 
       if (!isVisibleRef.current && cursorRef.current) {
-        gsap.set(cursorRef.current, {
+        gsapCore.set(cursorRef.current, {
           x: nextX,
           y: nextY,
         });
@@ -245,10 +246,10 @@ export const SelectiveHoverCursor = () => {
   const showLabel = label.length > 0;
   const hasDisplayLabel = displayLabel.length > 0;
   const cursorStyle = {
-    width: showLabel ? expandedWidth : CURSOR_DOT_SIZE,
-    minWidth: showLabel ? expandedWidth : CURSOR_DOT_SIZE,
     height: showLabel ? CURSOR_LABEL_HEIGHT : CURSOR_DOT_SIZE,
+    minWidth: showLabel ? expandedWidth : CURSOR_DOT_SIZE,
     paddingInline: showLabel ? CURSOR_LABEL_PADDING : 0,
+    width: showLabel ? expandedWidth : CURSOR_DOT_SIZE,
   };
 
   if (!shouldEnable) {

@@ -1,16 +1,17 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { RefObject } from "react";
+
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+  gsapCore.registerPlugin(ScrollTrigger);
 }
 
-type ScrollRevealOptions = {
+interface ScrollRevealOptions {
   y?: number;
   x?: number;
   duration?: number;
@@ -20,7 +21,7 @@ type ScrollRevealOptions = {
   start?: string;
   toggleActions?: string;
   skipAnimations?: boolean;
-};
+}
 
 export const useScrollReveal = (
   containerRef: RefObject<HTMLElement | null>,
@@ -49,38 +50,38 @@ export const useScrollReveal = (
 
       if (prefersReducedMotion || skipAnimations) {
         // For reduced motion or skipped animations, immediately set to final state without animation
-        gsap.set(targets, {
-          y: 0,
-          x: 0,
+        gsapCore.set(targets, {
           autoAlpha: 1,
+          x: 0,
+          y: 0,
         });
       } else {
         // Animate from offset position
-        gsap.set(targets, {
-          y,
-          x,
+        gsapCore.set(targets, {
           autoAlpha: 0,
+          x,
+          y,
         });
 
-        gsap.to(targets, {
+        gsapCore.to(targets, {
+          autoAlpha: 1,
+          delay,
+          duration,
+          ease,
           scrollTrigger: {
-            trigger: containerRef.current,
             start,
             toggleActions,
+            trigger: containerRef.current,
           },
-          y: 0,
-          x: 0,
-          autoAlpha: 1,
-          duration,
-          delay,
           stagger,
-          ease,
+          x: 0,
+          y: 0,
         });
       }
     },
     {
-      scope: containerRef,
       dependencies: [prefersReducedMotion, skipAnimations],
+      scope: containerRef,
     }
   );
 };

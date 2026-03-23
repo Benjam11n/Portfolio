@@ -1,18 +1,18 @@
-/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: Interaction is hover-only wrapper */
-/** biome-ignore-all lint/a11y/noStaticElementInteractions: Interaction is hover-only wrapper */
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { type ReactElement, useRef } from "react";
+import gsapCore from "gsap";
+import { useRef } from "react";
+import type { ReactElement } from "react";
+
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
-type MagneticProps = {
+interface MagneticProps {
   children: ReactElement;
   strength?: number;
-};
+}
 
-export function Magnetic({ children, strength = 0.35 }: MagneticProps) {
+export const Magnetic = ({ children, strength = 0.35 }: MagneticProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -29,11 +29,11 @@ export function Magnetic({ children, strength = 0.35 }: MagneticProps) {
         return;
       }
 
-      moveX.current = gsap.quickTo(ref.current, "x", {
+      moveX.current = gsapCore.quickTo(ref.current, "x", {
         duration: 1,
         ease: "elastic.out(1, 0.3)",
       });
-      moveY.current = gsap.quickTo(ref.current, "y", {
+      moveY.current = gsapCore.quickTo(ref.current, "y", {
         duration: 1,
         ease: "elastic.out(1, 0.3)",
       });
@@ -46,9 +46,9 @@ export function Magnetic({ children, strength = 0.35 }: MagneticProps) {
     const { height, width, left, top } =
       ref.current?.getBoundingClientRect() || {
         height: 0,
-        width: 0,
         left: 0,
         top: 0,
+        width: 0,
       };
 
     const middleX = clientX - (left + width / 2);
@@ -73,4 +73,4 @@ export function Magnetic({ children, strength = 0.35 }: MagneticProps) {
       <div className="pointer-events-auto">{children}</div>
     </div>
   );
-}
+};

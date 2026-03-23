@@ -1,19 +1,20 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+
 import { Card3D } from "@/components/effects/card-3d";
 import { Markdown } from "@/components/shared/markdown";
 import { ROUTES } from "@/lib/constants/navigation";
 import type { Project } from "@/lib/types";
 import { getProjectsByTech } from "@/lib/utils/projects-by-tech";
 
-type RelatedProjectsListProps = {
+interface RelatedProjectsListProps {
   techName: string;
-};
+}
 
 export const RelatedProjectsList = ({ techName }: RelatedProjectsListProps) => {
   const projects = getProjectsByTech(techName);
@@ -25,20 +26,20 @@ export const RelatedProjectsList = ({ techName }: RelatedProjectsListProps) => {
         return;
       }
 
-      gsap.set(".related-project-item", {
-        y: 20,
+      gsapCore.set(".related-project-item", {
         autoAlpha: 0,
+        y: 20,
       });
 
-      gsap.to(".related-project-item", {
-        y: 0,
+      gsapCore.to(".related-project-item", {
         autoAlpha: 1,
         duration: 0.5,
-        stagger: 0.1,
         ease: "power2.out",
+        stagger: 0.1,
+        y: 0,
       });
     },
-    { scope: containerRef, dependencies: [projects] }
+    { dependencies: [projects], scope: containerRef }
   );
 
   if (projects.length === 0) {

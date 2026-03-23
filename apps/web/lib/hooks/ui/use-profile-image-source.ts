@@ -1,16 +1,17 @@
 "use client";
 
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { useTheme } from "next-themes";
-import { type RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { RefObject } from "react";
 
 const DARK_PROFILE_IMAGE_SRC = "/benjamin.png";
 const LIGHT_PROFILE_IMAGE_SRC = "/benjamin-light.png";
 
-type UseProfileImageSourceOptions = {
+interface UseProfileImageSourceOptions {
   animationRef?: RefObject<HTMLElement | null>;
   prefersReducedMotion?: boolean;
-};
+}
 
 export const useProfileImageSource = ({
   animationRef,
@@ -18,7 +19,7 @@ export const useProfileImageSource = ({
 }: UseProfileImageSourceOptions = {}) => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const previousThemeRef = useRef<string | undefined>(undefined);
+  const previousThemeRef = useRef<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -42,7 +43,7 @@ export const useProfileImageSource = ({
       return;
     }
 
-    gsap.fromTo(
+    gsapCore.fromTo(
       animationRef.current,
       {
         autoAlpha: 0.8,

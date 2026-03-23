@@ -1,17 +1,17 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+
 import { Footer } from "./footer";
 
 // Mock GSAP
-vi.mock("@gsap/react", () => ({
+vi.mock(import("@gsap/react"), () => ({
   useGSAP: vi.fn(),
 }));
 
-vi.mock("gsap/ScrollTrigger", () => ({
+vi.mock(import("gsap/ScrollTrigger"), () => ({
   ScrollTrigger: {},
 }));
 
-vi.mock("gsap", () => ({
+vi.mock(import("gsap"), () => ({
   default: {
     registerPlugin: vi.fn(),
     timeline: () => ({
@@ -24,7 +24,7 @@ const GITHUB_REGEX = /Github/i;
 const CTA_REGEX = /Have A Question\?/i;
 const NAME_REGEX = /Benjamin Wang/i;
 
-describe("Footer", () => {
+describe(Footer, () => {
   it("renders call to action", () => {
     render(<Footer />);
     expect(

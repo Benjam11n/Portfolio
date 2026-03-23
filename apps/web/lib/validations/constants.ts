@@ -2,6 +2,18 @@ import { z } from "zod";
 
 // Certification validation schema
 const certificationSchema = z.object({
+  date: z
+    .string()
+    .min(1, "Date must be at least 1 character")
+    .max(50, "Date must be at most 50 characters"),
+  description: z
+    .string()
+    .min(1, "Description must be at least 1 character")
+    .max(1000, "Description must be at most 1000 characters"),
+  image: z
+    .string()
+    .min(1, "Image path must be at least 1 character")
+    .max(500, "Image path must be at most 500 characters"),
   name: z
     .string()
     .min(1, "Certification name must be at least 1 character")
@@ -10,107 +22,45 @@ const certificationSchema = z.object({
     .string()
     .min(1, "Organization must be at least 1 character")
     .max(300, "Organization must be at most 300 characters"),
-  date: z
-    .string()
-    .min(1, "Date must be at least 1 character")
-    .max(50, "Date must be at most 50 characters"),
-  image: z
-    .string()
-    .min(1, "Image path must be at least 1 character")
-    .max(500, "Image path must be at most 500 characters"),
-  description: z
-    .string()
-    .min(1, "Description must be at least 1 character")
-    .max(1000, "Description must be at most 1000 characters"),
 });
 
 // Experience validation schema
 const experienceSchema = z.object({
+  duration: z
+    .string()
+    .min(1, "Duration must be at least 1 character")
+    .max(100, "Duration must be at most 100 characters"),
+  icon: z
+    .string()
+    .min(1, "Icon path must be at least 1 character")
+    .max(500, "Icon path must be at most 500 characters"),
   id: z.number().int("ID must be an integer"),
   name: z
     .string()
     .min(1, "Company name must be at least 1 character")
     .max(300, "Company name must be at most 300 characters"),
-  pos: z
-    .string()
-    .min(1, "Position must be at least 1 character")
-    .max(300, "Position must be at most 300 characters"),
-  duration: z
-    .string()
-    .min(1, "Duration must be at least 1 character")
-    .max(100, "Duration must be at most 100 characters"),
   points: z.array(
     z
       .string()
       .min(1, "Point must be at least 1 character")
       .max(1000, "Point must be at most 1000 characters")
   ),
-  icon: z
+  pos: z
     .string()
-    .min(1, "Icon path must be at least 1 character")
-    .max(500, "Icon path must be at most 500 characters"),
+    .min(1, "Position must be at least 1 character")
+    .max(300, "Position must be at most 300 characters"),
 });
 
 // Project validation schema
 const projectSchema = z.object({
-  id: z
-    .string()
-    .min(1, "Project ID must be at least 1 character")
-    .max(100, "Project ID must be at most 100 characters"),
-  title: z
-    .string()
-    .min(1, "Title must be at least 1 character")
-    .max(300, "Title must be at most 300 characters"),
-  description: z
-    .string()
-    .min(1, "Description must be at least 1 character")
-    .max(2000, "Description must be at most 2000 characters"),
-  subdesc: z
-    .string()
-    .max(5000, "Subdescription must be at most 5000 characters")
-    .optional(),
-  year: z
-    .string()
-    .min(1, "Year must be at least 1 character")
-    .max(10, "Year must be at most 10 characters"),
   client: z
     .string()
     .min(1, "Client must be at least 1 character")
     .max(300, "Client must be at most 300 characters"),
-  services: z
+  description: z
     .string()
-    .min(1, "Services must be at least 1 character")
-    .max(300, "Services must be at most 300 characters"),
-  location: z
-    .string()
-    .min(1, "Location must be at least 1 character")
-    .max(300, "Location must be at most 300 characters"),
-  status: z.enum(["completed", "in-development", "planned"]).optional(),
-  href: z.string().max(1000, "Href must be at most 1000 characters").optional(),
-  link: z.string().max(1000, "Link must be at most 1000 characters").optional(),
-  github: z
-    .string()
-    .max(1000, "GitHub must be at most 1000 characters")
-    .optional(),
-  video_overview: z
-    .string()
-    .max(500, "Video overview path must be at most 500 characters")
-    .optional(),
-  hero_image: z
-    .string()
-    .max(500, "Hero image path must be at most 500 characters")
-    .optional(),
-  logo: z
-    .string()
-    .min(1, "Logo path must be at least 1 character")
-    .max(500, "Logo path must be at most 500 characters"),
-  logoStyle: z.record(z.unknown()).optional(),
-  techStack: z.array(
-    z
-      .string()
-      .min(1, "Tech stack item must be at least 1 character")
-      .max(100, "Tech stack item must be at most 100 characters")
-  ),
+    .min(1, "Description must be at least 1 character")
+    .max(2000, "Description must be at most 2000 characters"),
   features: z
     .array(
       z
@@ -119,6 +69,56 @@ const projectSchema = z.object({
         .max(500, "Feature must be at most 500 characters")
     )
     .optional(),
+  github: z
+    .string()
+    .max(1000, "GitHub must be at most 1000 characters")
+    .optional(),
+  hero_image: z
+    .string()
+    .max(500, "Hero image path must be at most 500 characters")
+    .optional(),
+  href: z.string().max(1000, "Href must be at most 1000 characters").optional(),
+  id: z
+    .string()
+    .min(1, "Project ID must be at least 1 character")
+    .max(100, "Project ID must be at most 100 characters"),
+  link: z.string().max(1000, "Link must be at most 1000 characters").optional(),
+  location: z
+    .string()
+    .min(1, "Location must be at least 1 character")
+    .max(300, "Location must be at most 300 characters"),
+  logo: z
+    .string()
+    .min(1, "Logo path must be at least 1 character")
+    .max(500, "Logo path must be at most 500 characters"),
+  logoStyle: z.record(z.unknown()).optional(),
+  services: z
+    .string()
+    .min(1, "Services must be at least 1 character")
+    .max(300, "Services must be at most 300 characters"),
+  status: z.enum(["completed", "in-development", "planned"]).optional(),
+  subdesc: z
+    .string()
+    .max(5000, "Subdescription must be at most 5000 characters")
+    .optional(),
+  techStack: z.array(
+    z
+      .string()
+      .min(1, "Tech stack item must be at least 1 character")
+      .max(100, "Tech stack item must be at most 100 characters")
+  ),
+  title: z
+    .string()
+    .min(1, "Title must be at least 1 character")
+    .max(300, "Title must be at most 300 characters"),
+  video_overview: z
+    .string()
+    .max(500, "Video overview path must be at most 500 characters")
+    .optional(),
+  year: z
+    .string()
+    .min(1, "Year must be at least 1 character")
+    .max(10, "Year must be at most 10 characters"),
 });
 
 export const certificationsArraySchema = z.array(certificationSchema);

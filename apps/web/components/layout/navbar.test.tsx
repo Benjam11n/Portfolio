@@ -1,21 +1,21 @@
 import { render, screen } from "@repo/testing/test-utils";
-import { describe, expect, it, vi } from "vitest";
+
 import { Navbar } from "./navbar";
 
 // Mock dependencies
-vi.mock("next/navigation", () => ({
+vi.mock(import("next/navigation"), () => ({
   usePathname: () => "/",
 }));
 
-vi.mock("@/components/shared/theme-toggle", () => ({
+vi.mock(import("@/components/shared/theme-toggle"), () => ({
   ThemeToggle: () => <button type="button">Toggle Theme</button>,
 }));
 
-vi.mock("@/components/effects/magnetic", () => ({
-  Magnetic: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+vi.mock(import("@/components/effects/magnetic"), () => ({
+  Magnetic: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-describe("Navbar", () => {
+describe(Navbar, () => {
   it("renders navigation items", () => {
     render(<Navbar />);
 

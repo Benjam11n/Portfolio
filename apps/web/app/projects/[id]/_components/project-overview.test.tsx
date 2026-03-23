@@ -1,46 +1,45 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+
 import { ProjectOverview } from "./project-overview";
 
 // Mock GSAP
-vi.mock("@gsap/react", () => ({
+vi.mock(import("@gsap/react"), () => ({
   useGSAP: () => ({
     contextSafe: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
   }),
 }));
 
-vi.mock("gsap", () => ({
+vi.mock(import("gsap"), () => ({
+  ScrollTrigger: {},
   default: {
+    matchMedia: () => ({
+      add: vi.fn(),
+    }),
     registerPlugin: vi.fn(),
     set: vi.fn(),
     timeline: () => ({
       to: vi.fn().mockReturnThis(),
     }),
-    matchMedia: () => ({
-      add: vi.fn(),
-    }),
   },
-  ScrollTrigger: {},
 }));
 
 const mockProject = {
-  id: "test-project",
-  title: "Test Project",
-  description: "Desc",
-  subdesc: "A **detailed** overview of the project.",
-  features: ["Feature **1**", "Feature 2"],
-  techStack: ["React", "TypeScript"],
-  // minimal required props
-  year: "2024",
   client: "Me",
-  services: "Code",
+  description: "Desc",
+  features: ["Feature **1**", "Feature 2"],
+  id: "test-project",
   location: "Web",
   logo: "/logo.png",
+  services: "Code",
+  subdesc: "A **detailed** overview of the project.",
+  techStack: ["React", "TypeScript"],
+  title: "Test Project",
+  year: "2024",
 };
 
 const OVERVIEW_REGEX = /overview of the project/;
 
-describe("ProjectOverview", () => {
+describe(ProjectOverview, () => {
   it("renders markdown sub-description", () => {
     render(<ProjectOverview project={mockProject} />);
     const strongText = screen.getByText("detailed");
@@ -50,8 +49,10 @@ describe("ProjectOverview", () => {
 
   it("renders features list with markdown", () => {
     render(<ProjectOverview project={mockProject} />);
-    expect(screen.getByText("Feature")).toBeDefined(); // Part of Feature **1**
-    expect(screen.getByText("1")).toBeDefined(); // The bold part
+    // Part of Feature **1**
+    expect(screen.getByText("Feature")).toBeDefined();
+    // The bold part
+    expect(screen.getByText("1")).toBeDefined();
     expect(screen.getByText("Feature 2")).toBeDefined();
   });
 

@@ -1,9 +1,9 @@
 import { act, renderHook } from "@testing-library/react";
 import type { WebGLRenderer } from "three";
-import { afterEach, describe, expect, it, vi } from "vitest";
+
 import { useMouseInteraction } from "./use-mouse-interaction";
 
-describe("useMouseInteraction", () => {
+describe(useMouseInteraction, () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });

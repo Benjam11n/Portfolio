@@ -1,14 +1,15 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+
+import { ProjectHero } from "./project-hero";
 
 // Mock GSAP
-vi.mock("@gsap/react", () => ({
+vi.mock(import("@gsap/react"), () => ({
   useGSAP: () => ({
     contextSafe: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
   }),
 }));
 
-vi.mock("gsap", () => ({
+vi.mock(import("gsap"), () => ({
   default: {
     set: vi.fn(),
     timeline: () => ({
@@ -18,41 +19,39 @@ vi.mock("gsap", () => ({
 }));
 
 // Mock new hooks for CharacterReveal component compatibility
-vi.mock("@/lib/hooks/ui/use-character-reveal", () => ({
+vi.mock(import("@/lib/hooks/ui/use-character-reveal"), () => ({
   useCharacterReveal: () => ({
-    setInitialState: vi.fn(),
     animateIn: vi.fn(),
     animateOut: vi.fn(),
+    setInitialState: vi.fn(),
   }),
 }));
 
-vi.mock("@/lib/hooks/ui/use-prefers-reduced-motion", () => ({
+vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
   usePrefersReducedMotion: () => false,
 }));
 
-import { ProjectHero } from "./project-hero";
-
 const mockProject = {
-  id: "test-project",
-  title: "Test Project - Subtitle",
-  description: "A **test** project description",
-  tags: ["React"],
-  year: "2024",
   client: "Personal",
-  services: "Web",
-  location: "Remote",
-  techStack: ["React"],
-  logo: "/logo.png",
-  logoStyle: { backgroundColor: "#000" },
+  description: "A **test** project description",
+  github: "https://github.com/test",
   hero_image: "/hero.jpg",
   href: "https://example.com",
-  github: "https://github.com/test",
+  id: "test-project",
+  location: "Remote",
+  logo: "/logo.png",
+  logoStyle: { backgroundColor: "#000" },
+  services: "Web",
+  tags: ["React"],
+  techStack: ["React"],
+  title: "Test Project - Subtitle",
+  year: "2024",
 };
 
 const DESCRIPTION_REGEX = /project description/;
 const BACK_TO_PORTFOLIO_REGEX = /back to portfolio/i;
 
-describe("ProjectHero", () => {
+describe(ProjectHero, () => {
   it("renders project title splitted correctly", () => {
     render(<ProjectHero project={mockProject} />);
     // visual splitting logic is: title.split(" - ")[0]
@@ -90,8 +89,8 @@ describe("ProjectHero", () => {
   it("handles missing links gracefully", () => {
     const projectNoLinks = {
       ...mockProject,
-      href: undefined,
       github: undefined,
+      href: undefined,
     };
     render(<ProjectHero project={projectNoLinks} />);
     expect(screen.queryByText("Live Site")).toBeNull();

@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
  * const enableBloom = !isMobile;
  * ```
  */
-export function useMobileDetection(): boolean {
+export const useMobileDetection = (): boolean => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -36,4 +36,4 @@ export function useMobileDetection(): boolean {
   }, []);
 
   return isMobile;
-}
+};

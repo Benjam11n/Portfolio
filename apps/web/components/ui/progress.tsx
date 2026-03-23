@@ -1,20 +1,22 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import { forwardRef } from "react";
+
 import { cn } from "@/lib/utils";
 
 const progressVariants = cva(
   "h-full w-full flex-1 transition-all duration-300 ease-in-out",
   {
+    defaultVariants: {
+      variant: "primary",
+    },
     variants: {
       variant: {
+        destructive: "bg-destructive",
         primary: "bg-primary",
         success: "bg-green-600",
         warning: "bg-yellow-600",
-        destructive: "bg-destructive",
       },
-    },
-    defaultVariants: {
-      variant: "primary",
     },
   }
 );
@@ -55,7 +57,7 @@ const Progress = forwardRef<HTMLDivElement, ProgressProps>(
       >
         <div
           className={cn(
-            progressVariants({ variant, className: fillClassName })
+            progressVariants({ className: fillClassName, variant })
           )}
           style={{ width: `${percentage}%` }}
         />

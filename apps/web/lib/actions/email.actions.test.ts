@@ -1,4 +1,3 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import { sendEmailAction } from "./email.actions";
 
 const { mockLoggerError, mockResendSend, mockSecure } = vi.hoisted(() => ({
@@ -7,17 +6,17 @@ const { mockLoggerError, mockResendSend, mockSecure } = vi.hoisted(() => ({
   mockSecure: vi.fn(),
 }));
 
-vi.mock("@repo/security", () => ({
+vi.mock(import("@repo/security"), () => ({
   secure: mockSecure,
 }));
 
-vi.mock("@repo/logger", () => ({
+vi.mock(import("@repo/logger"), () => ({
   logger: {
     error: mockLoggerError,
   },
 }));
 
-vi.mock("@/lib/email/resend", () => ({
+vi.mock(import("@/lib/email/resend"), () => ({
   fromEmail: "portfolio@example.com",
   resend: {
     emails: {
@@ -26,16 +25,16 @@ vi.mock("@/lib/email/resend", () => ({
   },
 }));
 
-vi.mock("@/lib/env", () => ({
+vi.mock(import("@/lib/env"), () => ({
   env: {
     TO_EMAIL: "owner@example.com",
   },
 }));
 
-describe("sendEmailAction", () => {
+describe(sendEmailAction, () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockSecure.mockResolvedValue(undefined);
+    mockSecure.mockResolvedValue();
   });
 
   it("sends email for valid submissions", async () => {
@@ -45,15 +44,15 @@ describe("sendEmailAction", () => {
     });
 
     const result = await sendEmailAction({
-      name: "John Doe",
       email: "john@example.com",
       message: "This message is definitely long enough.",
+      name: "John Doe",
       website: "",
     });
 
-    expect(result).toEqual({
-      success: true,
+    expect(result).toStrictEqual({
       data: { id: "email-id" },
+      success: true,
     });
     expect(mockSecure).toHaveBeenCalledWith([]);
     expect(mockResendSend).toHaveBeenCalledWith(
@@ -68,13 +67,13 @@ describe("sendEmailAction", () => {
 
   it("silently ignores honeypot submissions", async () => {
     const result = await sendEmailAction({
-      name: "John Doe",
       email: "john@example.com",
       message: "This message is definitely long enough.",
+      name: "John Doe",
       website: "https://spam.example.com",
     });
 
-    expect(result).toEqual({ success: true });
+    expect(result).toStrictEqual({ success: true });
     expect(mockResendSend).not.toHaveBeenCalled();
   });
 
@@ -84,13 +83,13 @@ describe("sendEmailAction", () => {
     );
 
     const result = await sendEmailAction({
-      name: "John Doe",
       email: "john@example.com",
       message: "This message is definitely long enough.",
+      name: "John Doe",
       website: "",
     });
 
-    expect(result).toEqual({
+    expect(result).toStrictEqual({
       error: "You are sending too many requests. Please try again later.",
     });
   });
@@ -102,13 +101,13 @@ describe("sendEmailAction", () => {
     });
 
     const result = await sendEmailAction({
-      name: "John Doe",
       email: "john@example.com",
       message: "This message is definitely long enough.",
+      name: "John Doe",
       website: "",
     });
 
-    expect(result).toEqual({
+    expect(result).toStrictEqual({
       error: "Failed to send email",
     });
   });

@@ -1,16 +1,31 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import type React from "react";
-import { useMemo } from "react";
+import { createElement, useMemo } from "react";
+
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
-type ShiftTextProps = {
+interface ShiftTextProps {
   children: string;
   className?: string;
   as?: React.ElementType;
+}
+
+const createCharacterKeys = (text: string, prefix: string) => {
+  const counts = new Map<string, number>();
+
+  return [...text].map((char) => {
+    const nextCount = (counts.get(char) ?? 0) + 1;
+    counts.set(char, nextCount);
+
+    return {
+      char,
+      key: `${prefix}-${char}-${nextCount}`,
+    };
+  });
 };
 
 export const ShiftText = ({
@@ -18,50 +33,54 @@ export const ShiftText = ({
   className,
   as: Component = "span",
 }: ShiftTextProps) => {
-  const chars = useMemo(() => children.split(""), [children]);
-  // biome-ignore lint/suspicious/noExplicitAny: Polymorphic component handling
-  const Comp = Component as any;
-
-  return (
-    <Comp
-      className={cn(
-        "relative inline-block overflow-hidden align-top",
-        className
-      )}
-    >
-      {/* Primary Text (Visible initially) */}
-      <span aria-hidden="true" className="block">
-        {chars.map((char, i) => (
-          <span
-            className="shift-char-primary inline-block whitespace-pre-wrap"
-            // biome-ignore lint/suspicious/noArrayIndexKey: Characters are static and order is guaranteed
-            key={`primary-${char}-${i}`}
-          >
-            {char}
-          </span>
-        ))}
-      </span>
-
-      {/* Secondary Text (Hidden below initially) */}
-      <span
-        aria-hidden="true"
-        className="absolute top-0 left-0 block h-full w-full translate-y-[120%]"
-      >
-        {chars.map((char, i) => (
-          <span
-            className="shift-char-secondary inline-block whitespace-pre-wrap"
-            // biome-ignore lint/suspicious/noArrayIndexKey: Characters are static and order is guaranteed
-            key={`secondary-${char}-${i}`}
-          >
-            {char}
-          </span>
-        ))}
-      </span>
-
-      {/* Screen reader only text */}
-      <span className="sr-only">{children}</span>
-    </Comp>
+  const primaryChars = useMemo(
+    () => createCharacterKeys(children, "primary"),
+    [children]
   );
+  const secondaryChars = useMemo(
+    () => createCharacterKeys(children, "secondary"),
+    [children]
+  );
+  const componentProps = {
+    children: (
+      <>
+        {/* Primary Text (Visible initially) */}
+        <span aria-hidden="true" className="block">
+          {primaryChars.map(({ char, key }) => (
+            <span
+              className="shift-char-primary inline-block whitespace-pre-wrap"
+              key={key}
+            >
+              {char}
+            </span>
+          ))}
+        </span>
+
+        {/* Secondary Text (Hidden below initially) */}
+        <span
+          aria-hidden="true"
+          className="absolute top-0 left-0 block h-full w-full translate-y-[120%]"
+        >
+          {secondaryChars.map(({ char, key }) => (
+            <span
+              className="shift-char-secondary inline-block whitespace-pre-wrap"
+              key={key}
+            >
+              {char}
+            </span>
+          ))}
+        </span>
+
+        {/* Screen reader only text */}
+        <span className="sr-only">{children}</span>
+      </>
+    ),
+    className: cn("relative inline-block overflow-hidden align-top", className),
+  } as React.HTMLAttributes<HTMLElement> & {
+    children: React.ReactNode;
+  };
+
+  return createElement(Component, componentProps);
 };
 
 export const useShiftAnimation = (
@@ -74,25 +93,25 @@ export const useShiftAnimation = (
     if (prefersReducedMotion) {
       // Instant state change when reduced motion is preferred
       // Both primary and secondary move to -120% to swap visible text
-      gsap.set(".shift-char-primary", {
+      gsapCore.set(".shift-char-primary", {
         y: "-120%",
       });
-      gsap.set(".shift-char-secondary", {
+      gsapCore.set(".shift-char-secondary", {
         y: "-120%",
       });
     } else {
       // Animated transition with stagger for smooth visual effect
-      gsap.to(".shift-char-primary", {
-        y: "-120%",
+      gsapCore.to(".shift-char-primary", {
         duration: 0.2,
-        stagger: 0.01,
         ease: "power2.inOut",
+        stagger: 0.01,
+        y: "-120%",
       });
-      gsap.to(".shift-char-secondary", {
-        y: "-120%",
+      gsapCore.to(".shift-char-secondary", {
         duration: 0.2,
-        stagger: 0.01,
         ease: "power2.inOut",
+        stagger: 0.01,
+        y: "-120%",
       });
     }
   });
@@ -100,25 +119,25 @@ export const useShiftAnimation = (
   const animateOut = contextSafe(() => {
     if (prefersReducedMotion) {
       // Instant state change when reduced motion is preferred
-      gsap.set(".shift-char-primary", {
+      gsapCore.set(".shift-char-primary", {
         y: "0%",
       });
-      gsap.set(".shift-char-secondary", {
+      gsapCore.set(".shift-char-secondary", {
         y: "120%",
       });
     } else {
       // Animated transition with stagger
-      gsap.to(".shift-char-primary", {
+      gsapCore.to(".shift-char-primary", {
+        duration: 0.2,
+        ease: "power2.inOut",
+        stagger: 0.01,
         y: "0%",
-        duration: 0.2,
-        stagger: 0.01,
-        ease: "power2.inOut",
       });
-      gsap.to(".shift-char-secondary", {
-        y: "120%",
+      gsapCore.to(".shift-char-secondary", {
         duration: 0.2,
-        stagger: 0.01,
         ease: "power2.inOut",
+        stagger: 0.01,
+        y: "120%",
       });
     }
   });

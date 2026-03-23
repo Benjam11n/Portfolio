@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { createContext, useContext } from "react";
+
 import { useAnimationSkip } from "@/lib/hooks/animation/use-animation-skip";
 
 type AnimationSkipContextValue = ReturnType<typeof useAnimationSkip>;
@@ -27,7 +28,11 @@ const AnimationSkipContext = createContext<AnimationSkipContextValue | null>(
  * </AnimationSkipProvider>
  * ```
  */
-export function AnimationSkipProvider({ children }: { children: ReactNode }) {
+export const AnimationSkipProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const animationSkip = useAnimationSkip();
 
   return (
@@ -35,7 +40,7 @@ export function AnimationSkipProvider({ children }: { children: ReactNode }) {
       {children}
     </AnimationSkipContext.Provider>
   );
-}
+};
 
 /**
  * Hook to access the global animation skip state.
@@ -52,7 +57,7 @@ export function AnimationSkipProvider({ children }: { children: ReactNode }) {
  * }
  * ```
  */
-export function useAnimationSkipContext(): AnimationSkipContextValue {
+export const useAnimationSkipContext = (): AnimationSkipContextValue => {
   const context = useContext(AnimationSkipContext);
   if (!context) {
     throw new Error(
@@ -60,4 +65,4 @@ export function useAnimationSkipContext(): AnimationSkipContextValue {
     );
   }
   return context;
-}
+};

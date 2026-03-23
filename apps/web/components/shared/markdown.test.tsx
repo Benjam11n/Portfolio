@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+
 import { Markdown } from "./markdown";
 
-describe("Markdown Component", () => {
+describe("markdown Component", () => {
   it("renders plain text correctly", () => {
     render(<Markdown>Hello world</Markdown>);
     expect(screen.getByText("Hello world")).toBeDefined();

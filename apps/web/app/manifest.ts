@@ -4,24 +4,24 @@ import { SITE_METADATA } from "@/lib/constants/metadata";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: SITE_METADATA.title,
-    short_name: "Ben Wang",
-    description: SITE_METADATA.description,
-    start_url: "/",
-    display: "standalone",
     background_color: "#000000",
-    theme_color: "#000000",
+    description: SITE_METADATA.description,
+    display: "standalone",
     icons: [
       {
-        src: "/icon.png",
         sizes: "any",
+        src: "/icon.png",
         type: "image/png",
       },
       {
-        src: "/apple-icon.png",
         sizes: "180x180",
+        src: "/apple-icon.png",
         type: "image/png",
       },
     ],
+    name: SITE_METADATA.title,
+    short_name: "Ben Wang",
+    start_url: "/",
+    theme_color: "#000000",
   };
 }

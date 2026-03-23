@@ -1,12 +1,12 @@
 import { act, renderHook } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
 import { useElementVisibility } from "./use-element-visibility";
 
-describe("useElementVisibility", () => {
+describe(useElementVisibility, () => {
   let intersectionCallback: IntersectionObserverCallback;
   let observeSpy: ReturnType<typeof vi.fn>;
   let disconnectSpy: ReturnType<typeof vi.fn>;
-  let eventListeners: Record<string, EventListener> = {};
+  let eventListeners: Partial<Record<string, EventListener>> = {};
 
   beforeEach(() => {
     observeSpy = vi.fn();
@@ -28,9 +28,7 @@ describe("useElementVisibility", () => {
 
       observe = observeSpy;
       disconnect = disconnectSpy;
-      takeRecords() {
-        return [];
-      }
+      takeRecords = vi.fn(() => []);
     } as unknown as typeof IntersectionObserver;
 
     // Mock document event listeners
@@ -41,13 +39,13 @@ describe("useElementVisibility", () => {
     );
 
     vi.spyOn(document, "removeEventListener").mockImplementation((event) => {
-      delete eventListeners[event];
+      eventListeners[event] = undefined;
     });
 
     // Mock document.hidden
     Object.defineProperty(document, "hidden", {
       configurable: true,
-      get: () => false, // Default to visible
+      get: () => false,
     });
   });
 
@@ -59,7 +57,7 @@ describe("useElementVisibility", () => {
     const ref = { current: document.createElement("div") };
     const { result } = renderHook(() => useElementVisibility(ref));
 
-    expect(result.current).toBe(false);
+    expect(result.current).toBeFalsy();
     expect(observeSpy).toHaveBeenCalledWith(ref.current);
   });
 
@@ -80,7 +78,7 @@ describe("useElementVisibility", () => {
       );
     });
 
-    expect(result.current).toBe(true);
+    expect(result.current).toBeTruthy();
   });
 
   it("should return false when element stops intersecting", () => {
@@ -94,7 +92,7 @@ describe("useElementVisibility", () => {
         window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
-    expect(result.current).toBe(true);
+    expect(result.current).toBeTruthy();
 
     // Then make it invisible
     act(() => {
@@ -103,7 +101,7 @@ describe("useElementVisibility", () => {
         window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
-    expect(result.current).toBe(false);
+    expect(result.current).toBeFalsy();
   });
 
   it("should return false when page becomes hidden", () => {
@@ -117,7 +115,7 @@ describe("useElementVisibility", () => {
         window.IntersectionObserver as unknown as IntersectionObserver
       );
     });
-    expect(result.current).toBe(true);
+    expect(result.current).toBeTruthy();
 
     // Mock doc hidden = true
     Object.defineProperty(document, "hidden", {
@@ -130,7 +128,7 @@ describe("useElementVisibility", () => {
       eventListeners.visibilitychange(new Event("visibilitychange"));
     });
 
-    expect(result.current).toBe(false);
+    expect(result.current).toBeFalsy();
   });
 
   it("should return true when page becomes visible again (if intersecting)", () => {
@@ -153,7 +151,7 @@ describe("useElementVisibility", () => {
     act(() => {
       eventListeners.visibilitychange(new Event("visibilitychange"));
     });
-    expect(result.current).toBe(false);
+    expect(result.current).toBeFalsy();
 
     // Show page
     Object.defineProperty(document, "hidden", {
@@ -164,7 +162,7 @@ describe("useElementVisibility", () => {
       eventListeners.visibilitychange(new Event("visibilitychange"));
     });
 
-    expect(result.current).toBe(true);
+    expect(result.current).toBeTruthy();
   });
 
   it("should cleanup observer and listeners on unmount", () => {
@@ -173,7 +171,7 @@ describe("useElementVisibility", () => {
 
     unmount();
 
-    expect(disconnectSpy).toHaveBeenCalled();
+    expect(disconnectSpy).toHaveBeenCalledWith();
     // Check if visibilitychange listener is removed (mock logic deletes it from map)
     // But better to check spy directly if I spied on removeEventListener
     expect(document.removeEventListener).toHaveBeenCalledWith(

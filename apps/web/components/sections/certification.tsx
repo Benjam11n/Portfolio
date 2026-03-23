@@ -1,8 +1,9 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import gsapCore from "gsap";
 import { useRef } from "react";
+
 import { CertificationCard } from "@/components/shared/certification-card";
 import { SectionCard } from "@/components/shared/section-card";
 import { CERTIFICATIONS } from "@/lib/constants/certifications";
@@ -34,9 +35,9 @@ export const Certifications = () => {
 
       if (skipAnimations) {
         // Skip animations - set elements to final state immediately
-        gsap.set(".cert-card", {
-          y: 0,
+        gsapCore.set(".cert-card", {
           opacity: 1,
+          y: 0,
         });
       } else {
         /**
@@ -64,23 +65,23 @@ export const Certifications = () => {
          *   immediately review credentials without waiting for the animation.
          */
         // Normal animation
-        gsap.fromTo(
+        gsapCore.fromTo(
           ".cert-card",
-          { y: 50, opacity: 0 },
+          { opacity: 0, y: 50 },
           {
-            y: 0,
-            opacity: 1,
             duration: 0.6,
-            stagger: 0.1,
+            opacity: 1,
             scrollTrigger: {
-              trigger: containerRef.current,
               start: "top bottom-=100",
+              trigger: containerRef.current,
             },
+            stagger: 0.1,
+            y: 0,
           }
         );
       }
     },
-    { scope: containerRef, dependencies: [skipAnimations] }
+    { dependencies: [skipAnimations], scope: containerRef }
   );
 
   return (

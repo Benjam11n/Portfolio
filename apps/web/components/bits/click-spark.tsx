@@ -2,13 +2,14 @@
 
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
+
 import { useAnimationFrame } from "@/lib/hooks/animation/use-animation-frame";
 import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useCanvasResize } from "@/lib/hooks/utils/use-canvas-resize";
 import { cn } from "@/lib/utils";
 
-type ClickSparkProps = {
+export interface ClickSparkProps {
   sparkColor?: string;
   sparkSize?: number;
   sparkRadius?: number;
@@ -18,14 +19,14 @@ type ClickSparkProps = {
   extraScale?: number;
   children?: React.ReactNode;
   className?: string;
-};
+}
 
-type Spark = {
+interface Spark {
   x: number;
   y: number;
   angle: number;
   startTime: number;
-};
+}
 
 export const ClickSpark = ({
   sparkColor = "#fff",
@@ -34,7 +35,7 @@ export const ClickSpark = ({
   sparkCount = 8,
   duration = 400,
   easing = "ease-out",
-  extraScale = 1.0,
+  extraScale = 1,
   children,
   className,
 }: ClickSparkProps) => {
@@ -50,14 +51,18 @@ export const ClickSpark = ({
   const easeFunc = useCallback(
     (t: number) => {
       switch (easing) {
-        case "linear":
+        case "linear": {
           return t;
-        case "ease-in":
+        }
+        case "ease-in": {
           return t * t;
-        case "ease-in-out":
+        }
+        case "ease-in-out": {
           return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-        default:
+        }
+        default: {
           return t * (2 - t);
+        }
       }
     },
     [easing]
@@ -134,10 +139,10 @@ export const ClickSpark = ({
 
       const now = performance.now();
       const newSparks: Spark[] = Array.from({ length: sparkCount }, (_, i) => ({
-        x,
-        y,
         angle: (2 * Math.PI * i) / sparkCount,
         startTime: now,
+        x,
+        y,
       }));
 
       sparksRef.current.push(...newSparks);
@@ -168,7 +173,7 @@ export const ClickSpark = ({
 
   return (
     <div className={cn("relative h-full w-full", className)} ref={containerRef}>
-      {/* 
+      {/*
         This canvas is purely decorative for click feedback.
         It has pointer-events-none so it's non-interactive and doesn't affect accessibility.
       */}

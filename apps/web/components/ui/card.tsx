@@ -1,4 +1,5 @@
-import { forwardRef, type HTMLAttributes } from "react";
+import { forwardRef } from "react";
+import type { HTMLAttributes } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -30,7 +31,7 @@ CardHeader.displayName = "CardHeader";
 const CardTitle = forwardRef<
   HTMLParagraphElement,
   HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
+>(({ children, className, ...props }, ref) => (
   <h3
     className={cn(
       "font-semibold text-2xl leading-none tracking-tight",
@@ -38,7 +39,9 @@ const CardTitle = forwardRef<
     )}
     ref={ref}
     {...props}
-  />
+  >
+    {children}
+  </h3>
 ));
 CardTitle.displayName = "CardTitle";
 

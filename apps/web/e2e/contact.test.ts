@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+
 import { validContactData, waitForPageReady } from "./fixtures";
 
 // Regex patterns at top level for performance

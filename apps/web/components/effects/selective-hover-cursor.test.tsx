@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from "@repo/testing/test-utils";
 import { fireEvent } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+import { SelectiveHoverCursor } from "./selective-hover-cursor";
 
 const mocks = vi.hoisted(() => ({
   gsapSet: vi.fn(),
@@ -12,7 +13,7 @@ const mocks = vi.hoisted(() => ({
   quickToY: vi.fn(),
 }));
 
-vi.mock("@gsap/react", () => ({
+vi.mock(import("@gsap/react"), () => ({
   useGSAP: (
     callbackOrConfig?: (() => void) | { scope?: unknown },
     config?: { scope?: unknown }
@@ -31,7 +32,7 @@ vi.mock("@gsap/react", () => ({
   },
 }));
 
-vi.mock("gsap", () => ({
+vi.mock(import("gsap"), () => ({
   default: {
     quickTo: vi.fn((_: Element, property: string) =>
       property === "x" ? mocks.quickToX : mocks.quickToY
@@ -41,26 +42,24 @@ vi.mock("gsap", () => ({
   },
 }));
 
-vi.mock("@/lib/hooks/ui/use-prefers-reduced-motion", () => ({
+vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
   usePrefersReducedMotion: () => mocks.prefersReducedMotion,
 }));
 
-import { SelectiveHoverCursor } from "./selective-hover-cursor";
-
 const setPointerSupport = (matches: boolean) => {
   vi.spyOn(window, "matchMedia").mockImplementation((query: string) => ({
+    addEventListener: vi.fn(),
+    addListener: vi.fn(),
+    dispatchEvent: vi.fn(),
     matches: query === "(hover: hover) and (pointer: fine)" ? matches : false,
     media: query,
     onchange: null,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn(),
+    removeListener: vi.fn(),
   }));
 };
 
-describe("SelectiveHoverCursor", () => {
+describe(SelectiveHoverCursor, () => {
   beforeEach(() => {
     mocks.prefersReducedMotion = false;
     mocks.quickToX.mockReset();
@@ -167,7 +166,7 @@ describe("SelectiveHoverCursor", () => {
     const label = screen.getByText("Click me!");
     expect(label).toHaveAttribute("data-visible", "true");
 
-    hoverTarget.setAttribute("data-hover-cursor-label", "");
+    hoverTarget.dataset.hoverCursorLabel = "";
 
     fireEvent.pointerMove(hoverTarget, {
       clientX: 34,

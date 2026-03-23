@@ -1,4 +1,7 @@
 {
   "extends": "./base.json",
-  "include": ["./validation/base-check.ts"]
+  "include": ["./validation/base-check.ts"],
+  "compilerOptions": {
+    "strictNullChecks": true
+  }
 }

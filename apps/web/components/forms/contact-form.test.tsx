@@ -2,8 +2,9 @@ import type { MockButtonProps } from "@repo/testing/test-types";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { toast } from "sonner";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+
 import { sendEmailAction } from "@/lib/actions/email.actions";
+
 import { ContactForm } from "./contact-form";
 
 const NAME_REGEX = /name/i;
@@ -11,46 +12,65 @@ const EMAIL_REGEX = /email/i;
 const HELLO_REGEX = /Hello!/i;
 const RECAPTCHA_REGEX = /This site is protected by reCAPTCHA/i;
 
-vi.mock("canvas-confetti", () => ({
+vi.mock(import("canvas-confetti"), () => ({
   default: vi.fn(),
 }));
 
-vi.mock("@/lib/actions/email.actions", () => ({
+vi.mock(import("@/lib/actions/email.actions"), () => ({
   sendEmailAction: vi.fn(),
 }));
 
-vi.mock("@repo/logger", () => ({
+vi.mock(import("@repo/logger"), () => ({
   logger: {
     error: vi.fn(),
   },
 }));
 
-vi.mock("sonner", () => ({
+vi.mock(import("sonner"), () => ({
   toast: {
-    success: vi.fn(),
     error: vi.fn(),
+    success: vi.fn(),
   },
 }));
 
-vi.mock("@/components/shared/shift-submit-button", () => ({
+vi.mock(import("@/components/shared/shift-submit-button"), () => ({
   ShiftSubmitButton: ({
     children,
     onClick,
-    type,
+    type = "submit",
     isLoading,
-  }: MockButtonProps) => (
-    <button
-      data-testid="submit-button"
-      disabled={isLoading}
-      onClick={onClick}
-      type={type}
-    >
-      {isLoading ? "Loading..." : children}
-    </button>
-  ),
+  }: MockButtonProps) => {
+    const buttonProps = {
+      "data-testid": "submit-button",
+      disabled: isLoading,
+      onClick,
+    } as const;
+
+    if (type === "button") {
+      return (
+        <button {...buttonProps} type="button">
+          {isLoading ? "Loading..." : children}
+        </button>
+      );
+    }
+
+    if (type === "reset") {
+      return (
+        <button {...buttonProps} type="reset">
+          {isLoading ? "Loading..." : children}
+        </button>
+      );
+    }
+
+    return (
+      <button {...buttonProps} type="submit">
+        {isLoading ? "Loading..." : children}
+      </button>
+    );
+  },
 }));
 
-describe("ContactForm", () => {
+describe(ContactForm, () => {
   beforeEach(() => {
     vi.resetAllMocks();
   });
@@ -77,8 +97,8 @@ describe("ContactForm", () => {
   it("submits successfully with valid data", async () => {
     const user = userEvent.setup();
     vi.mocked(sendEmailAction).mockResolvedValue({
-      success: true,
       data: { id: "mock-id" },
+      success: true,
     });
 
     render(<ContactForm />);
@@ -164,8 +184,8 @@ describe("ContactForm", () => {
   it("includes an empty honeypot value in submission", async () => {
     const user = userEvent.setup();
     vi.mocked(sendEmailAction).mockResolvedValue({
-      success: true,
       data: { id: "mock-id" },
+      success: true,
     });
 
     render(<ContactForm />);
@@ -186,7 +206,7 @@ describe("ContactForm", () => {
     });
   });
 
-  describe("Progress Indicator", () => {
+  describe("progress Indicator", () => {
     it("renders progress bar in message field", () => {
       render(<ContactForm />);
       const progress = screen.getByRole("progressbar");

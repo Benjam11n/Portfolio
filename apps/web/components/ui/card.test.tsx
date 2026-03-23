@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
 
 import {
   Card,
@@ -10,7 +9,7 @@ import {
   CardTitle,
 } from "./card";
 
-describe("Card", () => {
+describe(Card, () => {
   it("renders card with content correctly", () => {
     render(
       <Card>

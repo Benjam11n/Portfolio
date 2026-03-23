@@ -1,4 +1,5 @@
 import path from "node:path";
+
 import { createVitestConfig } from "../../packages/testing/vitest.config";
 
 export default createVitestConfig({
@@ -8,7 +9,7 @@ export default createVitestConfig({
     },
   },
   test: {
-    setupFiles: ["../../packages/testing/setup.ts"],
     exclude: ["**/node_modules/**", "**/dist/**", "**/e2e/**"],
+    setupFiles: ["../../packages/testing/setup.ts"],
   },
 });
