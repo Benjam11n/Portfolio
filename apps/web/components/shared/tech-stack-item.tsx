@@ -90,7 +90,7 @@ export const TechStackItem = ({
       glare
       glareIntensity={0.6}
       parallaxIntensity={0}
-      rotationIntensity={8}
+      rotationIntensity={4}
       shadow={false}
       thickness={small ? 10 : 14}
     >
