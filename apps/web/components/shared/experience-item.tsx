@@ -219,7 +219,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
           id={contentId}
           ref={contentRef}
         >
-          <div className="pt-4 pl-[72px]">
+          <div className="pt-4 sm:pl-[72px]">
             <ul className="flex list-none flex-col gap-2">
               {item.points.map((point) => {
                 // Render markdown for points
