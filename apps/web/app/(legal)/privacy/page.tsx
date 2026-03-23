@@ -1,5 +1,12 @@
+import { createMetadata } from "@repo/seo";
 import { Shield } from "lucide-react";
 import { SectionCard } from "@/components/shared/section-card";
+
+export const metadata = createMetadata({
+  title: "Privacy Policy",
+  description:
+    "Privacy policy for Benjamin Wang's portfolio website. Learn how we handle your data.",
+});
 
 export default function PrivacyPage() {
   return (

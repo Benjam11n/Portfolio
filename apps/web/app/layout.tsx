@@ -44,7 +44,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = createMetadata({
-  title: `${SITE_METADATA.title} | Portfolio`,
+  title: SITE_METADATA.title,
   description: SITE_METADATA.description,
 });
 

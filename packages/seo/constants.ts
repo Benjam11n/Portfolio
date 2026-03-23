@@ -7,12 +7,26 @@ export const KEYWORDS = [
   "portfolio",
   "developer",
   "web development",
+  "benjamin wang",
+  "ben",
+  "benjamin wang jiayuan",
+  "nus",
+  "computer science",
+  "national university of singapore",
+  "cs",
+  "singapore",
+  "swe",
+  "aumovio",
+  "cvwo",
+  "software engineer",
 ];
+
+export const SITE_URL = "https://codedbyben.com";
 
 export const APPLICATION_NAME = "Benjamin Wang Portfolio";
 export const AUTHOR = {
   name: "Benjamin Wang",
-  url: process.env.SITE_URL,
+  url: SITE_URL,
 } as const;
 export const CREATOR = "Benjamin Wang";
 export const PUBLISHER = "Benjamin Wang";
@@ -61,7 +75,7 @@ export const TWITTER_CARD_DEFAULTS = {
 } as const;
 
 export const DEFAULT_IMAGE = {
-  url: "/icon.png",
+  url: "/api/og",
   width: 1200,
   height: 630,
   alt: "Benjamin Wang Portfolio",

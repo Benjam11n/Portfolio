@@ -1,5 +1,11 @@
+import { createMetadata } from "@repo/seo";
 import { Sparkles } from "lucide-react";
 import { SectionCard } from "@/components/shared/section-card";
+
+export const metadata = createMetadata({
+  title: "Terms of Service",
+  description: "Terms of service for Benjamin Wang's portfolio website.",
+});
 
 export default function TermsPage() {
   return (

@@ -59,9 +59,6 @@ describe("TechStackItem", () => {
     });
 
     expect(button).toHaveAttribute(HOVER_CURSOR_ATTRIBUTE, "");
-    expect(button).toHaveAttribute(
-      HOVER_CURSOR_LABEL_ATTRIBUTE,
-      "Click me!"
-    );
+    expect(button).toHaveAttribute(HOVER_CURSOR_LABEL_ATTRIBUTE, "Click me!");
   });
 });

@@ -12,6 +12,7 @@ import {
   PUBLISHER,
   REFERRER,
   ROBOTS,
+  SITE_URL,
   TWITTER_CARD_DEFAULTS,
   VERIFICATION,
 } from "./constants";
@@ -24,10 +25,6 @@ type MetadataGenerator = Omit<Metadata, "description" | "title"> & {
   keywords?: string[];
   robots?: Metadata["robots"];
 };
-
-const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-const siteUrl =
-  process.env.SITE_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL;
 
 export const createMetadata = ({
   title,
@@ -44,7 +41,7 @@ export const createMetadata = ({
     description,
     keywords,
     applicationName: APPLICATION_NAME,
-    metadataBase: siteUrl ? new URL(`${protocol}://${siteUrl}`) : undefined,
+    metadataBase: new URL(SITE_URL),
     authors: [AUTHOR],
     creator: CREATOR,
     publisher: PUBLISHER,
@@ -60,9 +57,9 @@ export const createMetadata = ({
     alternates: canonical ? { canonical } : undefined,
     openGraph: {
       ...OPEN_GRAPH_DEFAULTS,
-      title: parsedTitle,
+      title,
       description,
-      url: siteUrl,
+      url: SITE_URL,
       images: image ? [image] : [DEFAULT_IMAGE],
     },
     twitter: {
