@@ -23,8 +23,6 @@ test.describe("Navigation", () => {
 
     // Use first() to avoid strict mode violation (nav has About, footer also has About)
     await page.getByRole("link", { name: "About" }).first().click();
-    await page.waitForTimeout(500);
-
     await expect(page).toHaveURL(ABOUT_HASH_REGEX);
   });
 
@@ -33,17 +31,16 @@ test.describe("Navigation", () => {
     await waitForPageReady(page);
 
     const themeToggle = page.getByRole("button", { name: TOGGLE_THEME_REGEX });
-    const initialTheme = await page.evaluate(() =>
-      document.documentElement.classList.contains("dark") ? "dark" : "light"
+    const initialIsDark = await page.evaluate(() =>
+      document.documentElement.classList.contains("dark")
     );
 
     await themeToggle.click();
-    await page.waitForTimeout(300);
 
-    const newTheme = await page.evaluate(() =>
-      document.documentElement.classList.contains("dark") ? "dark" : "light"
+    const newIsDark = await page.evaluate(() =>
+      document.documentElement.classList.contains("dark")
     );
 
-    expect(newTheme).not.toBe(initialTheme);
+    expect(newIsDark).not.toBe(initialIsDark);
   });
 });
