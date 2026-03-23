@@ -28,7 +28,7 @@
     "@repo/next-config": "workspace:*",
     "@repo/security": "workspace:*",
     "@repo/seo": "workspace:*",
-    "@t3-oss/env-nextjs": "^0.13.10",
+    "@t3-oss/env-nextjs": "^0.13.11",
     "@tailwindcss/postcss": "^4.2.1",
     "@vercel/og": "^0.11.1",
     "canvas-confetti": "^1.9.4",

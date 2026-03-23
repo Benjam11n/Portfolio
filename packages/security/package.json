@@ -16,7 +16,7 @@
     "@arcjet/next": "^1.3.0",
     "@nosecone/next": "1.3.0",
     "@repo/logger": "workspace:*",
-    "@t3-oss/env-nextjs": "^0.13.10",
+    "@t3-oss/env-nextjs": "^0.13.11",
     "zod": "^4.3.5"
   },
   "devDependencies": {
