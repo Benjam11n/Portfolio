@@ -13,7 +13,7 @@ import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
 import { useMouseInteraction } from "@/lib/hooks/ui/use-mouse-interaction";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
-const AUTO_PAUSE_AFTER_MS = 1000 * 60;
+const AUTO_PAUSE_AFTER_MS = 15_000;
 
 type DitheredWavesProps = {
   waveSpeed: number;
@@ -108,8 +108,12 @@ export function Dither({
   mouseRadius = 1,
 }: DitherProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const pauseAtRef = useRef<number | null>(null);
-  const [hasTimedOut, setHasTimedOut] = useState(false);
+
+  // Animation Control States
+  const [isIdle, setIsIdle] = useState(false);
+  const [isManuallyPaused, setIsManuallyPaused] = useState(false);
+  const lastActivityRef = useRef<number>(Date.now());
+
   const prefersReducedMotion = usePrefersReducedMotion();
   const { skipAnimations } = useAnimationSkipContext();
   const isActive = useElementVisibility(containerRef);
@@ -121,31 +125,92 @@ export function Dither({
 
   const shouldDisableAnimation =
     disableAnimation || prefersReducedMotion || skipAnimations;
-  const shouldAnimate = isActive && !shouldDisableAnimation && !hasTimedOut;
 
+  const isEffectivelyPaused =
+    shouldDisableAnimation || isManuallyPaused || isIdle;
+  const shouldAnimate = isActive && !isEffectivelyPaused;
+
+  // 1. Handle Global Activity -> Idle Timeout (30s)
   useEffect(() => {
-    if (pauseAtRef.current === null) {
-      pauseAtRef.current = Date.now() + AUTO_PAUSE_AFTER_MS;
-    }
-
-    if (hasTimedOut || shouldDisableAnimation) {
+    if (shouldDisableAnimation || isManuallyPaused) {
       return;
     }
 
-    const remainingMs = pauseAtRef.current - Date.now();
-    if (remainingMs <= 0) {
-      setHasTimedOut(true);
-      return;
-    }
+    const handleActivity = () => {
+      lastActivityRef.current = Date.now();
+      if (isIdle) {
+        setIsIdle(false);
+      }
+    };
 
-    const timeoutId = window.setTimeout(() => {
-      setHasTimedOut(true);
-    }, remainingMs);
+    // Throttle activity listener to avoid layout thrashing
+    let throttleTimeout: number | null = null;
+    const throttledActivity = () => {
+      if (throttleTimeout) {
+        return;
+      }
+      handleActivity();
+      throttleTimeout = window.setTimeout(() => {
+        throttleTimeout = null;
+      }, 500);
+    };
+
+    // Listen to all major user behaviors
+    window.addEventListener("mousemove", throttledActivity, { passive: true });
+    window.addEventListener("keydown", throttledActivity, { passive: true });
+    window.addEventListener("touchstart", throttledActivity, { passive: true });
+    window.addEventListener("scroll", throttledActivity, { passive: true });
+
+    // Check every second if auto-pause time has passed without activity
+    const intervalId = window.setInterval(() => {
+      if (Date.now() - lastActivityRef.current > AUTO_PAUSE_AFTER_MS) {
+        setIsIdle(true);
+      }
+    }, 1000);
 
     return () => {
-      window.clearTimeout(timeoutId);
+      window.removeEventListener("mousemove", throttledActivity);
+      window.removeEventListener("keydown", throttledActivity);
+      window.removeEventListener("touchstart", throttledActivity);
+      window.removeEventListener("scroll", throttledActivity);
+      window.clearInterval(intervalId);
+      if (throttleTimeout) {
+        window.clearTimeout(throttleTimeout);
+      }
     };
-  }, [hasTimedOut, shouldDisableAnimation]);
+  }, [isIdle, shouldDisableAnimation, isManuallyPaused]);
+
+  // 2. Handle Escape Key to Manually Pause/Play
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsManuallyPaused((prev) => {
+          const nextState = !prev;
+          if (!nextState) {
+            // Unpausing resets idle timer
+            lastActivityRef.current = Date.now();
+            setIsIdle(false);
+          }
+          return nextState;
+        });
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // 3. Handle Direct Click on Background
+  const handleContainerClick = () => {
+    setIsManuallyPaused((prev) => {
+      const nextState = !prev;
+      if (!nextState) {
+        // Unpausing resets idle timer
+        lastActivityRef.current = Date.now();
+        setIsIdle(false);
+      }
+      return nextState;
+    });
+  };
 
   useGSAP(
     () => {
@@ -172,7 +237,12 @@ export function Dither({
   return (
     <div
       aria-hidden="true"
-      className="h-full w-full opacity-0"
+      className="h-full w-full cursor-pointer opacity-0"
+      data-hover-cursor=""
+      data-hover-cursor-label={
+        isEffectivelyPaused ? "Play Dither" : "Pause Dither"
+      }
+      onClick={handleContainerClick}
       ref={containerRef}
     >
       <div className="relative h-full w-full">
@@ -188,9 +258,9 @@ export function Dither({
         >
           <DitheredWaves
             colorNum={colorNum}
-            disableAnimation={shouldDisableAnimation || hasTimedOut}
+            disableAnimation={isEffectivelyPaused}
             enableMouseInteraction={
-              enableMouseInteraction && !shouldDisableAnimation && !hasTimedOut
+              enableMouseInteraction && !isEffectivelyPaused
             }
             isActive={isActive}
             mouseRadius={mouseRadius}

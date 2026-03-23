@@ -65,27 +65,27 @@ export default function RootLayout({
           Skip to main content
         </a>
         <RootProviders>
-          <div className="fixed inset-0 z-10 h-full w-full opacity-60">
-            <DynamicDither
-              colorNum={3}
-              disableAnimation={false}
-              enableMouseInteraction
-              mouseRadius={0.6}
-              pixelSize={2}
-              waveAmplitude={0.2}
-              waveColor={undefined}
-              waveFrequency={2}
-              waveSpeed={0.04}
-            />
-          </div>
-
           <DynamicClickSpark
             className="z-50 flex flex-col items-center justify-center"
             duration={400}
             sparkCount={8}
-            sparkRadius={15}
+            sparkRadius={20}
             sparkSize={10}
           >
+            <div className="fixed inset-0 z-0 h-full w-full opacity-70">
+              <DynamicDither
+                colorNum={3}
+                disableAnimation={false}
+                enableMouseInteraction
+                mouseRadius={0.6}
+                pixelSize={2}
+                waveAmplitude={0.2}
+                waveColor={undefined}
+                waveFrequency={2}
+                waveSpeed={0.04}
+              />
+            </div>
+
             <div className="relative z-50 mx-4 w-full max-w-2xl overflow-hidden rounded-xl border border-border/40 bg-card shadow-xl sm:mx-8">
               <DynamicSmoothScroll>
                 <main className="w-full" id="main-content">
