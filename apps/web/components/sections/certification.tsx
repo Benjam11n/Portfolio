@@ -85,7 +85,11 @@ export const Certifications = () => {
   );
 
   return (
-    <SectionCard id="certifications" ref={containerRef} title="Certifications">
+    <SectionCard
+      id="certifications"
+      ref={containerRef}
+      title="Certifications & Courses"
+    >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {CERTIFICATIONS.map((cert) => (
           <div className="cert-card" key={cert.name}>
