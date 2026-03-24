@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Maximize2 } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 
+import { Card3D } from "@/components/effects/card-3d";
 import { MediaPreviewOverlay } from "@/components/ui/media-preview-overlay";
 import type { Project } from "@/lib/types/index.ts";
 import { cn } from "@/lib/utils";
@@ -40,8 +41,8 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
   useGSAP(
     () => {
       // Set initial states
-      gsapCore.set(".details-card", { autoAlpha: 0, scale: 0.9, y: 20 });
-      gsapCore.set(".details-video", { autoAlpha: 0, scale: 0.95 });
+      gsapCore.set(".details-card", { autoAlpha: 0, scale: 0.98, y: 16 });
+      gsapCore.set(".details-video", { autoAlpha: 0, scale: 1.02 });
 
       const tl = gsapCore.timeline({
         defaults: { ease: "power3.out" },
@@ -78,15 +79,21 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
 
   return (
     <div className="space-y-4" ref={containerRef}>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {details.map((detail) => (
-          <div
-            className="details-card rounded-xl border border-border/40 bg-card p-3 shadow-sm"
+          <Card3D
+            className="h-full border border-border/50 bg-card p-4 shadow-sm transition-colors"
+            containerClassName="details-card"
+            glare
+            glareIntensity={0.6}
             key={detail.label}
+            parallaxIntensity={0}
+            rotationIntensity={2}
+            thickness={4}
           >
             <span
               className={cn(
-                "mb-2 block font-semibold text-muted-foreground text-sm tracking-wider",
+                "mb-2 block font-bold font-mono text-muted-foreground text-xs uppercase tracking-[0.2em]",
                 detail.uppercase && "uppercase"
               )}
             >
@@ -95,7 +102,7 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
             <span className="block font-semibold text-foreground text-md">
               {detail.value}
             </span>
-          </div>
+          </Card3D>
         ))}
       </div>
 

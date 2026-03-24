@@ -7,9 +7,10 @@ import { useRef } from "react";
 
 import { Markdown } from "@/components/shared/markdown";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
-import { Card, CardContent } from "@/components/ui/card";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
 import type { Project } from "@/lib/types/index";
+
+import { FeatureCard } from "./feature-card";
 
 if (typeof window !== "undefined") {
   gsapCore.registerPlugin(ScrollTrigger);
@@ -26,7 +27,7 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
     () => {
       // Set initial states
       gsapCore.set(".overview-text", { autoAlpha: 0, y: 20 });
-      gsapCore.set(".feature-card", { autoAlpha: 0, y: 24 });
+      gsapCore.set(".feature-card", { autoAlpha: 0, scale: 0.98, y: 16 });
       gsapCore.set(".tech-item", { autoAlpha: 0, scale: 0.8 });
 
       const tl = gsapCore.timeline({
@@ -51,6 +52,7 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
         {
           autoAlpha: 1,
           duration: 0.7,
+          scale: 1,
           stagger: 0.08,
           y: 0,
         },
@@ -83,25 +85,14 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
 
       {/* Row 2: Features */}
       {project.features && project.features.length > 0 && (
-        <div className="space-y-4">
+        <div className="space-y-6">
           <h3 className="font-bold font-mono text-muted-foreground text-xs uppercase tracking-widest">
             Key Features
           </h3>
-          <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {project.features.map((feature: string, index: number) => (
-              <li className="feature-card" key={feature}>
-                <Card className="h-full rounded-md border-border/50 bg-card shadow-sm">
-                  <CardContent className="flex items-start gap-4 p-4">
-                    <span className="inline-flex h-8 min-w-8 shrink-0 items-center justify-center rounded-md bg-muted px-2 font-medium font-mono text-[11px] text-muted-foreground tracking-[0.2em]">
-                      {(index + 1).toString().padStart(2, "0")}
-                    </span>
-                    <div className="min-w-0 text-[15px] text-foreground leading-relaxed">
-                      <Markdown className="[&_strong]:text-foreground">
-                        {feature}
-                      </Markdown>
-                    </div>
-                  </CardContent>
-                </Card>
+              <li className="list-none" key={feature}>
+                <FeatureCard feature={feature} index={index} />
               </li>
             ))}
           </ol>
