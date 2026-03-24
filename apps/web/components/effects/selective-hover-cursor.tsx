@@ -2,13 +2,22 @@
 
 import { useGSAP } from "@gsap/react";
 import gsapCore from "gsap";
+import { ArrowUpRight, Pause, Play } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
 
 import {
+  HOVER_CURSOR_ICON_ATTRIBUTE,
   HOVER_CURSOR_LABEL_ATTRIBUTE,
   HOVER_CURSOR_SELECTOR,
 } from "@/lib/constants/interaction";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+
+const CURSOR_ICON_MAP: Record<string, ReactNode> = {
+  "arrow-up-right": <ArrowUpRight height={12} width={12} />,
+  pause: <Pause height={12} width={12} />,
+  play: <Play height={12} width={12} />,
+};
 
 const POINTER_OFFSET = 12;
 const POINTER_MEDIA_QUERY = "(hover: hover) and (pointer: fine)";
@@ -21,7 +30,7 @@ const CURSOR_LABEL_EXIT_DURATION_MS = 180;
 export const SelectiveHoverCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorBodyRef = useRef<HTMLDivElement>(null);
-  const labelElementRef = useRef<HTMLSpanElement>(null);
+  const contentWrapperRef = useRef<HTMLDivElement>(null);
   const clearLabelTimeoutRef = useRef<number | null>(null);
   const labelRef = useRef("");
   const moveXRef = useRef<ReturnType<typeof gsapCore.quickTo> | null>(null);
@@ -29,11 +38,14 @@ export const SelectiveHoverCursor = () => {
   const isVisibleRef = useRef(false);
   const prefersReducedMotion = usePrefersReducedMotion();
   const [label, setLabel] = useState("");
+  const [icon, setIcon] = useState("");
   const [displayLabel, setDisplayLabel] = useState("");
   const [expandedWidth, setExpandedWidth] = useState(CURSOR_LABEL_MIN_WIDTH);
   const [supportsFinePointer, setSupportsFinePointer] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const shouldEnable = supportsFinePointer && !prefersReducedMotion;
+
+  const [hoverTarget, setHoverTarget] = useState<Element | null>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(POINTER_MEDIA_QUERY);
@@ -88,8 +100,10 @@ export const SelectiveHoverCursor = () => {
     if (!(shouldEnable && cursorRef.current)) {
       setIsActive(false);
       setLabel("");
+      setIcon("");
       setDisplayLabel("");
       setExpandedWidth(CURSOR_LABEL_MIN_WIDTH);
+      setHoverTarget(null);
       return;
     }
 
@@ -106,6 +120,11 @@ export const SelectiveHoverCursor = () => {
 
       labelRef.current = nextLabel;
       setLabel(nextLabel);
+    };
+
+    const updateFromTarget = (target: Element) => {
+      setCursorLabel(target.getAttribute(HOVER_CURSOR_LABEL_ATTRIBUTE) ?? "");
+      setIcon(target.getAttribute(HOVER_CURSOR_ICON_ATTRIBUTE) ?? "");
     };
 
     const showCursor = () => {
@@ -130,11 +149,13 @@ export const SelectiveHoverCursor = () => {
       if (!cursorRef.current) {
         setActiveState(false);
         setCursorLabel("");
+        setIcon("");
         return;
       }
 
       setActiveState(false);
       setCursorLabel("");
+      setIcon("");
 
       if (!isVisibleRef.current) {
         return;
@@ -152,12 +173,14 @@ export const SelectiveHoverCursor = () => {
     };
 
     const handlePointerMove = (event: PointerEvent) => {
-      const hoverTarget =
+      const target =
         event.target instanceof Element
           ? event.target.closest(HOVER_CURSOR_SELECTOR)
           : null;
 
-      if (!hoverTarget) {
+      setHoverTarget(target);
+
+      if (!target) {
         hideCursor();
         return;
       }
@@ -172,9 +195,7 @@ export const SelectiveHoverCursor = () => {
         });
       }
 
-      setCursorLabel(
-        hoverTarget.getAttribute(HOVER_CURSOR_LABEL_ATTRIBUTE) ?? ""
-      );
+      updateFromTarget(target);
       moveXRef.current?.(nextX);
       moveYRef.current?.(nextY);
       showCursor();
@@ -190,12 +211,27 @@ export const SelectiveHoverCursor = () => {
     window.addEventListener("mouseout", handleWindowMouseOut);
     window.addEventListener("blur", hideCursor);
 
+    // Watch current target for attribute changes
+    let observer: MutationObserver | null = null;
+    if (hoverTarget) {
+      updateFromTarget(hoverTarget);
+      observer = new MutationObserver(() => updateFromTarget(hoverTarget));
+      observer.observe(hoverTarget, {
+        attributeFilter: [
+          HOVER_CURSOR_LABEL_ATTRIBUTE,
+          HOVER_CURSOR_ICON_ATTRIBUTE,
+        ],
+        attributes: true,
+      });
+    }
+
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("mouseout", handleWindowMouseOut);
       window.removeEventListener("blur", hideCursor);
+      observer?.disconnect();
     };
-  }, [shouldEnable]);
+  }, [shouldEnable, hoverTarget]);
 
   useEffect(() => {
     if (clearLabelTimeoutRef.current !== null) {
@@ -227,24 +263,31 @@ export const SelectiveHoverCursor = () => {
   }, [label, shouldEnable]);
 
   useLayoutEffect(() => {
-    if (!(shouldEnable && label.length > 0 && labelElementRef.current)) {
+    if (
+      !(
+        shouldEnable &&
+        (label.length > 0 || icon.length > 0) &&
+        contentWrapperRef.current
+      )
+    ) {
       return;
     }
 
-    const labelElement = labelElementRef.current;
+    const contentWidth = contentWrapperRef.current.scrollWidth;
     const nextWidth = Math.max(
       CURSOR_LABEL_MIN_WIDTH,
-      Math.ceil(labelElement.getBoundingClientRect().width) +
-        CURSOR_LABEL_PADDING * 2
+      contentWidth + CURSOR_LABEL_PADDING * 2
     );
 
     setExpandedWidth((currentWidth) =>
       currentWidth === nextWidth ? currentWidth : nextWidth
     );
-  }, [label, shouldEnable]);
+  }, [label, icon, shouldEnable]);
 
-  const showLabel = label.length > 0;
+  const showLabel = label.length > 0 || icon.length > 0;
   const hasDisplayLabel = displayLabel.length > 0;
+  const hasIcon = icon.length > 0;
+  const renderedIcon = CURSOR_ICON_MAP[icon] ?? null;
   const cursorStyle = {
     height: showLabel ? CURSOR_LABEL_HEIGHT : CURSOR_DOT_SIZE,
     minWidth: showLabel ? expandedWidth : CURSOR_DOT_SIZE,
@@ -269,11 +312,19 @@ export const SelectiveHoverCursor = () => {
         ref={cursorBodyRef}
         style={cursorStyle}
       >
-        {hasDisplayLabel && (
-          <span data-visible={showLabel} ref={labelElementRef}>
-            {displayLabel}
-          </span>
-        )}
+        <div className="flex items-center gap-1.5" ref={contentWrapperRef}>
+          {hasIcon && renderedIcon && (
+            <span
+              className="selective-hover-cursor-icon"
+              data-visible={showLabel}
+            >
+              {renderedIcon}
+            </span>
+          )}
+          {hasDisplayLabel && (
+            <span data-visible={showLabel}>{displayLabel}</span>
+          )}
+        </div>
       </div>
     </div>
   );

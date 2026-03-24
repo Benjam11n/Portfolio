@@ -154,7 +154,7 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
 
       {/* Hero Visual (Hero Image) */}
       {project.hero_image && (
-        <div className="hero-visual group w-full overflow-hidden rounded-2xl border border-border/50 bg-secondary shadow-lg transition-transform duration-500 hover:scale-[1.005]">
+        <div className="hero-visual group w-full overflow-hidden rounded-2xl border border-border/50 bg-secondary shadow-lg">
           <div className="relative aspect-video w-full">
             {heroImageError ? (
               <div className="flex h-full w-full items-center justify-center text-muted-foreground">

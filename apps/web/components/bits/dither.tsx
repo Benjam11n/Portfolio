@@ -248,6 +248,7 @@ export const Dither = ({
       aria-hidden="true"
       className="h-full w-full cursor-pointer opacity-0"
       data-hover-cursor=""
+      data-hover-cursor-icon={isEffectivelyPaused ? "play" : "pause"}
       data-hover-cursor-label={
         isEffectivelyPaused ? "Play effect" : "Pause effect"
       }

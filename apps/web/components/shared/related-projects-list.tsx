@@ -62,6 +62,9 @@ export const RelatedProjectsList = ({ techName }: RelatedProjectsListProps) => {
           <Link
             aria-label={`View project: ${project.title}`}
             className="related-project-item group block"
+            data-hover-cursor=""
+            data-hover-cursor-icon="arrow-up-right"
+            data-hover-cursor-label="View project"
             href={ROUTES.PROJECT_DETAIL(project.id)}
             key={project.id}
           >
