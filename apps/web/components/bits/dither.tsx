@@ -249,7 +249,7 @@ export const Dither = ({
       className="h-full w-full cursor-pointer opacity-0"
       data-hover-cursor=""
       data-hover-cursor-label={
-        isEffectivelyPaused ? "Play Dither" : "Pause Dither"
+        isEffectivelyPaused ? "Play effect" : "Pause effect"
       }
       onClick={handleContainerClick}
       ref={containerRef}
