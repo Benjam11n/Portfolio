@@ -209,6 +209,18 @@
     transform: translateY(0) scale(1);
   }
 
+  .selective-hover-cursor-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .selective-hover-cursor-icon[data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
   /* Safe area utilities for notched devices */
   .pt-safe {
     padding-top: env(safe-area-inset-top);
