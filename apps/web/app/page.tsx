@@ -19,15 +19,17 @@ export default function Home() {
         code={{
           "@context": "https://schema.org",
           "@type": "Person",
+          alternateName: "Benjamin Wang Jiayuan",
           alumniOf: {
             "@type": "CollegeOrUniversity",
             name: "National University of Singapore",
           },
           jobTitle: "Full Stack Software Engineer",
-          name: "Benjamin Wang",
+          name: "Benjamin Wang Jiayuan (Benjamin Wang)",
           sameAs: [
             "https://github.com/Benjam11n",
             "https://www.linkedin.com/in/benjaminwang-sg/",
+            "https://benjaminwjy.vercel.app",
           ],
           url: "https://codedbyben.com",
           worksFor: {

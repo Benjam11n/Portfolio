@@ -29,8 +29,8 @@ export const generateMetadata = async ({
   }
 
   return {
-    description: project.description.replaceAll("**", ""),
-    title: `${project.title} | Portfolio`,
+    description: `Project detail for ${project.title} - ${project.description.replaceAll("**", "")}`,
+    title: `${project.title} | Benjamin Wang`,
   };
 };
 
@@ -56,7 +56,7 @@ export default async function ProjectPage({ params }: Props) {
           applicationCategory: "WebApplication",
           author: {
             "@type": "Person",
-            name: "Benjamin Wang",
+            name: "Benjamin Wang Jiayuan",
           },
           description: project.description,
           name: project.title,
