@@ -23,7 +23,7 @@ export const KEYWORDS = [
 
 export const SITE_URL = "https://codedbyben.com";
 
-export const APPLICATION_NAME = "Benjamin Wang Portfolio";
+export const APPLICATION_NAME = "Benjamin Wang Jiayuan Portfolio";
 export const AUTHOR = {
   name: "Benjamin Wang",
   url: SITE_URL,

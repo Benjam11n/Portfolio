@@ -20,7 +20,7 @@ export default function manifest(): MetadataRoute.Manifest {
       },
     ],
     name: SITE_METADATA.title,
-    short_name: "Ben Wang",
+    short_name: "Ben Wang Jiayuan",
     start_url: "/",
     theme_color: "#000000",
   };
