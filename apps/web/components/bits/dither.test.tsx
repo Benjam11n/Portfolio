@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import type { ComponentProps } from "react";
 
 import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
@@ -59,5 +59,20 @@ describe(Dither, () => {
     expect(canvasMock).toHaveBeenCalledWith(
       expect.objectContaining({ frameloop: "never" })
     );
+  });
+
+  it("does not opt into the selective hover cursor and still responds to clicks", () => {
+    vi.mocked(useElementVisibility).mockReturnValue(true);
+
+    const { container } = render(<Dither />);
+
+    const root = container.firstElementChild as HTMLDivElement;
+
+    expect(root).not.toHaveAttribute("data-hover-cursor");
+    expect(root).not.toHaveAttribute("data-hover-cursor-icon");
+    expect(root).not.toHaveAttribute("data-hover-cursor-label");
+
+    fireEvent.click(root);
+    expect(root).toBeInTheDocument();
   });
 });
