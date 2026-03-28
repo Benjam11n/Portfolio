@@ -54,6 +54,7 @@ const rawProjects: Project[] = [
       "**Complex rehabilitation metrics** tracking",
       "**Gamified recovery** visualization",
     ],
+    github: "https://github.com/Benjam11n/disknee",
     hero_image: "/projects/disknee/hero.png",
     id: "disknee",
     location: "Singapore",
