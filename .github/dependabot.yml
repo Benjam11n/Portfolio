@@ -1,12 +1,12 @@
 version: 2
 updates:
-  # Enable version updates for npm
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "09:00"
+      timezone: "Asia/Singapore"
     open-pull-requests-limit: 10
     commit-message:
       prefix: "chore"
@@ -14,17 +14,54 @@ updates:
       include: "scope"
     labels:
       - "dependencies"
+      - "npm"
+      - "automated"
+    groups:
+      minor-patch-updates:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+          - "next"
+          - "@next/*"
+          - "typescript"
+          - "@typescript/*"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/react-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@next/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@typescript/*"
+        update-types: ["version-update:semver-major"]
+    versioning-strategy: increase-if-necessary
 
-  # Enable security updates for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
       time: "09:00"
+      timezone: "Asia/Singapore"
     open-pull-requests-limit: 5
     commit-message:
       prefix: "ci"
       include: "scope"
     labels:
       - "github-actions"
+      - "automated"
