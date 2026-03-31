@@ -1,3 +1,6 @@
 packages:
   - "apps/*"
   - "packages/*"
+
+# Delay newly published packages by 7 days to reduce exposure to fast-moving supply-chain compromises.
+minimumReleaseAge: 10080
