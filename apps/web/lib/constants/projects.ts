@@ -15,6 +15,7 @@ const rawProjects: Project[] = [
     ],
     github: "https://github.com/Benjam11n/zucchini",
     hero_image: "/projects/zucchini/hero.png",
+    href: "https://zucchini.codedbyben.com/",
     id: "zucchini",
     location: "Singapore",
     logo: "/projects/zucchini/logo.png",
