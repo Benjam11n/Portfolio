@@ -23,7 +23,7 @@ const POINTER_OFFSET = 12;
 const POINTER_MEDIA_QUERY = "(hover: hover) and (pointer: fine)";
 const CURSOR_DOT_SIZE = 18;
 const CURSOR_LABEL_HEIGHT = 28;
-const CURSOR_LABEL_PADDING = 11;
+const CURSOR_LABEL_PADDING = 20;
 const CURSOR_LABEL_MIN_WIDTH = 84;
 const CURSOR_LABEL_EXIT_DURATION_MS = 180;
 
