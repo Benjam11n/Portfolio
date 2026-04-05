@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 
 import { Magnetic } from "@/components/effects/magnetic";
+import { Markdown } from "@/components/shared/markdown";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
 import { ABOUT_CONTENT } from "@/lib/constants/about";
@@ -19,8 +20,6 @@ import { ROUTES } from "@/lib/constants/navigation";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useProfileImageSource } from "@/lib/hooks/ui/use-profile-image-source";
-
-import { Markdown } from "../shared/markdown";
 
 export const About = () => {
   const containerRef = useRef<HTMLDivElement>(null);
