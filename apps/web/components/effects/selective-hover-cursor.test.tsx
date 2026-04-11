@@ -59,7 +59,33 @@ const setPointerSupport = (matches: boolean) => {
   }));
 };
 
+let measuredScrollWidths = new Map<string, number>();
+
+const normalizeText = (text: string | null) =>
+  text?.replaceAll(/\s+/g, " ").trim() ?? "";
+
+const setMeasuredScrollWidths = (widths: Record<string, number>) => {
+  measuredScrollWidths = new Map(Object.entries(widths));
+};
+
+const getCursorBody = () =>
+  document.querySelector(".selective-hover-cursor") as HTMLElement;
+
+const expectCursorWidth = async (expectedWidth: number) => {
+  await waitFor(() => {
+    expect(getCursorBody().style.width).toBe(`${expectedWidth}px`);
+  });
+};
+
 describe(SelectiveHoverCursor, () => {
+  beforeAll(() => {
+    vi.spyOn(HTMLElement.prototype, "scrollWidth", "get").mockImplementation(
+      function getMockScrollWidth(this: HTMLElement) {
+        return measuredScrollWidths.get(normalizeText(this.textContent)) ?? 0;
+      }
+    );
+  });
+
   beforeEach(() => {
     mocks.prefersReducedMotion = false;
     mocks.quickToX.mockReset();
@@ -72,6 +98,13 @@ describe(SelectiveHoverCursor, () => {
     );
     mocks.gsapSet.mockReset();
     setPointerSupport(true);
+    setMeasuredScrollWidths({
+      "Click me!": 44,
+      "Learn more": 56,
+      Tiny: 18,
+      "Very long cursor label": 140,
+      "View project": 70,
+    });
   });
 
   afterEach(() => {
@@ -186,7 +219,11 @@ describe(SelectiveHoverCursor, () => {
   it("hides when moving onto an unmarked element", async () => {
     render(
       <div>
-        <button data-hover-cursor type="button">
+        <button
+          data-hover-cursor
+          data-hover-cursor-label="Learn more"
+          type="button"
+        >
           Hover me
         </button>
         <div>Plain text</div>
@@ -207,7 +244,12 @@ describe(SelectiveHoverCursor, () => {
       clientX: 12,
       clientY: 18,
     });
-    expect(overlay).toHaveAttribute("data-active", "true");
+    expect(mocks.gsapTo).toHaveBeenCalledWith(
+      overlay,
+      expect.objectContaining({
+        opacity: 1,
+      })
+    );
 
     fireEvent.pointerMove(screen.getByText("Plain text"), {
       clientX: 18,
@@ -215,5 +257,114 @@ describe(SelectiveHoverCursor, () => {
     });
 
     expect(overlay).toHaveAttribute("data-active", "false");
+  });
+
+  it("sizes the project cursor to its measured content on first hover", async () => {
+    render(
+      <div>
+        <button
+          data-hover-cursor
+          data-hover-cursor-icon="arrow-up-right"
+          data-hover-cursor-label="View project"
+          type="button"
+        >
+          Project
+        </button>
+        <SelectiveHoverCursor />
+      </div>
+    );
+
+    const hoverTarget = await waitFor(() => {
+      const element = document.querySelector("[data-hover-cursor]");
+      expect(element).toBeInTheDocument();
+      return element as HTMLElement;
+    });
+
+    fireEvent.pointerMove(hoverTarget, {
+      clientX: 20,
+      clientY: 32,
+    });
+
+    await expectCursorWidth(110);
+  });
+
+  it("updates to the project width after hovering a shorter label", async () => {
+    render(
+      <div>
+        <button data-hover-cursor data-hover-cursor-label="Tiny" type="button">
+          Tiny
+        </button>
+        <button
+          data-hover-cursor
+          data-hover-cursor-icon="arrow-up-right"
+          data-hover-cursor-label="View project"
+          type="button"
+        >
+          Project
+        </button>
+        <SelectiveHoverCursor />
+      </div>
+    );
+
+    const hoverTargets = await waitFor(() => {
+      const elements = document.querySelectorAll("[data-hover-cursor]");
+      expect(elements).toHaveLength(2);
+      return [...elements] as HTMLElement[];
+    });
+
+    fireEvent.pointerMove(hoverTargets[0], {
+      clientX: 14,
+      clientY: 26,
+    });
+    await expectCursorWidth(84);
+
+    fireEvent.pointerMove(hoverTargets[1], {
+      clientX: 22,
+      clientY: 34,
+    });
+
+    await expectCursorWidth(110);
+  });
+
+  it("updates to the project width after hovering a longer label", async () => {
+    render(
+      <div>
+        <button
+          data-hover-cursor
+          data-hover-cursor-label="Very long cursor label"
+          type="button"
+        >
+          Long
+        </button>
+        <button
+          data-hover-cursor
+          data-hover-cursor-icon="arrow-up-right"
+          data-hover-cursor-label="View project"
+          type="button"
+        >
+          Project
+        </button>
+        <SelectiveHoverCursor />
+      </div>
+    );
+
+    const hoverTargets = await waitFor(() => {
+      const elements = document.querySelectorAll("[data-hover-cursor]");
+      expect(elements).toHaveLength(2);
+      return [...elements] as HTMLElement[];
+    });
+
+    fireEvent.pointerMove(hoverTargets[0], {
+      clientX: 16,
+      clientY: 28,
+    });
+    await expectCursorWidth(180);
+
+    fireEvent.pointerMove(hoverTargets[1], {
+      clientX: 24,
+      clientY: 36,
+    });
+
+    await expectCursorWidth(110);
   });
 });
