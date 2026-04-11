@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
-import { forwardRef } from "react";
+import { forwardRef, useCallback } from "react";
 import type { AnchorHTMLAttributes } from "react";
 
 import { ROUTES } from "@/lib/constants/navigation";
@@ -17,18 +17,51 @@ type ScrollLinkProps = Omit<
   };
 
 export const ScrollLink = forwardRef<HTMLAnchorElement, ScrollLinkProps>(
-  ({ children, href, ...props }, ref) => {
+  ({ children, href, onClick, ...props }, ref) => {
     const pathname = usePathname();
+    const hashHref = href.toString();
+    const isSamePageHashLink =
+      pathname === ROUTES.HOME && hashHref.startsWith("#");
 
     // Construct the correct href for the Link component
     // If it's an anchor link and we're not on home, make it absolute (e.g. "/#about")
     const linkHref =
-      pathname !== ROUTES.HOME && href.toString().startsWith("#")
-        ? `/${href.toString()}`
+      pathname !== ROUTES.HOME && hashHref.startsWith("#")
+        ? `/${hashHref}`
         : href;
 
+    const handleClick = useCallback<
+      NonNullable<AnchorHTMLAttributes<HTMLAnchorElement>["onClick"]>
+    >(
+      (event) => {
+        onClick?.(event);
+
+        if (
+          event.defaultPrevented ||
+          !isSamePageHashLink ||
+          window.location.hash !== hashHref
+        ) {
+          return;
+        }
+
+        const targetId = hashHref.slice(1);
+        const targetElement = document.querySelector(`#${targetId}`);
+
+        if (!targetElement) {
+          return;
+        }
+
+        event.preventDefault();
+        targetElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      },
+      [hashHref, isSamePageHashLink, onClick]
+    );
+
     return (
-      <Link href={linkHref} ref={ref} {...props}>
+      <Link href={linkHref} onClick={handleClick} ref={ref} {...props}>
         {children}
       </Link>
     );
