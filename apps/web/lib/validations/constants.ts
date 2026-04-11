@@ -34,6 +34,15 @@ const experienceSchema = z.object({
     .string()
     .min(1, "Icon path must be at least 1 character")
     .max(500, "Icon path must be at most 500 characters"),
+  iconBackgroundColor: z
+    .string()
+    .max(50, "Icon background color must be at most 50 characters")
+    .optional(),
+  iconScale: z
+    .number()
+    .positive("Icon scale must be positive")
+    .max(5, "Icon scale must be at most 5")
+    .optional(),
   id: z.number().int("ID must be an integer"),
   name: z
     .string()

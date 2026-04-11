@@ -3,8 +3,20 @@ import { experiencesArraySchema } from "@/lib/validations/constants";
 
 const rawWorkExperiences: Experience[] = [
   {
+    duration: "Jun 2026 - Dec 2026",
+    icon: "/experiences/govtech.gif",
+    iconBackgroundColor: "#fff",
+    iconScale: 3,
+    id: 5,
+    name: "GovTech",
+    points: [],
+    pos: "Incoming Software Engineer Intern",
+  },
+  {
     duration: "Jan 2026 - Present",
     icon: "/experiences/aumovio.png",
+    iconBackgroundColor: "#fff",
+    iconScale: 1.5,
     id: 1,
     name: "Aumovio",
     points: [
@@ -17,6 +29,7 @@ const rawWorkExperiences: Experience[] = [
   {
     duration: "May 2025 - August 2025",
     icon: "/experiences/techcloud.png",
+    iconBackgroundColor: "#fff",
     id: 2,
     name: "TechCloud Private Limited",
     points: [
@@ -30,6 +43,7 @@ const rawWorkExperiences: Experience[] = [
   {
     duration: "Dec 2024 - Present",
     icon: "/experiences/worldquant.png",
+    iconBackgroundColor: "#fff",
     id: 3,
     name: "WorldQuant BRAIN",
     points: [
@@ -41,6 +55,8 @@ const rawWorkExperiences: Experience[] = [
   {
     duration: "May 2024 - Aug 2024",
     icon: "/experiences/cvwo.png",
+    iconBackgroundColor: "#fff7d6",
+    iconScale: 1.5,
     id: 4,
     name: "Computing for Voluntary Welfare Organizations (CVWO)",
     points: [
