@@ -136,10 +136,12 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
       <div className="flex items-center gap-3">
         <BorderedImage
           alt={item.name}
+          backgroundColor={item.iconBackgroundColor}
           containerClassName="h-14 w-14 shrink-0 bg-muted"
           height={56}
           imageClassName="p-2 object-contain"
           src={item.icon}
+          style={{ transform: `scale(${item.iconScale ?? 1.2})` }}
           width={56}
         />
         <div>

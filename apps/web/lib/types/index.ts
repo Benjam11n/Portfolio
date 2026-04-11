@@ -38,6 +38,8 @@ export interface Experience {
   duration: string;
   points: string[];
   icon: string;
+  iconBackgroundColor?: string;
+  iconScale?: number;
 }
 
 export interface Certification {
