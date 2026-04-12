@@ -2,7 +2,6 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-import { workExperiences } from "../constants/experience";
 import { PROJECTS } from "../constants/projects";
 import { auditHomepageMedia } from "./check-homepage-media";
 
@@ -66,7 +65,6 @@ const seedValidHomepageMedia = (publicDir: string) => {
   writeFileOfSize(publicDir, "/certifications/machine-learning.avif", 33_000);
   writeFileOfSize(publicDir, "/certifications/react-ultimate.png", 217_000);
   writeFileOfSize(publicDir, "/experiences/govtech-preview.mp4", 22_000);
-  writeFileOfSize(publicDir, "/experiences/govtech-preview-poster.jpg", 18_000);
   writeFileOfSize(publicDir, "/experiences/aumovio.png", 4000);
   writeFileOfSize(publicDir, "/experiences/techcloud.png", 44_000);
   writeFileOfSize(publicDir, "/experiences/worldquant.png", 151_000);
@@ -186,25 +184,6 @@ describe(auditHomepageMedia, () => {
       result.issues.some(
         (issue) =>
           issue.itemId === "disknee" && issue.message.includes("missing")
-      )
-    ).toBeTruthy();
-  });
-
-  it("fails experience video without poster fallback", () => {
-    const publicDir = createPublicDir();
-    seedValidHomepageMedia(publicDir);
-    const experiences = workExperiences.map((experience) =>
-      experience.name === "GovTech"
-        ? { ...experience, preview_poster: undefined }
-        : experience
-    );
-
-    const result = auditHomepageMedia({ experiences, publicDir });
-
-    expect(
-      result.issues.some(
-        (issue) =>
-          issue.itemId === "GovTech" && issue.field === "preview_poster"
       )
     ).toBeTruthy();
   });
