@@ -6,6 +6,7 @@ import { useRef } from "react";
 import type { ReactElement } from "react";
 
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 
 interface MagneticProps {
   children: ReactElement;
@@ -15,6 +16,8 @@ interface MagneticProps {
 export const Magnetic = ({ children, strength = 0.35 }: MagneticProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const isMobile = useMobileDetection();
+  const shouldDisable = prefersReducedMotion || isMobile;
 
   const { contextSafe } = useGSAP({ scope: ref });
 
@@ -25,7 +28,7 @@ export const Magnetic = ({ children, strength = 0.35 }: MagneticProps) => {
     () => {
       // If user prefers reduced motion, don't enable magnetic pull effect
       // This respects accessibility preferences and avoids motion sickness
-      if (prefersReducedMotion) {
+      if (shouldDisable) {
         return;
       }
 
@@ -63,11 +66,15 @@ export const Magnetic = ({ children, strength = 0.35 }: MagneticProps) => {
     moveY.current?.(0);
   });
 
+  if (shouldDisable) {
+    return children;
+  }
+
   return (
     <div
       className="pointer-events-none inline-block"
-      onMouseLeave={prefersReducedMotion ? undefined : handleMouseLeave}
-      onMouseMove={prefersReducedMotion ? undefined : handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseMove={handleMouseMove}
       ref={ref}
     >
       <div className="pointer-events-auto">{children}</div>

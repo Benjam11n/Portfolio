@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 
 import { Magnetic } from "@/components/effects/magnetic";
-import { Markdown } from "@/components/shared/markdown";
+import { LightweightMarkdown } from "@/components/shared/lightweight-markdown";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
 import { ABOUT_CONTENT } from "@/lib/constants/about";
@@ -303,7 +303,9 @@ export const About = () => {
         {/* Text */}
         <div className="text-foreground text-md leading-relaxed">
           <div className="about-text translate-y-8 opacity-0">
-            <Markdown>{ABOUT_CONTENT.description}</Markdown>
+            <LightweightMarkdown>
+              {ABOUT_CONTENT.description}
+            </LightweightMarkdown>
           </div>
         </div>
 

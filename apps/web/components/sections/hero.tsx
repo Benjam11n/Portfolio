@@ -7,7 +7,7 @@ import { useMemo, useRef } from "react";
 
 import { Magnetic } from "@/components/effects/magnetic";
 import { BorderedImage } from "@/components/shared/bordered-image";
-import { Markdown } from "@/components/shared/markdown";
+import { LightweightMarkdown } from "@/components/shared/lightweight-markdown";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
 import {
@@ -391,9 +391,9 @@ export const Hero = () => {
 
         {/* Description */}
         <div className="hero-text mb-8 max-w-sm translate-y-10 opacity-0">
-          <Markdown className="font-sans text-foreground text-md leading-relaxed">
+          <LightweightMarkdown className="font-sans text-foreground text-md leading-relaxed">
             {HERO_CONTENT.description}
-          </Markdown>
+          </LightweightMarkdown>
         </div>
 
         {/* Buttons */}
