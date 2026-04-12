@@ -5,6 +5,8 @@ import Link from "next/link";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 import { Card3D } from "@/components/effects/card-3d";
+import { Magnetic } from "@/components/effects/magnetic";
+import { BorderedImage } from "@/components/shared/bordered-image";
 import {
   Tooltip,
   TooltipContent,
@@ -16,9 +18,6 @@ import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-moti
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
-
-import { Magnetic } from "../effects/magnetic";
-import { BorderedImage } from "./bordered-image";
 
 interface ProjectCardProps {
   project: Project;

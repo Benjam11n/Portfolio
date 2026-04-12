@@ -1,15 +1,15 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { CERTIFICATIONS } from "../constants/certifications";
-import { workExperiences } from "../constants/experience";
+import { CERTIFICATIONS } from "@/lib/constants/certifications";
+import { workExperiences } from "@/lib/constants/experience";
 import {
   HOMEPAGE_MEDIA_BUDGETS,
   HOMEPAGE_MEDIA_EXTENSIONS,
-} from "../constants/homepage-media-budgets";
-import type { HomepageMediaRule } from "../constants/homepage-media-budgets";
-import { PROJECTS } from "../constants/projects";
-import type { Certification, Experience, Project } from "../types";
+} from "@/lib/constants/homepage-media-budgets";
+import type { HomepageMediaRule } from "@/lib/constants/homepage-media-budgets";
+import { PROJECTS } from "@/lib/constants/projects";
+import type { Certification, Experience, Project } from "@/lib/types";
 
 export interface HomepageMediaIssue {
   actualBytes?: number;
