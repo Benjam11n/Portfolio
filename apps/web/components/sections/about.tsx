@@ -292,7 +292,7 @@ export const About = () => {
                     onError={handleImage2Error}
                     priority
                     sizes="(max-width: 640px) 100px, 150px"
-                    src="/hero.png"
+                    src="/hero.avif"
                   />
                 )}
               </div>

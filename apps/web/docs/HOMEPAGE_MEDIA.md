@@ -10,7 +10,7 @@ Each homepage project card uses:
 - `public/projects/<id>/preview.mp4`
 - `public/projects/<id>/preview-poster.jpg`
 
-The GovTech experience logo uses:
+The GovTech experience logo uses a checked-in lightweight asset:
 
 - `public/experiences/govtech-preview.mp4`
 
@@ -41,5 +41,5 @@ bash apps/web/scripts/generate-homepage-previews.sh
 - Homepage cards must use `preview.mp4`, never `video.mp4`
 - Homepage cards must not attach a preview video source on initial render
 - Full demo videos remain available for project detail pages
-- Raw GIFs should not be used directly on the homepage when a static image or
-  compressed preview can do the job
+- Raw GIFs should not be used directly on the homepage when a compressed
+  preview can do the job
