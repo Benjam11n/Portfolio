@@ -38,3 +38,12 @@ jobs:
 
       - name: Test
         run: pnpm test:ci
+
+      - name: Homepage Media Audit
+        run: pnpm --filter web homepage:media-check
+
+      - name: Install Playwright Browsers
+        run: pnpm --filter web exec playwright install --with-deps chromium
+
+      - name: Homepage Performance Test
+        run: pnpm --filter web test:e2e -- homepage-performance.test.ts

@@ -9,6 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "homepage:media-check": "pnpm --filter web homepage:media-check",
     "lint": "ultracite check",
     "fix": "ultracite fix",
     "knip": "knip",

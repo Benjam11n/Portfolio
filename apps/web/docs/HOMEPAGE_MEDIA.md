@@ -43,3 +43,28 @@ bash apps/web/scripts/generate-homepage-previews.sh
 - Full demo videos remain available for project detail pages
 - Raw GIFs should not be used directly on the homepage when a compressed
   preview can do the job
+
+## Enforced Budgets
+
+- Project preview video: `<= 60 KB`
+- Project preview poster: `<= 30 KB`
+- Project hero image: `<= 300 KB`
+- Certification image: `<= 225 KB`
+- Experience image/poster: `<= 175 KB`
+- Experience preview video: `<= 60 KB`
+- Homepage GIFs: disallowed
+- Initial `"/"` homepage media transfer: `<= 2 MB`
+- Initial `"/"` route must not request `video.mp4` or `preview.mp4`
+
+## CI Checks
+
+Run from repo root:
+
+```bash
+pnpm --filter web homepage:media-check
+pnpm --filter web test:e2e -- homepage-performance.test.ts
+```
+
+The static audit checks file references and file sizes. The Playwright test
+checks real `"/"` route behavior so preview media does not quietly return to
+initial page load.
