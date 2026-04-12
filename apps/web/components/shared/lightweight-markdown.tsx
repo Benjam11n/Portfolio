@@ -6,7 +6,23 @@ interface LightweightMarkdownProps {
 }
 
 const LINK_REGEX = /\[([^\]]+)\]\(([^)]+)\)/g;
-const BOLD_REGEX = /\*\*([^*]+)\*\*/g;
+const BOLD_REGEX = /\*\*([\s\S]*?)\*\*/g;
+const SAFE_LINK_PROTOCOLS = new Set(["http:", "https:", "mailto:"]);
+
+const sanitizeHref = (href: string) => {
+  try {
+    const normalizedHref = href.trim();
+    const url = new URL(normalizedHref);
+
+    if (!SAFE_LINK_PROTOCOLS.has(url.protocol)) {
+      return null;
+    }
+
+    return normalizedHref;
+  } catch {
+    return null;
+  }
+};
 
 const renderStrongSegments = (text: string, keyPrefix: string): ReactNode[] => {
   const result: ReactNode[] = [];
@@ -44,6 +60,7 @@ const renderInlineMarkdown = (text: string) => {
 
   for (const match of text.matchAll(LINK_REGEX)) {
     const matchIndex = match.index ?? 0;
+    const safeHref = sanitizeHref(match[2]);
 
     if (matchIndex > lastIndex) {
       result.push(
@@ -54,17 +71,23 @@ const renderInlineMarkdown = (text: string) => {
       );
     }
 
-    result.push(
-      <a
-        className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
-        href={match[2]}
-        key={`link-${matchIndex}`}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        {renderStrongSegments(match[1], `link-text-${matchIndex}-`)}
-      </a>
-    );
+    if (safeHref) {
+      result.push(
+        <a
+          className="font-medium text-primary underline underline-offset-4 hover:text-primary/80"
+          href={safeHref}
+          key={`link-${matchIndex}`}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          {renderStrongSegments(match[1], `link-text-${matchIndex}-`)}
+        </a>
+      );
+    } else {
+      result.push(
+        ...renderStrongSegments(match[1], `unsafe-link-${matchIndex}-`)
+      );
+    }
 
     lastIndex = matchIndex + match[0].length;
   }

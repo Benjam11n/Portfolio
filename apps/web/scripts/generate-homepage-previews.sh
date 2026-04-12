@@ -3,20 +3,17 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PROJECTS_DIR="$ROOT_DIR/public/projects"
 
-PROJECT_IDS=(
-  "zucchini"
-  "disknee"
-  "twinAI"
-  "chip"
-  "worldquant"
-  "birds-of-a-feather"
+mapfile -d '' PROJECT_DIRS < <(
+  find "$PROJECTS_DIR" -mindepth 1 -maxdepth 1 -type d -print0 | sort -z
 )
 
-for project_id in "${PROJECT_IDS[@]}"; do
-  source_video="$ROOT_DIR/public/projects/$project_id/video.mp4"
-  preview_video="$ROOT_DIR/public/projects/$project_id/preview.mp4"
-  preview_poster="$ROOT_DIR/public/projects/$project_id/preview-poster.jpg"
+for project_dir in "${PROJECT_DIRS[@]}"; do
+  project_id="$(basename "$project_dir")"
+  source_video="$project_dir/video.mp4"
+  preview_video="$project_dir/preview.mp4"
+  preview_poster="$project_dir/preview-poster.jpg"
 
   if [[ ! -f "$source_video" ]]; then
     echo "Skipping $project_id: missing $source_video"

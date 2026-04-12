@@ -17,8 +17,17 @@ interface ExperienceItemProps {
   item: Experience;
 }
 
-const ExperienceIcon = ({ item }: { item: Experience }) => {
-  if (!item.preview_video) {
+const ExperienceIcon = ({
+  item,
+  prefersReducedMotion,
+}: {
+  item: Experience;
+  prefersReducedMotion: boolean;
+}) => {
+  const shouldAutoplayPreview =
+    Boolean(item.preview_video) && !prefersReducedMotion;
+
+  if (!shouldAutoplayPreview) {
     return (
       <BorderedImage
         alt={item.name}
@@ -170,7 +179,10 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
   const content = (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-center gap-3">
-        <ExperienceIcon item={item} />
+        <ExperienceIcon
+          item={item}
+          prefersReducedMotion={prefersReducedMotion}
+        />
         <div>
           <h3 className="font-bold text-base" id={headingId}>
             {item.name}
