@@ -198,17 +198,6 @@ export const auditHomepageMedia = ({
     );
 
     if (experience.preview_video) {
-      if (!experience.preview_poster) {
-        issues.push(
-          createIssue({
-            field: "preview_poster",
-            itemId: experience.name,
-            message:
-              "experience items using preview_video must provide preview_poster fallback",
-          })
-        );
-      }
-
       issues.push(
         ...checkMediaReference({
           field: "preview_video",
