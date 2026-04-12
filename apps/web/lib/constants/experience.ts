@@ -1,9 +1,45 @@
 import type { Experience } from "@/lib/types";
 import { experiencesArraySchema } from "@/lib/validations/constants";
 
-const rawWorkExperiences: Experience[] = [
+type ExperienceMonth = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
+interface ExperienceDatePart {
+  month: ExperienceMonth;
+  year: number;
+}
+
+interface RawExperience extends Omit<Experience, "duration"> {
+  endDate?: ExperienceDatePart;
+  startDate: ExperienceDatePart;
+}
+
+const MONTH_LABELS: Record<ExperienceMonth, string> = {
+  1: "Jan",
+  10: "Oct",
+  11: "Nov",
+  12: "Dec",
+  2: "Feb",
+  3: "Mar",
+  4: "Apr",
+  5: "May",
+  6: "Jun",
+  7: "Jul",
+  8: "Aug",
+  9: "Sep",
+};
+
+const formatDatePart = ({ month, year }: ExperienceDatePart) =>
+  `${MONTH_LABELS[month]} ${year}`;
+
+const formatDuration = ({
+  endDate,
+  startDate,
+}: Pick<RawExperience, "endDate" | "startDate">) =>
+  `${formatDatePart(startDate)} - ${endDate ? formatDatePart(endDate) : "Present"}`;
+
+const rawWorkExperiences: RawExperience[] = [
   {
-    duration: "Jun 2026 - Dec 2026",
+    endDate: { month: 12, year: 2026 },
     icon: "/experiences/govtech-preview.mp4",
     iconBackgroundColor: "#fff",
     iconScale: 1.5,
@@ -12,9 +48,9 @@ const rawWorkExperiences: Experience[] = [
     points: [],
     pos: "Incoming Software Engineer Intern",
     preview_video: "/experiences/govtech-preview.mp4",
+    startDate: { month: 6, year: 2026 },
   },
   {
-    duration: "Jan 2026 - Present",
     icon: "/experiences/aumovio.png",
     iconBackgroundColor: "#fff",
     iconScale: 1.5,
@@ -26,9 +62,10 @@ const rawWorkExperiences: Experience[] = [
       "Improved a key part of the application workflow, increasing **evaluation results by more than 30%** through iterative optimization and testing.",
     ],
     pos: "AI Web Developer Intern",
+    startDate: { month: 1, year: 2026 },
   },
   {
-    duration: "May 2025 - August 2025",
+    endDate: { month: 8, year: 2025 },
     icon: "/experiences/techcloud.png",
     iconBackgroundColor: "#fff",
     id: 2,
@@ -40,9 +77,9 @@ const rawWorkExperiences: Experience[] = [
       "Developed automated **domain monitoring system** tracking **200+ domains** with real-time uptime statistics.",
     ],
     pos: "Full Stack Software Engineer Intern",
+    startDate: { month: 5, year: 2025 },
   },
   {
-    duration: "Dec 2024 - Present",
     icon: "/experiences/worldquant.png",
     iconBackgroundColor: "#fff",
     id: 3,
@@ -52,9 +89,10 @@ const rawWorkExperiences: Experience[] = [
       "Devise and hone quantitative models using **Fast Expression Language** on the BRAIN platform, resulting in greater performances.",
     ],
     pos: "Research Consultant",
+    startDate: { month: 12, year: 2024 },
   },
   {
-    duration: "May 2024 - Aug 2024",
+    endDate: { month: 8, year: 2024 },
     icon: "/experiences/cvwo.png",
     iconBackgroundColor: "#fff7d6",
     iconScale: 1.5,
@@ -66,10 +104,15 @@ const rawWorkExperiences: Experience[] = [
       "Designed and created an automated **appointment management system** with SMS integration to reduce missed appointments.",
     ],
     pos: "Full Stack Software Engineer Intern",
+    startDate: { month: 5, year: 2024 },
   },
 ];
 
-const validatedWorkExperiences =
-  experiencesArraySchema.parse(rawWorkExperiences);
+const validatedWorkExperiences = experiencesArraySchema.parse(
+  rawWorkExperiences.map(({ endDate, startDate, ...experience }) => ({
+    ...experience,
+    duration: formatDuration({ endDate, startDate }),
+  }))
+);
 
 export const workExperiences: Experience[] = validatedWorkExperiences;
