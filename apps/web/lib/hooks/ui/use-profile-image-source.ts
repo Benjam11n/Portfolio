@@ -5,8 +5,8 @@ import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
 import type { RefObject } from "react";
 
-const DARK_PROFILE_IMAGE_SRC = "/benjamin.png";
-const LIGHT_PROFILE_IMAGE_SRC = "/benjamin-light.png";
+const DARK_PROFILE_IMAGE_SRC = "/benjamin.avif";
+const LIGHT_PROFILE_IMAGE_SRC = "/benjamin-light.avif";
 
 interface UseProfileImageSourceOptions {
   animationRef?: RefObject<HTMLElement | null>;
@@ -52,9 +52,9 @@ export const useProfileImageSource = ({
       },
       {
         autoAlpha: 1,
-        clearProps: "opacity,transform",
         duration: 0.28,
         ease: "power2.out",
+        overwrite: "auto",
         scale: 1,
         y: 0,
       }

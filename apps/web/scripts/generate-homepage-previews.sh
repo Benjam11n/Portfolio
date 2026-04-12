@@ -47,24 +47,3 @@ for project_id in "${PROJECT_IDS[@]}"; do
 
   du -h "$preview_video" "$preview_poster"
 done
-
-govtech_gif="$ROOT_DIR/public/experiences/govtech.gif"
-govtech_preview="$ROOT_DIR/public/experiences/govtech-preview.mp4"
-
-if [[ -f "$govtech_gif" ]]; then
-  echo "Generating GovTech homepage assets"
-
-  ffmpeg -y \
-    -ss 0 \
-    -t 3 \
-    -i "$govtech_gif" \
-    -an \
-    -movflags +faststart \
-    -vf "fps=12,scale=320:-2:flags=lanczos" \
-    -c:v libx264 \
-    -preset veryslow \
-    -crf 34 \
-    "$govtech_preview"
-
-  du -h "$govtech_gif" "$govtech_preview"
-fi

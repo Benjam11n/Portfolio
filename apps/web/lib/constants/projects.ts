@@ -208,7 +208,7 @@ const rawProjects: Project[] = [
     hero_image: "/projects/birds-of-a-feather/hero.png",
     id: "birds-of-a-feather",
     location: "Singapore",
-    logo: "/projects/birds-of-a-feather/logo.png",
+    logo: "/projects/birds-of-a-feather/logo.avif",
     logoStyle: {
       backgroundColor: "#16015c",
       border: "0.2px solid #0c0036",

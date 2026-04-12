@@ -6,7 +6,7 @@ const rawCertifications: Certification[] = [
     date: "Oct 2025",
     description:
       "Advanced program on building **generative AI systems** with **RAG**, **multimodal AI**, and **autonomous multiagent frameworks**.",
-    image: "/certifications/rag-agentic-ai.png",
+    image: "/certifications/rag-agentic-ai.avif",
     name: "IBM RAG and Agentic AI",
     organization: "IBM",
   },
@@ -38,7 +38,7 @@ const rawCertifications: Certification[] = [
     date: "Jan 2025",
     description:
       "Comprehensive introduction to **supervised learning**, **advanced neural networks**, and **unsupervised recommender systems**.",
-    image: "/certifications/machine-learning.png",
+    image: "/certifications/machine-learning.avif",
     name: "Machine Learning Specialization",
     organization: "Deeplearning.AI",
   },

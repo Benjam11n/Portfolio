@@ -19,6 +19,7 @@ export interface ClickSparkProps {
   extraScale?: number;
   children?: React.ReactNode;
   className?: string;
+  listenOnDocument?: boolean;
 }
 
 interface Spark {
@@ -38,12 +39,14 @@ export const ClickSpark = ({
   extraScale = 1,
   children,
   className,
+  listenOnDocument = false,
 }: ClickSparkProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sparksRef = useRef<Spark[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
-  const isVisible = useElementVisibility(containerRef);
+  const isVisibleInViewport = useElementVisibility(containerRef);
+  const isVisible = listenOnDocument || isVisibleInViewport;
   const [hasActiveSparks, setHasActiveSparks] = useState(false);
 
   useCanvasResize(canvasRef, 100);
@@ -152,27 +155,31 @@ export const ClickSpark = ({
   );
 
   useEffect(() => {
-    const container = containerRef.current;
-    // Should not happen if rendered
-    if (!container) {
+    const target = listenOnDocument ? document : containerRef.current;
+    if (!target) {
       return;
     }
 
-    // We attach to the container ref
-    // The previous implementation used parentElement of canvas, which is the container div.
-    // Attaching to the container div is straightforward.
-
-    // Cast to unknown then EventListener Or just use proper type
-    const listener = (e: MouseEvent) => handleClick(e);
-
-    container.addEventListener("click", listener);
-    return () => {
-      container.removeEventListener("click", listener);
+    const listener: EventListener = (event) => {
+      if (event instanceof MouseEvent) {
+        handleClick(event);
+      }
     };
-  }, [handleClick]);
+
+    target.addEventListener("click", listener);
+    return () => {
+      target.removeEventListener("click", listener);
+    };
+  }, [handleClick, listenOnDocument]);
 
   return (
-    <div className={cn("relative h-full w-full", className)} ref={containerRef}>
+    <div
+      className={cn(
+        listenOnDocument ? "fixed inset-0" : "relative h-full w-full",
+        className
+      )}
+      ref={containerRef}
+    >
       {/*
         This canvas is purely decorative for click feedback.
         It has pointer-events-none so it's non-interactive and doesn't affect accessibility.
