@@ -17,6 +17,42 @@ interface ExperienceItemProps {
   item: Experience;
 }
 
+const ExperienceIcon = ({ item }: { item: Experience }) => {
+  if (!item.preview_video) {
+    return (
+      <BorderedImage
+        alt={item.name}
+        backgroundColor={item.iconBackgroundColor}
+        containerClassName="h-14 w-14 shrink-0 bg-muted"
+        height={56}
+        imageClassName="p-2 object-contain"
+        src={item.icon}
+        style={{ transform: `scale(${item.iconScale ?? 1.2})` }}
+        width={56}
+      />
+    );
+  }
+
+  return (
+    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border-4 border-white bg-muted shadow-xl dark:border-black">
+      <video
+        aria-label={item.name}
+        autoPlay
+        className="h-full w-full object-contain p-2"
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        src={item.preview_video}
+        style={{
+          backgroundColor: item.iconBackgroundColor,
+          transform: `scale(${item.iconScale ?? 1.2})`,
+        }}
+      />
+    </div>
+  );
+};
+
 const ExpandIcon = ({ isOpen }: { isOpen: boolean }) => (
   <ChevronDown
     className={cn(
@@ -134,16 +170,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
   const content = (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-center gap-3">
-        <BorderedImage
-          alt={item.name}
-          backgroundColor={item.iconBackgroundColor}
-          containerClassName="h-14 w-14 shrink-0 bg-muted"
-          height={56}
-          imageClassName="p-2 object-contain"
-          src={item.icon}
-          style={{ transform: `scale(${item.iconScale ?? 1.2})` }}
-          width={56}
-        />
+        <ExperienceIcon item={item} />
         <div>
           <h3 className="font-bold text-base" id={headingId}>
             {item.name}

@@ -4,13 +4,14 @@ import { experiencesArraySchema } from "@/lib/validations/constants";
 const rawWorkExperiences: Experience[] = [
   {
     duration: "Jun 2026 - Dec 2026",
-    icon: "/experiences/govtech.gif",
+    icon: "/experiences/govtech-preview.mp4",
     iconBackgroundColor: "#fff",
-    iconScale: 3,
+    iconScale: 1.5,
     id: 5,
     name: "GovTech",
     points: [],
     pos: "Incoming Software Engineer Intern",
+    preview_video: "/experiences/govtech-preview.mp4",
   },
   {
     duration: "Jan 2026 - Present",

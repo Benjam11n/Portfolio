@@ -1,11 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import dynamic from "next/dynamic";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { ThankYouAnimation } from "@/components/effects/thank-you-animation";
 import { ShiftSubmitButton } from "@/components/shared/shift-submit-button";
 import { Form } from "@/components/ui/form";
 import { useContactFormSubmit } from "@/lib/hooks/forms/use-contact-form-submit";
@@ -14,6 +14,17 @@ import type { ContactFormValues } from "@/lib/validations/contact";
 
 import { FormInput } from "./form-input";
 import { FormTextArea } from "./form-textarea";
+
+const DynamicThankYouAnimation = dynamic(
+  async () => {
+    const mod = await import("@/components/effects/thank-you-animation");
+    return mod.ThankYouAnimation;
+  },
+  {
+    loading: () => null,
+    ssr: false,
+  }
+);
 
 export const ContactForm = () => {
   const [showThankYou, setShowThankYou] = useState(false);
@@ -45,7 +56,7 @@ export const ContactForm = () => {
   return (
     <div className="relative">
       {showThankYou && (
-        <ThankYouAnimation onComplete={handleThankYouComplete} />
+        <DynamicThankYouAnimation onComplete={handleThankYouComplete} />
       )}
 
       <Form {...form}>

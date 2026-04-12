@@ -24,6 +24,8 @@ const rawProjects: Project[] = [
       border: "0.2px solid #28503e",
       boxShadow: "0px 0px 60px 0px #6bbf7a4d",
     },
+    preview_poster: "/projects/zucchini/preview-poster.jpg",
+    preview_video: "/projects/zucchini/preview.mp4",
     services: "Desktop App, Productivity",
     status: "in-development",
     subdesc:
@@ -65,6 +67,8 @@ const rawProjects: Project[] = [
       border: "0.2px solid #1e3a5f",
       boxShadow: "0px 0px 60px 0px #2563eb4D",
     },
+    preview_poster: "/projects/disknee/preview-poster.jpg",
+    preview_video: "/projects/disknee/preview.mp4",
     services: "Computer Vision, Healthcare Tech",
     subdesc:
       "**DisKnee** revolutionizes knee recovery by delivering **precise movement tracking** and instant feedback without expensive hardware. Built with a high-performance **WebSocket infrastructure** handling **30fps video streams**, integrated **Google MediaPipe** with custom pose smoothing algorithms achieving **extremely high pose detection accuracy**.",
@@ -98,7 +102,6 @@ const rawProjects: Project[] = [
     ],
     github: "https://github.com/Benjam11n/TwinAI",
     hero_image: "/projects/twinAI/hero.png",
-    // href: "https://twin-ai-one.vercel.app/",
     id: "twinAI",
     location: "Singapore",
     logo: "/projects/twinAI/logo.png",
@@ -107,6 +110,8 @@ const rawProjects: Project[] = [
       border: "0.2px solid #233814",
       boxShadow: "0px 0px 60px 0px #324d1f",
     },
+    preview_poster: "/projects/twinAI/preview-poster.jpg",
+    preview_video: "/projects/twinAI/preview.mp4",
     services: "AI, Web Development",
     subdesc:
       "**TwinAI** creates virtual representations of patients’ **psychological states**, enabling therapists to **simulate interventions**, track **mood patterns**, and develop **personalized treatment plans**.",
@@ -146,6 +151,8 @@ const rawProjects: Project[] = [
       border: "0.2px solid #24020b",
       boxShadow: "0px 0px 60px 0px #380310",
     },
+    preview_poster: "/projects/chip/preview-poster.jpg",
+    preview_video: "/projects/chip/preview.mp4",
     services: "Web App, Real-time",
     status: "completed",
     subdesc:
@@ -176,6 +183,8 @@ const rawProjects: Project[] = [
       border: "0.2px solid #0E2D58",
       boxShadow: "0px 0px 60px 0px #2F67B64D",
     },
+    preview_poster: "/projects/worldquant/preview-poster.jpg",
+    preview_video: "/projects/worldquant/preview.mp4",
     services: "Quantitative Research, Alpha Design",
     subdesc:
       "Utilized **Fast Expression Language** and **quantitative research methodologies** to identify **market patterns** and develop **high-performance predictive models** on the **BRAIN platform**.",
@@ -205,6 +214,8 @@ const rawProjects: Project[] = [
       border: "0.2px solid #0c0036",
       boxShadow: "0px 0px 60px 0px #2F6DB54D",
     },
+    preview_poster: "/projects/birds-of-a-feather/preview-poster.jpg",
+    preview_video: "/projects/birds-of-a-feather/preview.mp4",
     services: "Community, Forum",
     subdesc:
       "Built with **React, TypeScript, Tailwind CSS, shadcn/ui**, and **Docker**. **Birds of a Feather** is a **modern forum** that brings **bird enthusiasts** together.",
