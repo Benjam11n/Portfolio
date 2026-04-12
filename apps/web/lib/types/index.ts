@@ -19,6 +19,8 @@ export interface Project {
 
   // Visual elements
   video_overview?: string;
+  preview_video?: string;
+  preview_poster?: string;
   hero_image?: string;
   logo: string;
   logoStyle?: React.CSSProperties;
@@ -38,6 +40,8 @@ export interface Experience {
   duration: string;
   points: string[];
   icon: string;
+  preview_video?: string;
+  preview_poster?: string;
   iconBackgroundColor?: string;
   iconScale?: number;
 }

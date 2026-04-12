@@ -58,6 +58,14 @@ const experienceSchema = z.object({
     .string()
     .min(1, "Position must be at least 1 character")
     .max(300, "Position must be at most 300 characters"),
+  preview_poster: z
+    .string()
+    .max(500, "Preview poster path must be at most 500 characters")
+    .optional(),
+  preview_video: z
+    .string()
+    .max(500, "Preview video path must be at most 500 characters")
+    .optional(),
 });
 
 // Project validation schema
@@ -101,6 +109,14 @@ const projectSchema = z.object({
     .min(1, "Logo path must be at least 1 character")
     .max(500, "Logo path must be at most 500 characters"),
   logoStyle: z.record(z.unknown()).optional(),
+  preview_poster: z
+    .string()
+    .max(500, "Preview poster path must be at most 500 characters")
+    .optional(),
+  preview_video: z
+    .string()
+    .max(500, "Preview video path must be at most 500 characters")
+    .optional(),
   services: z
     .string()
     .min(1, "Services must be at least 1 character")
