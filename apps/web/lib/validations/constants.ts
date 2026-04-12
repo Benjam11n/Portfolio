@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import type { Month } from "@/lib/types";
+
 // Certification validation schema
 const certificationSchema = z.object({
   date: z
@@ -25,11 +27,20 @@ const certificationSchema = z.object({
 });
 
 // Experience validation schema
+const monthYearSchema = z.object({
+  month: z.custom<Month>(
+    (value) =>
+      typeof value === "number" &&
+      Number.isInteger(value) &&
+      value >= 1 &&
+      value <= 12,
+    "Month must be an integer from 1 to 12"
+  ),
+  year: z.number().int().min(1900).max(3000),
+});
+
 const experienceSchema = z.object({
-  duration: z
-    .string()
-    .min(1, "Duration must be at least 1 character")
-    .max(100, "Duration must be at most 100 characters"),
+  endDate: monthYearSchema.optional(),
   icon: z
     .string()
     .min(1, "Icon path must be at least 1 character")
@@ -66,6 +77,7 @@ const experienceSchema = z.object({
     .string()
     .max(500, "Preview video path must be at most 500 characters")
     .optional(),
+  startDate: monthYearSchema,
 });
 
 // Project validation schema

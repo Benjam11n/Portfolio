@@ -33,11 +33,19 @@ export interface Project {
   featureIcon?: (props: { className: string }) => React.JSX.Element;
 }
 
+export type Month = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
+export interface MonthYear {
+  month: Month;
+  year: number;
+}
+
 export interface Experience {
   id: number;
   name: string;
   pos: string;
-  duration: string;
+  startDate: MonthYear;
+  endDate?: MonthYear;
   points: string[];
   icon: string;
   preview_video?: string;

@@ -1,43 +1,7 @@
 import type { Experience } from "@/lib/types";
 import { experiencesArraySchema } from "@/lib/validations/constants";
 
-type ExperienceMonth = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-
-interface ExperienceDatePart {
-  month: ExperienceMonth;
-  year: number;
-}
-
-interface RawExperience extends Omit<Experience, "duration"> {
-  endDate?: ExperienceDatePart;
-  startDate: ExperienceDatePart;
-}
-
-const MONTH_LABELS: Record<ExperienceMonth, string> = {
-  1: "Jan",
-  10: "Oct",
-  11: "Nov",
-  12: "Dec",
-  2: "Feb",
-  3: "Mar",
-  4: "Apr",
-  5: "May",
-  6: "Jun",
-  7: "Jul",
-  8: "Aug",
-  9: "Sep",
-};
-
-const formatDatePart = ({ month, year }: ExperienceDatePart) =>
-  `${MONTH_LABELS[month]} ${year}`;
-
-const formatDuration = ({
-  endDate,
-  startDate,
-}: Pick<RawExperience, "endDate" | "startDate">) =>
-  `${formatDatePart(startDate)} - ${endDate ? formatDatePart(endDate) : "Present"}`;
-
-const rawWorkExperiences: RawExperience[] = [
+const rawWorkExperiences: Experience[] = [
   {
     endDate: { month: 12, year: 2026 },
     icon: "/experiences/govtech-preview.mp4",
@@ -108,11 +72,7 @@ const rawWorkExperiences: RawExperience[] = [
   },
 ];
 
-const validatedWorkExperiences = experiencesArraySchema.parse(
-  rawWorkExperiences.map(({ endDate, startDate, ...experience }) => ({
-    ...experience,
-    duration: formatDuration({ endDate, startDate }),
-  }))
-);
+const validatedWorkExperiences =
+  experiencesArraySchema.parse(rawWorkExperiences);
 
 export const workExperiences: Experience[] = validatedWorkExperiences;

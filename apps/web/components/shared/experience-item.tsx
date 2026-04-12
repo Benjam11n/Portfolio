@@ -12,6 +12,7 @@ import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-moti
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Experience } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { formatMonthYearRange } from "@/lib/utils/format-month-year-range";
 
 interface ExperienceItemProps {
   item: Experience;
@@ -166,6 +167,10 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
   });
 
   const hasPoints = item.points.length > 0;
+  const durationLabel = formatMonthYearRange({
+    end: item.endDate,
+    start: item.startDate,
+  });
 
   // Generate unique IDs for ARIA attributes - memoized for stability
   const { headingId, contentId } = useMemo(
@@ -195,7 +200,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
       <div className="pl-[72px] sm:pl-0">
         <div className="flex items-center gap-2 sm:justify-end">
           <span className="font-mono font-semibold text-muted-foreground text-sm">
-            {item.duration}
+            {durationLabel}
           </span>
           {hasPoints && (
             <span
