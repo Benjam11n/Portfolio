@@ -7,7 +7,7 @@ import { useMemo, useRef, useState } from "react";
 
 import { Card3D } from "@/components/effects/card-3d";
 import { BorderedImage } from "@/components/shared/bordered-image";
-import { Markdown } from "@/components/shared/markdown";
+import { LightweightMarkdown } from "@/components/shared/lightweight-markdown";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Experience } from "@/lib/types";
@@ -263,7 +263,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
                   key={`${item.id}-point-${point}`}
                 >
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/40" />
-                  <Markdown>{point}</Markdown>
+                  <LightweightMarkdown>{point}</LightweightMarkdown>
                 </li>
               ))}
             </ul>

@@ -1,6 +1,4 @@
 import { JsonLd } from "@repo/seo/json-ld";
-import gsapCore from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { About } from "@/components/sections/about";
 import { Certifications } from "@/components/sections/certification";
@@ -9,8 +7,6 @@ import { Experience } from "@/components/sections/experience";
 import { Hero } from "@/components/sections/hero";
 import { Projects } from "@/components/sections/projects";
 import { TechStack } from "@/components/sections/tech-stack";
-
-gsapCore.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   return (
