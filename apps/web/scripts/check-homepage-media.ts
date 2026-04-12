@@ -2,7 +2,7 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
-import { auditHomepageMedia } from "../lib/homepage-media/check-homepage-media";
+import { auditHomepageMedia } from "@/lib/homepage-media/check-homepage-media";
 
 const currentFilePath = fileURLToPath(import.meta.url);
 const rootDir = path.resolve(path.dirname(currentFilePath), "..");

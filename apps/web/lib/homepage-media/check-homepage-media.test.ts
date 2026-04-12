@@ -2,8 +2,8 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
-import { PROJECTS } from "../constants/projects";
-import { auditHomepageMedia } from "./check-homepage-media";
+import { PROJECTS } from "@/lib/constants/projects";
+import { auditHomepageMedia } from "@/lib/homepage-media/check-homepage-media";
 
 const tempDirs: string[] = [];
 

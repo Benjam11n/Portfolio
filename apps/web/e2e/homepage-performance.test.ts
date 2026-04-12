@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { HOMEPAGE_MEDIA_BUDGETS } from "../lib/constants/homepage-media-budgets";
+import { HOMEPAGE_MEDIA_BUDGETS } from "@/lib/constants/homepage-media-budgets";
 
 const HOMEPAGE_MEDIA_PREFIXES = [
   "/certifications/",
