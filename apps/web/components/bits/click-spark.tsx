@@ -175,7 +175,9 @@ export const ClickSpark = ({
   return (
     <div
       className={cn(
-        listenOnDocument ? "fixed inset-0" : "relative h-full w-full",
+        listenOnDocument
+          ? "pointer-events-none fixed inset-0"
+          : "relative h-full w-full",
         className
       )}
       ref={containerRef}
