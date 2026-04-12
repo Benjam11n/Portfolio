@@ -9,6 +9,7 @@ import { ProjectCard } from "@/components/shared/project-card";
 import { SectionCard } from "@/components/shared/section-card";
 import { PROJECTS } from "@/lib/constants/projects";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
+import { useShouldSkipEntranceAnimation } from "@/lib/hooks/animation/use-should-skip-entrance-animation";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 gsapCore.registerPlugin(ScrollTrigger);
@@ -17,6 +18,7 @@ export const Projects = () => {
   const projects = Object.values(PROJECTS);
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldSkipEntranceAnimation = useShouldSkipEntranceAnimation();
   const { skipAnimations } = useAnimationSkipContext();
 
   useGSAP(
@@ -38,7 +40,11 @@ export const Projects = () => {
        */
 
       // Skip all animations if user prefers reduced motion or if animations were skipped
-      if (prefersReducedMotion || skipAnimations) {
+      if (
+        prefersReducedMotion ||
+        shouldSkipEntranceAnimation ||
+        skipAnimations
+      ) {
         // Set all elements to their final state instantly
         gsapCore.set(".project-card-item", {
           autoAlpha: 1,
@@ -80,7 +86,11 @@ export const Projects = () => {
       });
     },
     {
-      dependencies: [prefersReducedMotion, skipAnimations],
+      dependencies: [
+        prefersReducedMotion,
+        shouldSkipEntranceAnimation,
+        skipAnimations,
+      ],
       scope: containerRef,
     }
   );

@@ -19,6 +19,7 @@ import { HERO_CONTENT } from "@/lib/constants/hero";
 import { ROUTES } from "@/lib/constants/navigation";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useAnimationPerformance } from "@/lib/hooks/animation/use-animation-performance";
+import { useShouldSkipEntranceAnimation } from "@/lib/hooks/animation/use-should-skip-entrance-animation";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useProfileImageSource } from "@/lib/hooks/ui/use-profile-image-source";
 
@@ -27,6 +28,9 @@ export const Hero = () => {
   const imageRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldSkipEntranceAnimation = useShouldSkipEntranceAnimation({
+    thresholdMs: 900,
+  });
   const { skipAnimations } = useAnimationSkipContext();
 
   const performanceMetrics = useAnimationPerformance();
@@ -65,7 +69,11 @@ export const Hero = () => {
           performanceMetrics.startTracking();
 
           // Skip all animations if user prefers reduced motion or if animations were skipped
-          if (prefersReducedMotion || skipAnimations) {
+          if (
+            prefersReducedMotion ||
+            skipAnimations ||
+            shouldSkipEntranceAnimation
+          ) {
             // Set all elements to their final state instantly
             gsapCore.set(imageRef.current, {
               autoAlpha: 1,
@@ -319,7 +327,11 @@ export const Hero = () => {
       );
     },
     {
-      dependencies: [prefersReducedMotion, skipAnimations],
+      dependencies: [
+        prefersReducedMotion,
+        shouldSkipEntranceAnimation,
+        skipAnimations,
+      ],
       scope: containerRef,
     }
   );
@@ -328,14 +340,20 @@ export const Hero = () => {
     <SectionCard id="hero">
       <div ref={containerRef}>
         {/* Profile Image */}
-        <div className="inline-block" ref={imageRef}>
+        <div
+          className="inline-block opacity-0"
+          ref={imageRef}
+          style={{ transform: "scale(0)" }}
+        >
           <Magnetic strength={0.4}>
             <BorderedImage
               alt="Benjamin Wang"
               colorDark="#464646ff"
               colorLight="#3f3f3fff"
               containerClassName="mb-6 h-[72px] w-[72px]"
+              fetchPriority="high"
               height={72}
+              priority
               src={profileImageSrc}
               width={72}
             />
@@ -367,12 +385,12 @@ export const Hero = () => {
         </div>
 
         {/* Role */}
-        <h2 className="hero-text mb-6 font-medium text-md text-muted-foreground">
+        <h2 className="hero-text mb-6 translate-y-10 opacity-0 font-medium text-md text-muted-foreground">
           {HERO_CONTENT.role}
         </h2>
 
         {/* Description */}
-        <div className="hero-text mb-8 max-w-sm">
+        <div className="hero-text mb-8 max-w-sm translate-y-10 opacity-0">
           <Markdown className="font-sans text-foreground text-md leading-relaxed">
             {HERO_CONTENT.description}
           </Markdown>
@@ -380,24 +398,28 @@ export const Hero = () => {
 
         {/* Buttons */}
         <div className="flex flex-wrap gap-4" ref={buttonsRef}>
-          <Magnetic strength={0.2}>
-            <ShiftButton
-              href={ROUTES.CONTACT}
-              icon={<Mail className="h-4 w-4" />}
-              variant="primary"
-            >
-              Contact Me
-            </ShiftButton>
-          </Magnetic>
-          <Magnetic strength={0.2}>
-            <ShiftButton
-              href={ROUTES.PROJECTS}
-              icon={<ArrowUpRight className="h-4 w-4" />}
-              variant="secondary"
-            >
-              View Projects
-            </ShiftButton>
-          </Magnetic>
+          <div className="translate-y-5 opacity-0">
+            <Magnetic strength={0.2}>
+              <ShiftButton
+                href={ROUTES.CONTACT}
+                icon={<Mail className="h-4 w-4" />}
+                variant="primary"
+              >
+                Contact Me
+              </ShiftButton>
+            </Magnetic>
+          </div>
+          <div className="translate-y-5 opacity-0">
+            <Magnetic strength={0.2}>
+              <ShiftButton
+                href={ROUTES.PROJECTS}
+                icon={<ArrowUpRight className="h-4 w-4" />}
+                variant="secondary"
+              >
+                View Projects
+              </ShiftButton>
+            </Magnetic>
+          </div>
         </div>
       </div>
     </SectionCard>

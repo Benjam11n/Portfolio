@@ -8,11 +8,13 @@ import { CertificationCard } from "@/components/shared/certification-card";
 import { SectionCard } from "@/components/shared/section-card";
 import { CERTIFICATIONS } from "@/lib/constants/certifications";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
+import { useShouldSkipEntranceAnimation } from "@/lib/hooks/animation/use-should-skip-entrance-animation";
 import { useAnimationSkipIndicator } from "@/lib/hooks/ui/use-animation-skip-indicator";
 
 export const Certifications = () => {
   const containerRef = useRef<HTMLElement>(null);
   const { skipAnimations } = useAnimationSkipContext();
+  const shouldSkipEntranceAnimation = useShouldSkipEntranceAnimation();
   const showSkipIndicator = useAnimationSkipIndicator(skipAnimations);
 
   useGSAP(
@@ -33,7 +35,7 @@ export const Certifications = () => {
        * Consistent with experience section for visual coherence.
        */
 
-      if (skipAnimations) {
+      if (shouldSkipEntranceAnimation || skipAnimations) {
         // Skip animations - set elements to final state immediately
         gsapCore.set(".cert-card", {
           opacity: 1,
@@ -81,7 +83,10 @@ export const Certifications = () => {
         );
       }
     },
-    { dependencies: [skipAnimations], scope: containerRef }
+    {
+      dependencies: [shouldSkipEntranceAnimation, skipAnimations],
+      scope: containerRef,
+    }
   );
 
   return (
