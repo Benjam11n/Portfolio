@@ -1,6 +1,32 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import type { ComponentType, ReactNode } from "react";
+
+interface DynamicClickSparkProps {
+  children?: ReactNode;
+  className?: string;
+  duration?: number;
+  easing?: "linear" | "ease-in" | "ease-out" | "ease-in-out";
+  extraScale?: number;
+  listenOnDocument?: boolean;
+  sparkColor?: string;
+  sparkCount?: number;
+  sparkRadius?: number;
+  sparkSize?: number;
+}
+
+interface DynamicDitherProps {
+  colorNum?: number;
+  disableAnimation?: boolean;
+  enableMouseInteraction?: boolean;
+  mouseRadius?: number;
+  pixelSize?: number;
+  waveAmplitude?: number;
+  waveColor?: [number, number, number];
+  waveFrequency?: number;
+  waveSpeed?: number;
+}
 
 const loadConditionalNavbar = async () => {
   const mod = await import("@/components/layout/conditional-navbar");
@@ -46,14 +72,20 @@ export const DynamicNavbar = dynamic(loadConditionalNavbar, { ssr: false });
 
 export const DynamicFooter = dynamic(loadFooter, { ssr: false });
 
-export const DynamicDither = dynamic(loadDither, {
-  loading: () => <div className="h-full w-full bg-muted" />,
-  ssr: true,
-});
+export const DynamicDither: ComponentType<DynamicDitherProps> = dynamic(
+  loadDither,
+  {
+    loading: () => <div className="h-full w-full bg-muted" />,
+    ssr: true,
+  }
+);
 
 // Wrappers that contain content should typically NOT be ssr: false to preserve SEO and initial render
 // However, we load them dynamically to reduce initial bundle size for the layout chunk
-export const DynamicClickSpark = dynamic(loadClickSpark, { ssr: true });
+export const DynamicClickSpark: ComponentType<DynamicClickSparkProps> = dynamic(
+  loadClickSpark,
+  { ssr: true }
+);
 
 export const DynamicSmoothScroll = dynamic(loadSmoothScroll, { ssr: true });
 

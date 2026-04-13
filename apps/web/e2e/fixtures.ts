@@ -1,13 +1,5 @@
 import type { Page } from "@playwright/test";
 
-// Contact form test data
-export const validContactData = {
-  email: "john.doe@example.com",
-  message:
-    "Hello! I am interested in discussing a potential project collaboration. Looking forward to hearing from you.",
-  name: "John Doe",
-};
-
 // All project slugs to test
 export const projectSlugs = [
   "disknee",

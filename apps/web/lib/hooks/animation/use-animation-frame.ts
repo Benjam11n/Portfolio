@@ -2,9 +2,9 @@
 
 import { useEffect, useRef } from "react";
 
-export type AnimationCallback = (timestamp: number) => void;
+type AnimationCallback = (timestamp: number) => void;
 
-export interface UseAnimationFrameOptions {
+interface UseAnimationFrameOptions {
   /**
    * Target FPS for the animation loop.
    * If not provided, runs at screen refresh rate (typically 60fps).
@@ -25,7 +25,7 @@ export interface UseAnimationFrameOptions {
   enabled?: boolean;
 }
 
-export interface UseAnimationFrameReturn {
+interface UseAnimationFrameReturn {
   /**
    * The current animation frame ID, can be used with cancelAnimationFrame if needed.
    */

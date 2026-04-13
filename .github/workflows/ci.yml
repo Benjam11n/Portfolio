@@ -33,6 +33,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Knip
+        run: pnpm knip
+
       - name: Type Check
         run: pnpm type-check
 
@@ -41,3 +44,11 @@ jobs:
 
       - name: Homepage Media Audit
         run: pnpm --filter web homepage:media-check
+
+      - name: Install Playwright Browsers
+        run: pnpm --filter web exec playwright install --with-deps chromium
+
+      - name: Homepage Performance Test
+        env:
+          SKIP_ENV_VALIDATION: "true"
+        run: pnpm --filter web test:e2e -- homepage-performance.test.ts

@@ -59,18 +59,3 @@ export const ANIMATION_STAGGER = {
   /** Very slow stagger for dramatic reveals */
   VERY_SLOW: 0.2,
 } as const;
-
-/**
- * Scroll trigger thresholds for scroll-based animations.
- * These control when scroll-triggered animations should start.
- */
-export const SCROLL_TRIGGER = {
-  /** Animation starts when element reaches center of viewport */
-  CENTER: "50%",
-  /** Animation starts when element is 90% of viewport height from bottom */
-  EARLY: "90%",
-  /** Animation starts when element is 70% of viewport height from bottom */
-  LATE: "70%",
-  /** Animation starts when element is 80% of viewport height from bottom (default) */
-  STANDARD: "80%",
-} as const;

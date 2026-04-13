@@ -38,7 +38,7 @@ const CARD_VARIANTS = {
 
 type Card3DVariant = keyof typeof CARD_VARIANTS;
 
-export interface Card3DProps {
+interface Card3DProps {
   children: React.ReactNode;
 
   // Variant preset for common configurations
