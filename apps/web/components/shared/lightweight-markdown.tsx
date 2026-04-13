@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
 
+/**
+ * Intentionally narrow inline markdown renderer for controlled in-repo content.
+ * Replace with a real safe markdown renderer if authoring needs become richer.
+ */
 interface LightweightMarkdownProps {
   children: string;
   className?: string;
@@ -8,7 +12,6 @@ interface LightweightMarkdownProps {
 const LINK_REGEX = /\[([^\]]+)\]\(([^)]+)\)/g;
 const BOLD_REGEX = /\*\*([\s\S]*?)\*\*/g;
 const SAFE_LINK_PROTOCOLS = new Set(["http:", "https:", "mailto:"]);
-
 const sanitizeHref = (href: string) => {
   try {
     const normalizedHref = href.trim();

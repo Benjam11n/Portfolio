@@ -11,7 +11,7 @@ import {
 } from "@/components/layout/dynamic-layout-components";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { env } from "@/lib/env";
+import { clientEnv } from "@/lib/env/client";
 import { useDeferredEnhancement } from "@/lib/hooks/performance/use-deferred-enhancement";
 
 export const RootProviders = ({ children }: { children: ReactNode }) => {
@@ -19,9 +19,9 @@ export const RootProviders = ({ children }: { children: ReactNode }) => {
 
   return (
     <AnalyticsProvider
-      disabled={!env.NEXT_PUBLIC_POSTHOG_KEY}
-      host={env.NEXT_PUBLIC_POSTHOG_HOST}
-      writeKey={env.NEXT_PUBLIC_POSTHOG_KEY ?? ""}
+      disabled={!clientEnv.NEXT_PUBLIC_POSTHOG_KEY}
+      host={clientEnv.NEXT_PUBLIC_POSTHOG_HOST}
+      writeKey={clientEnv.NEXT_PUBLIC_POSTHOG_KEY ?? ""}
     >
       <ThemeProvider
         attribute="class"
