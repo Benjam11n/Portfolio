@@ -1,5 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
+import type { Project } from "@/lib/types";
+
 import { ProjectHero } from "./project-hero";
 
 // Mock GSAP
@@ -31,7 +33,7 @@ vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
   usePrefersReducedMotion: () => false,
 }));
 
-const mockProject = {
+const mockProject: Project = {
   client: "Personal",
   description: "A **test** project description",
   github: "https://github.com/test",
@@ -43,9 +45,9 @@ const mockProject = {
   logoStyle: { backgroundColor: "#000" },
   services: "Web",
   tags: ["React"],
-  techStack: ["React"],
+  techStack: ["react"],
   title: "Test Project - Subtitle",
-  year: "2024",
+  year: 2024,
 };
 
 const DESCRIPTION_REGEX = /project description/;

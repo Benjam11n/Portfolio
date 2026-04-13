@@ -7,7 +7,10 @@ import { useRef } from "react";
 
 import { Markdown } from "@/components/shared/markdown";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
-import { TECH_STACK } from "@/lib/constants/tech-stack";
+import {
+  isRenderableTechStackItem,
+  TECH_STACK_BY_ID,
+} from "@/lib/constants/tech-stack";
 import type { Project } from "@/lib/types/index";
 
 import { FeatureCard } from "./feature-card";
@@ -106,17 +109,15 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
             Built With
           </h3>
           <div className="flex flex-wrap gap-3">
-            {project.techStack.map((techName) => {
-              const stackItem = TECH_STACK.find(
-                (s) => s.name.toLowerCase() === techName.toLowerCase()
-              );
-              if (!stackItem) {
+            {project.techStack.map((techId) => {
+              const stackItem = TECH_STACK_BY_ID[techId];
+              if (!stackItem || !isRenderableTechStackItem(stackItem)) {
                 return null;
               }
               return (
                 <div
                   className="tech-item w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-12px)]"
-                  key={techName}
+                  key={techId}
                 >
                   <TechStackItem small stack={stackItem} />
                 </div>
