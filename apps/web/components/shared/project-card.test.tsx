@@ -1,10 +1,12 @@
 import { render, screen } from "@repo/testing/test-utils";
 
+import type { Project } from "@/lib/types";
+
 import { ProjectCard } from "./project-card";
 
 const VIEW_PROJECT_REGEX = /View project: Test Project - Subtitle/i;
 
-const mockProject = {
+const mockProject: Project = {
   challenges: [],
   client: "Personal",
   description: "A test project description",
@@ -19,10 +21,10 @@ const mockProject = {
   logoStyle: {},
   services: "Web Development",
   tags: ["React", "TypeScript"],
-  techStack: ["React"],
+  techStack: ["react"],
   title: "Test Project - Subtitle",
   video_overview: undefined,
-  year: "2024",
+  year: 2024,
 };
 
 const SUBTITLE_REGEX = /Subtitle/;

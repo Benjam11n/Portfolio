@@ -13,7 +13,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ROUTES } from "@/lib/constants/navigation";
-import { TECH_STACK } from "@/lib/constants/tech-stack";
+import {
+  isRenderableTechStackItem,
+  TECH_STACK_BY_ID,
+} from "@/lib/constants/tech-stack";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Project } from "@/lib/types";
@@ -226,16 +229,14 @@ export const ProjectCard = memo(({ project }: ProjectCardProps) => {
 
           {!!project.techStack.length && (
             <div className="mt-1 flex flex-wrap items-center justify-center gap-2">
-              {project.techStack.map((techName) => {
-                const tech = TECH_STACK.find(
-                  (t) => t.name.toLowerCase() === techName.toLowerCase()
-                );
-                if (!tech) {
+              {project.techStack.map((techId) => {
+                const tech = TECH_STACK_BY_ID[techId];
+                if (!tech || !isRenderableTechStackItem(tech)) {
                   return null;
                 }
 
                 return (
-                  <Magnetic key={techName}>
+                  <Magnetic key={techId}>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div className="cursor-pointer">

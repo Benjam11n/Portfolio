@@ -1,13 +1,10 @@
 import { z } from "zod";
 
+import { TECH_IDS } from "@/lib/types";
 import type { Month } from "@/lib/types";
 
 // Certification validation schema
 const certificationSchema = z.object({
-  date: z
-    .string()
-    .min(1, "Date must be at least 1 character")
-    .max(50, "Date must be at most 50 characters"),
   description: z
     .string()
     .min(1, "Description must be at least 1 character")
@@ -16,6 +13,17 @@ const certificationSchema = z.object({
     .string()
     .min(1, "Image path must be at least 1 character")
     .max(500, "Image path must be at most 500 characters"),
+  issuedAt: z.object({
+    month: z.custom<Month>(
+      (value) =>
+        typeof value === "number" &&
+        Number.isInteger(value) &&
+        value >= 1 &&
+        value <= 12,
+      "Month must be an integer from 1 to 12"
+    ),
+    year: z.number().int().min(1900).max(3000),
+  }),
   name: z
     .string()
     .min(1, "Certification name must be at least 1 character")
@@ -120,7 +128,13 @@ const projectSchema = z.object({
     .string()
     .min(1, "Logo path must be at least 1 character")
     .max(500, "Logo path must be at most 500 characters"),
-  logoStyle: z.record(z.unknown()).optional(),
+  logoStyle: z
+    .object({
+      backgroundColor: z.string().max(100).optional(),
+      border: z.string().max(100).optional(),
+      boxShadow: z.string().max(200).optional(),
+    })
+    .optional(),
   preview_poster: z
     .string()
     .max(500, "Preview poster path must be at most 500 characters")
@@ -138,12 +152,7 @@ const projectSchema = z.object({
     .string()
     .max(5000, "Subdescription must be at most 5000 characters")
     .optional(),
-  techStack: z.array(
-    z
-      .string()
-      .min(1, "Tech stack item must be at least 1 character")
-      .max(100, "Tech stack item must be at most 100 characters")
-  ),
+  techStack: z.array(z.enum(TECH_IDS)),
   title: z
     .string()
     .min(1, "Title must be at least 1 character")
@@ -152,10 +161,7 @@ const projectSchema = z.object({
     .string()
     .max(500, "Video overview path must be at most 500 characters")
     .optional(),
-  year: z
-    .string()
-    .min(1, "Year must be at least 1 character")
-    .max(10, "Year must be at most 10 characters"),
+  year: z.number().int().min(1900).max(3000),
 });
 
 export const certificationsArraySchema = z.array(certificationSchema);

@@ -15,7 +15,7 @@ const MONTH_LABELS: Record<Month, string> = {
   9: "Sep",
 };
 
-const formatMonthYear = ({ month, year }: MonthYear) =>
+export const formatMonthYear = ({ month, year }: MonthYear) =>
   `${MONTH_LABELS[month]} ${year}`;
 
 export const formatMonthYearRange = ({

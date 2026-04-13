@@ -7,7 +7,7 @@ import {
   HOVER_CURSOR_ATTRIBUTE,
   HOVER_CURSOR_LABEL_ATTRIBUTE,
 } from "@/lib/constants/interaction";
-import type { TECH_STACK } from "@/lib/constants/tech-stack";
+import type { TechStack } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const escapeRegExp = (value: string) =>
@@ -66,7 +66,7 @@ const highlightText = (text: string, searchTerms: string[]) => {
 };
 
 interface TechStackItemProps {
-  stack: (typeof TECH_STACK)[0];
+  stack: TechStack;
   small?: boolean;
   onClick?: () => void;
   searchTerms?: string[];
