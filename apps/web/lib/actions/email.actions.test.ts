@@ -25,8 +25,8 @@ vi.mock(import("@/lib/email/resend"), () => ({
   },
 }));
 
-vi.mock(import("@/lib/env"), () => ({
-  env: {
+vi.mock(import("@/lib/env/server"), () => ({
+  serverEnv: {
     TO_EMAIL: "owner@example.com",
   },
 }));

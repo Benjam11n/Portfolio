@@ -8,7 +8,7 @@ import {
   generateContactEmailHtml,
   generateContactEmailText,
 } from "@/lib/email/templates";
-import { env } from "@/lib/env";
+import { serverEnv } from "@/lib/env/server";
 import { contactActionSchema } from "@/lib/validations/contact";
 import type { ContactActionValues } from "@/lib/validations/contact";
 
@@ -38,7 +38,7 @@ export const sendEmailAction = async (formData: ContactActionValues) => {
       replyTo: email,
       subject: "Contact Request from Portfolio",
       text: textContent,
-      to: [env.TO_EMAIL],
+      to: [serverEnv.TO_EMAIL],
     });
 
     if (error) {

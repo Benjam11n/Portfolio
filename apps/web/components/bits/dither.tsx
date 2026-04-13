@@ -85,7 +85,7 @@ const DitheredWaves = ({
   );
 };
 
-interface DitherProps {
+export interface DitherProps {
   waveSpeed?: number;
   waveFrequency?: number;
   waveAmplitude?: number;

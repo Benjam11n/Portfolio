@@ -253,16 +253,14 @@ stagger: 0.1;
 - **SLOW (0.15s)**: Deliberate sequences
 - **VERY_SLOW (0.2s)**: Dramatic reveals (rare)
 
-### Scroll Trigger Constants
+### Scroll Trigger Starts
 
 ```typescript
-import { SCROLL_TRIGGER } from "@/lib/constants/animation";
-
 // ✅ Correct
-start: "top 80%"; // SCROLL_TRIGGER.STANDARD
+start: "top 80%"; // start when section is comfortably in view
 
 // ❌ Wrong - magic number
-start: "top 80%"; // (without comment explaining why)
+start: "top 80%";
 ```
 
 ### Performance Budget Constants
@@ -430,7 +428,6 @@ import {
   ANIMATION_DURATION,
   ANIMATION_EASING,
   ANIMATION_STAGGER,
-  SCROLL_TRIGGER,
 } from "@/lib/constants/animation";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { usePrefersReducedMotion } from "@/lib/hooks/use-prefers-reduced-motion";
@@ -457,7 +454,7 @@ export const MySection = () => {
       defaults: { ease: ANIMATION_EASING.DEFAULT },
       scrollTrigger: {
         trigger: containerRef.current,
-        start: "top 80%", // SCROLL_TRIGGER.STANDARD
+        start: "top 80%", // start when section is comfortably in view
       },
       onComplete: () => {
         // Stop tracking and log metrics when animation completes
