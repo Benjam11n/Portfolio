@@ -9,7 +9,7 @@ import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-moti
 import { useCanvasResize } from "@/lib/hooks/utils/use-canvas-resize";
 import { cn } from "@/lib/utils";
 
-export interface ClickSparkProps {
+interface ClickSparkProps {
   sparkColor?: string;
   sparkSize?: number;
   sparkRadius?: number;

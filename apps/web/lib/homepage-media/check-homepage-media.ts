@@ -7,11 +7,10 @@ import {
   HOMEPAGE_MEDIA_BUDGETS,
   HOMEPAGE_MEDIA_EXTENSIONS,
 } from "@/lib/constants/homepage-media-budgets";
-import type { HomepageMediaRule } from "@/lib/constants/homepage-media-budgets";
 import { PROJECTS } from "@/lib/constants/projects";
 import type { Certification, Experience, Project } from "@/lib/types";
 
-export interface HomepageMediaIssue {
+interface HomepageMediaIssue {
   actualBytes?: number;
   field: string;
   itemId: string;
@@ -20,7 +19,7 @@ export interface HomepageMediaIssue {
   path?: string;
 }
 
-export interface HomepageMediaAuditResult {
+interface HomepageMediaAuditResult {
   issues: HomepageMediaIssue[];
 }
 
@@ -29,7 +28,10 @@ interface CheckMediaReferenceOptions {
   itemId: string;
   publicDir: string;
   relativePath?: string;
-  rule: HomepageMediaRule;
+  rule: {
+    bytes: number;
+    label: string;
+  };
 }
 
 const isGifPath = (value: string) =>

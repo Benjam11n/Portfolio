@@ -1,16 +1,16 @@
-export interface HomepageMediaRule {
+interface HomepageMediaRule {
   bytes: number;
   label: string;
 }
 
-export interface HomepageRouteBudget {
+interface HomepageRouteBudget {
   homepageMediaBytes: number;
   maxGifRequests: number;
   maxFullDemoVideoRequests: number;
   maxPreviewVideoRequests: number;
 }
 
-export interface HomepageMediaBudgets {
+interface HomepageMediaBudgets {
   certifications: {
     image: HomepageMediaRule;
   };

@@ -1,16 +1,11 @@
 /** @type {import('knip').KnipConfig} */
 export default {
+  ignoreDependencies: ["oxfmt"],
   workspaces: {
     "apps/web": {
       entry: ["app/**/*.{ts,tsx}"],
-      ignore: [
-        "app/**/layout.tsx",
-        "app/**/page.tsx",
-        "app/**/loading.tsx",
-        "app/**/error.tsx",
-        "components/ui/**/*.{ts,tsx}",
-      ],
-      ignoreDependencies: ["tailwindcss", "ultracite"],
+      ignore: ["components/ui/**/*.{ts,tsx}"],
+      ignoreDependencies: ["tailwindcss"],
       project: ["**/*.{ts,tsx}"],
     },
     "packages/*": {
