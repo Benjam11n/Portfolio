@@ -23,7 +23,7 @@
     "@typescript/native-preview": "7.0.0-dev.20260327.2",
     "knip": "^5.86.0",
     "lefthook": "^2.1.4",
-    "oxfmt": "^0.41.0",
+    "oxfmt": "^0.44.0",
     "oxlint": "^1.56.0",
     "turbo": "^2.8.17",
     "ultracite": "^7.3.2"
