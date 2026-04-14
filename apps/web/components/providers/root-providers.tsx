@@ -11,27 +11,32 @@ import {
 } from "@/components/layout/dynamic-layout-components";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { env } from "@/lib/env";
+import { clientEnv } from "@/lib/env/client";
+import { useDeferredEnhancement } from "@/lib/hooks/performance/use-deferred-enhancement";
 
-export const RootProviders = ({ children }: { children: ReactNode }) => (
-  <AnalyticsProvider
-    disabled={!env.NEXT_PUBLIC_POSTHOG_KEY}
-    host={env.NEXT_PUBLIC_POSTHOG_HOST}
-    writeKey={env.NEXT_PUBLIC_POSTHOG_KEY ?? ""}
-  >
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      disableTransitionOnChange
+export const RootProviders = ({ children }: { children: ReactNode }) => {
+  const enableCursor = useDeferredEnhancement({ delayMs: 1400 });
+
+  return (
+    <AnalyticsProvider
+      disabled={!clientEnv.NEXT_PUBLIC_POSTHOG_KEY}
+      host={clientEnv.NEXT_PUBLIC_POSTHOG_HOST}
+      writeKey={clientEnv.NEXT_PUBLIC_POSTHOG_KEY ?? ""}
     >
-      <DynamicAnimationSkipProvider>
-        <DynamicSelectiveHoverCursor />
-        <TooltipProvider delayDuration={60} skipDelayDuration={0}>
-          {children}
-        </TooltipProvider>
-        <Toaster />
-      </DynamicAnimationSkipProvider>
-    </ThemeProvider>
-    <DynamicPerformanceMonitor />
-  </AnalyticsProvider>
-);
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        disableTransitionOnChange
+      >
+        <DynamicAnimationSkipProvider>
+          {enableCursor && <DynamicSelectiveHoverCursor />}
+          <TooltipProvider delayDuration={60} skipDelayDuration={0}>
+            {children}
+          </TooltipProvider>
+          <Toaster />
+        </DynamicAnimationSkipProvider>
+      </ThemeProvider>
+      <DynamicPerformanceMonitor />
+    </AnalyticsProvider>
+  );
+};

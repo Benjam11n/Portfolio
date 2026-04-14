@@ -1,205 +1,324 @@
 import { ProficiencyLevel, TechCategory } from "@/lib/types";
+import type { TechId, TechStack } from "@/lib/types";
 
-export const TECH_STACK = [
-  // --- Languages ---
-  {
+// CHECK: Replace placeholder icons with proper logos for these newly added techs. and remove isRenderableTechStackItem
+const PLACEHOLDER_TECH_ICON = "/assets/logo.png";
+
+const createTechStackItem = ({
+  category,
+  colorDark,
+  colorLight,
+  icon,
+  id,
+  name,
+  proficiency,
+}: TechStack): TechStack => ({
+  category,
+  colorDark,
+  colorLight,
+  icon,
+  id,
+  name,
+  proficiency,
+});
+
+export const TECH_STACK: TechStack[] = [
+  createTechStackItem({
     category: TechCategory.LANGUAGE,
     colorDark: "#00273F",
     colorLight: "#E3F2FD",
     icon: "/assets/typescript.svg",
+    id: "typescript",
     name: "TypeScript",
     proficiency: ProficiencyLevel.EXPERT,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.LANGUAGE,
     colorDark: "#1E2D3B",
     colorLight: "#E3F2FD",
     icon: "/assets/python.svg",
+    id: "python",
     name: "Python",
     proficiency: ProficiencyLevel.EXPERT,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.LANGUAGE,
     colorDark: "#002c39ff",
     colorLight: "#FBE9E7",
     icon: "/assets/java.svg",
+    id: "java",
     name: "Java",
     proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.LANGUAGE,
     colorDark: "#3D3200",
     colorLight: "#FFF8E1",
     icon: "/assets/javascript.svg",
+    id: "javascript",
     name: "JavaScript",
     proficiency: ProficiencyLevel.ADVANCED,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.LANGUAGE,
     colorDark: "#d8f7ffff",
     colorLight: "#E0F7FA",
     icon: "/assets/golang.svg",
+    id: "golang",
     name: "Golang",
     proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
-
-  // --- Web Development & DevOps ---
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.FRAMEWORK,
     colorDark: "#F3F4F6",
     colorLight: "#F3F4F6",
     icon: "/assets/nextjs.svg",
+    id: "nextjs",
     name: "Next.js",
     proficiency: ProficiencyLevel.EXPERT,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.FRONTEND,
     colorDark: "#001b59",
     colorLight: "#E0F7FA",
     icon: "/assets/react.svg",
+    id: "react",
     name: "React",
     proficiency: ProficiencyLevel.EXPERT,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.STYLING,
     colorDark: "#0B2830",
     colorLight: "#E0F2F1",
     icon: "/assets/tailwindcss.png",
+    id: "tailwind",
     name: "Tailwind",
     proficiency: ProficiencyLevel.EXPERT,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.FRONTEND,
     colorDark: "#0F2F24",
     colorLight: "#E8F5E9",
     icon: "/assets/vue.svg",
+    id: "vue",
     name: "Vue",
     proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.DEVOPS,
     colorDark: "#0D2C4A",
     colorLight: "#E1F5FE",
     icon: "/assets/docker.svg",
+    id: "docker",
     name: "Docker",
     proficiency: ProficiencyLevel.ADVANCED,
-  },
-  {
+  }),
+  createTechStackItem({
+    category: TechCategory.BACKEND,
+    colorDark: "#10364d",
+    colorLight: "#E3F2FD",
+    icon: PLACEHOLDER_TECH_ICON,
+    id: "drizzle-orm",
+    name: "Drizzle ORM",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
+  }),
+  createTechStackItem({
     category: TechCategory.FRAMEWORK,
     colorDark: "#f0f0f0",
     colorLight: "#f0f0f0",
     icon: "/assets/electron.svg",
+    id: "electron",
     name: "Electron",
     proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.ANIMATION,
     colorDark: "#180036",
     colorLight: "#F3E5F5",
     icon: "/assets/framer.png",
+    id: "framer",
     name: "Framer",
     proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.ANIMATION,
     colorDark: "#DFF7A8",
     colorLight: "#F4FFE3",
     icon: "/assets/gsap.svg",
+    id: "gsap",
     name: "GSAP",
     proficiency: ProficiencyLevel.ADVANCED,
-  },
-  {
+  }),
+  createTechStackItem({
+    category: TechCategory.BACKEND,
+    colorDark: "#0b2f2b",
+    colorLight: "#E0F2F1",
+    icon: PLACEHOLDER_TECH_ICON,
+    id: "fastapi",
+    name: "FastAPI",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
+  }),
+  createTechStackItem({
+    category: TechCategory.FRONTEND,
+    colorDark: "#20160a",
+    colorLight: "#FFF3E0",
+    icon: "/assets/shadcn-ui.svg",
+    id: "shadcn-ui",
+    name: "shadcn/ui",
+    proficiency: ProficiencyLevel.ADVANCED,
+  }),
+  createTechStackItem({
+    category: TechCategory.FRAMEWORK,
+    colorDark: "#2a1937",
+    colorLight: "#F3E5F5",
+    icon: PLACEHOLDER_TECH_ICON,
+    id: "vite",
+    name: "Vite",
+    proficiency: ProficiencyLevel.ADVANCED,
+  }),
+  createTechStackItem({
     category: TechCategory.BACKEND,
     colorDark: "#518742ff",
     colorLight: "#F1F8E9",
     icon: "/assets/node.svg",
+    id: "nodejs",
     name: "Node.js",
     proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
-
-  // --- AI/ML ---
-  {
+  }),
+  createTechStackItem({
+    category: TechCategory.AI_ML,
+    colorDark: "#33200a",
+    colorLight: "#FFF8E1",
+    icon: "/assets/google-gemini.svg",
+    id: "gemini",
+    name: "Google Gemini",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
+  }),
+  createTechStackItem({
+    category: TechCategory.AI_ML,
+    colorDark: "#0f2436",
+    colorLight: "#E1F5FE",
+    icon: PLACEHOLDER_TECH_ICON,
+    id: "mediapipe",
+    name: "MediaPipe",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
+  }),
+  createTechStackItem({
     category: TechCategory.AI_ML,
     colorDark: "#64271bff",
     colorLight: "#FFF3E0",
     icon: "/assets/pytorch.svg",
+    id: "pytorch",
     name: "PyTorch",
     proficiency: ProficiencyLevel.ADVANCED,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.AI_ML,
     colorDark: "#013243",
     colorLight: "#E1F5FE",
     icon: "/assets/numpy.svg",
+    id: "numpy",
     name: "Numpy",
     proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.AI_ML,
     colorDark: "#5533ddff",
     colorLight: "#F3E5F5",
     icon: "/assets/pandas.svg",
+    id: "pandas",
     name: "Pandas",
     proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.AI_ML,
     colorDark: "#FF6F00",
     colorLight: "#FFF3E0",
     icon: "/assets/tensorflow.svg",
+    id: "tensorflow",
     name: "Tensorflow",
     proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
-
-  // --- Databases ---
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.DATABASE,
     colorDark: "#001E0E",
     colorLight: "#E8F5E9",
     icon: "/assets/mongodb.svg",
+    id: "mongodb",
     name: "MongoDB",
     proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.DATABASE,
     colorDark: "#0E1A2B",
     colorLight: "#E3F2FD",
     icon: "/assets/pgsql.svg",
+    id: "postgres",
     name: "Postgres",
     proficiency: ProficiencyLevel.ADVANCED,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.DATABASE,
     colorDark: "#146541ff",
     colorLight: "#E8F5E9",
     icon: "/assets/supabase.svg",
+    id: "supabase",
     name: "Supabase",
     proficiency: ProficiencyLevel.ADVANCED,
-  },
-
-  // --- Tools & Others ---
-  {
+  }),
+  createTechStackItem({
+    category: TechCategory.DATABASE,
+    colorDark: "#16212b",
+    colorLight: "#ECEFF1",
+    icon: PLACEHOLDER_TECH_ICON,
+    id: "sqlite",
+    name: "SQLite",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
+  }),
+  createTechStackItem({
     category: TechCategory.FRONTEND,
     colorDark: "#FF4154",
     colorLight: "#FFF1F2",
     icon: "/assets/react-query.svg",
+    id: "react-query",
     name: "React Query",
     proficiency: ProficiencyLevel.ADVANCED,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.FRONTEND,
     colorDark: "#6f675fff",
     colorLight: "#FFFDE7",
     icon: "/assets/zustand.png",
+    id: "zustand",
     name: "Zustand",
     proficiency: ProficiencyLevel.ADVANCED,
-  },
-  {
+  }),
+  createTechStackItem({
     category: TechCategory.MOBILE,
     colorDark: "#122f60ff",
     colorLight: "#E1F5FE",
     icon: "/assets/ionic.svg",
+    id: "ionic",
     name: "Ionic",
     proficiency: ProficiencyLevel.INTERMEDIATE,
-  },
+  }),
+  createTechStackItem({
+    category: TechCategory.BACKEND,
+    colorDark: "#1d172f",
+    colorLight: "#EDE7F6",
+    icon: PLACEHOLDER_TECH_ICON,
+    id: "websocket",
+    name: "WebSocket",
+    proficiency: ProficiencyLevel.INTERMEDIATE,
+  }),
 ];
+
+const techStackEntries = TECH_STACK.map((tech) => [tech.id, tech] as const);
+
+export const TECH_STACK_BY_ID = Object.fromEntries(techStackEntries) as Record<
+  TechId,
+  TechStack
+>;
+
+export const isRenderableTechStackItem = (tech: TechStack) =>
+  tech.icon !== PLACEHOLDER_TECH_ICON;

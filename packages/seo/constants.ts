@@ -48,12 +48,13 @@ export const ROBOTS = {
 } as const;
 
 export const ICONS = {
-  apple: [{ sizes: "180x180", type: "image/png", url: "/apple-icon.png" }],
+  apple: [{ sizes: "180x180", type: "image/png", url: "/apple-icon-180.png" }],
   icon: [
-    { sizes: "32x32", type: "image/png", url: "/icon.png" },
-    { sizes: "16x16", type: "image/png", url: "/icon.png" },
+    { sizes: "32x32", type: "image/png", url: "/icon-32.png" },
+    { sizes: "192x192", type: "image/png", url: "/icon-192.png" },
+    { sizes: "512x512", type: "image/png", url: "/icon-512.png" },
   ],
-  shortcut: "/icon.png",
+  shortcut: "/favicon.ico",
 };
 
 export const VERIFICATION = {

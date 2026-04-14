@@ -101,7 +101,7 @@
       "label": "repo: format",
       "type": "shell",
       "command": "pnpm",
-      "args": ["format"],
+      "args": ["fix"],
       "presentation": {
         "reveal": "always",
         "panel": "shared",

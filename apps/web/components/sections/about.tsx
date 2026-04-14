@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 
 import { Magnetic } from "@/components/effects/magnetic";
-import { Markdown } from "@/components/shared/markdown";
+import { LightweightMarkdown } from "@/components/shared/lightweight-markdown";
 import { SectionCard } from "@/components/shared/section-card";
 import { ShiftButton } from "@/components/shared/shift-button";
 import { ABOUT_CONTENT } from "@/lib/constants/about";
@@ -18,6 +18,7 @@ import {
 } from "@/lib/constants/animation";
 import { ROUTES } from "@/lib/constants/navigation";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
+import { useShouldSkipEntranceAnimation } from "@/lib/hooks/animation/use-should-skip-entrance-animation";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useProfileImageSource } from "@/lib/hooks/ui/use-profile-image-source";
 
@@ -27,6 +28,7 @@ export const About = () => {
   const [image1Error, setImage1Error] = useState(false);
   const [image2Error, setImage2Error] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldSkipEntranceAnimation = useShouldSkipEntranceAnimation();
   const { skipAnimations } = useAnimationSkipContext();
   const profileImageSrc = useProfileImageSource({
     animationRef: profileImageRef,
@@ -55,7 +57,11 @@ export const About = () => {
           const offset = isDesktop ? -220 : -40;
 
           // Skip all animations if user prefers reduced motion or if animations were skipped
-          if (prefersReducedMotion || skipAnimations) {
+          if (
+            prefersReducedMotion ||
+            shouldSkipEntranceAnimation ||
+            skipAnimations
+          ) {
             // Set all elements to their final state instantly
             gsapCore.set(".about-image-wrapper", {
               autoAlpha: 1,
@@ -172,15 +178,19 @@ export const About = () => {
            *   read the content without waiting for the staggered reveal.
            */
           // 0.8s overlap
-          tl.from(
+          tl.fromTo(
             ".about-text",
             {
               autoAlpha: 0,
+              y: 30,
+            },
+            {
+              autoAlpha: 1,
               // 0.7s
               duration: ANIMATION_DURATION.MEDIUM_SLOW / 1000,
               // 0.1s
               stagger: ANIMATION_STAGGER.STANDARD,
-              y: 30,
+              y: 0,
             },
             `-=${ANIMATION_DURATION.LONG / 1000}`
           );
@@ -223,7 +233,11 @@ export const About = () => {
       );
     },
     {
-      dependencies: [prefersReducedMotion, skipAnimations],
+      dependencies: [
+        prefersReducedMotion,
+        shouldSkipEntranceAnimation,
+        skipAnimations,
+      ],
       scope: containerRef,
     }
   );
@@ -235,7 +249,7 @@ export const About = () => {
         {/* Images Stack */}
         <div className="relative mx-auto mb-4 h-24 w-28 sm:mx-0 sm:h-36 sm:w-36">
           {/* Image 1 (Front) */}
-          <div className="about-image-wrapper absolute top-4 left-8 z-10 sm:left-12">
+          <div className="about-image-wrapper absolute top-4 left-8 z-10 scale-0 opacity-0 sm:left-12">
             <Magnetic strength={0.3}>
               <div
                 className="about-image relative h-20 w-20 rotate-6 overflow-hidden rounded-xl border border-border bg-secondary shadow-lg sm:h-32 sm:w-32"
@@ -249,8 +263,10 @@ export const About = () => {
                   <Image
                     alt="Benjamin Wang"
                     className="object-cover transition-transform duration-500 hover:scale-110"
+                    fetchPriority="high"
                     fill
                     onError={handleImage1Error}
+                    priority
                     sizes="(max-width: 640px) 100px, 150px"
                     src={profileImageSrc}
                   />
@@ -260,7 +276,7 @@ export const About = () => {
           </div>
 
           {/* Image 2 (Back) */}
-          <div className="about-image-wrapper absolute top-0 left-0">
+          <div className="about-image-wrapper absolute top-0 left-0 scale-0 opacity-0">
             <Magnetic strength={0.4}>
               <div className="about-image relative h-20 w-20 rotate-3 overflow-hidden rounded-xl border-4 border-card bg-card shadow-xl sm:h-32 sm:w-32">
                 {image2Error ? (
@@ -271,10 +287,12 @@ export const About = () => {
                   <Image
                     alt="Hero Image"
                     className="object-cover opacity-80"
+                    fetchPriority="high"
                     fill
                     onError={handleImage2Error}
+                    priority
                     sizes="(max-width: 640px) 100px, 150px"
-                    src="/hero.png"
+                    src="/hero.avif"
                   />
                 )}
               </div>
@@ -284,12 +302,14 @@ export const About = () => {
 
         {/* Text */}
         <div className="text-foreground text-md leading-relaxed">
-          <div className="about-text">
-            <Markdown>{ABOUT_CONTENT.description}</Markdown>
+          <div className="about-text translate-y-8 opacity-0">
+            <LightweightMarkdown>
+              {ABOUT_CONTENT.description}
+            </LightweightMarkdown>
           </div>
         </div>
 
-        <div className="about-button">
+        <div className="about-button opacity-0">
           <Magnetic strength={0.25}>
             <ShiftButton
               href={ROUTES.CONTACT}

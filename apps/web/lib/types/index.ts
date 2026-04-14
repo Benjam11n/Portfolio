@@ -1,12 +1,49 @@
 import type { LucideIcon } from "lucide-react";
 import type React from "react";
 
+export const TECH_IDS = [
+  "docker",
+  "drizzle-orm",
+  "electron",
+  "fastapi",
+  "framer",
+  "gemini",
+  "golang",
+  "gsap",
+  "ionic",
+  "java",
+  "javascript",
+  "mediapipe",
+  "mongodb",
+  "nextjs",
+  "nodejs",
+  "numpy",
+  "pandas",
+  "postgres",
+  "python",
+  "pytorch",
+  "react",
+  "react-query",
+  "shadcn-ui",
+  "sqlite",
+  "supabase",
+  "tailwind",
+  "tensorflow",
+  "typescript",
+  "vue",
+  "vite",
+  "websocket",
+  "zustand",
+] as const;
+
+export type TechId = (typeof TECH_IDS)[number];
+
 export interface Project {
   id: string;
   title: string;
   description: string;
   subdesc?: string;
-  year: string;
+  year: number;
   client: string;
   services: string;
   location: string;
@@ -19,31 +56,45 @@ export interface Project {
 
   // Visual elements
   video_overview?: string;
+  preview_video?: string;
+  preview_poster?: string;
   hero_image?: string;
   logo: string;
   logoStyle?: React.CSSProperties;
 
   // Technologies used
-  techStack: string[];
+  techStack: TechId[];
 
   // Features
   features?: string[];
   featureIcon?: (props: { className: string }) => React.JSX.Element;
 }
 
+export type Month = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
+export interface MonthYear {
+  month: Month;
+  year: number;
+}
+
 export interface Experience {
   id: number;
   name: string;
   pos: string;
-  duration: string;
+  startDate: MonthYear;
+  endDate?: MonthYear;
   points: string[];
   icon: string;
+  preview_video?: string;
+  preview_poster?: string;
+  iconBackgroundColor?: string;
+  iconScale?: number;
 }
 
 export interface Certification {
   name: string;
   organization: string;
-  date: string;
+  issuedAt: MonthYear;
   image: string;
   description: string;
 }
@@ -80,6 +131,7 @@ export type ProficiencyLevel =
   (typeof ProficiencyLevel)[keyof typeof ProficiencyLevel];
 
 export interface TechStack {
+  id: TechId;
   name: string;
   icon: string;
   category: TechCategory;

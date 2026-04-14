@@ -1,5 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
+import type { Project } from "@/lib/types";
+
 import { ProjectOverview } from "./project-overview";
 
 // Mock GSAP
@@ -23,7 +25,7 @@ vi.mock(import("gsap"), () => ({
   },
 }));
 
-const mockProject = {
+const mockProject: Project = {
   client: "Me",
   description: "Desc",
   features: ["Feature **1**", "Feature 2"],
@@ -32,9 +34,9 @@ const mockProject = {
   logo: "/logo.png",
   services: "Code",
   subdesc: "A **detailed** overview of the project.",
-  techStack: ["React", "TypeScript"],
+  techStack: ["react", "typescript"],
   title: "Test Project",
-  year: "2024",
+  year: 2024,
 };
 
 const OVERVIEW_REGEX = /overview of the project/;

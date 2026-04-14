@@ -1,5 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
+import type { Certification } from "@/lib/types";
+
 import { CertificationCard } from "./certification-card";
 
 // Mock GSAP for Card3D
@@ -13,10 +15,10 @@ vi.mock(import("gsap"), () => ({
   },
 }));
 
-const mockCert = {
-  date: "Jan 2024",
+const mockCert: Certification = {
   description: "A **test** certification description.",
   image: "/test-cert.png",
+  issuedAt: { month: 1, year: 2024 },
   name: "Test Certification",
   organization: "Test Org",
 };

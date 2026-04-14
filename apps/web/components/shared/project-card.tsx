@@ -2,21 +2,25 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { memo } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 import { Card3D } from "@/components/effects/card-3d";
+import { Magnetic } from "@/components/effects/magnetic";
+import { BorderedImage } from "@/components/shared/bordered-image";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ROUTES } from "@/lib/constants/navigation";
-import { TECH_STACK } from "@/lib/constants/tech-stack";
+import {
+  isRenderableTechStackItem,
+  TECH_STACK_BY_ID,
+} from "@/lib/constants/tech-stack";
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Project } from "@/lib/types";
-
-import { Magnetic } from "../effects/magnetic";
-import { BorderedImage } from "./bordered-image";
+import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
   project: Project;
@@ -24,9 +28,105 @@ interface ProjectCardProps {
 
 export const ProjectCard = memo(({ project }: ProjectCardProps) => {
   const isMobile = useMobileDetection();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const previewTimeoutRef = useRef<number | null>(null);
+  const previewVideoRef = useRef<HTMLVideoElement>(null);
+  const [hasFineHover, setHasFineHover] = useState(false);
+  const [shouldLoadPreview, setShouldLoadPreview] = useState(false);
+  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
 
   // Split title once for efficiency and safety
   const [titleMain, titleSub] = project.title.split(" - ");
+  const canPreview =
+    Boolean(project.preview_video) &&
+    !isMobile &&
+    !prefersReducedMotion &&
+    hasFineHover;
+  const previewPoster = project.preview_poster ?? project.hero_image;
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const updateMatch = (event?: MediaQueryListEvent) => {
+      setHasFineHover(event?.matches ?? mediaQuery.matches);
+    };
+
+    updateMatch();
+    mediaQuery.addEventListener("change", updateMatch);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateMatch);
+    };
+  }, []);
+
+  useEffect(
+    () => () => {
+      if (previewTimeoutRef.current) {
+        window.clearTimeout(previewTimeoutRef.current);
+      }
+    },
+    []
+  );
+
+  const clearPreviewIntentTimeout = useCallback(() => {
+    if (previewTimeoutRef.current) {
+      window.clearTimeout(previewTimeoutRef.current);
+      previewTimeoutRef.current = null;
+    }
+  }, []);
+
+  const tryPlayPreview = useCallback(async () => {
+    const video = previewVideoRef.current;
+    if (!video) {
+      return;
+    }
+
+    try {
+      await video.play();
+    } catch {
+      // Ignore autoplay failures and keep the poster visible.
+    }
+  }, []);
+
+  const startPreview = useCallback(() => {
+    if (!canPreview) {
+      return;
+    }
+
+    clearPreviewIntentTimeout();
+    previewTimeoutRef.current = window.setTimeout(() => {
+      setShouldLoadPreview(true);
+      setIsPreviewVisible(true);
+    }, 200);
+  }, [canPreview, clearPreviewIntentTimeout]);
+
+  const stopPreview = useCallback(() => {
+    clearPreviewIntentTimeout();
+    setIsPreviewVisible(false);
+
+    const video = previewVideoRef.current;
+    if (!video) {
+      return;
+    }
+
+    video.pause();
+    video.currentTime = 0;
+  }, [clearPreviewIntentTimeout]);
+
+  const handlePreviewLoadedData = useCallback(() => {
+    if (!isPreviewVisible) {
+      return;
+    }
+
+    tryPlayPreview();
+  }, [isPreviewVisible, tryPlayPreview]);
+
+  useEffect(() => {
+    if (!canPreview || !shouldLoadPreview || !isPreviewVisible) {
+      return;
+    }
+
+    tryPlayPreview();
+  }, [canPreview, isPreviewVisible, shouldLoadPreview, tryPlayPreview]);
 
   return (
     <Card3D
@@ -43,6 +143,10 @@ export const ProjectCard = memo(({ project }: ProjectCardProps) => {
         data-hover-cursor-icon="arrow-up-right"
         data-hover-cursor-label="View project"
         href={ROUTES.PROJECT_DETAIL(project.id)}
+        onBlur={stopPreview}
+        onFocus={startPreview}
+        onMouseEnter={startPreview}
+        onMouseLeave={stopPreview}
       >
         {/* Visual Part */}
         <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-secondary">
@@ -56,14 +160,34 @@ export const ProjectCard = memo(({ project }: ProjectCardProps) => {
             />
           )}
 
-          {project.video_overview && (
+          {shouldLoadPreview && project.preview_video && (
             <video
-              autoPlay
-              className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+              className={cn(
+                "absolute inset-0 h-full w-full object-cover transition-opacity duration-700",
+                isPreviewVisible ? "opacity-100" : "opacity-0"
+              )}
               loop
               muted
+              onLoadedData={handlePreviewLoadedData}
               playsInline
-              src={project.video_overview}
+              poster={previewPoster}
+              preload="metadata"
+              ref={previewVideoRef}
+              src={project.preview_video}
+            />
+          )}
+
+          {previewPoster && shouldLoadPreview && (
+            <Image
+              alt=""
+              aria-hidden="true"
+              className={cn(
+                "pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-700",
+                isPreviewVisible ? "opacity-0" : "opacity-100"
+              )}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              src={previewPoster}
             />
           )}
 
@@ -105,16 +229,14 @@ export const ProjectCard = memo(({ project }: ProjectCardProps) => {
 
           {!!project.techStack.length && (
             <div className="mt-1 flex flex-wrap items-center justify-center gap-2">
-              {project.techStack.map((techName) => {
-                const tech = TECH_STACK.find(
-                  (t) => t.name.toLowerCase() === techName.toLowerCase()
-                );
-                if (!tech) {
+              {project.techStack.map((techId) => {
+                const tech = TECH_STACK_BY_ID[techId];
+                if (!tech || !isRenderableTechStackItem(tech)) {
                   return null;
                 }
 
                 return (
-                  <Magnetic key={techName}>
+                  <Magnetic key={techId}>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <div className="cursor-pointer">
