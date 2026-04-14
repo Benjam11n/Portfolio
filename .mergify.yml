@@ -1,0 +1,27 @@
+pull_request_rules:
+  - name: auto-merge safe Dependabot npm patches
+    description: >
+      Merge low-risk Dependabot patch updates after all current CI checks pass.
+      Keep framework, runtime, and workflow updates manual.
+    conditions:
+      - author = dependabot[bot]
+      - base ~= ^(main|master)$
+      - -draft
+      - -conflict
+      - check-success = CI Checks
+      - check-success = Homepage Performance
+      - check-success = E2E Tests
+      - dependabot-update-type = version-update:semver-patch
+      - files != .github/dependabot.yml
+      - -files ~= ^\.github/workflows/
+      - dependabot-dependency-name != next
+      - -dependabot-dependency-name ~= ^@next/
+      - dependabot-dependency-name != react
+      - dependabot-dependency-name != react-dom
+      - dependabot-dependency-name != typescript
+      - -dependabot-dependency-name ~= ^@typescript/
+      - dependabot-dependency-name != @types/react
+      - dependabot-dependency-name != @types/react-dom
+    actions:
+      merge:
+        method: squash

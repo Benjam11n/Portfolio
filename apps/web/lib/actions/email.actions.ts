@@ -1,20 +1,18 @@
 "use server";
 
 import { logger } from "@repo/logger";
-import { secure } from "@repo/security";
 
-import { fromEmail, resend } from "@/lib/email/resend";
 import {
   generateContactEmailHtml,
   generateContactEmailText,
 } from "@/lib/email/templates";
-import { serverEnv } from "@/lib/env/server";
 import { contactActionSchema } from "@/lib/validations/contact";
 import type { ContactActionValues } from "@/lib/validations/contact";
 
 export const sendEmailAction = async (formData: ContactActionValues) => {
+  const isPlaywrightStubEnabled = process.env.PLAYWRIGHT_TEST === "1";
+
   try {
-    await secure([]);
     const result = contactActionSchema.safeParse(formData);
     if (!result.success) {
       return {
@@ -28,6 +26,22 @@ export const sendEmailAction = async (formData: ContactActionValues) => {
     if (website.trim()) {
       return { success: true };
     }
+
+    if (isPlaywrightStubEnabled) {
+      return {
+        data: { id: "playwright-contact-form" },
+        success: true,
+      };
+    }
+
+    const [{ secure }, { fromEmail, resend }, { serverEnv }] =
+      await Promise.all([
+        import("@repo/security"),
+        import("@/lib/email/resend"),
+        import("@/lib/env/server"),
+      ]);
+
+    await secure([]);
 
     const htmlContent = generateContactEmailHtml(name, email, message);
     const textContent = generateContactEmailText(name, email, message);
