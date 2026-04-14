@@ -2,7 +2,7 @@ import { ProficiencyLevel, TechCategory } from "@/lib/types";
 import type { TechId, TechStack } from "@/lib/types";
 
 // CHECK: Replace placeholder icons with proper logos for these newly added techs. and remove isRenderableTechStackItem
-export const PLACEHOLDER_TECH_ICON = "/assets/logo.png";
+const PLACEHOLDER_TECH_ICON = "/assets/logo.png";
 
 const createTechStackItem = ({
   category,
