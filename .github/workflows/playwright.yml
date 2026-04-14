@@ -1,4 +1,4 @@
-name: Playwright Homepage
+name: Playwright
 
 on:
   push:
@@ -11,8 +11,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  homepage-performance:
-    name: Homepage Performance
+  e2e-tests:
+    name: E2E Tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -36,14 +36,14 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm --filter web exec playwright install --with-deps chromium
 
-      - name: Homepage Performance Test
-        run: pnpm --filter web test:e2e -- homepage-performance.test.ts
+      - name: Run Playwright E2E tests
+        run: pnpm --filter web test:e2e -- navigation.test.ts contact-form.test.ts
 
       - name: Upload Playwright Report
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-homepage-report
+          name: playwright-e2e-report
           path: |
             /tmp/portfolio-playwright/playwright-report
             /tmp/portfolio-playwright/test-results
