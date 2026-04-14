@@ -27,12 +27,19 @@ const CURSOR_LABEL_PADDING = 20;
 const CURSOR_LABEL_MIN_WIDTH = 84;
 const CURSOR_LABEL_EXIT_DURATION_MS = 180;
 
+const getContentSignature = (label: string, icon: string) =>
+  `${icon}::${label}`;
+
 export const SelectiveHoverCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorBodyRef = useRef<HTMLDivElement>(null);
   const contentWrapperRef = useRef<HTMLDivElement>(null);
   const clearLabelTimeoutRef = useRef<number | null>(null);
   const labelRef = useRef("");
+  const iconRef = useRef("");
+  const contentSignatureRef = useRef("");
+  const pendingShowRef = useRef(false);
+  const latestPointerRef = useRef<{ x: number; y: number } | null>(null);
   const moveXRef = useRef<ReturnType<typeof gsapCore.quickTo> | null>(null);
   const moveYRef = useRef<ReturnType<typeof gsapCore.quickTo> | null>(null);
   const isVisibleRef = useRef(false);
@@ -68,6 +75,9 @@ export const SelectiveHoverCursor = () => {
         moveXRef.current = null;
         moveYRef.current = null;
         isVisibleRef.current = false;
+        pendingShowRef.current = false;
+        latestPointerRef.current = null;
+        contentSignatureRef.current = "";
         return;
       }
 
@@ -104,6 +114,11 @@ export const SelectiveHoverCursor = () => {
       setDisplayLabel("");
       setExpandedWidth(CURSOR_LABEL_MIN_WIDTH);
       setHoverTarget(null);
+      labelRef.current = "";
+      iconRef.current = "";
+      contentSignatureRef.current = "";
+      pendingShowRef.current = false;
+      latestPointerRef.current = null;
       return;
     }
 
@@ -122,9 +137,13 @@ export const SelectiveHoverCursor = () => {
       setLabel(nextLabel);
     };
 
-    const updateFromTarget = (target: Element) => {
-      setCursorLabel(target.getAttribute(HOVER_CURSOR_LABEL_ATTRIBUTE) ?? "");
-      setIcon(target.getAttribute(HOVER_CURSOR_ICON_ATTRIBUTE) ?? "");
+    const setCursorIcon = (nextIcon: string) => {
+      if (iconRef.current === nextIcon) {
+        return;
+      }
+
+      iconRef.current = nextIcon;
+      setIcon(nextIcon);
     };
 
     const showCursor = () => {
@@ -145,17 +164,45 @@ export const SelectiveHoverCursor = () => {
       });
     };
 
+    const updateFromTarget = (target: Element) => {
+      const nextLabel = target.getAttribute(HOVER_CURSOR_LABEL_ATTRIBUTE) ?? "";
+      const nextIcon = target.getAttribute(HOVER_CURSOR_ICON_ATTRIBUTE) ?? "";
+      const nextSignature = getContentSignature(nextLabel, nextIcon);
+      const signatureChanged = contentSignatureRef.current !== nextSignature;
+
+      setCursorLabel(nextLabel);
+      setCursorIcon(nextIcon);
+
+      if (signatureChanged) {
+        contentSignatureRef.current = nextSignature;
+        pendingShowRef.current = true;
+        setActiveState(false);
+
+        if (cursorRef.current) {
+          gsapCore.set(cursorRef.current, { opacity: 0 });
+        }
+
+        isVisibleRef.current = false;
+        return false;
+      }
+
+      pendingShowRef.current = false;
+      return true;
+    };
+
     const hideCursor = () => {
       if (!cursorRef.current) {
         setActiveState(false);
         setCursorLabel("");
-        setIcon("");
+        setCursorIcon("");
+        pendingShowRef.current = false;
         return;
       }
 
       setActiveState(false);
       setCursorLabel("");
-      setIcon("");
+      setCursorIcon("");
+      pendingShowRef.current = false;
 
       if (!isVisibleRef.current) {
         return;
@@ -187,6 +234,7 @@ export const SelectiveHoverCursor = () => {
 
       const nextX = event.clientX + POINTER_OFFSET;
       const nextY = event.clientY + POINTER_OFFSET;
+      latestPointerRef.current = { x: nextX, y: nextY };
 
       if (!isVisibleRef.current && cursorRef.current) {
         gsapCore.set(cursorRef.current, {
@@ -195,10 +243,13 @@ export const SelectiveHoverCursor = () => {
         });
       }
 
-      updateFromTarget(target);
+      const canShowNow = updateFromTarget(target);
       moveXRef.current?.(nextX);
       moveYRef.current?.(nextY);
-      showCursor();
+
+      if (canShowNow) {
+        showCursor();
+      }
     };
 
     const handleWindowMouseOut = (event: MouseEvent) => {
@@ -279,13 +330,44 @@ export const SelectiveHoverCursor = () => {
       contentWidth + CURSOR_LABEL_PADDING * 2
     );
 
+    if (cursorBodyRef.current) {
+      gsapCore.set(cursorBodyRef.current, {
+        height: CURSOR_LABEL_HEIGHT,
+        minWidth: nextWidth,
+        paddingInline: CURSOR_LABEL_PADDING,
+        width: nextWidth,
+      });
+    }
+
     setExpandedWidth((currentWidth) =>
       currentWidth === nextWidth ? currentWidth : nextWidth
     );
+
+    if (!pendingShowRef.current || !cursorRef.current) {
+      return;
+    }
+
+    const nextPointer = latestPointerRef.current;
+    if (nextPointer) {
+      gsapCore.set(cursorRef.current, nextPointer);
+    }
+
+    pendingShowRef.current = false;
+    isVisibleRef.current = true;
+    setIsActive(true);
+
+    gsapCore.to(cursorRef.current, {
+      duration: 0.22,
+      ease: "back.out(1.8)",
+      opacity: 1,
+      overwrite: "auto",
+      scale: 1,
+    });
   }, [label, icon, shouldEnable]);
 
   const showLabel = label.length > 0 || icon.length > 0;
-  const hasDisplayLabel = displayLabel.length > 0;
+  const renderedLabel = label.length > 0 ? label : displayLabel;
+  const hasDisplayLabel = renderedLabel.length > 0;
   const hasIcon = icon.length > 0;
   const renderedIcon = CURSOR_ICON_MAP[icon] ?? null;
   const cursorStyle = {
@@ -322,7 +404,7 @@ export const SelectiveHoverCursor = () => {
             </span>
           )}
           {hasDisplayLabel && (
-            <span data-visible={showLabel}>{displayLabel}</span>
+            <span data-visible={showLabel}>{renderedLabel}</span>
           )}
         </div>
       </div>

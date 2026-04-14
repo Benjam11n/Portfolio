@@ -5,6 +5,7 @@ import gsapCore from "gsap";
 import { useRef } from "react";
 
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import { cn } from "@/lib/utils";
 
 // Variant preset configurations for common 3D card styles
@@ -37,7 +38,7 @@ const CARD_VARIANTS = {
 
 type Card3DVariant = keyof typeof CARD_VARIANTS;
 
-export interface Card3DProps {
+interface Card3DProps {
   children: React.ReactNode;
 
   // Variant preset for common configurations
@@ -61,6 +62,134 @@ export interface Card3DProps {
   containerClassName?: string;
 }
 
+const getCardSettings = ({
+  glare,
+  parallaxIntensity,
+  rotationIntensity,
+  thickness,
+  variant,
+}: Pick<
+  Card3DProps,
+  "glare" | "parallaxIntensity" | "rotationIntensity" | "thickness" | "variant"
+>) => {
+  const defaults = variant ? CARD_VARIANTS[variant] : undefined;
+
+  return {
+    glare: glare ?? defaults?.glare ?? true,
+    parallaxIntensity: parallaxIntensity ?? defaults?.parallaxIntensity ?? 0.05,
+    rotationIntensity: rotationIntensity ?? defaults?.rotationIntensity ?? 8,
+    thickness: thickness ?? defaults?.thickness ?? 12,
+  };
+};
+
+const StaticCard = ({
+  children,
+  className,
+  containerClassName,
+  shadow,
+}: Pick<
+  Card3DProps,
+  "children" | "className" | "containerClassName" | "shadow"
+>) => (
+  <div className={cn("relative h-full w-full", containerClassName)}>
+    <div
+      className={cn(
+        "relative h-full w-full overflow-hidden rounded-xl bg-card",
+        shadow && "shadow-xl",
+        className
+      )}
+    >
+      {children}
+    </div>
+  </div>
+);
+
+const animateParallax = ({
+  content,
+  height,
+  intensity,
+  normalizedX,
+  normalizedY,
+  width,
+}: {
+  content: HTMLDivElement | null;
+  intensity: number;
+  normalizedX: number;
+  normalizedY: number;
+  width: number;
+  height: number;
+}) => {
+  if (!(content && intensity > 0)) {
+    return;
+  }
+
+  gsapCore.to(content, {
+    duration: 0.3,
+    ease: "power2.out",
+    x: normalizedX * (width * intensity),
+    y: normalizedY * (height * intensity),
+  });
+};
+
+const animateGlare = ({
+  glare,
+  glareEnabled,
+  glareIntensity,
+  normalizedX,
+  normalizedY,
+  width,
+  height,
+}: {
+  glare: HTMLDivElement | null;
+  glareEnabled: boolean;
+  glareIntensity: number;
+  normalizedX: number;
+  normalizedY: number;
+  width: number;
+  height: number;
+}) => {
+  if (!(glare && glareEnabled)) {
+    return;
+  }
+
+  gsapCore.to(glare, {
+    duration: 0.3,
+    ease: "power2.out",
+    opacity: glareIntensity,
+    x: (normalizedX * width) / -1.5,
+    y: (normalizedY * height) / -1.5,
+  });
+};
+
+const resetParallax = (content: HTMLDivElement | null, intensity: number) => {
+  if (!(content && intensity > 0)) {
+    return;
+  }
+
+  gsapCore.to(content, {
+    duration: 0.5,
+    ease: "power2.out",
+    overwrite: true,
+    x: 0,
+    y: 0,
+  });
+};
+
+const resetGlare = (glare: HTMLDivElement | null, glareEnabled: boolean) => {
+  if (!(glare && glareEnabled)) {
+    return;
+  }
+
+  gsapCore.to(glare, {
+    duration: 0.5,
+    ease: "power2.out",
+    opacity: 0,
+    overwrite: true,
+    x: 0,
+    y: 0,
+  });
+};
+
 export const Card3D = ({
   children,
   variant,
@@ -79,22 +208,25 @@ export const Card3D = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const glareRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
-
-  // Merge variant defaults with explicit props
-  const variantDefaults = (variant ? CARD_VARIANTS[variant] : {}) as Partial<
-    (typeof CARD_VARIANTS)[Card3DVariant]
-  >;
-  const mergedThickness = thickness ?? variantDefaults.thickness ?? 12;
-  const mergedRotationIntensity =
-    rotationIntensity ?? variantDefaults.rotationIntensity ?? 8;
-  const mergedParallaxIntensity =
-    parallaxIntensity ?? variantDefaults.parallaxIntensity ?? 0.05;
-  const mergedGlare = glare ?? variantDefaults.glare ?? true;
+  const isMobile = useMobileDetection();
+  const shouldDisable3D = prefersReducedMotion || isMobile;
+  const {
+    glare: mergedGlare,
+    parallaxIntensity: mergedParallaxIntensity,
+    rotationIntensity: mergedRotationIntensity,
+    thickness: mergedThickness,
+  } = getCardSettings({
+    glare,
+    parallaxIntensity,
+    rotationIntensity,
+    thickness,
+    variant,
+  });
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 
   const handleMouseMove = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
-    if (prefersReducedMotion || !containerRef.current || !cardRef.current) {
+    if (shouldDisable3D || !containerRef.current || !cardRef.current) {
       return;
     }
 
@@ -122,28 +254,27 @@ export const Card3D = ({
       rotateY,
     });
 
-    if (contentRef.current && mergedParallaxIntensity > 0) {
-      gsapCore.to(contentRef.current, {
-        duration: 0.3,
-        ease: "power2.out",
-        x: normalizedX * (rect.width * mergedParallaxIntensity),
-        y: normalizedY * (rect.height * mergedParallaxIntensity),
-      });
-    }
-
-    if (glareRef.current && mergedGlare) {
-      gsapCore.to(glareRef.current, {
-        duration: 0.3,
-        ease: "power2.out",
-        opacity: glareIntensity,
-        x: (normalizedX * rect.width) / -1.5,
-        y: (normalizedY * rect.height) / -1.5,
-      });
-    }
+    animateParallax({
+      content: contentRef.current,
+      height: rect.height,
+      intensity: mergedParallaxIntensity,
+      normalizedX,
+      normalizedY,
+      width: rect.width,
+    });
+    animateGlare({
+      glare: glareRef.current,
+      glareEnabled: mergedGlare,
+      glareIntensity,
+      height: rect.height,
+      normalizedX,
+      normalizedY,
+      width: rect.width,
+    });
   });
 
   const handleMouseLeave = contextSafe(() => {
-    if (prefersReducedMotion || !cardRef.current) {
+    if (shouldDisable3D || !cardRef.current) {
       return;
     }
 
@@ -155,31 +286,25 @@ export const Card3D = ({
       rotateY: 0,
     });
 
-    if (contentRef.current && mergedParallaxIntensity > 0) {
-      gsapCore.to(contentRef.current, {
-        duration: 0.5,
-        ease: "power2.out",
-        overwrite: true,
-        x: 0,
-        y: 0,
-      });
-    }
-
-    if (glareRef.current && mergedGlare) {
-      gsapCore.to(glareRef.current, {
-        duration: 0.5,
-        ease: "power2.out",
-        opacity: 0,
-        overwrite: true,
-        x: 0,
-        y: 0,
-      });
-    }
+    resetParallax(contentRef.current, mergedParallaxIntensity);
+    resetGlare(glareRef.current, mergedGlare);
   });
 
   const primaryEdgeColor = sideColor || "hsl(var(--muted))";
   const secondaryEdgeColor = sideColor || "hsl(var(--muted-foreground) / 0.3)";
   const halfThickness = mergedThickness / 2;
+
+  if (shouldDisable3D) {
+    return (
+      <StaticCard
+        className={className}
+        containerClassName={containerClassName}
+        shadow={shadow}
+      >
+        {children}
+      </StaticCard>
+    );
+  }
 
   return (
     <div

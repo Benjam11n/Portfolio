@@ -57,7 +57,7 @@ export const createMetadata = ({
     },
     icons: ICONS,
     keywords,
-    manifest: "/manifest.json",
+    manifest: "/manifest.webmanifest",
     metadataBase: new URL(SITE_URL),
     openGraph: {
       ...OPEN_GRAPH_DEFAULTS,

@@ -9,6 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "homepage:media-check": "pnpm --filter web homepage:media-check",
     "lint": "ultracite check",
     "fix": "ultracite fix",
     "knip": "knip",
@@ -26,6 +27,9 @@
     "oxlint": "^1.56.0",
     "turbo": "^2.8.17",
     "ultracite": "^7.3.2"
+  },
+  "engines": {
+    "node": "20.x"
   },
   "packageManager": "pnpm@10.32.1"
 }

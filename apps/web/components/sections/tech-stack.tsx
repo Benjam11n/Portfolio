@@ -11,6 +11,7 @@ import {
   Monitor,
   Server,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import {
   useCallback,
   useDeferredValue,
@@ -19,15 +20,28 @@ import {
   useState,
 } from "react";
 
-import { TechDetailModal } from "@/components/modals/tech-detail-modal";
 import { TechStackCategoryTabs } from "@/components/sections/tech-stack-category-tabs";
 import { TechStackSearchSort } from "@/components/sections/tech-stack-search-sort";
 import { SectionCard } from "@/components/shared/section-card";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
-import { TECH_STACK } from "@/lib/constants/tech-stack";
+import {
+  isRenderableTechStackItem,
+  TECH_STACK,
+} from "@/lib/constants/tech-stack";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useAnimationSkipIndicator } from "@/lib/hooks/ui/use-animation-skip-indicator";
 import { ProficiencyLevel, TechCategory } from "@/lib/types";
+
+const DynamicTechDetailModal = dynamic(
+  async () => {
+    const mod = await import("@/components/modals/tech-detail-modal");
+    return mod.TechDetailModal;
+  },
+  {
+    loading: () => null,
+    ssr: false,
+  }
+);
 
 const CATEGORIES = [
   { icon: LayoutGrid, label: "All", value: "All" },
@@ -134,6 +148,10 @@ export const TechStack = () => {
 
   const filteredStack = useMemo(() => {
     const filtered = TECH_STACK.filter((item) => {
+      if (!isRenderableTechStackItem(item)) {
+        return false;
+      }
+
       const matchesCategory =
         selectedCategory === "All"
           ? true
@@ -285,7 +303,7 @@ export const TechStack = () => {
 
       {/* Tech Detail Modal */}
       {selectedTech && (
-        <TechDetailModal
+        <DynamicTechDetailModal
           isOpen={!!selectedTech}
           onClose={handleCloseTechDetail}
           tech={selectedTech}

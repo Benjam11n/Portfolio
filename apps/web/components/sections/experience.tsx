@@ -9,6 +9,7 @@ import { ExperienceItem } from "@/components/shared/experience-item";
 import { SectionCard } from "@/components/shared/section-card";
 import { workExperiences } from "@/lib/constants/experience";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
+import { useShouldSkipEntranceAnimation } from "@/lib/hooks/animation/use-should-skip-entrance-animation";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 gsapCore.registerPlugin(ScrollTrigger);
@@ -16,6 +17,7 @@ gsapCore.registerPlugin(ScrollTrigger);
 export const Experience = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldSkipEntranceAnimation = useShouldSkipEntranceAnimation();
   const { skipAnimations } = useAnimationSkipContext();
 
   useGSAP(
@@ -37,7 +39,11 @@ export const Experience = () => {
        */
 
       // Skip all animations if user prefers reduced motion or if animations were skipped
-      if (prefersReducedMotion || skipAnimations) {
+      if (
+        prefersReducedMotion ||
+        shouldSkipEntranceAnimation ||
+        skipAnimations
+      ) {
         // Set all experience items to their final state instantly
         gsapCore.set(".experience-item", { autoAlpha: 1, y: 0 });
         return;
@@ -76,7 +82,11 @@ export const Experience = () => {
       });
     },
     {
-      dependencies: [prefersReducedMotion, skipAnimations],
+      dependencies: [
+        prefersReducedMotion,
+        shouldSkipEntranceAnimation,
+        skipAnimations,
+      ],
       scope: containerRef,
     }
   );

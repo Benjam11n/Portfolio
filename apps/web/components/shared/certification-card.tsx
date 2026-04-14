@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useCallback, useState } from "react";
 
 import { Card3D } from "@/components/effects/card-3d";
+import { LightweightMarkdown } from "@/components/shared/lightweight-markdown";
 import type { Certification } from "@/lib/types";
-
-import { Markdown } from "../shared/markdown";
+import { formatMonthYear } from "@/lib/utils/format-month-year-range";
 
 interface CertificationCardProps {
   cert: Certification;
@@ -48,10 +48,10 @@ export const CertificationCard = ({ cert }: CertificationCardProps) => {
           {cert.organization}
         </p>
         <div className="line-clamp-3 text-muted-foreground/80 text-xs">
-          <Markdown>{cert.description}</Markdown>
+          <LightweightMarkdown>{cert.description}</LightweightMarkdown>
         </div>
         <span className="absolute top-6 right-6 rounded border border-border bg-background/80 px-2 py-1 font-mono text-xs backdrop-blur">
-          {cert.date}
+          {formatMonthYear(cert.issuedAt)}
         </span>
       </div>
     </Card3D>
