@@ -40,13 +40,17 @@ jobs:
         run: pnpm --filter web exec playwright install --with-deps chromium
 
       - name: Run E2E tests
+        id: e2e
+        continue-on-error: true
         run: pnpm --filter web test:e2e -- navigation.test.ts contact-form.test.ts
 
       - name: Run homepage performance test
+        id: homepage
+        continue-on-error: true
         run: pnpm --filter web test:e2e -- homepage-performance.test.ts
 
       - name: Upload Playwright Report
-        if: failure()
+        if: ${{ steps.e2e.outcome == 'failure' || steps.homepage.outcome == 'failure' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: playwright-report
@@ -54,3 +58,7 @@ jobs:
             /tmp/portfolio-playwright/playwright-report
             /tmp/portfolio-playwright/test-results
           if-no-files-found: ignore
+
+      - name: Fail if any Playwright suite failed
+        if: ${{ steps.e2e.outcome == 'failure' || steps.homepage.outcome == 'failure' }}
+        run: exit 1
