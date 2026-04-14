@@ -14,8 +14,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  e2e-tests:
-    name: E2E Tests
+  playwright:
+    name: Playwright Suites
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -39,14 +39,17 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm --filter web exec playwright install --with-deps chromium
 
-      - name: Run Playwright E2E tests
+      - name: Run E2E tests
         run: pnpm --filter web test:e2e -- navigation.test.ts contact-form.test.ts
+
+      - name: Run homepage performance test
+        run: pnpm --filter web test:e2e -- homepage-performance.test.ts
 
       - name: Upload Playwright Report
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: playwright-e2e-report
+          name: playwright-report
           path: |
             /tmp/portfolio-playwright/playwright-report
             /tmp/portfolio-playwright/test-results
