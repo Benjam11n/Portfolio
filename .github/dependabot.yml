@@ -23,6 +23,9 @@ updates:
         patterns:
           - "*"
         exclude-patterns:
+          - "ultracite"
+          - "oxfmt"
+          - "oxlint"
           - "react"
           - "react-dom"
           - "@types/react"
@@ -35,6 +38,9 @@ updates:
           - "minor"
           - "patch"
     ignore:
+      - dependency-name: "ultracite"
+      - dependency-name: "oxfmt"
+      - dependency-name: "oxlint"
       - dependency-name: "react"
         update-types: ["version-update:semver-major"]
       - dependency-name: "react-dom"
