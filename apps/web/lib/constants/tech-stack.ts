@@ -1,9 +1,6 @@
 import { ProficiencyLevel, TechCategory } from "@/lib/types";
 import type { TechId, TechStack } from "@/lib/types";
 
-// CHECK: Replace placeholder icons with proper logos for these newly added techs. and remove isRenderableTechStackItem
-const PLACEHOLDER_TECH_ICON = "/assets/logo.png";
-
 const createTechStackItem = ({
   category,
   colorDark,
@@ -115,9 +112,9 @@ export const TECH_STACK: TechStack[] = [
   }),
   createTechStackItem({
     category: TechCategory.BACKEND,
-    colorDark: "#10364d",
+    colorDark: "#E3F2FD",
     colorLight: "#E3F2FD",
-    icon: PLACEHOLDER_TECH_ICON,
+    icon: "/assets/drizzle.svg",
     id: "drizzle-orm",
     name: "Drizzle ORM",
     proficiency: ProficiencyLevel.INTERMEDIATE,
@@ -151,17 +148,17 @@ export const TECH_STACK: TechStack[] = [
   }),
   createTechStackItem({
     category: TechCategory.BACKEND,
-    colorDark: "#0b2f2b",
-    colorLight: "#E0F2F1",
-    icon: PLACEHOLDER_TECH_ICON,
+    colorDark: "#E6F8F4",
+    colorLight: "#E6F8F4",
+    icon: "/assets/fastapi.svg",
     id: "fastapi",
     name: "FastAPI",
     proficiency: ProficiencyLevel.INTERMEDIATE,
   }),
   createTechStackItem({
     category: TechCategory.FRONTEND,
-    colorDark: "#20160a",
-    colorLight: "#FFF3E0",
+    colorDark: "#E2E8F0",
+    colorLight: "#F8FAFC",
     icon: "/assets/shadcn-ui.svg",
     id: "shadcn-ui",
     name: "shadcn/ui",
@@ -169,9 +166,9 @@ export const TECH_STACK: TechStack[] = [
   }),
   createTechStackItem({
     category: TechCategory.FRAMEWORK,
-    colorDark: "#2a1937",
-    colorLight: "#F3E5F5",
-    icon: PLACEHOLDER_TECH_ICON,
+    colorDark: "#231A45",
+    colorLight: "#EEF2FF",
+    icon: "/assets/vite.svg",
     id: "vite",
     name: "Vite",
     proficiency: ProficiencyLevel.ADVANCED,
@@ -183,24 +180,6 @@ export const TECH_STACK: TechStack[] = [
     icon: "/assets/node.svg",
     id: "nodejs",
     name: "Node.js",
-    proficiency: ProficiencyLevel.INTERMEDIATE,
-  }),
-  createTechStackItem({
-    category: TechCategory.AI_ML,
-    colorDark: "#33200a",
-    colorLight: "#FFF8E1",
-    icon: "/assets/google-gemini.svg",
-    id: "gemini",
-    name: "Google Gemini",
-    proficiency: ProficiencyLevel.INTERMEDIATE,
-  }),
-  createTechStackItem({
-    category: TechCategory.AI_ML,
-    colorDark: "#0f2436",
-    colorLight: "#E1F5FE",
-    icon: PLACEHOLDER_TECH_ICON,
-    id: "mediapipe",
-    name: "MediaPipe",
     proficiency: ProficiencyLevel.INTERMEDIATE,
   }),
   createTechStackItem({
@@ -267,15 +246,6 @@ export const TECH_STACK: TechStack[] = [
     proficiency: ProficiencyLevel.ADVANCED,
   }),
   createTechStackItem({
-    category: TechCategory.DATABASE,
-    colorDark: "#16212b",
-    colorLight: "#ECEFF1",
-    icon: PLACEHOLDER_TECH_ICON,
-    id: "sqlite",
-    name: "SQLite",
-    proficiency: ProficiencyLevel.INTERMEDIATE,
-  }),
-  createTechStackItem({
     category: TechCategory.FRONTEND,
     colorDark: "#FF4154",
     colorLight: "#FFF1F2",
@@ -302,15 +272,6 @@ export const TECH_STACK: TechStack[] = [
     name: "Ionic",
     proficiency: ProficiencyLevel.INTERMEDIATE,
   }),
-  createTechStackItem({
-    category: TechCategory.BACKEND,
-    colorDark: "#1d172f",
-    colorLight: "#EDE7F6",
-    icon: PLACEHOLDER_TECH_ICON,
-    id: "websocket",
-    name: "WebSocket",
-    proficiency: ProficiencyLevel.INTERMEDIATE,
-  }),
 ];
 
 const techStackEntries = TECH_STACK.map((tech) => [tech.id, tech] as const);
@@ -319,6 +280,3 @@ export const TECH_STACK_BY_ID = Object.fromEntries(techStackEntries) as Record<
   TechId,
   TechStack
 >;
-
-export const isRenderableTechStackItem = (tech: TechStack) =>
-  tech.icon !== PLACEHOLDER_TECH_ICON;

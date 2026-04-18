@@ -13,10 +13,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ROUTES } from "@/lib/constants/navigation";
-import {
-  isRenderableTechStackItem,
-  TECH_STACK_BY_ID,
-} from "@/lib/constants/tech-stack";
+import { TECH_STACK_BY_ID } from "@/lib/constants/tech-stack";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Project } from "@/lib/types";
@@ -231,7 +228,7 @@ export const ProjectCard = memo(({ project }: ProjectCardProps) => {
             <div className="mt-1 flex flex-wrap items-center justify-center gap-2">
               {project.techStack.map((techId) => {
                 const tech = TECH_STACK_BY_ID[techId];
-                if (!tech || !isRenderableTechStackItem(tech)) {
+                if (!tech) {
                   return null;
                 }
 
