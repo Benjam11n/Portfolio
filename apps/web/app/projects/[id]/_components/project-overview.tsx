@@ -7,10 +7,7 @@ import { useRef } from "react";
 
 import { Markdown } from "@/components/shared/markdown";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
-import {
-  isRenderableTechStackItem,
-  TECH_STACK_BY_ID,
-} from "@/lib/constants/tech-stack";
+import { TECH_STACK_BY_ID } from "@/lib/constants/tech-stack";
 import type { Project } from "@/lib/types/index";
 
 import { FeatureCard } from "./feature-card";
@@ -111,7 +108,7 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
           <div className="flex flex-wrap gap-3">
             {project.techStack.map((techId) => {
               const stackItem = TECH_STACK_BY_ID[techId];
-              if (!stackItem || !isRenderableTechStackItem(stackItem)) {
+              if (!stackItem) {
                 return null;
               }
               return (

@@ -24,10 +24,7 @@ import { TechStackCategoryTabs } from "@/components/sections/tech-stack-category
 import { TechStackSearchSort } from "@/components/sections/tech-stack-search-sort";
 import { SectionCard } from "@/components/shared/section-card";
 import { TechStackItem } from "@/components/shared/tech-stack-item";
-import {
-  isRenderableTechStackItem,
-  TECH_STACK,
-} from "@/lib/constants/tech-stack";
+import { TECH_STACK } from "@/lib/constants/tech-stack";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useAnimationSkipIndicator } from "@/lib/hooks/ui/use-animation-skip-indicator";
 import { ProficiencyLevel, TechCategory } from "@/lib/types";
@@ -145,10 +142,6 @@ export const TechStack = () => {
 
   const filteredStack = useMemo(() => {
     const filtered = TECH_STACK.filter((item) => {
-      if (!isRenderableTechStackItem(item)) {
-        return false;
-      }
-
       if (
         selectedCategory !== "All" &&
         !CATEGORY_MAP[selectedCategory].includes(item.category as TechCategory)
