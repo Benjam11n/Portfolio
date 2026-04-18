@@ -132,18 +132,15 @@ export const TechStack = () => {
   const deferredSearchQuery = useDeferredValue(searchQuery);
   const { skipAnimations } = useAnimationSkipContext();
   const showSkipIndicator = useAnimationSkipIndicator(skipAnimations);
-  const [selectedTech, setSelectedTech] = useState<
-    (typeof TECH_STACK)[0] | null
-  >(null);
+  const [selectedTech, setSelectedTech] = useState<TechStackItemData | null>(
+    null
+  );
 
+  const normalizedSearchQuery = deferredSearchQuery.trim().toLowerCase();
   const searchTerms = useMemo(
     () =>
-      deferredSearchQuery
-        .trim()
-        .toLowerCase()
-        .split(SEARCH_TERM_SPLIT_PATTERN)
-        .filter(Boolean),
-    [deferredSearchQuery]
+      normalizedSearchQuery.split(SEARCH_TERM_SPLIT_PATTERN).filter(Boolean),
+    [normalizedSearchQuery]
   );
 
   const filteredStack = useMemo(() => {
@@ -152,45 +149,43 @@ export const TechStack = () => {
         return false;
       }
 
-      const matchesCategory =
-        selectedCategory === "All"
-          ? true
-          : CATEGORY_MAP[selectedCategory].includes(
-              item.category as TechCategory
-            );
+      if (
+        selectedCategory !== "All" &&
+        !CATEGORY_MAP[selectedCategory].includes(item.category as TechCategory)
+      ) {
+        return false;
+      }
+
+      if (searchTerms.length === 0) {
+        return true;
+      }
 
       const searchableText =
         `${item.name} ${item.category} ${item.proficiency ?? ""}`.toLowerCase();
-      const matchesSearch =
-        searchTerms.length === 0
-          ? true
-          : searchTerms.every((term) => searchableText.includes(term));
 
-      return matchesCategory && matchesSearch;
+      return searchTerms.every((term) => searchableText.includes(term));
     });
 
     if (selectedSort === "default") {
       return filtered;
     }
 
-    return [...filtered].sort(
-      (left: TechStackItemData, right: TechStackItemData) => {
-        const leftRank = left.proficiency
-          ? PROFICIENCY_RANK[left.proficiency]
-          : -1;
-        const rightRank = right.proficiency
-          ? PROFICIENCY_RANK[right.proficiency]
-          : -1;
+    return [...filtered].sort((left, right) => {
+      const leftRank = left.proficiency
+        ? PROFICIENCY_RANK[left.proficiency]
+        : -1;
+      const rightRank = right.proficiency
+        ? PROFICIENCY_RANK[right.proficiency]
+        : -1;
 
-        if (leftRank === rightRank) {
-          return left.name.localeCompare(right.name);
-        }
-
-        return selectedSort === "proficiency-desc"
-          ? rightRank - leftRank
-          : leftRank - rightRank;
+      if (leftRank === rightRank) {
+        return left.name.localeCompare(right.name);
       }
-    );
+
+      return selectedSort === "proficiency-desc"
+        ? rightRank - leftRank
+        : leftRank - rightRank;
+    });
   }, [searchTerms, selectedCategory, selectedSort]);
 
   useEffect(() => {

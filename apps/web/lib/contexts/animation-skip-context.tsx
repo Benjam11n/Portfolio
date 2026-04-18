@@ -11,23 +11,6 @@ const AnimationSkipContext = createContext<AnimationSkipContextValue | null>(
   null
 );
 
-/**
- * Provider component that manages global animation skip state.
- *
- * This provider:
- * - Listens for Escape key to skip animations
- * - Persists skip state to localStorage
- * - Makes skip state available to all child components
- *
- * Place this provider at the root of your app to enable global animation skipping.
- *
- * @example
- * ```tsx
- * <AnimationSkipProvider>
- *   <App />
- * </AnimationSkipProvider>
- * ```
- */
 export const AnimationSkipProvider = ({
   children,
 }: {
@@ -42,21 +25,6 @@ export const AnimationSkipProvider = ({
   );
 };
 
-/**
- * Hook to access the global animation skip state.
- *
- * Returns the same value as useAnimationSkip, but from context.
- * This hook must be used within an AnimationSkipProvider.
- *
- * @example
- * ```tsx
- * const { skipAnimations, setSkipAnimations } = useAnimationSkipContext();
- *
- * if (skipAnimations) {
- *   // Skip animations
- * }
- * ```
- */
 export const useAnimationSkipContext = (): AnimationSkipContextValue => {
   const context = useContext(AnimationSkipContext);
   if (!context) {
