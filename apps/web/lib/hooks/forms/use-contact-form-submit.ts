@@ -11,6 +11,12 @@ import {
 } from "@/lib/analytics/conversion";
 import type { ContactFormValues } from "@/lib/validations/contact";
 
+const KNOWN_SPAM_ERRORS = new Set([
+  "Potential bot detected.",
+  "You are sending too many requests. Please try again later.",
+  "Suspicious activity detected.",
+]);
+
 interface UseContactFormSubmitOptions {
   onSuccess?: (name: string) => void;
 }
@@ -46,14 +52,10 @@ export const useContactFormSubmit = ({
         const result = await sendEmailAction(values);
 
         if (result.error) {
-          const isSpamBlocked =
-            result.error === "Potential bot detected." ||
-            result.error ===
-              "You are sending too many requests. Please try again later." ||
-            result.error === "Suspicious activity detected.";
-
           trackContactFormError(
-            isSpamBlocked ? "spam_blocked" : "submission_failed",
+            KNOWN_SPAM_ERRORS.has(result.error)
+              ? "spam_blocked"
+              : "submission_failed",
             "main_form"
           );
           toast.error("Error", {

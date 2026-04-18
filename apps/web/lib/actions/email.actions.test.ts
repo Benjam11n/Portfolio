@@ -35,6 +35,7 @@ describe(sendEmailAction, () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockSecure.mockResolvedValue();
+    delete process.env.PLAYWRIGHT_TEST;
   });
 
   it("sends email for valid submissions", async () => {
@@ -109,6 +110,53 @@ describe(sendEmailAction, () => {
 
     expect(result).toStrictEqual({
       error: "Failed to send email",
+    });
+  });
+
+  it("returns invalid form data for schema failures", async () => {
+    const result = await sendEmailAction({
+      email: "invalid-email",
+      message: "short",
+      name: "J",
+      website: "",
+    });
+
+    expect(result.error).toBe("Invalid form data");
+    expect(result.details).toBeDefined();
+    expect(mockSecure).not.toHaveBeenCalled();
+    expect(mockResendSend).not.toHaveBeenCalled();
+  });
+
+  it("returns the Playwright stub payload without hitting resend", async () => {
+    process.env.PLAYWRIGHT_TEST = "1";
+
+    const result = await sendEmailAction({
+      email: "john@example.com",
+      message: "This message is definitely long enough.",
+      name: "John Doe",
+      website: "",
+    });
+
+    expect(result).toStrictEqual({
+      data: { id: "playwright-contact-form" },
+      success: true,
+    });
+    expect(mockSecure).not.toHaveBeenCalled();
+    expect(mockResendSend).not.toHaveBeenCalled();
+  });
+
+  it("returns internal server error for unexpected failures", async () => {
+    mockSecure.mockRejectedValue(new Error("Unexpected failure"));
+
+    const result = await sendEmailAction({
+      email: "john@example.com",
+      message: "This message is definitely long enough.",
+      name: "John Doe",
+      website: "",
+    });
+
+    expect(result).toStrictEqual({
+      error: "Internal server error",
     });
   });
 });

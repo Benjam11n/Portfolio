@@ -9,9 +9,13 @@ import {
 import { contactActionSchema } from "@/lib/validations/contact";
 import type { ContactActionValues } from "@/lib/validations/contact";
 
-export const sendEmailAction = async (formData: ContactActionValues) => {
-  const isPlaywrightStubEnabled = process.env.PLAYWRIGHT_TEST === "1";
+const KNOWN_SECURITY_ERRORS = new Set([
+  "Potential bot detected.",
+  "You are sending too many requests. Please try again later.",
+  "Suspicious activity detected.",
+]);
 
+export const sendEmailAction = async (formData: ContactActionValues) => {
   try {
     const result = contactActionSchema.safeParse(formData);
     if (!result.success) {
@@ -27,7 +31,7 @@ export const sendEmailAction = async (formData: ContactActionValues) => {
       return { success: true };
     }
 
-    if (isPlaywrightStubEnabled) {
+    if (process.env.PLAYWRIGHT_TEST === "1") {
       return {
         data: { id: "playwright-contact-form" },
         success: true,
@@ -66,18 +70,10 @@ export const sendEmailAction = async (formData: ContactActionValues) => {
   } catch (error) {
     logger.error(error, "Server error:");
 
-    if (error instanceof Error) {
-      const knownSecurityErrors = new Set([
-        "Potential bot detected.",
-        "You are sending too many requests. Please try again later.",
-        "Suspicious activity detected.",
-      ]);
-
-      if (knownSecurityErrors.has(error.message)) {
-        return {
-          error: error.message,
-        };
-      }
+    if (error instanceof Error && KNOWN_SECURITY_ERRORS.has(error.message)) {
+      return {
+        error: error.message,
+      };
     }
 
     return {

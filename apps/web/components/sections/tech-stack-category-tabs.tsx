@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 import { useCallback } from "react";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
