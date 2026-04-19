@@ -28,15 +28,51 @@ vi.mock(import("next/dynamic"), () => ({
 vi.mock(import("framer-motion"), () => ({
   AnimatePresence: ({ children }: { children: ReactNode }) => children,
   motion: {
-    div: ({ children, ...props }: ComponentProps<"div">) => (
-      <div {...props}>{children}</div>
-    ),
-    p: ({ children, ...props }: ComponentProps<"p">) => (
-      <p {...props}>{children}</p>
-    ),
-    span: ({ children, ...props }: ComponentProps<"span">) => (
-      <span {...props}>{children}</span>
-    ),
+    div: ({
+      animate: _animate,
+      exit: _exit,
+      initial: _initial,
+      layout: _layout,
+      transition: _transition,
+      children,
+      ...props
+    }: ComponentProps<"div"> & {
+      animate?: unknown;
+      exit?: unknown;
+      initial?: unknown;
+      layout?: unknown;
+      transition?: unknown;
+    }) => <div {...props}>{children}</div>,
+    p: ({
+      animate: _animate,
+      exit: _exit,
+      initial: _initial,
+      layout: _layout,
+      transition: _transition,
+      children,
+      ...props
+    }: ComponentProps<"p"> & {
+      animate?: unknown;
+      exit?: unknown;
+      initial?: unknown;
+      layout?: unknown;
+      transition?: unknown;
+    }) => <p {...props}>{children}</p>,
+    span: ({
+      animate: _animate,
+      exit: _exit,
+      initial: _initial,
+      layout: _layout,
+      transition: _transition,
+      children,
+      ...props
+    }: ComponentProps<"span"> & {
+      animate?: unknown;
+      exit?: unknown;
+      initial?: unknown;
+      layout?: unknown;
+      transition?: unknown;
+    }) => <span {...props}>{children}</span>,
   },
 }));
 
@@ -83,25 +119,36 @@ vi.mock(import("@/lib/hooks/ui/use-animation-skip-indicator"), () => ({
 }));
 
 describe(TechStack, () => {
+  const getRenderedTechButtons = () =>
+    screen
+      .getAllByRole("button")
+      .filter((button) =>
+        /\b(AI\/ML|Animation|Backend|Database|DevOps|Framework|Frontend|Language|Mobile|Styling)\b/.test(
+          button.textContent ?? ""
+        )
+      );
+
   afterEach(() => {
     delete document.body.dataset.skillsDialogOpen;
   });
 
-  it("shows only the top 10 technologies by default and expands on demand", async () => {
+  it("shows only the initial visible technologies by default and expands on demand", async () => {
     const { user } = render(<TechStack />);
 
+    expect(getRenderedTechButtons()).toHaveLength(12);
     expect(
       screen.getByRole("button", { name: /Docker DevOps/i })
     ).toBeDefined();
     expect(
-      screen.queryByRole("button", { name: /Drizzle ORM Backend/i })
+      screen.queryByRole("button", { name: /Framer Animation/i })
     ).toBeNull();
 
     await user.click(screen.getByRole("button", { name: /See more/i }));
 
     await waitFor(() => {
+      expect(getRenderedTechButtons()).toHaveLength(28);
       expect(
-        screen.getByRole("button", { name: /Drizzle ORM Backend/i })
+        screen.getByRole("button", { name: /Framer Animation/i })
       ).toBeDefined();
       expect(screen.getByRole("button", { name: /See less/i })).toBeDefined();
     });
@@ -171,9 +218,7 @@ describe(TechStack, () => {
 
     await waitFor(() => {
       expect(screen.getByRole("button", { name: /See more/i })).toBeDefined();
-      expect(
-        screen.queryByRole("button", { name: /Drizzle ORM Backend/i })
-      ).toBeNull();
+      expect(getRenderedTechButtons()).toHaveLength(12);
     });
 
     await user.clear(
