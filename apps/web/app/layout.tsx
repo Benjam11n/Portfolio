@@ -13,17 +13,17 @@ const satoshi = localFont({
   display: "swap",
   src: [
     {
-      path: "../public/assets/fonts/satoshi/satoshi-400.woff2",
+      path: "../public/fonts/satoshi/satoshi-400.woff2",
       style: "normal",
       weight: "400",
     },
     {
-      path: "../public/assets/fonts/satoshi/satoshi-500.woff2",
+      path: "../public/fonts/satoshi/satoshi-500.woff2",
       style: "normal",
       weight: "500",
     },
     {
-      path: "../public/assets/fonts/satoshi/satoshi-700.woff2",
+      path: "../public/fonts/satoshi/satoshi-700.woff2",
       style: "normal",
       weight: "700",
     },
