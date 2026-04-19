@@ -13,7 +13,6 @@ export const ROUTES = {
   PROJECTS: "#projects",
   PROJECT_DETAIL: (id: string) => `/projects/${id}`,
   SKILLS: "#skills",
-  TERMS: "/terms",
 } as const;
 
 export const NAVITEMS: NavItem[] = [

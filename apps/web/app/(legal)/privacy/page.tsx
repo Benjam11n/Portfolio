@@ -15,102 +15,156 @@ export default function PrivacyPage() {
       <SectionCard title="Privacy Policy">
         <div className="mb-6 flex items-center gap-2 text-muted-foreground">
           <Shield className="h-5 w-5" />
-          <p>How we handle your data.</p>
+          <p>What this site collects, why, and how to reach me.</p>
         </div>
         <div className="prose prose-sm dark:prose-invert max-w-none space-y-4 text-muted-foreground">
-          <p>Last updated: {new Date().toLocaleDateString()}</p>
+          <p>Last updated: April 19, 2026</p>
 
-          <h3>1. Introduction</h3>
+          <h3>1. What this policy covers</h3>
           <p>
-            This Privacy Policy describes Our policies and procedures on the
-            collection, use and disclosure of Your information when You use the
-            Service and tells You about Your privacy rights and how the law
-            protects You.
+            This policy explains how Benjamin Wang&apos;s portfolio site handles
+            personal information. If you browse the site, use the contact form,
+            or click outbound links, some information may be processed to run
+            the site, measure usage, and respond to messages.
           </p>
 
-          <h3>2. Information We Collect</h3>
-          <p>
-            While using Our Service, We may ask You to provide Us with certain
-            personally identifiable information that can be used to contact or
-            identify You. Personally identifiable information may include, but
-            is not limited to:
-          </p>
+          <h3>2. Information collected</h3>
+          <p>This site may collect the following categories of information:</p>
           <ul className="list-disc pl-5">
-            <li>Email address</li>
-            <li>First name and last name</li>
-            <li>Usage Data</li>
+            <li>
+              Contact details you submit, such as your name and email address
+            </li>
+            <li>Message content you send through the contact form</li>
+            <li>
+              Technical and usage data, such as page views, browser details,
+              device information, referrer data, and interaction events
+            </li>
+            <li>
+              Security-related data used to detect spam, bots, or abusive
+              traffic, including IP-based request analysis
+            </li>
           </ul>
 
-          <h3>3. Usage Data & Third-Party Services</h3>
+          <h3>3. How information is used</h3>
+          <p>Information is used to:</p>
+          <ul className="list-disc pl-5">
+            <li>Respond to inquiries sent through the contact form</li>
+            <li>Operate, monitor, and improve the site</li>
+            <li>Understand site usage and engagement</li>
+            <li>Prevent spam, fraud, abuse, and excessive automated traffic</li>
+          </ul>
+
+          <h3>4. Services used on this site</h3>
+          <p>This site uses third-party services to deliver site features:</p>
+          <ul className="list-disc pl-5">
+            <li>
+              <strong>Resend</strong> to deliver contact form submissions to the
+              site owner by email
+            </li>
+            <li>
+              <strong>Arcjet</strong> for bot detection, abuse prevention, and
+              rate limiting on sensitive actions such as contact form
+              submissions
+            </li>
+            <li>
+              <strong>Vercel Analytics</strong> for site analytics and event
+              measurement
+            </li>
+            <li>
+              <strong>PostHog</strong> for analytics when enabled in the site
+              configuration
+            </li>
+          </ul>
           <p>
-            We use <strong>Google reCAPTCHA</strong> to protect our contact
-            forms from spam and abuse. This service may collect hardware and
-            software information, such as device and application data, and send
-            it to Google for analysis. The information collected in connection
-            with your use of the service will be used for improving reCAPTCHA
-            and for general security purposes. It will not be used for
-            personalized advertising by Google.
+            These providers may process information according to their own terms
+            and privacy notices. For example, analytics providers may receive
+            usage and device data, and security providers may inspect request
+            metadata to block abuse.
           </p>
           <p>
-            Your use of reCAPTCHA is subject to the Google{" "}
+            Vercel Analytics privacy information:{" "}
             <a
               className="text-primary hover:underline"
-              href="https://policies.google.com/privacy"
+              href="https://vercel.com/legal/privacy-policy"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Vercel Privacy Policy
+            </a>
+            .
+          </p>
+          <p>
+            PostHog privacy information:{" "}
+            <a
+              className="text-primary hover:underline"
+              href="https://posthog.com/privacy"
               rel="noopener noreferrer"
               target="_blank"
             >
               Privacy Policy
-            </a>{" "}
-            and{" "}
+            </a>
+            .
+          </p>
+          <p>
+            Resend privacy information:{" "}
             <a
               className="text-primary hover:underline"
-              href="https://policies.google.com/terms"
+              href="https://resend.com/legal/privacy-policy"
               rel="noopener noreferrer"
               target="_blank"
             >
-              Terms of Use
+              Privacy Policy
             </a>
             .
           </p>
 
-          <h3>4. How We Use Your Information</h3>
+          <h3>5. Contact form details</h3>
           <p>
-            The information you provide via the contact form (Name, Email,
-            Subject, Message) is used solely to communicate with you regarding
-            your inquiry.
+            If you send a message through the contact form, the submitted name,
+            email address, and message are used to respond to you. A hidden
+            honeypot field is also used to help detect automated spam.
           </p>
 
-          <h3>5. Data Retention</h3>
+          <h3>6. Retention</h3>
           <p>
-            We will retain Your Personal Data only for as long as is necessary
-            for the purposes set out in this Privacy Policy. We will retain and
-            use Your Personal Data to the extent necessary to comply with our
-            legal obligations (for example, if we are required to retain your
-            data to comply with applicable laws), resolve disputes, and enforce
-            our legal agreements and policies.
+            Contact form submissions may be kept for as long as needed to reply,
+            continue a conversation, maintain business records, or protect
+            against abuse. Analytics and security data retention may vary by
+            provider configuration.
           </p>
 
-          <h3>6. Your Data Protection Rights</h3>
+          <h3>7. Sharing</h3>
           <p>
-            Depending on your location, you may have rights under data
-            protection laws (such as GDPR or CCPA) regarding your personal data,
-            including the right to access, correct, or delete your personal
-            data. If you wish to exercise any of these rights, please contact us
-            using the information below.
+            Personal information is not sold. Information may be shared with
+            service providers that help operate this site, deliver messages,
+            provide analytics, or protect the site from abuse.
           </p>
 
-          <h3>7. Changes to this Privacy Policy</h3>
+          <h3>8. Your choices and rights</h3>
           <p>
-            We may update Our Privacy Policy from time to time. We will notify
-            You of any changes by posting the new Privacy Policy on this page.
-            You are advised to review this Privacy Policy periodically for any
-            changes.
+            Depending on where you live, you may have rights to request access
+            to, correction of, or deletion of personal information. You can also
+            choose not to use the contact form and instead reach out directly by
+            email or social links listed on the site.
           </p>
 
-          <h3>8. Contact Us</h3>
+          <h3>9. Changes</h3>
           <p>
-            If you have any questions about this Privacy Policy, You can contact
-            us by visiting the contact section of our website.
+            This page may be updated from time to time. The latest version will
+            be posted here with a revised effective date.
+          </p>
+
+          <h3>10. Contact</h3>
+          <p>
+            Questions or privacy requests can be sent through the site&apos;s
+            contact section or by email at{" "}
+            <a
+              className="text-primary hover:underline"
+              href="mailto:youcanfindbenjamin@gmail.com"
+            >
+              youcanfindbenjamin@gmail.com
+            </a>
+            .
           </p>
         </div>
       </SectionCard>

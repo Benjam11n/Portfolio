@@ -180,9 +180,6 @@ export const Footer = () => {
               <p>{time || "Loading..."}</p>
               <p>© {new Date().getFullYear()} Benjamin Wang</p>
               <div className="mt-4 flex flex-col gap-2">
-                <Link className={footerMetaLinkClass} href={ROUTES.TERMS}>
-                  Terms of Service
-                </Link>
                 <Link className={footerMetaLinkClass} href={ROUTES.PRIVACY}>
                   Privacy Policy
                 </Link>

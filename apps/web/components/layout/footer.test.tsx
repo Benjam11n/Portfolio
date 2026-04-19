@@ -50,4 +50,14 @@ describe(Footer, () => {
     render(<Footer />);
     expect(screen.getByText(NAME_REGEX)).toBeDefined();
   });
+
+  it("renders privacy link only", () => {
+    render(<Footer />);
+    expect(
+      screen.getByRole("link", { name: /privacy policy/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: /terms of service/i })
+    ).not.toBeInTheDocument();
+  });
 });
