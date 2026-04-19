@@ -87,6 +87,26 @@ describe(TechStack, () => {
     delete document.body.dataset.skillsDialogOpen;
   });
 
+  it("shows only the top 10 technologies by default and expands on demand", async () => {
+    const { user } = render(<TechStack />);
+
+    expect(
+      screen.getByRole("button", { name: /Docker DevOps/i })
+    ).toBeDefined();
+    expect(
+      screen.queryByRole("button", { name: /Drizzle ORM Backend/i })
+    ).toBeNull();
+
+    await user.click(screen.getByRole("button", { name: /See more/i }));
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: /Drizzle ORM Backend/i })
+      ).toBeDefined();
+      expect(screen.getByRole("button", { name: /See less/i })).toBeDefined();
+    });
+  });
+
   it("filters, searches, sorts, and shows the empty state without changing behavior", async () => {
     const { user } = render(<TechStack />);
 
@@ -142,6 +162,18 @@ describe(TechStack, () => {
 
       expect(languageButtons[0]).toHaveTextContent("Golang Language");
       expect(languageButtons.at(-1)).toHaveTextContent("TypeScript Language");
+    });
+
+    await user.click(screen.getByRole("tab", { name: /All/i }));
+    await user.click(
+      screen.getByRole("button", { name: "Sort skills: Skill Level Asc" })
+    );
+
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: /See more/i })).toBeDefined();
+      expect(
+        screen.queryByRole("button", { name: /Drizzle ORM Backend/i })
+      ).toBeNull();
     });
 
     await user.clear(
