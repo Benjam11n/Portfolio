@@ -92,9 +92,12 @@ Threejs-Portfolio/
 ├── app/                # Next.js App Router pages
 ├── components/         # React components
 ├── public/             # Static assets
-│   ├── models/         # 3D models
-│   ├── textures/       # Textures for 3D models
-│   └── images/         # Images used in the portfolio
+│   ├── certifications/ # Compressed certification media
+│   ├── deprecated/     # Archived unused media and retired 3D assets
+│   ├── experiences/    # Experience logos and media
+│   ├── fonts/          # Local font files
+│   ├── projects/       # Project media
+│   └── tech-stack/     # Tech stack icons
 ├── lib/                # Utility functions and constants
 ├── styles/             # Global CSS and styling
 └── types/              # TypeScript type definitions
