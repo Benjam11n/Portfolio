@@ -1,4 +1,4 @@
-import { renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 import { toast } from "sonner";
 
 import { sendEmailAction } from "@/lib/actions/email.actions";
@@ -55,7 +55,9 @@ describe(useContactFormSubmit, () => {
 
     const { result } = renderHook(() => useContactFormSubmit({ onSuccess }));
 
-    result.current.handleSubmit(TEST_VALUES);
+    act(() => {
+      result.current.handleSubmit(TEST_VALUES);
+    });
 
     await waitFor(() => {
       expect(trackContactFormSuccess).toHaveBeenCalledWith("main_form");
@@ -73,7 +75,9 @@ describe(useContactFormSubmit, () => {
 
     const { result } = renderHook(() => useContactFormSubmit());
 
-    result.current.handleSubmit(TEST_VALUES);
+    act(() => {
+      result.current.handleSubmit(TEST_VALUES);
+    });
 
     await waitFor(() => {
       expect(trackContactFormError).toHaveBeenCalledWith(
@@ -95,7 +99,9 @@ describe(useContactFormSubmit, () => {
 
     const { result } = renderHook(() => useContactFormSubmit());
 
-    result.current.handleSubmit(TEST_VALUES);
+    act(() => {
+      result.current.handleSubmit(TEST_VALUES);
+    });
 
     await waitFor(() => {
       expect(trackContactFormError).toHaveBeenCalledWith(
@@ -114,7 +120,9 @@ describe(useContactFormSubmit, () => {
 
     const { result } = renderHook(() => useContactFormSubmit());
 
-    result.current.handleSubmit(TEST_VALUES);
+    act(() => {
+      result.current.handleSubmit(TEST_VALUES);
+    });
 
     await waitFor(() => {
       expect(trackContactFormError).toHaveBeenCalledWith(
