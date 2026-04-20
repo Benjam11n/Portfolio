@@ -7,20 +7,15 @@ import { ProjectCard } from "./project-card";
 const VIEW_PROJECT_REGEX = /View project: Test Project - Subtitle/i;
 
 const mockProject: Project = {
-  challenges: [],
   client: "Personal",
   description: "A test project description",
   features: [],
-  githubLink: "https://github.com",
   hero_image: "/test-image.jpg",
   id: "test-project",
-  learnings: [],
-  liveLink: "https://example.com",
   location: "Remote",
   logo: "/test-logo.png",
   logoStyle: {},
   services: "Web Development",
-  tags: ["React", "TypeScript"],
   techStack: ["react"],
   title: "Test Project - Subtitle",
   video_overview: undefined,
