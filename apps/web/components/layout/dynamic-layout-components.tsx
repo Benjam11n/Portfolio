@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import type { ComponentType } from "react";
 
 import type { ClickSparkProps } from "@/components/bits/click-spark";
 import type { DitherProps } from "@/components/bits/dither";
@@ -22,7 +21,7 @@ export const DynamicFooter = dynamic(
   { ssr: false }
 );
 
-export const DynamicDither: ComponentType<DitherProps> = dynamic(
+export const DynamicDither = dynamic<DitherProps>(
   async () => {
     const mod = await import("@/components/bits/dither");
     return mod.Dither;
@@ -33,9 +32,7 @@ export const DynamicDither: ComponentType<DitherProps> = dynamic(
   }
 );
 
-// Wrappers that contain content should typically NOT be ssr: false to preserve SEO and initial render
-// However, we load them dynamically to reduce initial bundle size for the layout chunk
-export const DynamicClickSpark: ComponentType<ClickSparkProps> = dynamic(
+export const DynamicClickSpark = dynamic<ClickSparkProps>(
   async () => {
     const mod = await import("@/components/bits/click-spark");
     return mod.ClickSpark;
@@ -67,7 +64,6 @@ export const DynamicAnimationSkipProvider = dynamic(
   { ssr: true }
 );
 
-// Development-only performance monitor
 export const DynamicPerformanceMonitor = dynamic(
   async () => {
     const mod = await import("@/components/dev/performance-monitor");

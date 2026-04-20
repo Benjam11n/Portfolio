@@ -1,11 +1,20 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { createContext, useContext } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-import { useAnimationSkip } from "@/lib/hooks/animation/use-animation-skip";
-
-type AnimationSkipContextValue = ReturnType<typeof useAnimationSkip>;
+interface AnimationSkipContextValue {
+  skipAnimations: boolean;
+  setSkipAnimations: (value: boolean) => void;
+  resetSkipAnimations: () => void;
+}
 
 const AnimationSkipContext = createContext<AnimationSkipContextValue | null>(
   null
@@ -16,10 +25,32 @@ export const AnimationSkipProvider = ({
 }: {
   children: ReactNode;
 }) => {
-  const animationSkip = useAnimationSkip();
+  const [skipAnimations, setSkipAnimations] = useState(false);
+  const resetSkipAnimations = useCallback(() => {
+    setSkipAnimations(false);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!event.repeat && event.key === "Escape") {
+        setSkipAnimations((current) => !current);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+  const value = useMemo(
+    () => ({
+      resetSkipAnimations,
+      setSkipAnimations,
+      skipAnimations,
+    }),
+    [resetSkipAnimations, skipAnimations]
+  );
 
   return (
-    <AnimationSkipContext.Provider value={animationSkip}>
+    <AnimationSkipContext.Provider value={value}>
       {children}
     </AnimationSkipContext.Provider>
   );

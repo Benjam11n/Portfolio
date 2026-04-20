@@ -52,6 +52,7 @@ export const ContactForm = () => {
       form.reset();
     },
   });
+  const isDisabled = isPending || form.formState.isSubmitting;
 
   return (
     <div className="relative">
@@ -74,7 +75,7 @@ export const ContactForm = () => {
             <FormInput
               className="bg-card"
               control={form.control}
-              disabled={isPending || form.formState.isSubmitting}
+              disabled={isDisabled}
               id="contact-name"
               label="Name"
               name="name"
@@ -84,7 +85,7 @@ export const ContactForm = () => {
             <FormInput
               className="bg-card"
               control={form.control}
-              disabled={isPending || form.formState.isSubmitting}
+              disabled={isDisabled}
               id="contact-email"
               label="Email"
               name="email"
@@ -95,7 +96,7 @@ export const ContactForm = () => {
           <FormTextArea
             className="bg-card"
             control={form.control}
-            disabled={isPending || form.formState.isSubmitting}
+            disabled={isDisabled}
             id="contact-message"
             label="Message"
             maxLength={1000}
