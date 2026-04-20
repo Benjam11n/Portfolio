@@ -47,7 +47,6 @@ export interface Project {
 
   // Links
   href?: string;
-  link?: string;
   github?: string;
 
   // Visual elements

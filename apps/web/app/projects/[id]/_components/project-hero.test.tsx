@@ -20,7 +20,6 @@ vi.mock(import("gsap"), () => ({
   },
 }));
 
-// Mock new hooks for CharacterReveal component compatibility
 vi.mock(import("@/lib/hooks/ui/use-character-reveal"), () => ({
   useCharacterReveal: () => ({
     animateIn: vi.fn(),
@@ -44,7 +43,6 @@ const mockProject: Project = {
   logo: "/logo.png",
   logoStyle: { backgroundColor: "#000" },
   services: "Web",
-  tags: ["React"],
   techStack: ["react"],
   title: "Test Project - Subtitle",
   year: 2024,

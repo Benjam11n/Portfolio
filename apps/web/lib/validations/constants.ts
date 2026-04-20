@@ -119,7 +119,6 @@ const projectSchema = z.object({
     .string()
     .min(1, "Project ID must be at least 1 character")
     .max(100, "Project ID must be at most 100 characters"),
-  link: z.string().max(1000, "Link must be at most 1000 characters").optional(),
   location: z
     .string()
     .min(1, "Location must be at least 1 character")

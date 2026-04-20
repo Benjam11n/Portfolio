@@ -17,8 +17,6 @@ describe(usePrefersReducedMotion, () => {
         }
         listeners[event].push(callback as (event: Event) => void);
       }),
-      // Deprecated
-      addListener: vi.fn(),
       dispatchEvent: vi.fn(),
       matches: false,
       media: query,
@@ -28,8 +26,6 @@ describe(usePrefersReducedMotion, () => {
           listeners[event] = listeners[event].filter((cb) => cb !== callback);
         }
       }),
-      // Deprecated
-      removeListener: vi.fn(),
     }));
 
     window.matchMedia = matchMediaMock as unknown as typeof window.matchMedia;

@@ -49,13 +49,11 @@ vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
 const setPointerSupport = (matches: boolean) => {
   vi.spyOn(window, "matchMedia").mockImplementation((query: string) => ({
     addEventListener: vi.fn(),
-    addListener: vi.fn(),
     dispatchEvent: vi.fn(),
     matches: query === "(hover: hover) and (pointer: fine)" ? matches : false,
     media: query,
     onchange: null,
     removeEventListener: vi.fn(),
-    removeListener: vi.fn(),
   }));
 };
 
