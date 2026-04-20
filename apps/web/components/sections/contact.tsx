@@ -26,43 +26,6 @@ export const Contact = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { skipAnimations } = useAnimationSkipContext();
   const shouldSkipEntranceAnimation = useShouldSkipEntranceAnimation();
-  /**
-   * CONTACT ANIMATION TIMELINE
-   * ==========================
-   * Total Duration: Variable (depends on number of child elements)
-   * Trigger: Scroll-based (via useScrollReveal hook)
-   *
-   * Breakdown (for N elements):
-   * Each element: 0.3s duration with 0.08s stagger
-   * Total: 0.3s + (N-1) × 0.08s
-   *
-   * Typical elements: intro text, social icons, form = ~0.54s total
-   *
-   * Strategy: Quick, subtle slide-up reveals keep focus on the form.
-   * Minimal motion maintains professionalism while adding polish.
-   */
-
-  /**
-   * CONTENT REVEAL ANIMATION
-   * =======================
-   * Purpose: Reveals contact section content with subtle, quick animations that
-   *   don't distract from the primary goal: encouraging users to reach out.
-   *   The minimal slide-up effect (15px) adds polish without drawing attention
-   *   away from the contact form and call-to-action.
-   *
-   * Duration: 0.3s per element with 0.08s stagger between elements.
-   *   Very quick duration ensures the animation feels responsive and doesn't
-   *   delay user interaction. The tight stagger (0.08s) creates a smooth
-   *   flowing reveal that feels cohesive without being noticeable. Small
-   *   vertical movement (15px) adds just enough motion to feel intentional.
-   *
-   * Implementation: Uses the useScrollReveal custom hook for consistent,
-   *   optimized scroll-triggered animations across the application.
-   *
-   * Skipping: When animations are skipped, all elements instantly appear
-   *   in their final position (y: 0, fully visible). Users can immediately
-   *   see the contact information and form without any delay.
-   */
   useScrollReveal(containerRef, "div > *", {
     duration: 0.3,
     skipAnimations: shouldSkipEntranceAnimation || skipAnimations,

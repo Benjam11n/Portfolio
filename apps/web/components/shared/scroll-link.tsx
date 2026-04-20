@@ -44,8 +44,7 @@ export const ScrollLink = forwardRef<HTMLAnchorElement, ScrollLinkProps>(
           return;
         }
 
-        const targetId = hashHref.slice(1);
-        const targetElement = document.querySelector(`#${targetId}`);
+        const targetElement = document.querySelector(hashHref);
 
         if (!targetElement) {
           return;

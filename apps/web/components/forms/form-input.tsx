@@ -23,7 +23,6 @@ interface FormInputProps<
   name: TName;
   label?: string;
   placeholder?: string;
-  description?: string;
   id?: string;
   className?: string;
   disabled?: boolean;

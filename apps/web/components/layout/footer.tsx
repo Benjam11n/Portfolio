@@ -2,14 +2,13 @@
 
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ScrollLink } from "@/components/shared/scroll-link";
 import { ROUTES } from "@/lib/constants/navigation";
 import { CONTACT_INFO } from "@/lib/constants/socials";
 
 export const Footer = () => {
-  const containerRef = useRef<HTMLElement>(null);
   const [time, setTime] = useState("");
   const footerLinkClass =
     "inline-block w-fit text-muted-foreground transition-[color,transform] duration-200 hover:translate-x-1 hover:text-foreground hover:underline";
@@ -71,10 +70,7 @@ export const Footer = () => {
   }, []);
 
   return (
-    <footer
-      className="relative mt-20 w-full overflow-hidden rounded-xl border border-border/40 bg-card pt-16 shadow-xl"
-      ref={containerRef}
-    >
+    <footer className="relative mt-20 w-full overflow-hidden rounded-xl border border-border/40 bg-card pt-16 shadow-xl">
       <div className="container mx-auto px-4 sm:px-8">
         {/* Top Section: Massive CTA */}
         <div className="mb-16 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
@@ -142,12 +138,6 @@ export const Footer = () => {
               >
                 Certifications
               </ScrollLink>
-              {/* <ScrollLink
-                className="w-fit text-muted-foreground transition-colors hover:text-foreground hover:underline"
-                href={ROUTES.BLOG}
-              >
-                Blog
-              </ScrollLink> */}
             </div>
           </div>
 

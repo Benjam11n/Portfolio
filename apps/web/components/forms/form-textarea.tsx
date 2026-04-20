@@ -24,7 +24,6 @@ interface FormTextAreaProps<
   name: TName;
   label?: string;
   placeholder?: string;
-  description?: string;
   id?: string;
   maxLength?: number;
   className?: string;
