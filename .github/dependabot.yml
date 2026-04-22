@@ -3,9 +3,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
+      interval: "cron"
+      cronjob: "0 9 */14 * *"
       timezone: "Asia/Singapore"
     cooldown:
       default-days: 7
@@ -62,9 +61,8 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
+      interval: "cron"
+      cronjob: "0 9 */14 * *"
       timezone: "Asia/Singapore"
     open-pull-requests-limit: 5
     commit-message:
