@@ -4,7 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "cron"
-      cronjob: "0 9 */14 * *"
+      cronjob: "0 4 1,16 * *"
       timezone: "Asia/Singapore"
     cooldown:
       default-days: 7
@@ -62,7 +62,7 @@ updates:
     directory: "/"
     schedule:
       interval: "cron"
-      cronjob: "0 9 */14 * *"
+      cronjob: "0 4 1,16 * *"
       timezone: "Asia/Singapore"
     open-pull-requests-limit: 5
     commit-message:
