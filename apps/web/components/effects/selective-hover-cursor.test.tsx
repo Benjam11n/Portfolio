@@ -58,12 +58,17 @@ const setPointerSupport = (matches: boolean) => {
 };
 
 let measuredScrollWidths = new Map<string, number>();
+let currentElementFromPointTarget: Element | null = null;
 
 const normalizeText = (text: string | null) =>
   text?.replaceAll(/\s+/g, " ").trim() ?? "";
 
 const setMeasuredScrollWidths = (widths: Record<string, number>) => {
   measuredScrollWidths = new Map(Object.entries(widths));
+};
+
+const setElementFromPointTarget = (target: Element | null) => {
+  currentElementFromPointTarget = target;
 };
 
 const getCursorBody = () =>
@@ -82,6 +87,11 @@ describe(SelectiveHoverCursor, () => {
         return measuredScrollWidths.get(normalizeText(this.textContent)) ?? 0;
       }
     );
+    Object.defineProperty(document, "elementFromPoint", {
+      configurable: true,
+      value: vi.fn(() => currentElementFromPointTarget),
+      writable: true,
+    });
   });
 
   beforeEach(() => {
@@ -103,6 +113,7 @@ describe(SelectiveHoverCursor, () => {
       "Very long cursor label": 140,
       "View project": 70,
     });
+    setElementFromPointTarget(null);
   });
 
   afterEach(() => {
@@ -151,6 +162,7 @@ describe(SelectiveHoverCursor, () => {
 
     const hoverTarget = document.querySelector("[data-hover-cursor]");
     expect(hoverTarget).not.toBeNull();
+    setElementFromPointTarget(hoverTarget);
 
     fireEvent.pointerMove(hoverTarget as Element, {
       clientX: 24,
@@ -188,6 +200,7 @@ describe(SelectiveHoverCursor, () => {
     const hoverTarget = document.querySelector(
       "[data-hover-cursor]"
     ) as HTMLElement;
+    setElementFromPointTarget(hoverTarget);
 
     fireEvent.pointerMove(hoverTarget, {
       clientX: 30,
@@ -199,6 +212,7 @@ describe(SelectiveHoverCursor, () => {
 
     hoverTarget.dataset.hoverCursorLabel = "";
 
+    setElementFromPointTarget(hoverTarget);
     fireEvent.pointerMove(hoverTarget, {
       clientX: 34,
       clientY: 46,
@@ -237,6 +251,7 @@ describe(SelectiveHoverCursor, () => {
 
     const hoverTarget = document.querySelector("[data-hover-cursor]");
     expect(hoverTarget).not.toBeNull();
+    setElementFromPointTarget(hoverTarget);
 
     fireEvent.pointerMove(hoverTarget as Element, {
       clientX: 12,
@@ -249,6 +264,7 @@ describe(SelectiveHoverCursor, () => {
       })
     );
 
+    setElementFromPointTarget(screen.getByText("Plain text"));
     fireEvent.pointerMove(screen.getByText("Plain text"), {
       clientX: 18,
       clientY: 24,
@@ -278,6 +294,7 @@ describe(SelectiveHoverCursor, () => {
       return element as HTMLElement;
     });
 
+    setElementFromPointTarget(hoverTarget);
     fireEvent.pointerMove(hoverTarget, {
       clientX: 20,
       clientY: 32,
@@ -310,12 +327,14 @@ describe(SelectiveHoverCursor, () => {
       return [...elements] as HTMLElement[];
     });
 
+    setElementFromPointTarget(hoverTargets[0]);
     fireEvent.pointerMove(hoverTargets[0], {
       clientX: 14,
       clientY: 26,
     });
     await expectCursorWidth(84);
 
+    setElementFromPointTarget(hoverTargets[1]);
     fireEvent.pointerMove(hoverTargets[1], {
       clientX: 22,
       clientY: 34,
@@ -352,17 +371,70 @@ describe(SelectiveHoverCursor, () => {
       return [...elements] as HTMLElement[];
     });
 
+    setElementFromPointTarget(hoverTargets[0]);
     fireEvent.pointerMove(hoverTargets[0], {
       clientX: 16,
       clientY: 28,
     });
     await expectCursorWidth(180);
 
+    setElementFromPointTarget(hoverTargets[1]);
     fireEvent.pointerMove(hoverTargets[1], {
       clientX: 24,
       clientY: 36,
     });
 
     await expectCursorWidth(110);
+  });
+
+  it("syncs cursor state on scroll without pointer movement", async () => {
+    render(
+      <div>
+        <button
+          data-hover-cursor
+          data-hover-cursor-label="View project"
+          type="button"
+        >
+          Project
+        </button>
+        <div>Plain text</div>
+        <SelectiveHoverCursor />
+      </div>
+    );
+
+    const overlay = await waitFor(() => {
+      const element = document.querySelector("[data-hover-cursor-overlay]");
+      expect(element).toBeInTheDocument();
+      return element as HTMLElement;
+    });
+
+    const hoverTarget = document.querySelector(
+      "[data-hover-cursor]"
+    ) as HTMLElement;
+    const plainText = screen.getByText("Plain text");
+
+    setElementFromPointTarget(plainText);
+    fireEvent.pointerMove(plainText, {
+      clientX: 20,
+      clientY: 30,
+    });
+
+    await waitFor(() => {
+      expect(overlay).toHaveAttribute("data-active", "false");
+    });
+
+    setElementFromPointTarget(hoverTarget);
+    fireEvent.scroll(window);
+
+    await waitFor(() => {
+      expect(overlay).toHaveAttribute("data-active", "true");
+    });
+
+    setElementFromPointTarget(plainText);
+    fireEvent.scroll(window);
+
+    await waitFor(() => {
+      expect(overlay).toHaveAttribute("data-active", "false");
+    });
   });
 });

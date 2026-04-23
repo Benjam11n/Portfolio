@@ -40,6 +40,9 @@ export const SelectiveHoverCursor = () => {
   const contentSignatureRef = useRef("");
   const pendingShowRef = useRef(false);
   const latestPointerRef = useRef<{ x: number; y: number } | null>(null);
+  const latestViewportPointerRef = useRef<{ x: number; y: number } | null>(
+    null
+  );
   const moveXRef = useRef<ReturnType<typeof gsapCore.quickTo> | null>(null);
   const moveYRef = useRef<ReturnType<typeof gsapCore.quickTo> | null>(null);
   const isVisibleRef = useRef(false);
@@ -77,6 +80,7 @@ export const SelectiveHoverCursor = () => {
         isVisibleRef.current = false;
         pendingShowRef.current = false;
         latestPointerRef.current = null;
+        latestViewportPointerRef.current = null;
         contentSignatureRef.current = "";
         return;
       }
@@ -119,6 +123,7 @@ export const SelectiveHoverCursor = () => {
       contentSignatureRef.current = "";
       pendingShowRef.current = false;
       latestPointerRef.current = null;
+      latestViewportPointerRef.current = null;
       return;
     }
 
@@ -219,11 +224,16 @@ export const SelectiveHoverCursor = () => {
       });
     };
 
-    const handlePointerMove = (event: PointerEvent) => {
+    if (!cursorRef.current) {
+      setHoverTarget(null);
+      return;
+    }
+
+    const syncCursorTarget = (clientX: number, clientY: number) => {
       const target =
-        event.target instanceof Element
-          ? event.target.closest(HOVER_CURSOR_SELECTOR)
-          : null;
+        document
+          .elementFromPoint(clientX, clientY)
+          ?.closest(HOVER_CURSOR_SELECTOR) ?? null;
 
       setHoverTarget(target);
 
@@ -232,8 +242,8 @@ export const SelectiveHoverCursor = () => {
         return;
       }
 
-      const nextX = event.clientX + POINTER_OFFSET;
-      const nextY = event.clientY + POINTER_OFFSET;
+      const nextX = clientX + POINTER_OFFSET;
+      const nextY = clientY + POINTER_OFFSET;
       latestPointerRef.current = { x: nextX, y: nextY };
 
       if (!isVisibleRef.current && cursorRef.current) {
@@ -252,15 +262,62 @@ export const SelectiveHoverCursor = () => {
       }
     };
 
+    const handlePointerMove = (event: PointerEvent) => {
+      latestViewportPointerRef.current = {
+        x: event.clientX,
+        y: event.clientY,
+      };
+      syncCursorTarget(event.clientX, event.clientY);
+    };
+
+    let scrollSyncFrame: number | null = null;
+
+    const syncCursorTargetFromLatestPointer = () => {
+      const latestViewportPointer = latestViewportPointerRef.current;
+
+      if (!latestViewportPointer) {
+        return;
+      }
+
+      syncCursorTarget(latestViewportPointer.x, latestViewportPointer.y);
+    };
+
+    const scheduleCursorTargetSync = () => {
+      if (scrollSyncFrame !== null) {
+        return;
+      }
+
+      scrollSyncFrame = window.requestAnimationFrame(() => {
+        scrollSyncFrame = null;
+        syncCursorTargetFromLatestPointer();
+      });
+    };
+
+    const handleWindowScroll = () => {
+      scheduleCursorTargetSync();
+    };
+
+    const handleWindowResize = () => {
+      scheduleCursorTargetSync();
+    };
+
     const handleWindowMouseOut = (event: MouseEvent) => {
       if (event.relatedTarget === null) {
         hideCursor();
       }
     };
 
+    const handleWindowBlur = () => {
+      latestPointerRef.current = null;
+      latestViewportPointerRef.current = null;
+      hideCursor();
+    };
+
     window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("resize", handleWindowResize);
+    window.addEventListener("scroll", handleWindowScroll, { passive: true });
     window.addEventListener("mouseout", handleWindowMouseOut);
-    window.addEventListener("blur", hideCursor);
+    window.addEventListener("blur", handleWindowBlur);
 
     // Watch current target for attribute changes
     let observer: MutationObserver | null = null;
@@ -277,9 +334,15 @@ export const SelectiveHoverCursor = () => {
     }
 
     return () => {
+      if (scrollSyncFrame !== null) {
+        window.cancelAnimationFrame(scrollSyncFrame);
+      }
+
       window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("resize", handleWindowResize);
+      window.removeEventListener("scroll", handleWindowScroll);
       window.removeEventListener("mouseout", handleWindowMouseOut);
-      window.removeEventListener("blur", hideCursor);
+      window.removeEventListener("blur", handleWindowBlur);
       observer?.disconnect();
     };
   }, [shouldEnable, hoverTarget]);
