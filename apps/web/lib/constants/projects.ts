@@ -17,7 +17,7 @@ const rawProjects: Project[] = [
     hero_image: "/projects/zucchini/hero.png",
     href: "https://zucchini.codedbyben.com/",
     id: "zucchini",
-    location: "Singapore",
+    location: "🇸🇬 Singapore",
     logo: "/projects/zucchini/logo.png",
     logoStyle: {
       colorDark: "#284734",
@@ -59,7 +59,7 @@ const rawProjects: Project[] = [
     github: "https://github.com/Benjam11n/disknee",
     hero_image: "/projects/disknee/hero.png",
     id: "disknee",
-    location: "Singapore",
+    location: "🇦🇺 Australia",
     logo: "/projects/disknee/logo.png",
     logoStyle: {
       colorDark: "#7ca3c6",
@@ -100,7 +100,7 @@ const rawProjects: Project[] = [
     github: "https://github.com/Benjam11n/TwinAI",
     hero_image: "/projects/twinAI/hero.png",
     id: "twinAI",
-    location: "Singapore",
+    location: "🇸🇬 Singapore",
     logo: "/projects/twinAI/logo.png",
     logoStyle: {
       colorDark: "#8bad63",
@@ -139,7 +139,7 @@ const rawProjects: Project[] = [
     hero_image: "/projects/chip/hero.png",
     href: "https://chip-sg.vercel.app/",
     id: "chip",
-    location: "Singapore",
+    location: "🇸🇬 Singapore",
     logo: "/projects/chip/logo.png",
     logoStyle: {
       colorDark: "#7a213c",
@@ -170,7 +170,7 @@ const rawProjects: Project[] = [
       "Achieved **4th place** in the prestigious **WorldQuant NUS Alphathon** by developing **alpha-generating quantitative trading strategies**.",
     hero_image: "/projects/worldquant/hero.png",
     id: "worldquant",
-    location: "Singapore",
+    location: "🇸🇬 Singapore",
     logo: "/projects/worldquant/logo.png",
     logoStyle: {
       colorDark: "#7ba6d1",
@@ -199,7 +199,7 @@ const rawProjects: Project[] = [
     github: "https://github.com/Benjam11n/Birds-of-a-Feather-frontend",
     hero_image: "/projects/birds-of-a-feather/hero.png",
     id: "birds-of-a-feather",
-    location: "Singapore",
+    location: "🇸🇬 Singapore",
     logo: "/projects/birds-of-a-feather/logo.avif",
     logoStyle: {
       colorDark: "#7b86b6",

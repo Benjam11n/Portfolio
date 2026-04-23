@@ -32,9 +32,7 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
   }, []);
 
   const details = [
-    { label: "Client", uppercase: false, value: project.client },
     { label: "Year", uppercase: false, value: project.year },
-    { label: "Services", uppercase: false, value: project.services },
     { label: "Location", uppercase: false, value: project.location },
   ];
 
@@ -79,7 +77,7 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
 
   return (
     <div className="space-y-4" ref={containerRef}>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {details.map((detail) => (
           <Card3D
             className="h-full border border-border/50 bg-card p-4 shadow-sm transition-colors"
