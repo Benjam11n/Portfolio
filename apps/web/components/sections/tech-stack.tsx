@@ -410,7 +410,7 @@ export const TechStack = () => {
                 <motion.div
                   animate={{ opacity: 1 }}
                   aria-hidden="true"
-                  className="absolute right-0 bottom-0 left-0 z-10 h-24 cursor-default bg-background/60 backdrop-blur-[2px] md:h-32"
+                  className="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-24 cursor-default bg-background/60 backdrop-blur-[2px] md:h-32"
                   exit={{ opacity: 0 }}
                   initial={{ opacity: 0 }}
                   style={{

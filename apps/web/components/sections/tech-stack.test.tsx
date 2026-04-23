@@ -251,4 +251,14 @@ describe(TechStack, () => {
       expect(screen.queryByTestId("tech-detail-modal")).toBeNull();
     });
   });
+
+  it("keeps the collapsed fade overlay non-interactive", () => {
+    const { container } = render(<TechStack />);
+
+    const overlay = container.querySelector(
+      ".backdrop-blur-\\[2px\\].bg-background\\/60"
+    );
+
+    expect(overlay).toHaveClass("pointer-events-none");
+  });
 });
