@@ -30,7 +30,15 @@ describe(Footer, () => {
     expect(
       screen.getByRole("heading", { name: CTA_REGEX })
     ).toBeInTheDocument();
-    expect(screen.getAllByLabelText("Contact Me")).toHaveLength(2);
+    expect(screen.getByLabelText("Contact Me")).toBeInTheDocument();
+  });
+
+  it("hides call to action when disabled", () => {
+    render(<Footer showCta={false} />);
+    expect(
+      screen.queryByRole("heading", { name: CTA_REGEX })
+    ).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Contact Me")).not.toBeInTheDocument();
   });
 
   it("renders navigation links", () => {
@@ -41,7 +49,6 @@ describe(Footer, () => {
 
   it("renders social links", () => {
     render(<Footer />);
-    // Assuming CONTACT_INFO has GitHub and LinkedIn
     expect(screen.getByText(GITHUB_REGEX)).toBeDefined();
     expect(screen.getByText("LinkedIn")).toBeDefined();
   });

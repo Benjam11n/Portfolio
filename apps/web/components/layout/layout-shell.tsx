@@ -11,7 +11,15 @@ import {
 } from "@/components/layout/dynamic-layout-components";
 import { useDeferredEnhancement } from "@/lib/hooks/performance/use-deferred-enhancement";
 
-export const LayoutShell = ({ children }: { children: ReactNode }) => {
+interface LayoutShellProps {
+  children: ReactNode;
+  footerShowCta?: boolean;
+}
+
+export const LayoutShell = ({
+  children,
+  footerShowCta = true,
+}: LayoutShellProps) => {
   const enableDither = useDeferredEnhancement({
     activateOnInteraction: false,
     delayMs: 1600,
@@ -60,7 +68,7 @@ export const LayoutShell = ({ children }: { children: ReactNode }) => {
         <DynamicNavbar />
       </div>
       <div className="relative z-10 mx-4 w-full max-w-2xl sm:mx-8">
-        <DynamicFooter />
+        <DynamicFooter showCta={footerShowCta} />
       </div>
     </>
   );

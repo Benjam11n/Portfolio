@@ -1,14 +1,18 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { Magnetic } from "@/components/effects/magnetic";
 import { ScrollLink } from "@/components/shared/scroll-link";
 import { ROUTES } from "@/lib/constants/navigation";
 import { CONTACT_INFO } from "@/lib/constants/socials";
 
-export const Footer = () => {
+export interface FooterProps {
+  showCta?: boolean;
+}
+
+export const Footer = ({ showCta = true }: FooterProps) => {
   const [time, setTime] = useState("");
   const footerLinkClass =
     "inline-block w-fit text-muted-foreground transition-[color,transform] duration-200 hover:translate-x-1 hover:text-foreground hover:underline";
@@ -72,45 +76,21 @@ export const Footer = () => {
   return (
     <footer className="relative mt-20 w-full overflow-hidden rounded-xl border border-border/40 bg-card pt-16 shadow-xl">
       <div className="container mx-auto px-4 sm:px-8">
-        {/* Top Section: Massive CTA */}
-        <div className="mb-16 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-          <div className="flex flex-col gap-2">
-            <ScrollLink
-              aria-label="Contact Me"
-              className="group block overflow-hidden"
-              href={ROUTES.CONTACT}
-            >
-              <div className="h-23 overflow-hidden sm:h-28 md:h-34 lg:h-40">
-                <div className="flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-1/2">
-                  <div className="flex h-23 items-start sm:h-28 md:h-34 lg:h-40">
-                    <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                      Have A <br />
-                      <span className="inline-block pr-[0.08em] text-muted-foreground">
-                        Question?
-                      </span>
-                    </h2>
-                  </div>
-
-                  <div className="flex h-23 items-start sm:h-28 md:h-34 lg:h-40">
-                    <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                      Contact <br />
-                      <span className="text-muted-foreground">Me</span>
-                    </h2>
-                  </div>
-                </div>
-              </div>
-            </ScrollLink>
+        {showCta && (
+          <div className="mb-16">
+            <Magnetic strength={0.2}>
+              <ScrollLink
+                aria-label="Contact Me"
+                className="group block"
+                href={ROUTES.CONTACT}
+              >
+                <h2 className="footer-title max-w-xl font-bold font-heading text-4xl uppercase leading-[0.9] tracking-tighter transition-colors duration-200 group-hover:text-primary sm:text-5xl md:text-6xl lg:text-7xl">
+                  Have A Question?
+                </h2>
+              </ScrollLink>
+            </Magnetic>
           </div>
-          <div className="footer-cta">
-            <ScrollLink
-              aria-label="Contact Me"
-              className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all hover:scale-110 hover:bg-primary/90 md:h-20 md:w-20"
-              href={ROUTES.CONTACT}
-            >
-              <ArrowUpRight className="h-8 w-8 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 md:h-12 md:w-12" />
-            </ScrollLink>
-          </div>
-        </div>
+        )}
 
         {/* Middle Section: Grid */}
         <div className="mb-24 grid grid-cols-1 gap-12 border-border/40 border-t pt-12 text-sm md:grid-cols-3 md:gap-8">

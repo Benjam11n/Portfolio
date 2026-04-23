@@ -2,11 +2,11 @@
 
 import { useGSAP } from "@gsap/react";
 import gsapCore from "gsap";
-import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 
 import { Card3D } from "@/components/effects/card-3d";
+import { BorderedImage } from "@/components/shared/bordered-image";
 import { Markdown } from "@/components/shared/markdown";
 import { ROUTES } from "@/lib/constants/navigation";
 import type { Project } from "@/lib/types";
@@ -78,18 +78,18 @@ export const RelatedProjectsList = ({ techName }: RelatedProjectsListProps) => {
               <div className="flex h-full items-center gap-4 rounded-xl p-4 text-foreground transition-colors group-hover:bg-background/30">
                 {/* Project Logo */}
                 {project.logo && (
-                  <div
-                    className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border/40 shadow-none"
-                    style={project.logoStyle}
-                  >
-                    <Image
-                      alt={`${project.title} logo`}
-                      className="h-full w-full object-contain p-1.5"
-                      height={48}
-                      src={project.logo}
-                      width={48}
-                    />
-                  </div>
+                  <BorderedImage
+                    alt={`${project.title} logo`}
+                    backgroundColor={project.logoStyle?.backgroundColor}
+                    colorDark={project.logoStyle?.colorDark}
+                    colorLight={project.logoStyle?.colorLight}
+                    containerClassName="h-12 w-12 shrink-0"
+                    height={48}
+                    imageClassName="p-1.5 object-contain"
+                    src={project.logo}
+                    style={{ transform: "scale(1.5)" }}
+                    width={48}
+                  />
                 )}
 
                 {/* Project Info */}

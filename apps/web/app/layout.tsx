@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
-import { LayoutShell } from "@/components/layout/layout-shell";
 import { RootProviders } from "@/components/providers/root-providers";
 import { SITE_METADATA } from "@/lib/constants/metadata";
 
@@ -59,9 +58,7 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <RootProviders>
-          <LayoutShell>{children}</LayoutShell>
-        </RootProviders>
+        <RootProviders>{children}</RootProviders>
       </body>
     </html>
   );

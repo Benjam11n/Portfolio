@@ -34,6 +34,12 @@ export const TECH_IDS = [
 
 export type TechId = (typeof TECH_IDS)[number];
 
+export interface ThemeAwareImageStyle {
+  backgroundColor?: string;
+  colorLight?: string;
+  colorDark?: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -55,7 +61,7 @@ export interface Project {
   preview_poster?: string;
   hero_image?: string;
   logo: string;
-  logoStyle?: React.CSSProperties;
+  logoStyle?: ThemeAwareImageStyle;
 
   // Technologies used
   techStack: TechId[];

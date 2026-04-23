@@ -2,13 +2,12 @@ import { JsonLd } from "@repo/seo/json-ld";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { ProjectDetailsGrid } from "@/app/projects/[id]/_components/project-details-grid";
+import { ProjectHero } from "@/app/projects/[id]/_components/project-hero";
+import { ProjectOverview } from "@/app/projects/[id]/_components/project-overview";
 import { ProjectNavigation } from "@/components/shared/project-navigation";
 import { SectionCard } from "@/components/shared/section-card";
 import { PROJECTS } from "@/lib/constants/projects";
-
-import { ProjectDetailsGrid } from "./_components/project-details-grid";
-import { ProjectHero } from "./_components/project-hero";
-import { ProjectOverview } from "./_components/project-overview";
 
 interface Props {
   params: Promise<{
@@ -68,17 +67,14 @@ export default async function ProjectPage({ params }: Props) {
           operatingSystem: "Any",
         }}
       />
-      {/* HERO SECTION */}
       <SectionCard>
         <ProjectHero project={project} />
       </SectionCard>
 
-      {/* PROJECT DETAILS SECTION */}
       <SectionCard title="Project Details">
         <ProjectDetailsGrid project={project} />
       </SectionCard>
 
-      {/* CONTENT AREA */}
       {!!project.subdesc && (
         <SectionCard title="Overview">
           <ProjectOverview project={project} />

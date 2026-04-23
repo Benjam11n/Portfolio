@@ -130,8 +130,8 @@ const projectSchema = z.object({
   logoStyle: z
     .object({
       backgroundColor: z.string().max(100).optional(),
-      border: z.string().max(100).optional(),
-      boxShadow: z.string().max(200).optional(),
+      colorDark: z.string().max(100).optional(),
+      colorLight: z.string().max(100).optional(),
     })
     .optional(),
   preview_poster: z
