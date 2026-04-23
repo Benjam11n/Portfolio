@@ -29,7 +29,7 @@ const rawProjects: Project[] = [
     services: "Desktop App, Productivity",
     status: "in-development",
     subdesc:
-      "Built with **Electron, React, TypeScript, Drizzle ORM, Vite**, **Framer Motion**, and **Tailwind CSS**, **Zucchini** focuses on fast daily check-ins, reminder-driven routines, streak protection, and clear weekly review feedback while keeping your data on your own machine.",
+      "Built with **Electron, React, TypeScript, Drizzle ORM, Vite**, **Framer Motion**, **Tailwind CSS**, and **shadcn/ui**, **Zucchini** focuses on fast daily check-ins, reminder-driven routines, streak protection, and clear weekly review feedback while keeping your data on your own machine.",
     techStack: [
       "electron",
       "react",
@@ -38,6 +38,7 @@ const rawProjects: Project[] = [
       "vite",
       "framer",
       "tailwind",
+      "shadcn-ui",
       "zustand",
     ],
     title: "Zucchini - Local-First Habit Tracker",
@@ -70,12 +71,13 @@ const rawProjects: Project[] = [
     preview_video: "/projects/disknee/preview.mp4",
     services: "Computer Vision, Healthcare Tech",
     subdesc:
-      "**DisKnee** revolutionizes knee recovery by delivering **precise movement tracking** and instant feedback without expensive hardware. Built with a **FastAPI-backed** inference pipeline, custom pose smoothing, and calibrated rehabilitation metrics, it focused on responsive movement analysis with **extremely high pose detection accuracy**.",
+      "**DisKnee** revolutionizes knee recovery by delivering **precise movement tracking** and instant feedback without expensive hardware. Built with **Next.js, React, TypeScript, Tailwind CSS, shadcn/ui**, and a **FastAPI-backed** inference pipeline, custom pose smoothing, and calibrated rehabilitation metrics, it focused on responsive movement analysis with **extremely high pose detection accuracy**.",
     techStack: [
       "nextjs",
       "react",
       "typescript",
       "tailwind",
+      "shadcn-ui",
       "python",
       "pytorch",
       "fastapi",
