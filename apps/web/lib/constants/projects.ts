@@ -103,7 +103,7 @@ const rawProjects: Project[] = [
     location: "🇸🇬 Singapore",
     logo: "/projects/twinAI/logo.png",
     logoStyle: {
-      colorDark: "#8bad63",
+      colorDark: "#d3d9c5",
       colorLight: "#edf4de",
     },
     preview_poster: "/projects/twinAI/preview-poster.jpg",
@@ -142,7 +142,7 @@ const rawProjects: Project[] = [
     location: "🇸🇬 Singapore",
     logo: "/projects/chip/logo.png",
     logoStyle: {
-      colorDark: "#7a213c",
+      colorDark: "#ffe5ec",
       colorLight: "#ffe5ec",
     },
     preview_poster: "/projects/chip/preview-poster.jpg",
