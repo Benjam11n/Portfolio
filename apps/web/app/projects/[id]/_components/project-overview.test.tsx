@@ -58,6 +58,21 @@ describe(ProjectOverview, () => {
     expect(screen.getByText("Feature 2")).toBeDefined();
   });
 
+  it("drops the last feature when the count is odd", () => {
+    render(
+      <ProjectOverview
+        project={{
+          ...mockProject,
+          features: ["Feature 1", "Feature 2", "Feature 3"],
+        }}
+      />
+    );
+
+    expect(screen.getByText("Feature 1")).toBeDefined();
+    expect(screen.getByText("Feature 2")).toBeDefined();
+    expect(screen.queryByText("Feature 3")).toBeNull();
+  });
+
   it("renders tech stack items", () => {
     // Note: This relies on TECH_STACK constant containing React and TypeScript
     render(<ProjectOverview project={mockProject} />);

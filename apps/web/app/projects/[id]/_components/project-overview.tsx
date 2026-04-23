@@ -22,6 +22,10 @@ interface ProjectOverviewProps {
 
 export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const normalizedFeatures =
+    project.features?.length && project.features.length % 2 === 1
+      ? project.features.slice(0, -1)
+      : (project.features ?? []);
 
   useGSAP(
     () => {
@@ -84,13 +88,13 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
       </div>
 
       {/* Row 2: Features */}
-      {project.features && project.features.length > 0 && (
+      {normalizedFeatures.length > 0 && (
         <div className="space-y-6">
           <h3 className="font-bold font-mono text-muted-foreground text-xs uppercase tracking-widest">
             Key Features
           </h3>
           <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {project.features.map((feature: string, index: number) => (
+            {normalizedFeatures.map((feature: string, index: number) => (
               <li className="list-none" key={feature}>
                 <FeatureCard feature={feature} index={index} />
               </li>
