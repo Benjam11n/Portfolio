@@ -4,7 +4,7 @@ import { Footer } from "./footer";
 
 // Mock GSAP
 vi.mock(import("@gsap/react"), () => ({
-  useGSAP: vi.fn(),
+  useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
 
 vi.mock(import("gsap/ScrollTrigger"), () => ({

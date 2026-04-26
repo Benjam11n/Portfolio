@@ -19,7 +19,9 @@ export const Magnetic = ({ children, strength = 0.35 }: MagneticProps) => {
   const isMobile = useMobileDetection();
   const shouldDisable = prefersReducedMotion || isMobile;
 
-  const { contextSafe } = useGSAP({ scope: ref });
+  const gsapContext = useGSAP({ scope: ref });
+  const contextSafe =
+    gsapContext?.contextSafe ?? ((fn: (...args: never[]) => void) => fn);
 
   const moveX = useRef<((value: number) => void) | null>(null);
   const moveY = useRef<((value: number) => void) | null>(null);
