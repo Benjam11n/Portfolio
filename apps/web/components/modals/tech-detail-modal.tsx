@@ -174,14 +174,6 @@ export const TechDetailModal = ({
               ref={headerRef}
             >
               <div className="min-w-0">
-                <div className="mb-4">
-                  <h2
-                    className="font-bold font-mono text-foreground text-md uppercase"
-                    id={`tech-modal-title-${tech.name}`}
-                  >
-                    Stacks & Skills
-                  </h2>
-                </div>
                 <div className="flex min-w-0 items-center gap-4">
                   <BorderedImage
                     alt={tech.name}
@@ -197,9 +189,12 @@ export const TechDetailModal = ({
                     <p className="text-muted-foreground text-sm">
                       {tech.category}
                     </p>
-                    <p className="font-semibold text-foreground text-xl sm:text-2xl">
+                    <h2
+                      className="font-semibold text-foreground text-xl sm:text-2xl"
+                      id={`tech-modal-title-${tech.name}`}
+                    >
                       {tech.name}
-                    </p>
+                    </h2>
                   </div>
                 </div>
               </div>
