@@ -185,17 +185,12 @@ export const TechDetailModal = ({
                     src={tech.icon}
                     width={64}
                   />
-                  <div className="min-w-0">
-                    <p className="text-muted-foreground text-sm">
-                      {tech.category}
-                    </p>
-                    <h2
-                      className="font-semibold text-foreground text-xl sm:text-2xl"
-                      id={`tech-modal-title-${tech.name}`}
-                    >
-                      {tech.name}
-                    </h2>
-                  </div>
+                  <h2
+                    className="min-w-0 font-semibold text-foreground text-lg sm:text-xl"
+                    id={`tech-modal-title-${tech.name}`}
+                  >
+                    {tech.name}
+                  </h2>
                 </div>
               </div>
 
@@ -218,7 +213,7 @@ export const TechDetailModal = ({
               {/* Proficiency Level */}
               {tech.proficiency && (
                 <div className="space-y-3">
-                  <h3 className="font-bold font-mono text-foreground text-md uppercase">
+                  <h3 className="font-bold font-mono text-sm text-muted-foreground uppercase">
                     Proficiency Level
                   </h3>
                   <div className="rounded-xl border border-border/40 bg-background/55">

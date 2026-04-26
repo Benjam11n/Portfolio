@@ -54,7 +54,7 @@ export const RelatedProjectsList = ({ techName }: RelatedProjectsListProps) => {
 
   return (
     <div className="space-y-4" ref={containerRef}>
-      <h3 className="font-bold font-mono text-foreground text-md uppercase">
+      <h3 className="font-bold font-mono text-sm text-muted-foreground uppercase">
         Related Projects
       </h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
