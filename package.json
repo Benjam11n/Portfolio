@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
+    "commitlint": "commitlint",
     "dev": "turbo run dev",
     "homepage:media-check": "pnpm --filter web homepage:media-check",
     "lint": "ultracite check",
@@ -20,6 +21,8 @@
     "test:e2e": "turbo run test:e2e"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
     "@typescript/native-preview": "7.0.0-dev.20260415.1",
     "knip": "^6.3.0",
     "lefthook": "^2.1.4",
