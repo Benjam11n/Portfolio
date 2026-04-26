@@ -8,7 +8,7 @@ import { ScrollLink } from "@/components/shared/scroll-link";
 import { ROUTES } from "@/lib/constants/navigation";
 import { CONTACT_INFO } from "@/lib/constants/socials";
 
-export interface FooterProps {
+interface FooterProps {
   showCta?: boolean;
 }
 

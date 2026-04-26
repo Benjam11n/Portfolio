@@ -13,7 +13,7 @@ export const DynamicNavbar = dynamic(
   { ssr: false }
 );
 
-export const DynamicFooter = dynamic(
+export const DynamicFooter = dynamic<{ showCta?: boolean }>(
   async () => {
     const mod = await import("@/components/layout/footer");
     return mod.Footer;
