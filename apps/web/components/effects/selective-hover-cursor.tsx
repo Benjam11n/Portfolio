@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsapCore from "gsap";
 import { ArrowUpRight, Pause, Play } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import type { ReactNode } from "react";
+import type { Dispatch, ReactNode, RefObject, SetStateAction } from "react";
 
 import {
   HOVER_CURSOR_ICON_ATTRIBUTE,
@@ -30,32 +30,8 @@ const CURSOR_LABEL_EXIT_DURATION_MS = 180;
 const getContentSignature = (label: string, icon: string) =>
   `${icon}::${label}`;
 
-export const SelectiveHoverCursor = () => {
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const cursorBodyRef = useRef<HTMLDivElement>(null);
-  const contentWrapperRef = useRef<HTMLDivElement>(null);
-  const clearLabelTimeoutRef = useRef<number | null>(null);
-  const labelRef = useRef("");
-  const iconRef = useRef("");
-  const contentSignatureRef = useRef("");
-  const pendingShowRef = useRef(false);
-  const latestPointerRef = useRef<{ x: number; y: number } | null>(null);
-  const latestViewportPointerRef = useRef<{ x: number; y: number } | null>(
-    null
-  );
-  const moveXRef = useRef<ReturnType<typeof gsapCore.quickTo> | null>(null);
-  const moveYRef = useRef<ReturnType<typeof gsapCore.quickTo> | null>(null);
-  const isVisibleRef = useRef(false);
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const [label, setLabel] = useState("");
-  const [icon, setIcon] = useState("");
-  const [displayLabel, setDisplayLabel] = useState("");
-  const [expandedWidth, setExpandedWidth] = useState(CURSOR_LABEL_MIN_WIDTH);
+const useFinePointer = () => {
   const [supportsFinePointer, setSupportsFinePointer] = useState(false);
-  const [isActive, setIsActive] = useState(false);
-  const shouldEnable = supportsFinePointer && !prefersReducedMotion;
-
-  const [hoverTarget, setHoverTarget] = useState<Element | null>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(POINTER_MEDIA_QUERY);
@@ -72,6 +48,34 @@ export const SelectiveHoverCursor = () => {
     };
   }, []);
 
+  return supportsFinePointer;
+};
+
+interface UseCursorAnimationOptions {
+  contentSignatureRef: RefObject<string>;
+  cursorBodyRef: RefObject<HTMLDivElement | null>;
+  cursorRef: RefObject<HTMLDivElement | null>;
+  isVisibleRef: RefObject<boolean>;
+  latestPointerRef: RefObject<{ x: number; y: number } | null>;
+  latestViewportPointerRef: RefObject<{ x: number; y: number } | null>;
+  moveXRef: RefObject<ReturnType<typeof gsapCore.quickTo> | null>;
+  moveYRef: RefObject<ReturnType<typeof gsapCore.quickTo> | null>;
+  pendingShowRef: RefObject<boolean>;
+  shouldEnable: boolean;
+}
+
+const useCursorAnimation = ({
+  contentSignatureRef,
+  cursorBodyRef,
+  cursorRef,
+  isVisibleRef,
+  latestPointerRef,
+  latestViewportPointerRef,
+  moveXRef,
+  moveYRef,
+  pendingShowRef,
+  shouldEnable,
+}: UseCursorAnimationOptions) => {
   useGSAP(
     () => {
       if (!(shouldEnable && cursorRef.current)) {
@@ -109,7 +113,49 @@ export const SelectiveHoverCursor = () => {
     },
     { dependencies: [shouldEnable], scope: cursorRef }
   );
+};
 
+interface UseHoverCursorTargetOptions {
+  contentSignatureRef: RefObject<string>;
+  cursorRef: RefObject<HTMLDivElement | null>;
+  hoverTarget: Element | null;
+  iconRef: RefObject<string>;
+  isVisibleRef: RefObject<boolean>;
+  labelRef: RefObject<string>;
+  latestPointerRef: RefObject<{ x: number; y: number } | null>;
+  latestViewportPointerRef: RefObject<{ x: number; y: number } | null>;
+  moveXRef: RefObject<ReturnType<typeof gsapCore.quickTo> | null>;
+  moveYRef: RefObject<ReturnType<typeof gsapCore.quickTo> | null>;
+  pendingShowRef: RefObject<boolean>;
+  setDisplayLabel: Dispatch<SetStateAction<string>>;
+  setExpandedWidth: Dispatch<SetStateAction<number>>;
+  setHoverTarget: Dispatch<SetStateAction<Element | null>>;
+  setIcon: Dispatch<SetStateAction<string>>;
+  setIsActive: Dispatch<SetStateAction<boolean>>;
+  setLabel: Dispatch<SetStateAction<string>>;
+  shouldEnable: boolean;
+}
+
+const useHoverCursorTarget = ({
+  contentSignatureRef,
+  cursorRef,
+  hoverTarget,
+  iconRef,
+  isVisibleRef,
+  labelRef,
+  latestPointerRef,
+  latestViewportPointerRef,
+  moveXRef,
+  moveYRef,
+  pendingShowRef,
+  setDisplayLabel,
+  setExpandedWidth,
+  setHoverTarget,
+  setIcon,
+  setIsActive,
+  setLabel,
+  shouldEnable,
+}: UseHoverCursorTargetOptions) => {
   useEffect(() => {
     if (!(shouldEnable && cursorRef.current)) {
       setIsActive(false);
@@ -293,14 +339,6 @@ export const SelectiveHoverCursor = () => {
       });
     };
 
-    const handleWindowScroll = () => {
-      scheduleCursorTargetSync();
-    };
-
-    const handleWindowResize = () => {
-      scheduleCursorTargetSync();
-    };
-
     const handleWindowMouseOut = (event: MouseEvent) => {
       if (event.relatedTarget === null) {
         hideCursor();
@@ -314,12 +352,13 @@ export const SelectiveHoverCursor = () => {
     };
 
     window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("resize", handleWindowResize);
-    window.addEventListener("scroll", handleWindowScroll, { passive: true });
+    window.addEventListener("resize", scheduleCursorTargetSync);
+    window.addEventListener("scroll", scheduleCursorTargetSync, {
+      passive: true,
+    });
     window.addEventListener("mouseout", handleWindowMouseOut);
     window.addEventListener("blur", handleWindowBlur);
 
-    // Watch current target for attribute changes
     let observer: MutationObserver | null = null;
     if (hoverTarget) {
       updateFromTarget(hoverTarget);
@@ -339,13 +378,94 @@ export const SelectiveHoverCursor = () => {
       }
 
       window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("resize", handleWindowResize);
-      window.removeEventListener("scroll", handleWindowScroll);
+      window.removeEventListener("resize", scheduleCursorTargetSync);
+      window.removeEventListener("scroll", scheduleCursorTargetSync);
       window.removeEventListener("mouseout", handleWindowMouseOut);
       window.removeEventListener("blur", handleWindowBlur);
       observer?.disconnect();
     };
-  }, [shouldEnable, hoverTarget]);
+  }, [
+    contentSignatureRef,
+    cursorRef,
+    hoverTarget,
+    iconRef,
+    isVisibleRef,
+    labelRef,
+    latestPointerRef,
+    latestViewportPointerRef,
+    moveXRef,
+    moveYRef,
+    pendingShowRef,
+    setDisplayLabel,
+    setExpandedWidth,
+    setHoverTarget,
+    setIcon,
+    setIsActive,
+    setLabel,
+    shouldEnable,
+  ]);
+};
+
+export const SelectiveHoverCursor = () => {
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const cursorBodyRef = useRef<HTMLDivElement>(null);
+  const contentWrapperRef = useRef<HTMLDivElement>(null);
+  const clearLabelTimeoutRef = useRef<number | null>(null);
+  const labelRef = useRef("");
+  const iconRef = useRef("");
+  const contentSignatureRef = useRef("");
+  const pendingShowRef = useRef(false);
+  const latestPointerRef = useRef<{ x: number; y: number } | null>(null);
+  const latestViewportPointerRef = useRef<{ x: number; y: number } | null>(
+    null
+  );
+  const moveXRef = useRef<ReturnType<typeof gsapCore.quickTo> | null>(null);
+  const moveYRef = useRef<ReturnType<typeof gsapCore.quickTo> | null>(null);
+  const isVisibleRef = useRef(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [label, setLabel] = useState("");
+  const [icon, setIcon] = useState("");
+  const [displayLabel, setDisplayLabel] = useState("");
+  const [expandedWidth, setExpandedWidth] = useState(CURSOR_LABEL_MIN_WIDTH);
+  const supportsFinePointer = useFinePointer();
+  const [isActive, setIsActive] = useState(false);
+  const shouldEnable = supportsFinePointer && !prefersReducedMotion;
+
+  const [hoverTarget, setHoverTarget] = useState<Element | null>(null);
+
+  useCursorAnimation({
+    contentSignatureRef,
+    cursorBodyRef,
+    cursorRef,
+    isVisibleRef,
+    latestPointerRef,
+    latestViewportPointerRef,
+    moveXRef,
+    moveYRef,
+    pendingShowRef,
+    shouldEnable,
+  });
+
+  useHoverCursorTarget({
+    contentSignatureRef,
+    cursorRef,
+    hoverTarget,
+    iconRef,
+    isVisibleRef,
+    labelRef,
+    latestPointerRef,
+    latestViewportPointerRef,
+    moveXRef,
+    moveYRef,
+    pendingShowRef,
+    setDisplayLabel,
+    setExpandedWidth,
+    setHoverTarget,
+    setIcon,
+    setIsActive,
+    setLabel,
+    shouldEnable,
+  });
 
   useEffect(() => {
     if (clearLabelTimeoutRef.current !== null) {

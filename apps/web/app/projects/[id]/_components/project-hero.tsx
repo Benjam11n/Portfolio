@@ -108,7 +108,7 @@ export const ProjectHero = ({ project }: ProjectHeroProps) => {
           {project.logo && (
             <BorderedImage
               alt={`${project.title} logo`}
-              backgroundColor={project.logoStyle?.backgroundColor as string}
+              backgroundColor={project.logoStyle?.backgroundColor}
               colorDark={project.logoStyle?.colorDark}
               colorLight={project.logoStyle?.colorLight}
               containerClassName="hero-logo h-12 w-12 shrink-0"

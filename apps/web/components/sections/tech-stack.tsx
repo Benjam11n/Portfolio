@@ -13,13 +13,7 @@ import {
   Server,
 } from "lucide-react";
 import dynamic from "next/dynamic";
-import {
-  useCallback,
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useDeferredValue, useMemo, useState } from "react";
 
 import { TechStackCategoryTabs } from "@/components/sections/tech-stack-category-tabs";
 import { TechStackSearchSort } from "@/components/sections/tech-stack-search-sort";
@@ -293,18 +287,6 @@ export const TechStack = () => {
     0
   );
   const canToggleVisibleTech = hiddenTechCount > 0 || showAllTech;
-
-  useEffect(() => {
-    if (selectedTech) {
-      document.body.dataset.skillsDialogOpen = "true";
-    } else {
-      delete document.body.dataset.skillsDialogOpen;
-    }
-
-    return () => {
-      delete document.body.dataset.skillsDialogOpen;
-    };
-  }, [selectedTech]);
 
   const handleCloseTechDetail = useCallback(() => {
     setSelectedTech(null);

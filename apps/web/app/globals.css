@@ -134,19 +134,24 @@
 }
 
 @layer base {
+  html {
+    scrollbar-gutter: stable;
+  }
+
   * {
     @apply border-border;
   }
+
   body {
     font-feature-settings:
       "rlig" 1,
       "calt" 1;
+    scrollbar-gutter: stable;
     @apply bg-background text-foreground tracking-tight antialiased;
   }
 
-  body[data-skills-dialog-open="true"] .site-navbar {
-    pointer-events: none;
-    opacity: 0;
+  body[data-scroll-locked] {
+    margin-right: 0 !important;
   }
 }
 

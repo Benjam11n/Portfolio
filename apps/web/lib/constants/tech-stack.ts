@@ -1,4 +1,4 @@
-import { ProficiencyLevel, TechCategory } from "@/lib/types";
+import { ProficiencyLevel, TECH_IDS, TechCategory } from "@/lib/types";
 import type { TechId, TechStack } from "@/lib/types";
 
 const createTechStackItem = ({
@@ -274,9 +274,24 @@ export const TECH_STACK: TechStack[] = [
   }),
 ];
 
-const techStackEntries = TECH_STACK.map((tech) => [tech.id, tech] as const);
+const createTechStackById = (items: TechStack[]): Record<TechId, TechStack> => {
+  const entries = new Map<TechId, TechStack>();
 
-export const TECH_STACK_BY_ID = Object.fromEntries(techStackEntries) as Record<
-  TechId,
-  TechStack
->;
+  for (const item of items) {
+    if (entries.has(item.id)) {
+      throw new Error(`Duplicate tech stack id: ${item.id}`);
+    }
+
+    entries.set(item.id, item);
+  }
+
+  const missingIds = TECH_IDS.filter((id) => !entries.has(id));
+
+  if (missingIds.length > 0) {
+    throw new Error(`Missing tech stack ids: ${missingIds.join(", ")}`);
+  }
+
+  return Object.fromEntries(entries) as Record<TechId, TechStack>;
+};
+
+export const TECH_STACK_BY_ID = createTechStackById(TECH_STACK);

@@ -1,7 +1,10 @@
+import type React from "react";
 import { z } from "zod";
 
 import { TECH_IDS } from "@/lib/types";
 import type { Month } from "@/lib/types";
+
+type ProjectFeatureIcon = (props: { className: string }) => React.JSX.Element;
 
 // Certification validation schema
 const certificationSchema = z.object({
@@ -98,6 +101,12 @@ const projectSchema = z.object({
     .string()
     .min(1, "Description must be at least 1 character")
     .max(2000, "Description must be at most 2000 characters"),
+  featureIcon: z
+    .custom<ProjectFeatureIcon>(
+      (value) => typeof value === "function",
+      "Feature icon must be a React component"
+    )
+    .optional(),
   features: z
     .array(
       z
@@ -166,5 +175,3 @@ const projectSchema = z.object({
 export const certificationsArraySchema = z.array(certificationSchema);
 export const experiencesArraySchema = z.array(experienceSchema);
 export const projectsArraySchema = z.array(projectSchema);
-
-// Company validation schema

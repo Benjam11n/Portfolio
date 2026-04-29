@@ -1,6 +1,6 @@
 import { PROJECTS } from "@/lib/constants/projects";
 import { TECH_STACK } from "@/lib/constants/tech-stack";
-import type { Project, TechId } from "@/lib/types";
+import type { Project } from "@/lib/types";
 
 /**
  * Finds projects that use a specific technology
@@ -17,6 +17,6 @@ export const getProjectsByTech = (techName: string): Project[] => {
   }
 
   return PROJECTS.filter((project) =>
-    project.techStack.includes(matchingTech.id as TechId)
+    project.techStack.includes(matchingTech.id)
   );
 };

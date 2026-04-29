@@ -128,10 +128,6 @@ describe(TechStack, () => {
         )
       );
 
-  afterEach(() => {
-    delete document.body.dataset.skillsDialogOpen;
-  });
-
   it("shows only the initial visible technologies by default and expands on demand", async () => {
     const { user } = render(<TechStack />);
 
@@ -234,13 +230,13 @@ describe(TechStack, () => {
     });
   });
 
-  it("toggles the skills dialog body dataset and close behavior identically", async () => {
+  it("opens and closes the skills dialog without mutating body layout state", async () => {
     const { user } = render(<TechStack />);
 
     await user.click(screen.getByRole("button", { name: /React Frontend/i }));
 
     await waitFor(() => {
-      expect(document.body.dataset.skillsDialogOpen).toBe("true");
+      expect(document.body.dataset.skillsDialogOpen).toBeUndefined();
       expect(screen.getByTestId("tech-detail-modal")).toBeDefined();
     });
 
