@@ -2,9 +2,10 @@ import { render, screen } from "@repo/testing/test-utils";
 
 import { Navbar } from "./navbar";
 
-// Mock dependencies
-vi.mock(import("next/navigation"), () => ({
-  usePathname: () => "/",
+const mockActiveSection = vi.fn();
+
+vi.mock(import("@/lib/hooks/ui/use-active-section"), () => ({
+  useActiveSection: () => mockActiveSection(),
 }));
 
 vi.mock(import("@/components/shared/theme-toggle"), () => ({
@@ -16,22 +17,40 @@ vi.mock(import("@/components/effects/magnetic"), () => ({
 }));
 
 describe(Navbar, () => {
-  it("renders navigation items", () => {
-    render(<Navbar />);
-
-    expect(screen.getByRole("link", { name: "Home" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "About" })).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: "Experience" })
-    ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Projects" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Skills" })).toBeInTheDocument();
+  beforeEach(() => {
+    mockActiveSection.mockReturnValue("hero");
   });
 
-  it("renders theme toggle", () => {
+  it("renders the navigation links and theme toggle", () => {
     render(<Navbar />);
+
+    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute(
+      "href",
+      "/"
+    );
+    expect(screen.getByRole("link", { name: "Projects" })).toHaveAttribute(
+      "href",
+      "/#projects"
+    );
+    expect(screen.getByRole("link", { name: "Contact" })).toHaveAttribute(
+      "href",
+      "/#contact"
+    );
     expect(
       screen.getByRole("button", { name: "Toggle Theme" })
     ).toBeInTheDocument();
+  });
+
+  it("highlights the active section returned by the section-tracking hook", () => {
+    mockActiveSection.mockReturnValue("projects");
+
+    render(<Navbar />);
+
+    expect(screen.getByRole("link", { name: "Projects" })).toHaveClass(
+      "bg-primary/15"
+    );
+    expect(screen.getByRole("link", { name: "Home" })).not.toHaveClass(
+      "bg-primary/15"
+    );
   });
 });

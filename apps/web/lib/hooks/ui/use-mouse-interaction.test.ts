@@ -8,34 +8,7 @@ describe(useMouseInteraction, () => {
     vi.restoreAllMocks();
   });
 
-  it("attaches mousemove to window", () => {
-    const canvas = document.createElement("canvas");
-    vi.spyOn(canvas, "getBoundingClientRect").mockReturnValue({
-      bottom: 120,
-      height: 100,
-      left: 10,
-      right: 210,
-      toJSON: () => ({}),
-      top: 20,
-      width: 200,
-      x: 10,
-      y: 20,
-    });
-    const windowAddEventListenerSpy = vi.spyOn(window, "addEventListener");
-    const gl = {
-      domElement: canvas,
-      getPixelRatio: () => 1,
-    } as unknown as WebGLRenderer;
-
-    renderHook(() => useMouseInteraction({ enabled: true, gl }));
-
-    expect(windowAddEventListenerSpy).toHaveBeenCalledWith(
-      "mousemove",
-      expect.any(Function)
-    );
-  });
-
-  it("updates mouse position from window coordinates", () => {
+  const createRenderer = (pixelRatio = 1) => {
     const canvas = document.createElement("canvas");
     vi.spyOn(canvas, "getBoundingClientRect").mockReturnValue({
       bottom: 220,
@@ -48,10 +21,14 @@ describe(useMouseInteraction, () => {
       x: 10,
       y: 20,
     });
-    const gl = {
+
+    return {
       domElement: canvas,
-      getPixelRatio: () => 2,
+      getPixelRatio: () => pixelRatio,
     } as unknown as WebGLRenderer;
+  };
+
+  it("updates the tracked mouse position relative to the canvas and device pixel ratio", () => {
     let mouseMoveHandler: ((event: MouseEvent) => void) | undefined;
 
     vi.spyOn(window, "addEventListener").mockImplementation(
@@ -63,7 +40,7 @@ describe(useMouseInteraction, () => {
     );
 
     const { result } = renderHook(() =>
-      useMouseInteraction({ enabled: true, gl })
+      useMouseInteraction({ enabled: true, gl: createRenderer(2) })
     );
 
     act(() => {
@@ -77,15 +54,29 @@ describe(useMouseInteraction, () => {
     expect(result.current.mousePos.current.y).toBe(36);
   });
 
-  it("does not attach window listeners when disabled", () => {
-    const canvas = document.createElement("canvas");
+  it("removes the window mousemove listener on unmount", () => {
     const addEventListenerSpy = vi.spyOn(window, "addEventListener");
-    const gl = {
-      domElement: canvas,
-      getPixelRatio: () => 1,
-    } as unknown as WebGLRenderer;
+    const removeEventListenerSpy = vi.spyOn(window, "removeEventListener");
 
-    renderHook(() => useMouseInteraction({ enabled: false, gl }));
+    const { unmount } = renderHook(() =>
+      useMouseInteraction({ enabled: true, gl: createRenderer() })
+    );
+
+    const listener = addEventListenerSpy.mock.calls.find(
+      ([eventName]) => eventName === "mousemove"
+    )?.[1];
+
+    unmount();
+
+    expect(removeEventListenerSpy).toHaveBeenCalledWith("mousemove", listener);
+  });
+
+  it("does not subscribe to mousemove events when disabled", () => {
+    const addEventListenerSpy = vi.spyOn(window, "addEventListener");
+
+    renderHook(() =>
+      useMouseInteraction({ enabled: false, gl: createRenderer() })
+    );
 
     expect(addEventListenerSpy).not.toHaveBeenCalled();
   });

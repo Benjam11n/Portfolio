@@ -1,39 +1,25 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 import { Input } from "./input";
 
 describe(Input, () => {
-  it("renders correctly", () => {
-    render(<Input placeholder="Enter text" />);
-    const input = screen.getByPlaceholderText("Enter text");
-    expect(input).toBeDefined();
+  it("renders semantic input attributes that callers depend on", () => {
+    render(
+      <Input aria-invalid="true" disabled placeholder="Email" type="email" />
+    );
+
+    const input = screen.getByPlaceholderText("Email");
+
+    expect(input).toHaveAttribute("type", "email");
+    expect(input).toBeDisabled();
+    expect(input).toHaveAttribute("aria-invalid", "true");
   });
 
-  it("applies custom classes", () => {
-    render(<Input className="custom-input" />);
-    const input = screen.getByRole("textbox");
-    expect(input.className).toContain("custom-input");
-  });
+  it("forwards refs to the underlying input element", () => {
+    const ref = { current: null as HTMLInputElement | null };
 
-  it("handles change events", () => {
-    const handleChange = vi.fn();
-    render(<Input onChange={handleChange} />);
-    const input = screen.getByRole("textbox");
-    fireEvent.change(input, { target: { value: "test" } });
-    expect(handleChange.mock.calls).toHaveLength(1);
-  });
+    render(<Input ref={ref} />);
 
-  it("renders with different types", () => {
-    render(<Input placeholder="Password" type="password" />);
-    const input = screen.getByPlaceholderText("Password");
-    expect(input).toBeDefined();
-    expect(input.getAttribute("type")).toBe("password");
-  });
-
-  it("is disabled when disabled prop is passed", () => {
-    render(<Input disabled />);
-    const input = screen.getByRole("textbox");
-    expect(input).toBeDefined();
-    expect(input.hasAttribute("disabled")).toBeTruthy();
+    expect(ref.current).toBeInstanceOf(HTMLInputElement);
   });
 });

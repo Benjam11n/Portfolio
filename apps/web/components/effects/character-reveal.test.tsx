@@ -2,9 +2,15 @@ import { render, screen } from "@testing-library/react";
 
 import { CharacterReveal } from "./character-reveal";
 
-// Mock GSAP
+const animateInMock = vi.fn();
+const setInitialStateMock = vi.fn();
+const usePrefersReducedMotionMock = vi.fn();
+
 vi.mock(import("@gsap/react"), () => ({
-  useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
+  useGSAP: (callback: () => void) => {
+    callback();
+    return { contextSafe: (fn: unknown) => fn };
+  },
 }));
 
 vi.mock(import("gsap"), () => ({
@@ -14,75 +20,69 @@ vi.mock(import("gsap"), () => ({
   },
 }));
 
-// Mock hooks
 vi.mock(import("@/lib/hooks/ui/use-character-reveal"), () => ({
   useCharacterReveal: () => ({
-    animateIn: vi.fn(),
-    setInitialState: vi.fn(),
+    animateIn: animateInMock,
+    setInitialState: setInitialStateMock,
   }),
 }));
 
 vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
-  usePrefersReducedMotion: () => false,
+  usePrefersReducedMotion: () => usePrefersReducedMotionMock(),
 }));
 
 describe(CharacterReveal, () => {
-  it("renders children correctly", () => {
-    render(<CharacterReveal>Hello World</CharacterReveal>);
-    expect(screen.getByText("Hello World")).toBeDefined();
+  beforeEach(() => {
+    vi.useFakeTimers();
+    animateInMock.mockReset();
+    setInitialStateMock.mockReset();
+    usePrefersReducedMotionMock.mockReturnValue(false);
   });
 
-  it("applies custom className to container", () => {
-    const { container } = render(
-      <CharacterReveal className="custom-class">Test</CharacterReveal>
-    );
-    const containerElement = container.querySelector(".custom-class");
-    expect(containerElement).toBeDefined();
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
   });
 
-  it("renders individual character spans", () => {
-    const { container } = render(<CharacterReveal>Hi</CharacterReveal>);
-    // Should have character reveal spans
-    const charSpans = container.querySelectorAll(".char-reveal");
-    expect(charSpans).toHaveLength(2);
-  });
-
-  it("handles spaces correctly with w-[0.25em] class", () => {
+  it("renders accessible text while hiding the animated characters from assistive tech", () => {
     const { container } = render(
       <CharacterReveal>Hello World</CharacterReveal>
     );
-    // Should have at least one space with the width class
-    const spaceSpans = container.querySelectorAll(".w-\\[0\\.25em\\]");
-    expect(spaceSpans.length).toBeGreaterThan(0);
-  });
 
-  it("renders screen reader only text", () => {
-    const { container } = render(
-      <CharacterReveal>Accessible Text</CharacterReveal>
+    expect(screen.getByText("Hello World")).toBeInTheDocument();
+    expect(container.querySelector("[aria-hidden='true']")).toBeInTheDocument();
+    expect(container.querySelector(".sr-only")).toHaveTextContent(
+      "Hello World"
     );
-    // Should have sr-only span for screen readers
-    const srOnlyElement = container.querySelector(".sr-only");
-    expect(srOnlyElement).toBeDefined();
-    expect(srOnlyElement?.textContent).toBe("Accessible Text");
   });
 
-  it("renders with default props without crashing", () => {
-    render(<CharacterReveal>Default Props Test</CharacterReveal>);
-    expect(screen.getByText("Default Props Test")).toBeDefined();
+  it("splits text into character spans and preserves spaces", () => {
+    const { container } = render(<CharacterReveal>Hi There</CharacterReveal>);
+
+    expect(container.querySelectorAll(".char-reveal")).toHaveLength(8);
+    expect(container.querySelector(".w-\\[0\\.25em\\]")).toBeInTheDocument();
   });
 
-  it("renders as different element type when using 'as' prop", () => {
-    const { container } = render(
-      <CharacterReveal as="h1">Heading Text</CharacterReveal>
-    );
-    const heading = container.querySelector("h1");
-    expect(heading).toBeDefined();
-    expect(heading?.textContent).toContain("Heading Text");
+  it("runs the reveal sequence after the configured delay", () => {
+    render(<CharacterReveal delay={0.2}>Hello</CharacterReveal>);
+
+    expect(setInitialStateMock).toHaveBeenCalledTimes(1);
+    expect(animateInMock).not.toHaveBeenCalled();
+
+    vi.advanceTimersByTime(200);
+
+    expect(animateInMock).toHaveBeenCalledTimes(1);
   });
 
-  it("has aria-hidden on animated characters span", () => {
-    const { container } = render(<CharacterReveal>Test</CharacterReveal>);
-    const animatedSpan = container.querySelector("[aria-hidden='true']");
-    expect(animatedSpan).toBeDefined();
+  it("skips animation setup when reduced motion is preferred", () => {
+    usePrefersReducedMotionMock.mockReturnValue(true);
+
+    render(<CharacterReveal as="h1">Heading Text</CharacterReveal>);
+
+    expect(
+      screen.getByRole("heading", { name: "Heading Text" })
+    ).toBeInTheDocument();
+    expect(setInitialStateMock).not.toHaveBeenCalled();
+    expect(animateInMock).not.toHaveBeenCalled();
   });
 });

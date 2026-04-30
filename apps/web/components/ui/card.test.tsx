@@ -10,7 +10,7 @@ import {
 } from "./card";
 
 describe(Card, () => {
-  it("renders card with content correctly", () => {
+  it("renders the composed card structure with semantic heading content", () => {
     render(
       <Card>
         <CardHeader>
@@ -26,23 +26,24 @@ describe(Card, () => {
       </Card>
     );
 
-    expect(screen.getByText("Card Title")).toBeDefined();
-    expect(screen.getByText("Card Description")).toBeDefined();
-    expect(screen.getByText("Card Content")).toBeDefined();
-    expect(screen.getByText("Card Footer")).toBeDefined();
+    expect(
+      screen.getByRole("heading", { level: 3, name: "Card Title" })
+    ).toBeInTheDocument();
+    expect(screen.getByText("Card Description")).toBeInTheDocument();
+    expect(screen.getByText("Card Content")).toBeInTheDocument();
+    expect(screen.getByText("Card Footer")).toBeInTheDocument();
   });
 
-  it("applies custom classes to Card", () => {
-    render(<Card className="custom-card">Content</Card>);
-    // Card renders a div, so we can look for text and check parent or generic div
-    // Or we can verify the class is present on the container containing "Content"
-    const cardContent = screen.getByText("Content");
-    // Since Card is the wrapper, we expect "Content" to be inside it.
-    // However, exact DOM structure depends on implementation. Default Card is a div.
-    // Let's assume it renders a div with the class.
-    // A safer way is to use data-testid if we can, but we don't want to modify source just for tests yet.
-    // We will just check if the element with text "Content" is wrapped in the class?
-    // Actually, Card renders a div.
-    expect(cardContent.closest("div")?.className).toContain("custom-card");
+  it("forwards refs and custom classes to the root card element", () => {
+    const ref = { current: null as HTMLDivElement | null };
+
+    render(
+      <Card className="custom-card" ref={ref}>
+        Content
+      </Card>
+    );
+
+    expect(ref.current).toHaveClass("custom-card");
+    expect(ref.current).toHaveTextContent("Content");
   });
 });

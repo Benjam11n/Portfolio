@@ -1,10 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import type { Project } from "@/lib/types";
 
 import { ProjectHero } from "./project-hero";
 
-// Mock GSAP
 vi.mock(import("@gsap/react"), () => ({
   useGSAP: () => ({
     contextSafe: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
@@ -18,18 +17,6 @@ vi.mock(import("gsap"), () => ({
       to: vi.fn().mockReturnThis(),
     }),
   },
-}));
-
-vi.mock(import("@/lib/hooks/ui/use-character-reveal"), () => ({
-  useCharacterReveal: () => ({
-    animateIn: vi.fn(),
-    animateOut: vi.fn(),
-    setInitialState: vi.fn(),
-  }),
-}));
-
-vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
-  usePrefersReducedMotion: () => false,
 }));
 
 const mockProject: Project = {
@@ -48,52 +35,59 @@ const mockProject: Project = {
   year: 2024,
 };
 
-const DESCRIPTION_REGEX = /project description/;
-const BACK_TO_PORTFOLIO_REGEX = /back to portfolio/i;
-
 describe(ProjectHero, () => {
-  it("renders project title splitted correctly", () => {
+  it("renders the back link, primary title, and markdown description", () => {
     render(<ProjectHero project={mockProject} />);
-    // visual splitting logic is: title.split(" - ")[0]
-    expect(screen.getByText("Test Project")).toBeDefined();
-  });
 
-  it("renders markdown description", () => {
-    render(<ProjectHero project={mockProject} />);
-    // Check for bold text part
-    const strongText = screen.getByText("test");
-    expect(strongText.tagName).toBe("STRONG");
-    expect(screen.getByText(DESCRIPTION_REGEX)).toBeDefined();
-  });
-
-  it("renders links when provided", () => {
-    render(<ProjectHero project={mockProject} />);
-    expect(screen.getByText("Live Site")).toBeDefined();
-    expect(screen.getByText("Source Code")).toBeDefined();
-  });
-
-  it("renders the redesigned back link", () => {
-    render(<ProjectHero project={mockProject} />);
     expect(
-      screen.getByRole("link", { name: BACK_TO_PORTFOLIO_REGEX })
+      screen.getByRole("link", { name: /back to portfolio/i })
     ).toHaveAttribute("href", "/#projects");
-    expect(screen.getByText("Back")).toBeInTheDocument();
+    expect(screen.getByText("Test Project")).toBeInTheDocument();
+    expect(screen.getByText("test").tagName).toBe("STRONG");
+    expect(screen.getByText(/project description/i)).toBeInTheDocument();
   });
 
-  it("renders hero image", () => {
+  it("renders external project links with secure target attributes", () => {
     render(<ProjectHero project={mockProject} />);
-    const img = screen.getByAltText("Test Project - Subtitle hero");
-    expect(img).toBeDefined();
+
+    expect(screen.getByRole("link", { name: "Live Site" })).toHaveAttribute(
+      "href",
+      "https://example.com"
+    );
+    expect(screen.getByRole("link", { name: "Live Site" })).toHaveAttribute(
+      "target",
+      "_blank"
+    );
+    expect(screen.getByRole("link", { name: "Source Code" })).toHaveAttribute(
+      "rel",
+      "noopener noreferrer"
+    );
   });
 
-  it("handles missing links gracefully", () => {
-    const projectNoLinks = {
-      ...mockProject,
-      github: undefined,
-      href: undefined,
-    };
-    render(<ProjectHero project={projectNoLinks} />);
-    expect(screen.queryByText("Live Site")).toBeNull();
-    expect(screen.queryByText("Source Code")).toBeNull();
+  it("falls back to an unavailable state when the hero image fails to load", () => {
+    render(<ProjectHero project={mockProject} />);
+
+    fireEvent.error(screen.getByAltText("Test Project - Subtitle hero"));
+
+    expect(screen.getByText("Hero image not available")).toBeInTheDocument();
+  });
+
+  it("hides optional external links when the project does not provide them", () => {
+    render(
+      <ProjectHero
+        project={{
+          ...mockProject,
+          github: undefined,
+          href: undefined,
+        }}
+      />
+    );
+
+    expect(
+      screen.queryByRole("link", { name: "Live Site" })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("link", { name: "Source Code" })
+    ).not.toBeInTheDocument();
   });
 });

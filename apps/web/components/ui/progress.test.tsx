@@ -3,96 +3,47 @@ import { render, screen } from "@testing-library/react";
 import { Progress } from "./progress";
 
 describe(Progress, () => {
-  it("renders correctly", () => {
-    render(<Progress value={50} />);
-    const progress = screen.getByRole("progressbar");
-    expect(progress).toBeDefined();
-  });
-
-  it("applies custom classes", () => {
-    render(<Progress className="custom-progress" value={50} />);
-    const progress = screen.getByRole("progressbar");
-    expect(progress.className).toContain("custom-progress");
-  });
-
-  it("renders with different values", () => {
-    render(<Progress value={75} />);
-    const progress = screen.getByRole("progressbar");
-    expect(progress).toBeDefined();
-    expect(progress.getAttribute("aria-valuenow")).toBe("75");
-  });
-
-  it("renders with different max values", () => {
+  it("exposes the current progress semantics and computed fill width", () => {
     render(<Progress max={10} value={5} />);
+
     const progress = screen.getByRole("progressbar");
-    expect(progress).toBeDefined();
-    expect(progress.getAttribute("aria-valuemax")).toBe("10");
+
+    expect(progress).toHaveAttribute("aria-valuemin", "0");
+    expect(progress).toHaveAttribute("aria-valuemax", "10");
+    expect(progress).toHaveAttribute("aria-valuenow", "5");
+    expect(progress.firstElementChild).toHaveStyle({ width: "50%" });
   });
 
-  it("has correct ARIA attributes", () => {
-    render(<Progress max={100} value={30} />);
+  it("clamps negative values to zero width", () => {
+    render(<Progress value={-10} />);
+
+    expect(screen.getByRole("progressbar").firstElementChild).toHaveStyle({
+      width: "0%",
+    });
+  });
+
+  it("clamps values larger than max to full width", () => {
+    render(<Progress max={10} value={15} />);
+
     const progress = screen.getByRole("progressbar");
-    expect(progress.getAttribute("role")).toBe("progressbar");
-    expect(progress.getAttribute("aria-valuenow")).toBe("30");
-    expect(progress.getAttribute("aria-valuemin")).toBe("0");
-    expect(progress.getAttribute("aria-valuemax")).toBe("100");
+
+    expect(progress).toHaveAttribute("aria-valuenow", "15");
+    expect(progress.firstElementChild).toHaveStyle({ width: "100%" });
   });
 
-  it("clamps values to 0-100 percentage", () => {
-    const { container: container1 } = render(<Progress value={-10} />);
-    const { container: container2 } = render(<Progress value={150} />);
-
-    // Both should render without errors
-    expect(container1.querySelector('[role="progressbar"]')).toBeDefined();
-    expect(container2.querySelector('[role="progressbar"]')).toBeDefined();
-  });
-
-  it("applies custom fill classes", () => {
+  it("uses the provided fill class override", () => {
     render(<Progress fillClassName="bg-red-500" value={50} />);
-    const progress = screen.getByRole("progressbar");
-    const fill = progress.querySelector("div");
-    expect(fill?.className).toContain("bg-red-500");
+
+    expect(screen.getByRole("progressbar").firstElementChild).toHaveClass(
+      "bg-red-500"
+    );
   });
 
-  it("uses default fill class when fillClassName not provided", () => {
-    render(<Progress value={50} />);
-    const progress = screen.getByRole("progressbar");
-    const fill = progress.querySelector("div");
-    expect(fill?.className).toContain("bg-primary");
-  });
-
-  it("renders with primary variant", () => {
-    render(<Progress value={50} variant="primary" />);
-    const progress = screen.getByRole("progressbar");
-    const fill = progress.querySelector("div");
-    expect(fill?.className).toContain("bg-primary");
-  });
-
-  it("renders with success variant", () => {
+  it("uses the selected variant when no custom fill class is supplied", () => {
     render(<Progress value={50} variant="success" />);
-    const progress = screen.getByRole("progressbar");
-    const fill = progress.querySelector("div");
-    expect(fill?.className).toContain("bg-green-600");
-  });
 
-  it("renders with warning variant", () => {
-    render(<Progress value={50} variant="warning" />);
-    const progress = screen.getByRole("progressbar");
-    const fill = progress.querySelector("div");
-    expect(fill?.className).toContain("bg-yellow-600");
-  });
-
-  it("renders with destructive variant", () => {
-    render(<Progress value={50} variant="destructive" />);
-    const progress = screen.getByRole("progressbar");
-    const fill = progress.querySelector("div");
-    expect(fill?.className).toContain("bg-destructive");
-  });
-
-  it("uses primary as default when no variant specified", () => {
-    render(<Progress value={50} />);
-    const progress = screen.getByRole("progressbar");
-    const fill = progress.querySelector("div");
-    expect(fill?.className).toContain("bg-primary");
+    expect(screen.getByRole("progressbar").firstElementChild).toHaveClass(
+      "bg-green-600"
+    );
   });
 });

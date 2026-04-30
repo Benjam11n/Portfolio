@@ -1,10 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import type { Certification } from "@/lib/types";
 
 import { CertificationCard } from "./certification-card";
 
-// Mock GSAP for Card3D
 vi.mock(import("@gsap/react"), () => ({
   useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
@@ -23,25 +22,21 @@ const mockCert: Certification = {
   organization: "Test Org",
 };
 
-const DESCRIPTION_REGEX = /certification description/;
-
 describe(CertificationCard, () => {
-  it("renders certification details", () => {
+  it("renders certification details and formatted issue date", () => {
     render(<CertificationCard cert={mockCert} />);
-    expect(screen.getByText("Test Certification")).toBeDefined();
-    expect(screen.getByText("Test Org")).toBeDefined();
-    expect(screen.getByText("Jan 2024")).toBeDefined();
 
-    // Check for description rendering via Markdown (looking for the strong tag content)
-    // The markdown component renders **test** as bold
-    expect(screen.getByText("test")).toBeDefined();
-    expect(screen.getByText(DESCRIPTION_REGEX)).toBeDefined();
+    expect(screen.getByText("Test Certification")).toBeInTheDocument();
+    expect(screen.getByText("Test Org")).toBeInTheDocument();
+    expect(screen.getByText("Jan 2024")).toBeInTheDocument();
+    expect(screen.getByText("test").tagName).toBe("STRONG");
   });
 
-  it("renders image with correct alt text", () => {
+  it("shows a fallback when the image fails to load", () => {
     render(<CertificationCard cert={mockCert} />);
-    const img = screen.getByAltText("Test Certification");
-    expect(img).toBeDefined();
-    expect(img.getAttribute("src")).toContain("test-cert.png");
+
+    fireEvent.error(screen.getByAltText("Test Certification"));
+
+    expect(screen.getByText("Image not available")).toBeInTheDocument();
   });
 });

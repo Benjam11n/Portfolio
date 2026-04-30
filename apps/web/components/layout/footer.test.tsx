@@ -1,8 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 
 import { Footer } from "./footer";
 
-// Mock GSAP
 vi.mock(import("@gsap/react"), () => ({
   useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
@@ -20,51 +19,72 @@ vi.mock(import("gsap"), () => ({
   },
 }));
 
-const GITHUB_REGEX = /Github/i;
-const CTA_REGEX = /Have A Question\?/i;
-const NAME_REGEX = /Benjamin Wang/i;
-
 describe(Footer, () => {
-  it("renders call to action", () => {
-    render(<Footer />);
-    expect(
-      screen.getByRole("heading", { name: CTA_REGEX })
-    ).toBeInTheDocument();
-    expect(screen.getByLabelText("Contact Me")).toBeInTheDocument();
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-04-30T10:12:15.000Z"));
   });
 
-  it("hides call to action when disabled", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+  });
+
+  it("renders the contact CTA with the in-page contact destination", () => {
+    render(<Footer />);
+
+    expect(screen.getByRole("link", { name: "Contact Me" })).toHaveAttribute(
+      "href",
+      "/#contact"
+    );
+    expect(
+      screen.getByRole("heading", { name: /have a question\?/i })
+    ).toBeInTheDocument();
+  });
+
+  it("omits the CTA when disabled", () => {
     render(<Footer showCta={false} />);
+
     expect(
-      screen.queryByRole("heading", { name: CTA_REGEX })
+      screen.queryByRole("link", { name: "Contact Me" })
     ).not.toBeInTheDocument();
-    expect(screen.queryByLabelText("Contact Me")).not.toBeInTheDocument();
-  });
-
-  it("renders navigation links", () => {
-    render(<Footer />);
-    expect(screen.getByText("Home")).toBeDefined();
-    expect(screen.getByText("Experience")).toBeDefined();
-  });
-
-  it("renders social links", () => {
-    render(<Footer />);
-    expect(screen.getByText(GITHUB_REGEX)).toBeDefined();
-    expect(screen.getByText("LinkedIn")).toBeDefined();
-  });
-
-  it("renders copyright", () => {
-    render(<Footer />);
-    expect(screen.getByText(NAME_REGEX)).toBeDefined();
-  });
-
-  it("renders privacy link only", () => {
-    render(<Footer />);
     expect(
-      screen.getByRole("link", { name: /privacy policy/i })
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", { name: /terms of service/i })
+      screen.queryByRole("heading", { name: /have a question\?/i })
     ).not.toBeInTheDocument();
+  });
+
+  it("renders the navigation, social, and legal links with expected destinations", () => {
+    render(<Footer />);
+
+    expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute(
+      "href",
+      "/"
+    );
+    expect(screen.getByRole("link", { name: "Projects" })).toHaveAttribute(
+      "href",
+      "/#projects"
+    );
+    expect(
+      screen.getByRole("link", { name: "Privacy Policy" })
+    ).toHaveAttribute("href", "/privacy");
+    expect(screen.getByRole("link", { name: "Email" })).toHaveAttribute(
+      "href",
+      "mailto:youcanfindbenjamin@gmail.com"
+    );
+    expect(screen.getByRole("link", { name: "Github" })).toHaveAttribute(
+      "href",
+      "https://github.com/Benjam11n"
+    );
+  });
+
+  it("replaces the loading placeholder with the current local time", () => {
+    render(<Footer />);
+
+    act(() => {
+      vi.runOnlyPendingTimers();
+    });
+
+    expect(screen.queryByText("Loading...")).not.toBeInTheDocument();
+    expect(screen.getByText(/Benjamin Wang/)).toBeInTheDocument();
   });
 });

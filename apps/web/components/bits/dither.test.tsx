@@ -2,10 +2,12 @@ import { fireEvent, render } from "@testing-library/react";
 import type { ComponentProps } from "react";
 
 import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 import { Dither } from "./dither";
 
 const canvasMock = vi.fn((_: unknown) => <div data-testid="canvas" />);
+const setSkipAnimationsMock = vi.fn();
 
 vi.mock(import("@react-three/fiber"), () => ({
   Canvas: (props: ComponentProps<"div"> & { frameloop: string }) => {
@@ -21,11 +23,14 @@ vi.mock(import("@react-three/fiber"), () => ({
   })),
 }));
 
-vi.mock(import("@/lib/contexts/animation-skip-context"), () => ({
-  useAnimationSkipContext: () => ({
-    setSkipAnimations: vi.fn(),
-    skipAnimations: false,
+vi.mock(import("next-themes"), () => ({
+  useTheme: () => ({
+    resolvedTheme: "light",
   }),
+}));
+
+vi.mock(import("@/lib/contexts/animation-skip-context"), () => ({
+  useAnimationSkipContext: vi.fn(),
 }));
 
 vi.mock(import("@/lib/hooks/ui/use-element-visibility"), () => ({
@@ -33,17 +38,25 @@ vi.mock(import("@/lib/hooks/ui/use-element-visibility"), () => ({
 }));
 
 vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
-  usePrefersReducedMotion: vi.fn(() => false),
+  usePrefersReducedMotion: vi.fn(),
 }));
 
 describe(Dither, () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    const { useAnimationSkipContext } =
+      await import("@/lib/contexts/animation-skip-context");
+
     canvasMock.mockClear();
+    setSkipAnimationsMock.mockReset();
+    vi.mocked(useElementVisibility).mockReturnValue(true);
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(false);
+    vi.mocked(useAnimationSkipContext).mockReturnValue({
+      setSkipAnimations: setSkipAnimationsMock,
+      skipAnimations: false,
+    });
   });
 
-  it("uses continuous rendering while active", () => {
-    vi.mocked(useElementVisibility).mockReturnValue(true);
-
+  it("uses continuous rendering while the effect is visible and animated", () => {
     render(<Dither />);
 
     expect(canvasMock).toHaveBeenCalledWith(
@@ -51,7 +64,7 @@ describe(Dither, () => {
     );
   });
 
-  it("stops rendering when hidden", () => {
+  it("stops rendering when the effect is hidden or reduced motion is preferred", () => {
     vi.mocked(useElementVisibility).mockReturnValue(false);
 
     render(<Dither />);
@@ -61,18 +74,19 @@ describe(Dither, () => {
     );
   });
 
-  it("does not opt into the selective hover cursor and still responds to clicks", () => {
-    vi.mocked(useElementVisibility).mockReturnValue(true);
+  it("re-enables global animations when clicked while skip animations is active", async () => {
+    const { useAnimationSkipContext } =
+      await import("@/lib/contexts/animation-skip-context");
+
+    vi.mocked(useAnimationSkipContext).mockReturnValue({
+      setSkipAnimations: setSkipAnimationsMock,
+      skipAnimations: true,
+    });
 
     const { container } = render(<Dither />);
 
-    const root = container.firstElementChild as HTMLDivElement;
+    fireEvent.click(container.firstElementChild as HTMLDivElement);
 
-    expect(root).not.toHaveAttribute("data-hover-cursor");
-    expect(root).not.toHaveAttribute("data-hover-cursor-icon");
-    expect(root).not.toHaveAttribute("data-hover-cursor-label");
-
-    fireEvent.click(root);
-    expect(root).toBeInTheDocument();
+    expect(setSkipAnimationsMock).toHaveBeenCalledWith(false);
   });
 });

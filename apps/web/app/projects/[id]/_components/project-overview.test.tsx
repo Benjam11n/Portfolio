@@ -4,7 +4,6 @@ import type { Project } from "@/lib/types";
 
 import { ProjectOverview } from "./project-overview";
 
-// Mock GSAP
 vi.mock(import("@gsap/react"), () => ({
   useGSAP: () => ({
     contextSafe: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
@@ -39,26 +38,15 @@ const mockProject: Project = {
   year: 2024,
 };
 
-const OVERVIEW_REGEX = /overview of the project/;
-
 describe(ProjectOverview, () => {
-  it("renders markdown sub-description", () => {
+  it("renders the markdown overview copy", () => {
     render(<ProjectOverview project={mockProject} />);
-    const strongText = screen.getByText("detailed");
-    expect(strongText.tagName).toBe("STRONG");
-    expect(screen.getByText(OVERVIEW_REGEX)).toBeDefined();
+
+    expect(screen.getByText("detailed").tagName).toBe("STRONG");
+    expect(screen.getByText(/overview of the project/i)).toBeInTheDocument();
   });
 
-  it("renders features list with markdown", () => {
-    render(<ProjectOverview project={mockProject} />);
-    // Part of Feature **1**
-    expect(screen.getByText("Feature")).toBeDefined();
-    // The bold part
-    expect(screen.getByText("1")).toBeDefined();
-    expect(screen.getByText("Feature 2")).toBeDefined();
-  });
-
-  it("drops the last feature when the count is odd", () => {
+  it("renders feature cards and drops the trailing odd feature", () => {
     render(
       <ProjectOverview
         project={{
@@ -68,29 +56,37 @@ describe(ProjectOverview, () => {
       />
     );
 
-    expect(screen.getByText("Feature 1")).toBeDefined();
-    expect(screen.getByText("Feature 2")).toBeDefined();
-    expect(screen.queryByText("Feature 3")).toBeNull();
+    expect(screen.getAllByRole("listitem")).toHaveLength(2);
+    expect(screen.getByText("Feature 1")).toBeInTheDocument();
+    expect(screen.getByText("Feature 2")).toBeInTheDocument();
+    expect(screen.queryByText("Feature 3")).not.toBeInTheDocument();
   });
 
-  it("renders tech stack items", () => {
-    // Note: This relies on TECH_STACK constant containing React and TypeScript
-    render(<ProjectOverview project={mockProject} />);
-    // We expect the TechStackItem to render the name of the tech
-    // Since TechStackItem might just render icons or small text, we check availability
-    // Assuming TechStackItem renders the name in a tooltip or visible text.
-    // Use findBy or check that elements exist.
-    // If TechStackItem is purely visual (icon), we might need to look for specific visual cues or aria-labels.
-    // Let's assume it renders basic accessible text or we check that the container renders.
+  it("renders known tech stack items and skips unknown ids", () => {
+    render(
+      <ProjectOverview
+        project={{
+          ...mockProject,
+          techStack: ["react", "unknown-tech", "typescript"],
+        }}
+      />
+    );
 
-    // Actually, TechStackItem usually renders an icon.
-    // Let's verify the section header exists at least.
-    expect(screen.getByText("Built With")).toBeDefined();
+    expect(screen.getByText("Built With")).toBeInTheDocument();
+    expect(screen.getByAltText("React")).toBeInTheDocument();
+    expect(screen.getByAltText("TypeScript")).toBeInTheDocument();
   });
 
-  it("handles missing/empty features gracefully", () => {
-    const projectNoFeatures = { ...mockProject, features: [] };
-    render(<ProjectOverview project={projectNoFeatures} />);
-    expect(screen.queryByText("Key Features")).toBeNull();
+  it("hides the features section when there are no project features", () => {
+    render(
+      <ProjectOverview
+        project={{
+          ...mockProject,
+          features: [],
+        }}
+      />
+    );
+
+    expect(screen.queryByText("Key Features")).not.toBeInTheDocument();
   });
 });

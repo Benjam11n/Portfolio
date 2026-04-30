@@ -3,25 +3,34 @@ import { act, renderHook, waitFor } from "@testing-library/react";
 
 import { useActiveSection } from "./use-active-section";
 
+const mockUsePathname = vi.fn();
+
+vi.mock(import("next/navigation"), () => ({
+  usePathname: () => mockUsePathname(),
+}));
+
 describe(useActiveSection, () => {
   let intersectionCallback: IntersectionObserverCallback;
   let observeSpy: ReturnType<typeof vi.fn>;
   let disconnectSpy: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
+    mockUsePathname.mockReturnValue("/");
+    document.body.innerHTML = `
+      <section id="section1"></section>
+      <section id="section2"></section>
+      <section id="section3"></section>
+    `;
+
     observeSpy = vi.fn();
     disconnectSpy = vi.fn();
 
-    // Mock IntersectionObserver
     window.IntersectionObserver = class IntersectionObserver {
       readonly root: Element | Document | null = null;
       readonly rootMargin = "";
       readonly thresholds: number[] = [];
 
-      constructor(
-        callback: IntersectionObserverCallback,
-        _options?: IntersectionObserverInit
-      ) {
+      constructor(callback: IntersectionObserverCallback) {
         intersectionCallback = callback;
       }
 
@@ -29,83 +38,36 @@ describe(useActiveSection, () => {
       disconnect = disconnectSpy;
       takeRecords = vi.fn(() => []);
     } as unknown as typeof IntersectionObserver;
-
-    // Mock document.getElementById
-    vi.spyOn(document, "getElementById").mockImplementation((_id) =>
-      document.createElement("div")
-    );
   });
 
   afterEach(() => {
+    document.body.innerHTML = "";
     vi.restoreAllMocks();
   });
 
-  it("should initialize with first section", () => {
+  it("initializes with the first section and observes each target section", () => {
     const { result } = renderHook(() =>
-      useActiveSection(["section1", "section2"])
+      useActiveSection(["section1", "section2", "section3"])
     );
-    // The hook initializes to the first section for navigation purposes
+
     expect(result.current).toBe("section1");
-    // It should observe elements (may be called multiple times due to React 18 strict mode)
-    expect(observeSpy).toHaveBeenCalledWith(expect.any(HTMLDivElement));
+    expect(observeSpy).toHaveBeenCalledWith(
+      document.querySelector("#section1")
+    );
+    expect(observeSpy).toHaveBeenCalledWith(
+      document.querySelector("#section2")
+    );
+    expect(observeSpy).toHaveBeenCalledWith(
+      document.querySelector("#section3")
+    );
   });
 
-  it("should update active section when one becomes visible", () => {
+  it("updates to the most visible intersecting section", async () => {
     const { result } = renderHook(() =>
-      useActiveSection(["section1", "section2"])
+      useActiveSection(["section1", "section2", "section3"])
     );
 
-    // Simulate section1 becoming visible
     act(() => {
-      const entries = [
-        createMockIntersectionEntry({
-          id: "section1",
-          intersectionRatio: 0.8,
-          isIntersecting: true,
-        }),
-        createMockIntersectionEntry({
-          id: "section2",
-          intersectionRatio: 0.1,
-          isIntersecting: true,
-        }),
-      ];
-
-      intersectionCallback(
-        entries,
-        window.IntersectionObserver as unknown as IntersectionObserver
-      );
-    });
-
-    expect(result.current).toBe("section1");
-  });
-
-  it("should switch active section when another becomes MORE visible", async () => {
-    const { result } = renderHook(() =>
-      useActiveSection(["section1", "section2"])
-    );
-
-    // Step 1: section1 is dominant
-    await act(() => {
-      intersectionCallback(
-        [
-          createMockIntersectionEntry({
-            id: "section1",
-            intersectionRatio: 0.8,
-            isIntersecting: true,
-          }),
-          createMockIntersectionEntry({
-            id: "section2",
-            intersectionRatio: 0.1,
-            isIntersecting: true,
-          }),
-        ],
-        window.IntersectionObserver as unknown as IntersectionObserver
-      );
-    });
-    expect(result.current).toBe("section1");
-
-    // Step 2: section2 becomes dominant
-    await act(() => {
       intersectionCallback(
         [
           createMockIntersectionEntry({
@@ -123,42 +85,21 @@ describe(useActiveSection, () => {
       );
     });
 
-    // Wait for state update to propagate
     await waitFor(() => {
       expect(result.current).toBe("section2");
     });
   });
 
-  it("should handle mixed updates (some existing, some new)", async () => {
+  it("keeps the current section when every observed section becomes non-visible", async () => {
     const { result } = renderHook(() =>
       useActiveSection(["section1", "section2"])
     );
 
-    // Initial state: section1=0.5
-    await act(() => {
+    act(() => {
       intersectionCallback(
         [
           createMockIntersectionEntry({
             id: "section1",
-            intersectionRatio: 0.5,
-            isIntersecting: true,
-          }),
-        ],
-        window.IntersectionObserver as unknown as IntersectionObserver
-      );
-    });
-    expect(result.current).toBe("section1");
-
-    // Update: section2=0.8. Section1 stays at 0.5 (implicitly, as Map preserves it)
-    // Wait, useActiveSection Map preserves state ONLY if we don't clear it.
-    // The hook implementation creates `sectionRatios` inside `useEffect`.
-    // So it persists across `handleIntersect` calls. Correct.
-
-    await act(() => {
-      intersectionCallback(
-        [
-          createMockIntersectionEntry({
-            id: "section2",
             intersectionRatio: 0.8,
             isIntersecting: true,
           }),
@@ -167,9 +108,61 @@ describe(useActiveSection, () => {
       );
     });
 
-    // Now section1=0.5, section2=0.8 -> Result section2
     await waitFor(() => {
-      expect(result.current).toBe("section2");
+      expect(result.current).toBe("section1");
     });
+
+    act(() => {
+      intersectionCallback(
+        [
+          createMockIntersectionEntry({
+            id: "section1",
+            intersectionRatio: 0,
+            isIntersecting: false,
+          }),
+          createMockIntersectionEntry({
+            id: "section2",
+            intersectionRatio: 0,
+            isIntersecting: false,
+          }),
+        ],
+        window.IntersectionObserver as unknown as IntersectionObserver
+      );
+    });
+
+    expect(result.current).toBe("section1");
+  });
+
+  it("resets to the first section when the pathname changes", () => {
+    const { result, rerender } = renderHook(() =>
+      useActiveSection(["section1", "section2"])
+    );
+
+    act(() => {
+      intersectionCallback(
+        [
+          createMockIntersectionEntry({
+            id: "section2",
+            intersectionRatio: 0.9,
+            isIntersecting: true,
+          }),
+        ],
+        window.IntersectionObserver as unknown as IntersectionObserver
+      );
+    });
+
+    expect(result.current).toBe("section2");
+
+    mockUsePathname.mockReturnValue("/projects/test");
+    rerender();
+
+    expect(result.current).toBe("section1");
+  });
+
+  it("returns null and skips observation when there are no sections", () => {
+    const { result } = renderHook(() => useActiveSection([]));
+
+    expect(result.current).toBeNull();
+    expect(observeSpy).not.toHaveBeenCalled();
   });
 });
