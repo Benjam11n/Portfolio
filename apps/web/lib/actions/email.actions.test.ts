@@ -66,6 +66,40 @@ describe(sendEmailAction, () => {
     );
   });
 
+  it("includes sender details and message content in the resend payload", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-04-30T00:00:00.000Z"));
+    mockResendSend.mockResolvedValue({
+      data: { id: "email-id" },
+      error: null,
+    });
+
+    try {
+      await sendEmailAction({
+        email: "john@example.com",
+        message: "Line one\nLine two",
+        name: "John Doe",
+        website: "",
+      });
+
+      expect(mockResendSend.mock.calls).toHaveLength(1);
+
+      const payload = vi.mocked(mockResendSend).mock.calls[0]?.[0];
+
+      expect(payload).toBeDefined();
+      expect(payload?.html).toContain("John Doe");
+      expect(payload?.html).toContain("mailto:john@example.com");
+      expect(payload?.html).toContain("Line one<br />Line two");
+      expect(payload?.html).toContain("Apr 30, 2026");
+      expect(payload?.text).toContain("Name: John Doe");
+      expect(payload?.text).toContain("Email: john@example.com");
+      expect(payload?.text).toContain("Message:\nLine one\nLine two");
+      expect(payload?.text).toContain("Apr 30, 2026");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("silently ignores honeypot submissions", async () => {
     const result = await sendEmailAction({
       email: "john@example.com",

@@ -89,7 +89,7 @@ describe(useAnimationFrame, () => {
 
     renderHook(() => useAnimationFrame(callback));
 
-    expect(requestAnimationFrameMock).toHaveBeenCalledTimes(1);
+    expect(requestAnimationFrameMock.mock.calls).toHaveLength(1);
     runFrame(1, 16);
 
     expect(callback).toHaveBeenCalledWith(16);
@@ -108,7 +108,7 @@ describe(useAnimationFrame, () => {
     expect(callback).not.toHaveBeenCalled();
 
     runFrame(3, 40);
-    expect(callback).toHaveBeenCalledTimes(1);
+    expect(callback.mock.calls).toHaveLength(1);
     expect(callback).toHaveBeenNthCalledWith(1, 40);
   });
 

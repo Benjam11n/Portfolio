@@ -11,7 +11,7 @@ describe(Button, () => {
 
     fireEvent.click(screen.getByRole("button", { name: /click me/i }));
 
-    expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(handleClick.mock.calls).toHaveLength(1);
   });
 
   it("renders as a child link when requested", () => {
@@ -60,6 +60,6 @@ describe(Button, () => {
 
     expect(button).not.toBeDisabled();
     expect(button.querySelector("svg")).toBeInTheDocument();
-    expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(handleClick.mock.calls).toHaveLength(1);
   });
 });

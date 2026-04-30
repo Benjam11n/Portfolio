@@ -14,7 +14,7 @@ describe(ScrollLink, () => {
     window.location.hash = "";
 
     const onClick = vi.fn();
-    const getElementByIdSpy = vi.spyOn(document, "getElementById");
+    const querySelectorSpy = vi.spyOn(document, "querySelector");
 
     render(
       <ScrollLink href="#projects" onClick={onClick}>
@@ -25,7 +25,7 @@ describe(ScrollLink, () => {
     fireEvent.click(screen.getByRole("link", { name: "Projects" }));
 
     expect(onClick.mock.calls).toHaveLength(1);
-    expect(getElementByIdSpy).not.toHaveBeenCalled();
+    expect(querySelectorSpy).not.toHaveBeenCalled();
   });
 
   it("scrolls to the target when clicking the current hash again", () => {
@@ -37,19 +37,58 @@ describe(ScrollLink, () => {
     target.id = "projects";
     target.scrollIntoView = scrollIntoView;
 
-    const getElementByIdSpy = vi
-      .spyOn(document, "getElementById")
+    const querySelectorSpy = vi
+      .spyOn(document, "querySelector")
       .mockReturnValue(target);
 
     render(<ScrollLink href="#projects">Projects</ScrollLink>);
 
     fireEvent.click(screen.getByRole("link", { name: "Projects" }));
 
-    expect(getElementByIdSpy).toHaveBeenCalledWith("projects");
+    expect(querySelectorSpy).toHaveBeenCalledWith("#projects");
     expect(scrollIntoView).toHaveBeenCalledWith({
       behavior: "smooth",
       block: "start",
     });
+  });
+
+  it("does nothing when the current hash target does not exist", () => {
+    mockUsePathname.mockReturnValue("/");
+    window.location.hash = "#projects";
+
+    const querySelectorSpy = vi
+      .spyOn(document, "querySelector")
+      .mockReturnValue(null);
+
+    render(<ScrollLink href="#projects">Projects</ScrollLink>);
+
+    fireEvent.click(screen.getByRole("link", { name: "Projects" }));
+
+    expect(querySelectorSpy).toHaveBeenCalledWith("#projects");
+  });
+
+  it("does not force smooth scrolling when the click was already prevented", () => {
+    mockUsePathname.mockReturnValue("/");
+    window.location.hash = "#projects";
+
+    const onClick = vi.fn((event: React.MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault();
+    });
+    const scrollIntoView = vi.fn();
+    const target = document.createElement("section");
+    target.scrollIntoView = scrollIntoView;
+    vi.spyOn(document, "querySelector").mockReturnValue(target);
+
+    render(
+      <ScrollLink href="#projects" onClick={onClick}>
+        Projects
+      </ScrollLink>
+    );
+
+    fireEvent.click(screen.getByRole("link", { name: "Projects" }));
+
+    expect(onClick.mock.calls).toHaveLength(1);
+    expect(scrollIntoView).not.toHaveBeenCalled();
   });
 
   it("normalizes anchor hrefs when rendered off the home page", () => {

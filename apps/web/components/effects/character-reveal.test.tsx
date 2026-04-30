@@ -66,12 +66,12 @@ describe(CharacterReveal, () => {
   it("runs the reveal sequence after the configured delay", () => {
     render(<CharacterReveal delay={0.2}>Hello</CharacterReveal>);
 
-    expect(setInitialStateMock).toHaveBeenCalledTimes(1);
+    expect(setInitialStateMock.mock.calls).toHaveLength(1);
     expect(animateInMock).not.toHaveBeenCalled();
 
     vi.advanceTimersByTime(200);
 
-    expect(animateInMock).toHaveBeenCalledTimes(1);
+    expect(animateInMock.mock.calls).toHaveLength(1);
   });
 
   it("skips animation setup when reduced motion is preferred", () => {

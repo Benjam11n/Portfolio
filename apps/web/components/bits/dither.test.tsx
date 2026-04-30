@@ -74,6 +74,16 @@ describe(Dither, () => {
     );
   });
 
+  it("stops rendering when reduced motion is preferred", () => {
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(true);
+
+    render(<Dither />);
+
+    expect(canvasMock).toHaveBeenCalledWith(
+      expect.objectContaining({ frameloop: "never" })
+    );
+  });
+
   it("re-enables global animations when clicked while skip animations is active", async () => {
     const { useAnimationSkipContext } =
       await import("@/lib/contexts/animation-skip-context");
