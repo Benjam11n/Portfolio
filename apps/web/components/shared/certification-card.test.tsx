@@ -4,11 +4,11 @@ import type { Certification } from "@/lib/types";
 
 import { CertificationCard } from "./certification-card";
 
-vi.mock(import("@gsap/react"), () => ({
+vi.mock(import("@gsap/react") as unknown as string, () => ({
   useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
 
-vi.mock(import("gsap"), () => ({
+vi.mock(import("gsap") as unknown as string, () => ({
   default: {
     to: vi.fn(),
   },

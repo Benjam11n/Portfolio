@@ -4,25 +4,26 @@ import {
   HOVER_CURSOR_ATTRIBUTE,
   HOVER_CURSOR_LABEL_ATTRIBUTE,
 } from "@/lib/constants/interaction";
+import type { TechStack } from "@/lib/types";
 
 import { TechStackItem } from "./tech-stack-item";
 
-// Mock GSAP for Card3D
-vi.mock(import("@gsap/react"), () => ({
+vi.mock(import("@gsap/react") as unknown as string, () => ({
   useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
 
-vi.mock(import("gsap"), () => ({
+vi.mock(import("gsap") as unknown as string, () => ({
   default: {
     to: vi.fn(),
   },
 }));
 
-const mockStackItem = {
+const mockStackItem: TechStack = {
   category: "Frontend" as const,
   colorDark: "#000",
   colorLight: "#fff",
   icon: "/react.png",
+  id: "react",
   name: "React",
   proficiency: "expert" as const,
 };

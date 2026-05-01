@@ -9,7 +9,7 @@ import { Dither } from "./dither";
 const canvasMock = vi.fn((_: unknown) => <div data-testid="canvas" />);
 const setSkipAnimationsMock = vi.fn();
 
-vi.mock(import("@react-three/fiber"), () => ({
+vi.mock(import("@react-three/fiber") as unknown as string, () => ({
   Canvas: (props: ComponentProps<"div"> & { frameloop: string }) => {
     canvasMock(props);
     return <div data-testid="canvas" />;
@@ -23,23 +23,32 @@ vi.mock(import("@react-three/fiber"), () => ({
   })),
 }));
 
-vi.mock(import("next-themes"), () => ({
+vi.mock(import("next-themes") as unknown as string, () => ({
   useTheme: () => ({
     resolvedTheme: "light",
   }),
 }));
 
-vi.mock(import("@/lib/contexts/animation-skip-context"), () => ({
-  useAnimationSkipContext: vi.fn(),
-}));
+vi.mock(
+  import("@/lib/contexts/animation-skip-context") as unknown as string,
+  () => ({
+    useAnimationSkipContext: vi.fn(),
+  })
+);
 
-vi.mock(import("@/lib/hooks/ui/use-element-visibility"), () => ({
-  useElementVisibility: vi.fn(),
-}));
+vi.mock(
+  import("@/lib/hooks/ui/use-element-visibility") as unknown as string,
+  () => ({
+    useElementVisibility: vi.fn(),
+  })
+);
 
-vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
-  usePrefersReducedMotion: vi.fn(),
-}));
+vi.mock(
+  import("@/lib/hooks/ui/use-prefers-reduced-motion") as unknown as string,
+  () => ({
+    usePrefersReducedMotion: vi.fn(),
+  })
+);
 
 describe(Dither, () => {
   beforeEach(async () => {
@@ -51,6 +60,7 @@ describe(Dither, () => {
     vi.mocked(useElementVisibility).mockReturnValue(true);
     vi.mocked(usePrefersReducedMotion).mockReturnValue(false);
     vi.mocked(useAnimationSkipContext).mockReturnValue({
+      resetSkipAnimations: vi.fn(),
       setSkipAnimations: setSkipAnimationsMock,
       skipAnimations: false,
     });
@@ -89,6 +99,7 @@ describe(Dither, () => {
       await import("@/lib/contexts/animation-skip-context");
 
     vi.mocked(useAnimationSkipContext).mockReturnValue({
+      resetSkipAnimations: vi.fn(),
       setSkipAnimations: setSkipAnimationsMock,
       skipAnimations: true,
     });

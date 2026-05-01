@@ -4,7 +4,7 @@ import { ScrollLink } from "./scroll-link";
 
 const mockUsePathname = vi.fn();
 
-vi.mock(import("next/navigation"), () => ({
+vi.mock(import("next/navigation") as unknown as string, () => ({
   usePathname: () => mockUsePathname(),
 }));
 

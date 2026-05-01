@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 
 import { ShiftButton } from "./shift-button";
 
-vi.mock(import("@/components/effects/shift-text"), () => ({
+vi.mock(import("@/components/effects/shift-text") as unknown as string, () => ({
   ShiftText: ({ children }: { children: React.ReactNode }) => children,
   useShiftAnimation: () => ({
     animateIn: vi.fn(),

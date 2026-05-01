@@ -13,7 +13,7 @@ const mocks = vi.hoisted(() => ({
   quickToY: vi.fn(),
 }));
 
-vi.mock(import("@gsap/react"), () => ({
+vi.mock(import("@gsap/react") as unknown as string, () => ({
   useGSAP: (
     callbackOrConfig?: (() => void) | { scope?: unknown },
     config?: { scope?: unknown }
@@ -32,7 +32,7 @@ vi.mock(import("@gsap/react"), () => ({
   },
 }));
 
-vi.mock(import("gsap"), () => ({
+vi.mock(import("gsap") as unknown as string, () => ({
   default: {
     quickTo: vi.fn((_: Element, property: string) =>
       property === "x" ? mocks.quickToX : mocks.quickToY
@@ -42,18 +42,23 @@ vi.mock(import("gsap"), () => ({
   },
 }));
 
-vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
-  usePrefersReducedMotion: () => mocks.prefersReducedMotion,
-}));
+vi.mock(
+  import("@/lib/hooks/ui/use-prefers-reduced-motion") as unknown as string,
+  () => ({
+    usePrefersReducedMotion: () => mocks.prefersReducedMotion,
+  })
+);
 
 const setPointerSupport = (matches: boolean) => {
   vi.spyOn(window, "matchMedia").mockImplementation((query: string) => ({
     addEventListener: vi.fn(),
+    addListener: vi.fn(),
     dispatchEvent: vi.fn(),
     matches: query === "(hover: hover) and (pointer: fine)" ? matches : false,
     media: query,
     onchange: null,
     removeEventListener: vi.fn(),
+    removeListener: vi.fn(),
   }));
 };
 

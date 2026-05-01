@@ -4,15 +4,21 @@ import { Navbar } from "./navbar";
 
 const mockActiveSection = vi.fn();
 
-vi.mock(import("@/lib/hooks/ui/use-active-section"), () => ({
-  useActiveSection: () => mockActiveSection(),
-}));
+vi.mock(
+  import("@/lib/hooks/ui/use-active-section") as unknown as string,
+  () => ({
+    useActiveSection: () => mockActiveSection(),
+  })
+);
 
-vi.mock(import("@/components/shared/theme-toggle"), () => ({
-  ThemeToggle: () => <button type="button">Toggle Theme</button>,
-}));
+vi.mock(
+  import("@/components/shared/theme-toggle") as unknown as string,
+  () => ({
+    ThemeToggle: () => <button type="button">Toggle Theme</button>,
+  })
+);
 
-vi.mock(import("@/components/effects/magnetic"), () => ({
+vi.mock(import("@/components/effects/magnetic") as unknown as string, () => ({
   Magnetic: ({ children }: { children: React.ReactNode }) => children,
 }));
 

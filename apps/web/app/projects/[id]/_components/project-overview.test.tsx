@@ -1,16 +1,16 @@
 import { render, screen } from "@testing-library/react";
 
-import type { Project } from "@/lib/types";
+import type { Project, TechId } from "@/lib/types";
 
 import { ProjectOverview } from "./project-overview";
 
-vi.mock(import("@gsap/react"), () => ({
+vi.mock(import("@gsap/react") as unknown as string, () => ({
   useGSAP: () => ({
     contextSafe: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
   }),
 }));
 
-vi.mock(import("gsap"), () => ({
+vi.mock(import("gsap") as unknown as string, () => ({
   ScrollTrigger: {},
   default: {
     matchMedia: () => ({
@@ -67,7 +67,7 @@ describe(ProjectOverview, () => {
       <ProjectOverview
         project={{
           ...mockProject,
-          techStack: ["react", "unknown-tech", "typescript"],
+          techStack: ["react", "unknown-tech" as TechId, "typescript"],
         }}
       />
     );

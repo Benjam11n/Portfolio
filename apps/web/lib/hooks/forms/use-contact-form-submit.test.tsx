@@ -20,22 +20,22 @@ const { mockLoggerError } = vi.hoisted(() => ({
   mockLoggerError: vi.fn(),
 }));
 
-vi.mock(import("@/lib/actions/email.actions"), () => ({
+vi.mock(import("@/lib/actions/email.actions") as unknown as string, () => ({
   sendEmailAction: vi.fn(),
 }));
 
-vi.mock(import("@/lib/analytics/conversion"), () => ({
+vi.mock(import("@/lib/analytics/conversion") as unknown as string, () => ({
   trackContactFormError: vi.fn(),
   trackContactFormSuccess: vi.fn(),
 }));
 
-vi.mock(import("@repo/logger"), () => ({
+vi.mock(import("@repo/logger") as unknown as string, () => ({
   logger: {
     error: mockLoggerError,
   },
 }));
 
-vi.mock(import("sonner"), () => ({
+vi.mock(import("sonner") as unknown as string, () => ({
   toast: {
     error: vi.fn(),
   },

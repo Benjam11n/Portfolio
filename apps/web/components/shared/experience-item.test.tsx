@@ -3,20 +3,22 @@ import userEvent from "@testing-library/user-event";
 
 import { ExperienceItem } from "./experience-item";
 
-// Mock GSAP for Card3D
-vi.mock(import("@gsap/react"), () => ({
+vi.mock(import("@gsap/react") as unknown as string, () => ({
   useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
 }));
 
-vi.mock(import("gsap"), () => ({
+vi.mock(import("gsap") as unknown as string, () => ({
   default: {
     to: vi.fn(),
   },
 }));
 
-vi.mock(import("@/lib/hooks/utils/use-mobile-detection"), () => ({
-  useMobileDetection: () => false,
-}));
+vi.mock(
+  import("@/lib/hooks/utils/use-mobile-detection") as unknown as string,
+  () => ({
+    useMobileDetection: () => false,
+  })
+);
 
 const mockExperience = {
   icon: "/company-logo.png",

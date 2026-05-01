@@ -32,12 +32,14 @@ describe(useAnimationFrame, () => {
       (query) =>
         ({
           addEventListener: vi.fn(),
+          addListener: vi.fn(),
           dispatchEvent: vi.fn(),
           matches: mediaQueryMatches,
           media: query,
           onchange: null,
           removeEventListener: vi.fn(),
-        }) as MediaQueryList
+          removeListener: vi.fn(),
+        }) satisfies MediaQueryList
     );
   });
 

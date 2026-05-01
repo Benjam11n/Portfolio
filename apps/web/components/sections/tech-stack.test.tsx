@@ -3,7 +3,7 @@ import type { ComponentProps, ReactNode } from "react";
 
 import { TechStack } from "./tech-stack";
 
-vi.mock(import("next/dynamic"), () => ({
+vi.mock(import("next/dynamic") as unknown as string, () => ({
   default:
     () =>
     ({
@@ -25,7 +25,7 @@ vi.mock(import("next/dynamic"), () => ({
       ) : null,
 }));
 
-vi.mock(import("framer-motion"), () => ({
+vi.mock(import("framer-motion") as unknown as string, () => ({
   AnimatePresence: ({ children }: { children: ReactNode }) => children,
   motion: {
     div: ({
@@ -76,47 +76,59 @@ vi.mock(import("framer-motion"), () => ({
   },
 }));
 
-vi.mock(import("@/components/shared/section-card"), () => ({
-  SectionCard: ({
-    children,
-    id,
-    title,
-  }: {
-    children: ReactNode;
-    id: string;
-    title: string;
-  }) => (
-    <section aria-label={title} id={id}>
-      {children}
-    </section>
-  ),
-}));
+vi.mock(
+  import("@/components/shared/section-card") as unknown as string,
+  () => ({
+    SectionCard: ({
+      children,
+      id,
+      title,
+    }: {
+      children: ReactNode;
+      id: string;
+      title: string;
+    }) => (
+      <section aria-label={title} id={id}>
+        {children}
+      </section>
+    ),
+  })
+);
 
-vi.mock(import("@/components/shared/tech-stack-item"), () => ({
-  TechStackItem: ({
-    onClick,
-    stack,
-  }: {
-    onClick?: () => void;
-    stack: { category: string; name: string };
-  }) => (
-    <button onClick={onClick} type="button">
-      {stack.name} {stack.category}
-    </button>
-  ),
-}));
+vi.mock(
+  import("@/components/shared/tech-stack-item") as unknown as string,
+  () => ({
+    TechStackItem: ({
+      onClick,
+      stack,
+    }: {
+      onClick?: () => void;
+      stack: { category: string; name: string };
+    }) => (
+      <button onClick={onClick} type="button">
+        {stack.name} {stack.category}
+      </button>
+    ),
+  })
+);
 
-vi.mock(import("@/lib/contexts/animation-skip-context"), () => ({
-  useAnimationSkipContext: () => ({
-    resetSkipAnimations: vi.fn(),
-    setSkipAnimations: vi.fn(),
-    skipAnimations: false,
-  }),
-}));
+vi.mock(
+  import("@/lib/contexts/animation-skip-context") as unknown as string,
+  () => ({
+    useAnimationSkipContext: () => ({
+      resetSkipAnimations: vi.fn(),
+      setSkipAnimations: vi.fn(),
+      skipAnimations: false,
+    }),
+  })
+);
 
-vi.mock(import("@/lib/hooks/ui/use-animation-skip-indicator"), () => ({
-  useAnimationSkipIndicator: () => false,
-}));
+vi.mock(
+  import("@/lib/hooks/ui/use-animation-skip-indicator") as unknown as string,
+  () => ({
+    useAnimationSkipIndicator: () => false,
+  })
+);
 
 describe(TechStack, () => {
   const getRenderedTechButtons = () =>

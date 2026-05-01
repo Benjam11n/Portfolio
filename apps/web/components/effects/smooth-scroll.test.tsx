@@ -4,9 +4,12 @@ import { SmoothScroll } from "./smooth-scroll";
 
 let mockPrefersReducedMotion = false;
 
-vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
-  usePrefersReducedMotion: () => mockPrefersReducedMotion,
-}));
+vi.mock(
+  import("@/lib/hooks/ui/use-prefers-reduced-motion") as unknown as string,
+  () => ({
+    usePrefersReducedMotion: () => mockPrefersReducedMotion,
+  })
+);
 
 describe(SmoothScroll, () => {
   beforeEach(() => {

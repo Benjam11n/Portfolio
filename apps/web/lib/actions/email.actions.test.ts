@@ -6,17 +6,17 @@ const { mockLoggerError, mockResendSend, mockSecure } = vi.hoisted(() => ({
   mockSecure: vi.fn(),
 }));
 
-vi.mock(import("@repo/security"), () => ({
+vi.mock(import("@repo/security") as unknown as string, () => ({
   secure: mockSecure,
 }));
 
-vi.mock(import("@repo/logger"), () => ({
+vi.mock(import("@repo/logger") as unknown as string, () => ({
   logger: {
     error: mockLoggerError,
   },
 }));
 
-vi.mock(import("@/lib/email/resend"), () => ({
+vi.mock(import("@/lib/email/resend") as unknown as string, () => ({
   fromEmail: "portfolio@example.com",
   resend: {
     emails: {
@@ -25,7 +25,7 @@ vi.mock(import("@/lib/email/resend"), () => ({
   },
 }));
 
-vi.mock(import("@/lib/env/server"), () => ({
+vi.mock(import("@/lib/env/server") as unknown as string, () => ({
   serverEnv: {
     TO_EMAIL: "owner@example.com",
   },
@@ -34,7 +34,7 @@ vi.mock(import("@/lib/env/server"), () => ({
 describe(sendEmailAction, () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockSecure.mockResolvedValue();
+    mockSecure.mockImplementation(async () => {});
     delete process.env.PLAYWRIGHT_TEST;
   });
 

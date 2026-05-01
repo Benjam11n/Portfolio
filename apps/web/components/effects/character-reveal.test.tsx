@@ -6,30 +6,36 @@ const animateInMock = vi.fn();
 const setInitialStateMock = vi.fn();
 const usePrefersReducedMotionMock = vi.fn();
 
-vi.mock(import("@gsap/react"), () => ({
+vi.mock(import("@gsap/react") as unknown as string, () => ({
   useGSAP: (callback: () => void) => {
     callback();
     return { contextSafe: (fn: unknown) => fn };
   },
 }));
 
-vi.mock(import("gsap"), () => ({
+vi.mock(import("gsap") as unknown as string, () => ({
   default: {
     set: vi.fn(),
     to: vi.fn(),
   },
 }));
 
-vi.mock(import("@/lib/hooks/ui/use-character-reveal"), () => ({
-  useCharacterReveal: () => ({
-    animateIn: animateInMock,
-    setInitialState: setInitialStateMock,
-  }),
-}));
+vi.mock(
+  import("@/lib/hooks/ui/use-character-reveal") as unknown as string,
+  () => ({
+    useCharacterReveal: () => ({
+      animateIn: animateInMock,
+      setInitialState: setInitialStateMock,
+    }),
+  })
+);
 
-vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"), () => ({
-  usePrefersReducedMotion: () => usePrefersReducedMotionMock(),
-}));
+vi.mock(
+  import("@/lib/hooks/ui/use-prefers-reduced-motion") as unknown as string,
+  () => ({
+    usePrefersReducedMotion: () => usePrefersReducedMotionMock(),
+  })
+);
 
 describe(CharacterReveal, () => {
   beforeEach(() => {

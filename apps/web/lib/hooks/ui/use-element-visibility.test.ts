@@ -125,7 +125,7 @@ describe(useElementVisibility, () => {
 
     // Fire visibilitychange event
     act(() => {
-      eventListeners.visibilitychange(new Event("visibilitychange"));
+      eventListeners.visibilitychange?.(new Event("visibilitychange"));
     });
 
     expect(result.current).toBeFalsy();
@@ -149,7 +149,7 @@ describe(useElementVisibility, () => {
       get: () => true,
     });
     act(() => {
-      eventListeners.visibilitychange(new Event("visibilitychange"));
+      eventListeners.visibilitychange?.(new Event("visibilitychange"));
     });
     expect(result.current).toBeFalsy();
 
@@ -159,7 +159,7 @@ describe(useElementVisibility, () => {
       get: () => false,
     });
     act(() => {
-      eventListeners.visibilitychange(new Event("visibilitychange"));
+      eventListeners.visibilitychange?.(new Event("visibilitychange"));
     });
 
     expect(result.current).toBeTruthy();

@@ -4,9 +4,12 @@ import { AnimationSkipReset } from "./animation-skip-reset";
 
 const mockUseAnimationSkipContext = vi.fn();
 
-vi.mock(import("@/lib/contexts/animation-skip-context"), () => ({
-  useAnimationSkipContext: () => mockUseAnimationSkipContext(),
-}));
+vi.mock(
+  import("@/lib/contexts/animation-skip-context") as unknown as string,
+  () => ({
+    useAnimationSkipContext: () => mockUseAnimationSkipContext(),
+  })
+);
 
 describe(AnimationSkipReset, () => {
   it("shows the running state by default", () => {

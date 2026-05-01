@@ -7,72 +7,75 @@ import { sendEmailAction } from "@/lib/actions/email.actions";
 
 import { ContactForm } from "./contact-form";
 
-vi.mock(import("canvas-confetti"), () => ({
+vi.mock(import("canvas-confetti") as unknown as string, () => ({
   default: vi.fn(),
 }));
 
-vi.mock(import("@/lib/actions/email.actions"), () => ({
+vi.mock(import("@/lib/actions/email.actions") as unknown as string, () => ({
   sendEmailAction: vi.fn(),
 }));
 
-vi.mock(import("@repo/logger"), () => ({
+vi.mock(import("@repo/logger") as unknown as string, () => ({
   logger: {
     error: vi.fn(),
   },
 }));
 
-vi.mock(import("sonner"), () => ({
+vi.mock(import("sonner") as unknown as string, () => ({
   toast: {
     error: vi.fn(),
     success: vi.fn(),
   },
 }));
 
-vi.mock(import("@/components/shared/shift-submit-button"), () => ({
-  ShiftSubmitButton: ({
-    children,
-    onClick,
-    type = "submit",
-    isLoading,
-  }: MockButtonProps) => {
-    if (type === "button") {
+vi.mock(
+  import("@/components/shared/shift-submit-button") as unknown as string,
+  () => ({
+    ShiftSubmitButton: ({
+      children,
+      onClick,
+      type = "submit",
+      isLoading,
+    }: MockButtonProps) => {
+      if (type === "button") {
+        return (
+          <button
+            data-testid="submit-button"
+            disabled={isLoading}
+            onClick={onClick}
+            type="button"
+          >
+            {isLoading ? "Loading..." : children}
+          </button>
+        );
+      }
+
+      if (type === "reset") {
+        return (
+          <button
+            data-testid="submit-button"
+            disabled={isLoading}
+            onClick={onClick}
+            type="reset"
+          >
+            {isLoading ? "Loading..." : children}
+          </button>
+        );
+      }
+
       return (
         <button
           data-testid="submit-button"
           disabled={isLoading}
           onClick={onClick}
-          type="button"
+          type="submit"
         >
           {isLoading ? "Loading..." : children}
         </button>
       );
-    }
-
-    if (type === "reset") {
-      return (
-        <button
-          data-testid="submit-button"
-          disabled={isLoading}
-          onClick={onClick}
-          type="reset"
-        >
-          {isLoading ? "Loading..." : children}
-        </button>
-      );
-    }
-
-    return (
-      <button
-        data-testid="submit-button"
-        disabled={isLoading}
-        onClick={onClick}
-        type="submit"
-      >
-        {isLoading ? "Loading..." : children}
-      </button>
-    );
-  },
-}));
+    },
+  })
+);
 
 describe(ContactForm, () => {
   beforeEach(() => {
@@ -147,11 +150,13 @@ describe(ContactForm, () => {
     const user = userEvent.setup();
     let resolveSubmission: ((value: { success: true }) => void) | undefined;
 
-    vi.mocked(sendEmailAction).mockImplementation(() => {
-      const deferred = Promise.withResolvers<{ success: true }>();
-      resolveSubmission = deferred.resolve;
-      return deferred.promise;
-    });
+    vi.mocked(sendEmailAction).mockImplementation(
+      () =>
+        // eslint-disable-next-line promise/avoid-new -- test needs externally resolved pending Promise.
+        new Promise<{ success: true }>((resolve) => {
+          resolveSubmission = resolve;
+        })
+    );
 
     render(<ContactForm />);
 
