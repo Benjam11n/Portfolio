@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "repo: dev",
+      "label": "Dev",
       "type": "shell",
       "command": "pnpm",
       "args": ["dev"],
@@ -17,7 +17,7 @@
       }
     },
     {
-      "label": "repo: build",
+      "label": "Build",
       "type": "shell",
       "command": "pnpm",
       "args": ["build"],
@@ -35,7 +35,7 @@
       }
     },
     {
-      "label": "repo: lint",
+      "label": "Lint",
       "type": "shell",
       "command": "pnpm",
       "args": ["lint"],
@@ -50,10 +50,10 @@
       }
     },
     {
-      "label": "repo: type-check",
+      "label": "Typecheck",
       "type": "shell",
       "command": "pnpm",
-      "args": ["type-check"],
+      "args": ["typecheck"],
       "group": "test",
       "presentation": {
         "reveal": "always",
@@ -65,7 +65,7 @@
       }
     },
     {
-      "label": "repo: test",
+      "label": "Test",
       "type": "shell",
       "command": "pnpm",
       "args": ["test"],
@@ -83,7 +83,7 @@
       }
     },
     {
-      "label": "repo: test:e2e",
+      "label": "Test E2E",
       "type": "shell",
       "command": "pnpm",
       "args": ["test:e2e"],
@@ -98,7 +98,7 @@
       }
     },
     {
-      "label": "repo: format",
+      "label": "Format",
       "type": "shell",
       "command": "pnpm",
       "args": ["fix"],
@@ -112,7 +112,7 @@
       }
     },
     {
-      "label": "repo: knip",
+      "label": "Knip",
       "type": "shell",
       "command": "pnpm",
       "args": ["knip"],
@@ -126,7 +126,7 @@
       }
     },
     {
-      "label": "repo: clean",
+      "label": "Clean",
       "type": "shell",
       "command": "pnpm",
       "args": ["clean"],
@@ -140,9 +140,9 @@
       }
     },
     {
-      "label": "repo: verify",
+      "label": "Verify",
       "dependsOrder": "sequence",
-      "dependsOn": ["repo: lint", "repo: type-check", "repo: test"],
+      "dependsOn": ["Format", "Lint", "Typecheck", "Test"],
       "group": "test",
       "presentation": {
         "reveal": "always",

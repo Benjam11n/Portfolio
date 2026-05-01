@@ -14,6 +14,7 @@
     "lint": "ultracite check",
     "fix": "ultracite fix",
     "knip": "knip",
+    "typecheck": "turbo run type-check",
     "type-check": "turbo run type-check",
     "clean": "turbo run clean",
     "test": "turbo run test",
