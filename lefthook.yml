@@ -9,5 +9,5 @@ pre-commit:
     - name: lint
       run: pnpm lint
 
-    - name: type-check
-      run: pnpm type-check
+    - name: typecheck
+      run: pnpm typecheck

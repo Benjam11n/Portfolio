@@ -10,8 +10,8 @@
       "cache": false,
       "persistent": true
     },
-    "type-check": {
-      "dependsOn": ["^type-check"],
+    "typecheck": {
+      "dependsOn": ["^typecheck"],
       "outputs": []
     },
     "lint": {

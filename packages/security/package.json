@@ -10,7 +10,7 @@
   },
   "scripts": {
     "clean": "rm -rf .cache .turbo dist node_modules",
-    "type-check": "tsgo --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsgo --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "@arcjet/next": "^1.3.0",

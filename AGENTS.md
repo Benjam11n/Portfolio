@@ -24,13 +24,13 @@
 
 - Run commands from the repository root with `pnpm`.
 - Prefer root scripts when they fit:
-  `pnpm build`, `pnpm lint`, `pnpm fix`, `pnpm type-check`, `pnpm test:ci`.
+  `pnpm build`, `pnpm lint`, `pnpm fix`, `pnpm typecheck`, `pnpm test:ci`.
 - Use filtered commands for app-specific work:
   `pnpm --filter web dev|build|test|test:ci|test:e2e`.
 - Never start a dev server unless the user explicitly asks for it.
 - Before finalizing code changes, run `pnpm fix`.
 - After meaningful changes, run the relevant checks for what changed. Minimum
-  default for app code: `pnpm lint` and `pnpm type-check`.
+  default for app code: `pnpm lint` and `pnpm typecheck`.
 
 ## Monorepo Practices
 

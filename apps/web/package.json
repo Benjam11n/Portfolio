@@ -9,7 +9,7 @@
     "homepage:media-check": "tsx ./scripts/check-homepage-media.ts",
     "lint": "ultracite check",
     "fix": "ultracite fix",
-    "type-check": "tsgo --noEmit",
+    "typecheck": "tsgo --noEmit",
     "clean": "rm -rf .next",
     "test": "vitest",
     "test:ci": "vitest run",

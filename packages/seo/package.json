@@ -13,7 +13,7 @@
   },
   "scripts": {
     "clean": "rm -rf .cache .turbo dist node_modules",
-    "type-check": "tsgo --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsgo --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "lodash.merge": "^4.6.2",

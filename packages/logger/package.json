@@ -8,7 +8,7 @@
   },
   "scripts": {
     "clean": "rm -rf .cache .turbo dist node_modules",
-    "type-check": "tsgo --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsgo --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "pino": "^10.1.1",
