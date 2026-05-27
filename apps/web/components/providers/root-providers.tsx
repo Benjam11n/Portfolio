@@ -2,7 +2,6 @@
 
 import { AnalyticsProvider } from "@repo/analytics";
 import type { ReactNode } from "react";
-import { Toaster } from "sonner";
 
 import {
   DynamicAnimationSkipProvider,
@@ -10,6 +9,7 @@ import {
   DynamicSelectiveHoverCursor,
 } from "@/components/layout/dynamic-layout-components";
 import { ThemeProvider } from "@/components/shared/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { clientEnv } from "@/lib/env/client";
 import { useDeferredEnhancement } from "@/lib/hooks/performance/use-deferred-enhancement";
