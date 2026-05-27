@@ -15,6 +15,7 @@ const rawWorkExperiences: Experience[] = [
     startDate: { month: 6, year: 2026 },
   },
   {
+    endDate: { month: 6, year: 2026 },
     icon: "/experiences/aumovio.png",
     iconBackgroundColor: "#fff",
     iconScale: 1.5,
