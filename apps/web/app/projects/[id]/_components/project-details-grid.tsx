@@ -82,12 +82,8 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
           <Card3D
             className="h-full border border-border/50 bg-card p-4 shadow-sm transition-colors"
             containerClassName="details-card"
-            glare
-            glareIntensity={0.6}
             key={detail.label}
-            parallaxIntensity={0}
-            rotationIntensity={2}
-            thickness={4}
+            variant="compact"
           >
             <span
               className={cn(

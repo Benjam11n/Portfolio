@@ -87,12 +87,8 @@ export const TechStackItem = ({
         "flex h-full items-center",
         small ? "gap-2 p-2" : "gap-3 p-3"
       )}
-      glare
-      glareIntensity={0.6}
-      parallaxIntensity={0}
-      rotationIntensity={4}
       shadow={false}
-      thickness={small ? 10 : 14}
+      variant="skill"
     >
       <div className="flex h-full w-full items-center">
         {/* Fixed Width Icon Container - guarantee no shrinking */}

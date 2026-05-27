@@ -71,7 +71,6 @@ export const RelatedProjectsList = ({ techName }: RelatedProjectsListProps) => {
             <Card3D
               className="rounded-xl border border-border/40"
               containerClassName="h-full"
-              glare={false}
               shadow={false}
               variant="subtle"
             >

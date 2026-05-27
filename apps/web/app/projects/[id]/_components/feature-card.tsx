@@ -12,11 +12,7 @@ export const FeatureCard = ({ feature, index }: FeatureCardProps) => (
   <Card3D
     className="h-full border border-border/50 bg-card p-5 shadow-sm transition-colors"
     containerClassName="feature-card h-full"
-    glare
-    glareIntensity={0.6}
-    parallaxIntensity={0.02}
-    rotationIntensity={2}
-    thickness={4}
+    variant="compact"
   >
     <div className="flex items-start gap-4">
       <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-secondary font-mono text-[10px] text-muted-foreground ring-1 ring-border/50">

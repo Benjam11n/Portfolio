@@ -19,13 +19,7 @@ export const CertificationCard = ({ cert }: CertificationCardProps) => {
   }, []);
 
   return (
-    <Card3D
-      className="p-6 shadow-sm"
-      glare
-      parallaxIntensity={0.05}
-      rotationIntensity={6}
-      thickness={4}
-    >
+    <Card3D className="p-6 shadow-sm" variant="media">
       <div className="relative">
         <div className="relative mb-4 aspect-video w-full overflow-hidden rounded-lg bg-secondary shadow-inner">
           {imageError ? (

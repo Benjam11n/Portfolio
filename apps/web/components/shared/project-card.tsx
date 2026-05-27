@@ -126,13 +126,7 @@ export const ProjectCard = memo(({ project }: ProjectCardProps) => {
   }, [canPreview, isPreviewVisible, shouldLoadPreview, tryPlayPreview]);
 
   return (
-    <Card3D
-      className="p-2 shadow-sm sm:p-3"
-      glare={!isMobile}
-      parallaxIntensity={0}
-      rotationIntensity={isMobile ? 0 : 3}
-      thickness={10}
-    >
+    <Card3D className="p-2 shadow-sm sm:p-3" variant="standard">
       <Link
         aria-label={`View project: ${project.title}`}
         className="project-card-item group block w-full cursor-pointer"

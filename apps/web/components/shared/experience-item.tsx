@@ -218,26 +218,14 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
 
   if (!hasPoints) {
     return (
-      <Card3D
-        className="p-4"
-        glare={!isMobile}
-        parallaxIntensity={0}
-        rotationIntensity={isMobile ? 0 : 3}
-        thickness={10}
-      >
+      <Card3D className="p-4" variant="text">
         <div className="group">{content}</div>
       </Card3D>
     );
   }
 
   return (
-    <Card3D
-      className="shadow-sm"
-      glare={!isMobile}
-      parallaxIntensity={0}
-      rotationIntensity={isMobile ? 0 : 3}
-      thickness={8}
-    >
+    <Card3D className="shadow-sm" variant="text">
       <button
         aria-controls={contentId}
         aria-expanded={isOpen}

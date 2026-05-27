@@ -8,30 +8,61 @@ import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-moti
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import { cn } from "@/lib/utils";
 
-// Variant preset configurations for common 3D card styles
 const CARD_VARIANTS = {
   book: {
     glare: true,
+    glareIntensity: 0.8,
     parallaxIntensity: 0.04,
-    rotationIntensity: 8,
+    rotationIntensity: 6,
     thickness: 20,
+  },
+  compact: {
+    glare: true,
+    glareIntensity: 0.6,
+    parallaxIntensity: 0.01,
+    rotationIntensity: 2,
+    thickness: 4,
   },
   dramatic: {
     glare: true,
+    glareIntensity: 0.8,
     parallaxIntensity: 0.1,
-    rotationIntensity: 15,
+    rotationIntensity: 10,
     thickness: 16,
+  },
+  media: {
+    glare: true,
+    glareIntensity: 0.8,
+    parallaxIntensity: 0.05,
+    rotationIntensity: 4,
+    thickness: 4,
+  },
+  skill: {
+    glare: true,
+    glareIntensity: 0.6,
+    parallaxIntensity: 0,
+    rotationIntensity: 4,
+    thickness: 12,
   },
   standard: {
     glare: true,
-    parallaxIntensity: 0.05,
-    rotationIntensity: 8,
-    thickness: 12,
+    glareIntensity: 0.8,
+    parallaxIntensity: 0,
+    rotationIntensity: 3,
+    thickness: 10,
   },
   subtle: {
     glare: false,
+    glareIntensity: 0.8,
     parallaxIntensity: 0.02,
-    rotationIntensity: 3,
+    rotationIntensity: 2,
+    thickness: 8,
+  },
+  text: {
+    glare: true,
+    glareIntensity: 0.8,
+    parallaxIntensity: 0,
+    rotationIntensity: 2,
     thickness: 8,
   },
 } as const;
@@ -64,18 +95,25 @@ interface Card3DProps {
 
 const getCardSettings = ({
   glare,
+  glareIntensity,
   parallaxIntensity,
   rotationIntensity,
   thickness,
   variant,
 }: Pick<
   Card3DProps,
-  "glare" | "parallaxIntensity" | "rotationIntensity" | "thickness" | "variant"
+  | "glare"
+  | "glareIntensity"
+  | "parallaxIntensity"
+  | "rotationIntensity"
+  | "thickness"
+  | "variant"
 >) => {
   const defaults = variant ? CARD_VARIANTS[variant] : undefined;
 
   return {
     glare: glare ?? defaults?.glare ?? true,
+    glareIntensity: glareIntensity ?? defaults?.glareIntensity ?? 0.8,
     parallaxIntensity: parallaxIntensity ?? defaults?.parallaxIntensity ?? 0.05,
     rotationIntensity: rotationIntensity ?? defaults?.rotationIntensity ?? 8,
     thickness: thickness ?? defaults?.thickness ?? 12,
@@ -198,7 +236,7 @@ export const Card3D = ({
   rotationIntensity,
   parallaxIntensity,
   glare,
-  glareIntensity = 0.8,
+  glareIntensity,
   shadow = true,
   className,
   containerClassName,
@@ -212,11 +250,13 @@ export const Card3D = ({
   const shouldDisable3D = prefersReducedMotion || isMobile;
   const {
     glare: mergedGlare,
+    glareIntensity: mergedGlareIntensity,
     parallaxIntensity: mergedParallaxIntensity,
     rotationIntensity: mergedRotationIntensity,
     thickness: mergedThickness,
   } = getCardSettings({
     glare,
+    glareIntensity,
     parallaxIntensity,
     rotationIntensity,
     thickness,
@@ -265,7 +305,7 @@ export const Card3D = ({
     animateGlare({
       glare: glareRef.current,
       glareEnabled: mergedGlare,
-      glareIntensity,
+      glareIntensity: mergedGlareIntensity,
       height: rect.height,
       normalizedX,
       normalizedY,
@@ -331,8 +371,6 @@ export const Card3D = ({
           )}
           style={{
             backfaceVisibility: "hidden",
-            transform: `translateZ(${halfThickness}px)`,
-            transformStyle: "preserve-3d",
           }}
         >
           <div className="relative z-10 h-full w-full" ref={contentRef}>
