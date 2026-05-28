@@ -1,21 +1,16 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsapCore from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Maximize2 } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 import { Card3D } from "@/components/effects/card-3d";
 import { MediaPreviewOverlay } from "@/components/ui/media-preview-overlay";
+import { useScrollReveal } from "@/lib/hooks/animation/use-scroll-reveal";
+import type { RevealStep } from "@/lib/hooks/animation/use-scroll-reveal";
 import type { Project } from "@/lib/types/index.ts";
 import { cn } from "@/lib/utils";
 
 import { FullscreenMedia } from "./fullscreen-media";
-
-if (typeof window !== "undefined") {
-  gsapCore.registerPlugin(ScrollTrigger);
-}
 
 interface ProjectDetailsGridProps {
   project: Project;
@@ -36,44 +31,29 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
     { label: "Location", uppercase: false, value: project.location },
   ];
 
-  useGSAP(
-    () => {
-      // Set initial states
-      gsapCore.set(".details-card", { autoAlpha: 0, scale: 0.98, y: 16 });
-      gsapCore.set(".details-video", { autoAlpha: 0, scale: 1.02 });
-
-      const tl = gsapCore.timeline({
-        defaults: { ease: "power3.out" },
-        scrollTrigger: {
-          start: "top 85%",
-          toggleActions: "play none none none",
-          trigger: containerRef.current,
-        },
-      });
-
-      // Cards stagger pop
-      tl.to(".details-card", {
-        autoAlpha: 1,
-        duration: 0.6,
-        scale: 1,
-        stagger: 0.1,
-        y: 0,
-      });
-
-      // Video scale/fade
-      tl.to(
-        ".details-video",
-        {
+  const revealSteps = useMemo<RevealStep[]>(
+    () => [
+      {
+        from: { autoAlpha: 0, scale: 0.98, y: 16 },
+        target: ".details-card",
+        to: {
           autoAlpha: 1,
-          duration: 1,
-          ease: "back.out(1.5)",
+          duration: 0.6,
           scale: 1,
+          stagger: 0.1,
+          y: 0,
         },
-        "-=0.4"
-      );
-    },
-    { scope: containerRef }
+      },
+      {
+        from: { autoAlpha: 0, scale: 1.02 },
+        position: "-=0.4",
+        target: ".details-video",
+        to: { autoAlpha: 1, duration: 1, ease: "back.out(1.5)", scale: 1 },
+      },
+    ],
+    []
   );
+  useScrollReveal(containerRef, revealSteps);
 
   return (
     <div className="space-y-4" ref={containerRef}>
@@ -103,12 +83,14 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
       {/* Project Visual Below Grid */}
       {project.video_overview && (
         <button
+          aria-label={`Open ${project.title} video preview fullscreen`}
           className="details-video group relative mt-8 w-full cursor-zoom-in overflow-hidden rounded-xl bg-card p-3 shadow-sm"
           onClick={handleOpenFullscreen}
           type="button"
         >
           <div className="relative aspect-video w-full overflow-hidden rounded-xl">
             <video
+              aria-label={`${project.title} video preview`}
               autoPlay
               className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
               loop
@@ -117,7 +99,7 @@ export const ProjectDetailsGrid = ({ project }: ProjectDetailsGridProps) => {
               src={project.video_overview}
             />
 
-            <MediaPreviewOverlay icon={<Maximize2 className="h-4 w-4" />} />
+            <MediaPreviewOverlay icon={<Maximize2 className="size-4" />} />
           </div>
         </button>
       )}
