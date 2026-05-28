@@ -68,6 +68,13 @@ const CARD_VARIANTS = {
 } as const;
 
 type Card3DVariant = keyof typeof CARD_VARIANTS;
+interface CardSettings {
+  glare: boolean;
+  glareIntensity: number;
+  parallaxIntensity: number;
+  rotationIntensity: number;
+  thickness: number;
+}
 
 interface Card3DProps {
   children: React.ReactNode;
@@ -109,14 +116,34 @@ const getCardSettings = ({
   | "thickness"
   | "variant"
 >) => {
-  const defaults = variant ? CARD_VARIANTS[variant] : undefined;
+  const defaults = variant ? CARD_VARIANTS[variant] : CARD_VARIANTS.standard;
 
   return {
-    glare: glare ?? defaults?.glare ?? true,
-    glareIntensity: glareIntensity ?? defaults?.glareIntensity ?? 0.8,
-    parallaxIntensity: parallaxIntensity ?? defaults?.parallaxIntensity ?? 0.05,
-    rotationIntensity: rotationIntensity ?? defaults?.rotationIntensity ?? 8,
-    thickness: thickness ?? defaults?.thickness ?? 12,
+    glare: glare ?? defaults.glare,
+    glareIntensity: glareIntensity ?? defaults.glareIntensity,
+    parallaxIntensity: parallaxIntensity ?? defaults.parallaxIntensity,
+    rotationIntensity: rotationIntensity ?? defaults.rotationIntensity,
+    thickness: thickness ?? defaults.thickness,
+  } satisfies CardSettings;
+};
+
+const getPointerState = (
+  event: React.MouseEvent<HTMLDivElement>,
+  rect: DOMRect,
+  rotationIntensity: number
+) => {
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+  const normalizedX = (x - centerX) / centerX;
+  const normalizedY = (y - centerY) / centerY;
+
+  return {
+    normalizedX,
+    normalizedY,
+    rotateX: normalizedY * -rotationIntensity,
+    rotateY: normalizedX * rotationIntensity,
   };
 };
 
@@ -270,22 +297,12 @@ export const Card3D = ({
       return;
     }
 
-    // Use container rect instead of transforming card rect to avoid jitter loop
     const rect = containerRef.current.getBoundingClientRect();
-
-    // Calculate cursor position relative to the container's center
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    // Normalize values between -1 and 1
-    const normalizedX = (x - centerX) / centerX;
-    const normalizedY = (y - centerY) / centerY;
-
-    const rotateX = normalizedY * -mergedRotationIntensity;
-    const rotateY = normalizedX * mergedRotationIntensity;
+    const { normalizedX, normalizedY, rotateX, rotateY } = getPointerState(
+      e,
+      rect,
+      mergedRotationIntensity
+    );
 
     gsapCore.to(cardRef.current, {
       duration: 0.3,
@@ -379,7 +396,7 @@ export const Card3D = ({
 
           {mergedGlare && (
             <div
-              className="pointer-events-none absolute top-1/2 left-1/2 h-[250%] w-[250%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_50%)] opacity-0 mix-blend-plus-lighter"
+              className="pointer-events-none absolute top-1/2 left-1/2 size-[250%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.2)_0%,transparent_50%)] opacity-0 mix-blend-plus-lighter"
               ref={glareRef}
               style={{ transform: "translateZ(1px)" }}
             />

@@ -2,7 +2,7 @@
 
 import gsapCore from "gsap";
 import { useTheme } from "next-themes";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import type { RefObject } from "react";
 
 const DARK_PROFILE_IMAGE_SRC = "/benjamin.avif";
@@ -13,20 +13,73 @@ interface UseProfileImageSourceOptions {
   prefersReducedMotion?: boolean;
 }
 
+const unsubscribeFromHydration = () => {
+  // useSyncExternalStore needs a cleanup function; no subscription is opened.
+};
+const subscribeToHydration = () => unsubscribeFromHydration;
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
+
+const useHasHydrated = () =>
+  useSyncExternalStore(
+    subscribeToHydration,
+    getClientSnapshot,
+    getServerSnapshot
+  );
+
+const getProfileImageSource = (theme?: string) => {
+  if (theme === "light") {
+    return LIGHT_PROFILE_IMAGE_SRC;
+  }
+
+  return DARK_PROFILE_IMAGE_SRC;
+};
+
+const shouldAnimateThemeChange = ({
+  animationRef,
+  currentTheme,
+  prefersReducedMotion,
+  previousTheme,
+}: {
+  animationRef?: RefObject<HTMLElement | null>;
+  currentTheme: string;
+  prefersReducedMotion: boolean;
+  previousTheme: string | null;
+}) =>
+  Boolean(animationRef?.current) &&
+  Boolean(previousTheme) &&
+  previousTheme !== currentTheme &&
+  !prefersReducedMotion;
+
+const animateProfileImageThemeChange = (element: HTMLElement) => {
+  gsapCore.fromTo(
+    element,
+    {
+      autoAlpha: 0.8,
+      scale: 0.96,
+      y: 4,
+    },
+    {
+      autoAlpha: 1,
+      duration: 0.28,
+      ease: "power2.out",
+      overwrite: "auto",
+      scale: 1,
+      y: 0,
+    }
+  );
+};
+
 export const useProfileImageSource = ({
   animationRef,
   prefersReducedMotion = false,
 }: UseProfileImageSourceOptions = {}) => {
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const hasHydrated = useHasHydrated();
   const previousThemeRef = useRef<string | null>(null);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) {
+    if (!hasHydrated) {
       return;
     }
 
@@ -36,36 +89,22 @@ export const useProfileImageSource = ({
     previousThemeRef.current = currentTheme;
 
     if (
-      !(animationRef?.current && previousTheme) ||
-      previousTheme === currentTheme ||
-      prefersReducedMotion
+      !shouldAnimateThemeChange({
+        animationRef,
+        currentTheme,
+        prefersReducedMotion,
+        previousTheme,
+      })
     ) {
       return;
     }
 
-    gsapCore.fromTo(
-      animationRef.current,
-      {
-        autoAlpha: 0.8,
-        scale: 0.96,
-        y: 4,
-      },
-      {
-        autoAlpha: 1,
-        duration: 0.28,
-        ease: "power2.out",
-        overwrite: "auto",
-        scale: 1,
-        y: 0,
-      }
-    );
-  }, [animationRef, mounted, prefersReducedMotion, resolvedTheme]);
+    animateProfileImageThemeChange(animationRef?.current as HTMLElement);
+  }, [animationRef, hasHydrated, prefersReducedMotion, resolvedTheme]);
 
-  if (!mounted) {
+  if (!hasHydrated) {
     return DARK_PROFILE_IMAGE_SRC;
   }
 
-  return resolvedTheme === "light"
-    ? LIGHT_PROFILE_IMAGE_SRC
-    : DARK_PROFILE_IMAGE_SRC;
+  return getProfileImageSource(resolvedTheme);
 };

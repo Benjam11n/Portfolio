@@ -30,7 +30,7 @@
  */
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 import { useAnimationPerformance } from "@/lib/hooks/animation/use-animation-performance";
 
@@ -44,86 +44,129 @@ const getStatusColor = (fpsValue: number) => {
   return "text-green-500";
 };
 
+const unsubscribeFromHydration = () => {
+  // useSyncExternalStore needs a cleanup function; no subscription is opened.
+};
+const subscribeToHydration = () => unsubscribeFromHydration;
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
+
+const useHasHydrated = () =>
+  useSyncExternalStore(
+    subscribeToHydration,
+    getClientSnapshot,
+    getServerSnapshot
+  );
+
+const getThemeClasses = (theme?: string) => {
+  if (theme === "dark") {
+    return {
+      background: "bg-black/80 backdrop-blur-sm",
+      bar: "bg-gray-700",
+      label: "text-gray-400",
+      text: "text-gray-200",
+    };
+  }
+
+  return {
+    background: "bg-white/80 backdrop-blur-sm",
+    bar: "bg-gray-300",
+    label: "text-gray-600",
+    text: "text-gray-800",
+  };
+};
+
+const MetricRow = ({
+  label,
+  value,
+  valueClassName,
+}: {
+  label: string;
+  value: React.ReactNode;
+  valueClassName: string;
+}) => (
+  <div className="flex items-center justify-between">
+    <span>{label}:</span>
+    <span className={valueClassName}>{value}</span>
+  </div>
+);
+
+const PerformanceBar = ({
+  barColor,
+  fps,
+}: {
+  barColor: string;
+  fps: number;
+}) => (
+  <div className={`mt-2 h-1 w-full rounded-full ${barColor}`}>
+    <div
+      className={`h-full rounded-full transition-all duration-300 ${getStatusColor(
+        fps
+      )}`}
+      style={{
+        width: `${Math.min((fps / 60) * 100, 100)}%`,
+      }}
+    />
+  </div>
+);
+
 const PerformanceMonitorContent = () => {
   const { fps, frameTime, frameDrops, isTracking } = useAnimationPerformance();
   const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const hasHydrated = useHasHydrated();
 
-  // Prevent hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
+  if (!hasHydrated) {
     return null;
   }
 
-  const bgColor =
-    theme === "dark"
-      ? "bg-black/80 backdrop-blur-sm"
-      : "bg-white/80 backdrop-blur-sm";
-  const textColor = theme === "dark" ? "text-gray-200" : "text-gray-800";
-  const labelColor = theme === "dark" ? "text-gray-400" : "text-gray-600";
+  const themeClasses = getThemeClasses(theme);
 
   return (
     <div
-      className={`fixed right-4 bottom-4 z-50 rounded-lg border border-gray-700/30 p-3 font-mono text-xs shadow-lg ${bgColor}`}
+      className={`fixed right-4 bottom-4 z-50 rounded-lg border border-gray-700/30 p-3 font-mono text-xs shadow-lg ${themeClasses.background}`}
       style={{
         minWidth: "180px",
       }}
     >
       {/* Header */}
-      <div className={`mb-2 font-semibold ${labelColor}`}>
+      <div className={`mb-2 font-semibold ${themeClasses.label}`}>
         Performance Monitor
       </div>
 
       {/* Metrics */}
-      <div className="space-y-1">
-        {/* FPS */}
-        <div className="flex items-center justify-between">
-          <span className={`${labelColor}`}>FPS:</span>
-          <span className={`${getStatusColor(fps)} font-bold`}>{fps}</span>
-        </div>
-
-        {/* Frame Time */}
-        <div className="flex items-center justify-between">
-          <span className={`${labelColor}`}>Frame Time:</span>
-          <span className={`${textColor}`}>
-            {frameTime}
-            <span className={`${labelColor} ml-0.5`}>ms</span>
-          </span>
-        </div>
-
-        {/* Frame Drops */}
-        <div className="flex items-center justify-between">
-          <span className={`${labelColor}`}>Frame Drops:</span>
-          <span className={`${textColor}`}>{frameDrops}</span>
-        </div>
-
-        {/* Tracking Status */}
-        <div className="flex items-center justify-between">
-          <span className={`${labelColor}`}>Tracking:</span>
-          <span
-            className={`${textColor} ${isTracking ? "text-blue-400" : labelColor}`}
-          >
-            {isTracking ? "Active" : "Idle"}
-          </span>
-        </div>
-      </div>
-
-      {/* Performance indicator bar */}
-      <div
-        className={`mt-2 h-1 w-full rounded-full ${theme === "dark" ? "bg-gray-700" : "bg-gray-300"}`}
-      >
-        <div
-          className={`h-full rounded-full transition-all duration-300 ${getStatusColor(
-            fps
-          )}`}
-          style={{
-            width: `${Math.min((fps / 60) * 100, 100)}%`,
-          }}
+      <div className={`space-y-1 ${themeClasses.label}`}>
+        <MetricRow
+          label="FPS"
+          value={fps}
+          valueClassName={`${getStatusColor(fps)} font-bold`}
+        />
+        <MetricRow
+          label="Frame Time"
+          value={
+            <>
+              {frameTime}
+              <span className={`${themeClasses.label} ml-0.5`}>ms</span>
+            </>
+          }
+          valueClassName={themeClasses.text}
+        />
+        <MetricRow
+          label="Frame Drops"
+          value={frameDrops}
+          valueClassName={themeClasses.text}
+        />
+        <MetricRow
+          label="Tracking"
+          value={isTracking ? "Active" : "Idle"}
+          valueClassName={
+            isTracking
+              ? `${themeClasses.text} text-blue-400`
+              : themeClasses.label
+          }
         />
       </div>
+
+      <PerformanceBar barColor={themeClasses.bar} fps={fps} />
     </div>
   );
 };

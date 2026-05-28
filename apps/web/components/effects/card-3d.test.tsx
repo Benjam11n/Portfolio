@@ -83,7 +83,7 @@ describe(Card3D, () => {
       container.querySelector(".mix-blend-plus-lighter")
     ).toBeInTheDocument();
     expect(
-      container.querySelector('[style*="translateZ(12px)"]')
+      container.querySelector('[style*="translateY(12px)"]')
     ).toBeInTheDocument();
   });
 });

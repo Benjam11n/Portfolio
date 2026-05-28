@@ -20,9 +20,11 @@ interface UseHeroAnimationOptions {
   skipAnimations: boolean;
 }
 
+type AnimationMetrics = ReturnType<typeof useAnimationPerformance>;
+
 const logHeroMetrics = (
   label: string,
-  metrics: ReturnType<typeof useAnimationPerformance>,
+  metrics: AnimationMetrics,
   duration: number
 ) => {
   if (process.env.NODE_ENV !== "development") {
@@ -45,6 +47,148 @@ const logHeroMetrics = (
   }
 };
 
+const mediumFastSeconds = ANIMATION_DURATION.MEDIUM_FAST / 1000;
+const quickSeconds = ANIMATION_DURATION.QUICK / 1000;
+
+const shouldUseStaticHeroState = ({
+  prefersReducedMotion,
+  shouldSkipEntranceAnimation,
+  skipAnimations,
+}: Pick<
+  UseHeroAnimationOptions,
+  "prefersReducedMotion" | "shouldSkipEntranceAnimation" | "skipAnimations"
+>) => prefersReducedMotion || skipAnimations || shouldSkipEntranceAnimation;
+
+const stopAndLogHeroMetrics = (
+  label: string,
+  performanceMetrics: AnimationMetrics
+) => {
+  logHeroMetrics(label, performanceMetrics, performanceMetrics.stopTracking());
+};
+
+const getHeroOffset = (isDesktop: boolean) => {
+  if (isDesktop) {
+    return 0;
+  }
+
+  return -40;
+};
+
+const getHeroButtons = (buttonsRef: RefObject<HTMLDivElement | null>) =>
+  buttonsRef.current?.children || [];
+
+const setSkippedHeroState = ({
+  buttons,
+  image,
+  imageOffset,
+}: {
+  buttons: HTMLCollection | never[];
+  image: HTMLDivElement | null;
+  imageOffset: number;
+}) => {
+  gsapCore.set(image, {
+    autoAlpha: 1,
+    rotate: 0,
+    scale: 1,
+    x: imageOffset,
+  });
+  gsapCore.set(".char", { autoAlpha: 1, y: 0 });
+  gsapCore.set(".hero-badge", { autoAlpha: 1, scale: 1 });
+  gsapCore.set(".hero-text", { autoAlpha: 1, y: 0 });
+  gsapCore.set(buttons, {
+    autoAlpha: 1,
+    y: 0,
+  });
+};
+
+const animateHeroEntrance = ({
+  buttons,
+  image,
+  imageOffset,
+  onComplete,
+}: {
+  buttons: HTMLCollection | never[];
+  image: HTMLDivElement | null;
+  imageOffset: number;
+  onComplete: () => void;
+}) => {
+  const timeline = gsapCore.timeline({
+    defaults: { ease: ANIMATION_EASING.DEFAULT },
+    onComplete,
+  });
+
+  timeline
+    .fromTo(
+      image,
+      {
+        autoAlpha: 0,
+        rotate: -15,
+        scale: 0,
+        x: imageOffset,
+      },
+      {
+        autoAlpha: 1,
+        duration: mediumFastSeconds,
+        ease: ANIMATION_EASING.ELASTIC,
+        rotate: 0,
+        scale: 1,
+        x: 0,
+      }
+    )
+    .to(
+      ".char",
+      {
+        autoAlpha: 1,
+        duration: mediumFastSeconds,
+        ease: ANIMATION_EASING.DEFAULT,
+        stagger: ANIMATION_STAGGER.QUICK,
+        y: 0,
+      },
+      `-=${mediumFastSeconds - 0.1}`
+    )
+    .fromTo(
+      ".hero-badge",
+      { autoAlpha: 0, scale: 0 },
+      {
+        autoAlpha: 1,
+        duration: quickSeconds,
+        ease: ANIMATION_EASING.BACK_STRONG,
+        scale: 1,
+      },
+      `-=${mediumFastSeconds - 0.05}`
+    )
+    .fromTo(
+      ".hero-text",
+      {
+        autoAlpha: 0,
+        y: 40,
+      },
+      {
+        autoAlpha: 1,
+        duration: mediumFastSeconds,
+        ease: ANIMATION_EASING.DEFAULT,
+        stagger: ANIMATION_STAGGER.QUICK,
+        y: 0,
+      },
+      `-=${mediumFastSeconds}`
+    )
+    .fromTo(
+      buttons,
+      {
+        autoAlpha: 0,
+        y: 20,
+      },
+      {
+        autoAlpha: 1,
+        duration: mediumFastSeconds,
+        ease: ANIMATION_EASING.POWER3,
+        stagger: ANIMATION_STAGGER.QUICK,
+        y: 0,
+      },
+      `-=${mediumFastSeconds}`
+    );
+};
+
 export const useHeroAnimation = ({
   buttonsRef,
   containerRef,
@@ -58,6 +202,11 @@ export const useHeroAnimation = ({
   useGSAP(
     () => {
       const mm = gsapCore.matchMedia();
+      const shouldSkip = shouldUseStaticHeroState({
+        prefersReducedMotion,
+        shouldSkipEntranceAnimation,
+        skipAnimations,
+      });
 
       mm.add(
         {
@@ -66,118 +215,36 @@ export const useHeroAnimation = ({
         },
         (context) => {
           const { isDesktop } = context.conditions as { isDesktop: boolean };
-          const offset = isDesktop ? 0 : -40;
-          const shouldSkip =
-            prefersReducedMotion ||
-            skipAnimations ||
-            shouldSkipEntranceAnimation;
+          const offset = getHeroOffset(isDesktop);
+          const buttons = getHeroButtons(buttonsRef);
 
           performanceMetrics.startTracking();
 
           if (shouldSkip) {
-            gsapCore.set(imageRef.current, {
-              autoAlpha: 1,
-              rotate: 0,
-              scale: 1,
-              x: isDesktop ? 0 : offset,
-            });
-            gsapCore.set(".char", { autoAlpha: 1, y: 0 });
-            gsapCore.set(".hero-badge", { autoAlpha: 1, scale: 1 });
-            gsapCore.set(".hero-text", { autoAlpha: 1, y: 0 });
-            gsapCore.set(buttonsRef.current?.children || [], {
-              autoAlpha: 1,
-              y: 0,
+            setSkippedHeroState({
+              buttons,
+              image: imageRef.current,
+              imageOffset: isDesktop ? 0 : offset,
             });
 
-            logHeroMetrics(
+            stopAndLogHeroMetrics(
               "[Hero] Animations skipped - Performance metrics:",
-              performanceMetrics,
-              performanceMetrics.stopTracking()
+              performanceMetrics
             );
             return;
           }
 
-          const timeline = gsapCore.timeline({
-            defaults: { ease: ANIMATION_EASING.DEFAULT },
+          animateHeroEntrance({
+            buttons,
+            image: imageRef.current,
+            imageOffset: offset,
             onComplete: () => {
-              logHeroMetrics(
+              stopAndLogHeroMetrics(
                 "[Hero] Animation complete - Performance metrics:",
-                performanceMetrics,
-                performanceMetrics.stopTracking()
+                performanceMetrics
               );
             },
           });
-
-          timeline
-            .fromTo(
-              imageRef.current,
-              {
-                autoAlpha: 0,
-                rotate: -15,
-                scale: 0,
-                x: offset,
-              },
-              {
-                autoAlpha: 1,
-                duration: ANIMATION_DURATION.MEDIUM_FAST / 1000,
-                ease: ANIMATION_EASING.ELASTIC,
-                rotate: 0,
-                scale: 1,
-                x: 0,
-              }
-            )
-            .to(
-              ".char",
-              {
-                autoAlpha: 1,
-                duration: ANIMATION_DURATION.MEDIUM_FAST / 1000,
-                ease: ANIMATION_EASING.DEFAULT,
-                stagger: ANIMATION_STAGGER.QUICK,
-                y: 0,
-              },
-              `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000 - 0.1}`
-            )
-            .fromTo(
-              ".hero-badge",
-              { autoAlpha: 0, scale: 0 },
-              {
-                autoAlpha: 1,
-                duration: ANIMATION_DURATION.QUICK / 1000,
-                ease: ANIMATION_EASING.BACK_STRONG,
-                scale: 1,
-              },
-              `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000 - 0.05}`
-            )
-            .fromTo(
-              ".hero-text",
-              {
-                autoAlpha: 0,
-                y: 40,
-              },
-              {
-                autoAlpha: 1,
-                duration: ANIMATION_DURATION.MEDIUM_FAST / 1000,
-                ease: ANIMATION_EASING.DEFAULT,
-                stagger: ANIMATION_STAGGER.QUICK,
-                y: 0,
-              },
-              `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000}`
-            )
-            .fromTo(
-              buttonsRef.current?.children || [],
-              {
-                autoAlpha: 0,
-                y: 20,
-              },
-              {
-                autoAlpha: 1,
-                duration: ANIMATION_DURATION.MEDIUM_FAST / 1000,
-                ease: ANIMATION_EASING.POWER3,
-                stagger: ANIMATION_STAGGER.QUICK,
-                y: 0,
-              },
-              `-=${ANIMATION_DURATION.MEDIUM_FAST / 1000}`
-            );
         }
       );
     },
