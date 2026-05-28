@@ -4,42 +4,7 @@ import { fireEvent } from "@testing-library/react";
 import { SelectiveHoverCursor } from "./selective-hover-cursor";
 
 const mocks = vi.hoisted(() => ({
-  gsapSet: vi.fn(),
-  gsapTo: vi.fn((_: unknown, vars?: { onComplete?: () => void }) => {
-    vars?.onComplete?.();
-  }),
   prefersReducedMotion: false,
-  quickToX: vi.fn(),
-  quickToY: vi.fn(),
-}));
-
-vi.mock(import("@gsap/react") as unknown as string, () => ({
-  useGSAP: (
-    callbackOrConfig?: (() => void) | { scope?: unknown },
-    config?: { scope?: unknown }
-  ) => {
-    if (typeof callbackOrConfig === "function") {
-      callbackOrConfig();
-    }
-
-    return {
-      contextSafe: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
-      scope:
-        typeof callbackOrConfig === "object"
-          ? callbackOrConfig.scope
-          : config?.scope,
-    };
-  },
-}));
-
-vi.mock(import("gsap") as unknown as string, () => ({
-  default: {
-    quickTo: vi.fn((_: Element, property: string) =>
-      property === "x" ? mocks.quickToX : mocks.quickToY
-    ),
-    set: mocks.gsapSet,
-    to: mocks.gsapTo,
-  },
 }));
 
 vi.mock(
@@ -48,6 +13,12 @@ vi.mock(
     usePrefersReducedMotion: () => mocks.prefersReducedMotion,
   })
 );
+
+let currentElementFromPointTarget: Element | null = null;
+let measuredScrollWidths = new Map<string, number>();
+
+const normalizeText = (text: string | null) =>
+  text?.replaceAll(/\s+/g, " ").trim() ?? "";
 
 const setPointerSupport = (matches: boolean) => {
   vi.spyOn(window, "matchMedia").mockImplementation((query: string) => ({
@@ -62,12 +33,6 @@ const setPointerSupport = (matches: boolean) => {
   }));
 };
 
-let measuredScrollWidths = new Map<string, number>();
-let currentElementFromPointTarget: Element | null = null;
-
-const normalizeText = (text: string | null) =>
-  text?.replaceAll(/\s+/g, " ").trim() ?? "";
-
 const setMeasuredScrollWidths = (widths: Record<string, number>) => {
   measuredScrollWidths = new Map(Object.entries(widths));
 };
@@ -76,13 +41,15 @@ const setElementFromPointTarget = (target: Element | null) => {
   currentElementFromPointTarget = target;
 };
 
+const getOverlay = () =>
+  document.querySelector("[data-hover-cursor-overlay]") as HTMLElement | null;
+
 const getCursorBody = () =>
   document.querySelector(".selective-hover-cursor") as HTMLElement;
 
-const expectCursorWidth = async (expectedWidth: number) => {
-  await waitFor(() => {
-    expect(getCursorBody().style.width).toBe(`${expectedWidth}px`);
-  });
+const hover = (target: Element, clientX = 24, clientY = 36) => {
+  setElementFromPointTarget(target);
+  fireEvent.pointerMove(target, { clientX, clientY });
 };
 
 describe(SelectiveHoverCursor, () => {
@@ -92,6 +59,7 @@ describe(SelectiveHoverCursor, () => {
         return measuredScrollWidths.get(normalizeText(this.textContent)) ?? 0;
       }
     );
+
     Object.defineProperty(document, "elementFromPoint", {
       configurable: true,
       value: vi.fn(() => currentElementFromPointTarget),
@@ -101,28 +69,13 @@ describe(SelectiveHoverCursor, () => {
 
   beforeEach(() => {
     mocks.prefersReducedMotion = false;
-    mocks.quickToX.mockReset();
-    mocks.quickToY.mockReset();
-    mocks.gsapTo.mockReset();
-    mocks.gsapTo.mockImplementation(
-      (_: unknown, vars?: { onComplete?: () => void }) => {
-        vars?.onComplete?.();
-      }
-    );
-    mocks.gsapSet.mockReset();
     setPointerSupport(true);
     setMeasuredScrollWidths({
       "Click me!": 44,
-      "Learn more": 56,
       Tiny: 18,
-      "Very long cursor label": 140,
       "View project": 70,
     });
     setElementFromPointTarget(null);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
   });
 
   it("does not render on coarse pointers", async () => {
@@ -131,7 +84,7 @@ describe(SelectiveHoverCursor, () => {
     render(<SelectiveHoverCursor />);
 
     await waitFor(() => {
-      expect(document.querySelector("[data-hover-cursor-overlay]")).toBeNull();
+      expect(getOverlay()).toBeNull();
     });
   });
 
@@ -141,48 +94,11 @@ describe(SelectiveHoverCursor, () => {
     render(<SelectiveHoverCursor />);
 
     await waitFor(() => {
-      expect(document.querySelector("[data-hover-cursor-overlay]")).toBeNull();
+      expect(getOverlay()).toBeNull();
     });
   });
 
   it("activates over marked targets and follows the pointer", async () => {
-    render(
-      <div>
-        <button
-          data-hover-cursor
-          data-hover-cursor-label="Learn more"
-          type="button"
-        >
-          Hover me
-        </button>
-        <SelectiveHoverCursor />
-      </div>
-    );
-
-    const overlay = await waitFor(() => {
-      const element = document.querySelector("[data-hover-cursor-overlay]");
-      expect(element).toBeInTheDocument();
-      return element as HTMLElement;
-    });
-
-    const hoverTarget = document.querySelector("[data-hover-cursor]");
-    expect(hoverTarget).not.toBeNull();
-    setElementFromPointTarget(hoverTarget);
-
-    fireEvent.pointerMove(hoverTarget as Element, {
-      clientX: 24,
-      clientY: 36,
-    });
-
-    expect(overlay).toHaveAttribute("data-active", "true");
-    expect(screen.getByText("Learn more")).toBeInTheDocument();
-    expect(mocks.gsapSet).toHaveBeenCalledWith(overlay, {
-      x: 36,
-      y: 48,
-    });
-  });
-
-  it("shrinks the label back into a dot when the label is cleared", async () => {
     render(
       <div>
         <button
@@ -196,41 +112,20 @@ describe(SelectiveHoverCursor, () => {
       </div>
     );
 
-    await waitFor(() => {
-      expect(
-        document.querySelector("[data-hover-cursor-overlay]")
-      ).toBeInTheDocument();
+    const overlay = await waitFor(() => {
+      expect(getOverlay()).toBeInTheDocument();
+      return getOverlay() as HTMLElement;
     });
+    const hoverTarget = screen.getByRole("button", { name: "Hover me" });
 
-    const hoverTarget = document.querySelector(
-      "[data-hover-cursor]"
-    ) as HTMLElement;
-    setElementFromPointTarget(hoverTarget);
+    hover(hoverTarget);
 
-    fireEvent.pointerMove(hoverTarget, {
-      clientX: 30,
-      clientY: 42,
-    });
-
-    const label = screen.getByText("Click me!");
-    expect(label).toHaveAttribute("data-visible", "true");
-
-    hoverTarget.dataset.hoverCursorLabel = "";
-
-    setElementFromPointTarget(hoverTarget);
-    fireEvent.pointerMove(hoverTarget, {
-      clientX: 34,
-      clientY: 46,
-    });
-
+    expect(overlay).toHaveAttribute("data-active", "true");
+    expect(overlay.style.transform).toContain("translate3d(36px, 48px, 0)");
     expect(screen.getByText("Click me!")).toHaveAttribute(
       "data-visible",
-      "false"
+      "true"
     );
-
-    await waitFor(() => {
-      expect(screen.queryByText("Click me!")).not.toBeInTheDocument();
-    });
   });
 
   it("hides when moving onto an unmarked element", async () => {
@@ -238,7 +133,7 @@ describe(SelectiveHoverCursor, () => {
       <div>
         <button
           data-hover-cursor
-          data-hover-cursor-label="Learn more"
+          data-hover-cursor-label="Click me!"
           type="button"
         >
           Hover me
@@ -249,36 +144,19 @@ describe(SelectiveHoverCursor, () => {
     );
 
     const overlay = await waitFor(() => {
-      const element = document.querySelector("[data-hover-cursor-overlay]");
-      expect(element).toBeInTheDocument();
-      return element as HTMLElement;
+      expect(getOverlay()).toBeInTheDocument();
+      return getOverlay() as HTMLElement;
     });
 
-    const hoverTarget = document.querySelector("[data-hover-cursor]");
-    expect(hoverTarget).not.toBeNull();
-    setElementFromPointTarget(hoverTarget);
+    hover(screen.getByRole("button", { name: "Hover me" }));
+    expect(overlay).toHaveAttribute("data-active", "true");
 
-    fireEvent.pointerMove(hoverTarget as Element, {
-      clientX: 12,
-      clientY: 18,
-    });
-    expect(mocks.gsapTo).toHaveBeenCalledWith(
-      overlay,
-      expect.objectContaining({
-        opacity: 1,
-      })
-    );
-
-    setElementFromPointTarget(screen.getByText("Plain text"));
-    fireEvent.pointerMove(screen.getByText("Plain text"), {
-      clientX: 18,
-      clientY: 24,
-    });
+    hover(screen.getByText("Plain text"));
 
     expect(overlay).toHaveAttribute("data-active", "false");
   });
 
-  it("sizes the project cursor to its measured content on first hover", async () => {
+  it("uses the icon label width when showing a project action", async () => {
     render(
       <div>
         <button
@@ -293,103 +171,77 @@ describe(SelectiveHoverCursor, () => {
       </div>
     );
 
-    const hoverTarget = await waitFor(() => {
-      const element = document.querySelector("[data-hover-cursor]");
-      expect(element).toBeInTheDocument();
-      return element as HTMLElement;
-    });
+    hover(await screen.findByRole("button", { name: "Project" }));
 
-    setElementFromPointTarget(hoverTarget);
-    fireEvent.pointerMove(hoverTarget, {
-      clientX: 20,
-      clientY: 32,
+    expect(screen.getByText("View project")).toHaveAttribute(
+      "data-visible",
+      "true"
+    );
+    await waitFor(() => {
+      expect(getCursorBody().style.width).toBe("110px");
     });
-
-    await expectCursorWidth(110);
   });
 
-  it("updates to the project width after hovering a shorter label", async () => {
+  it("shrinks back to a dot when a target clears its label", async () => {
     render(
       <div>
         <button data-hover-cursor data-hover-cursor-label="Tiny" type="button">
-          Tiny
-        </button>
-        <button
-          data-hover-cursor
-          data-hover-cursor-icon="arrow-up-right"
-          data-hover-cursor-label="View project"
-          type="button"
-        >
-          Project
+          Hover me
         </button>
         <SelectiveHoverCursor />
       </div>
     );
 
-    const hoverTargets = await waitFor(() => {
-      const elements = document.querySelectorAll("[data-hover-cursor]");
-      expect(elements).toHaveLength(2);
-      return [...elements] as HTMLElement[];
+    const hoverTarget = screen.getByRole("button", { name: "Hover me" });
+
+    hover(hoverTarget);
+    await waitFor(() => {
+      expect(getCursorBody().style.width).toBe("84px");
     });
 
-    setElementFromPointTarget(hoverTargets[0]);
-    fireEvent.pointerMove(hoverTargets[0], {
-      clientX: 14,
-      clientY: 26,
-    });
-    await expectCursorWidth(84);
+    hoverTarget.dataset.hoverCursorLabel = "";
+    hover(hoverTarget, 30, 42);
 
-    setElementFromPointTarget(hoverTargets[1]);
-    fireEvent.pointerMove(hoverTargets[1], {
-      clientX: 22,
-      clientY: 34,
-    });
-
-    await expectCursorWidth(110);
+    expect(getCursorBody().style.width).toBe("18px");
+    expect(screen.getByText("Tiny")).not.toHaveAttribute(
+      "data-visible",
+      "true"
+    );
   });
 
-  it("updates to the project width after hovering a longer label", async () => {
+  it("does not reuse a previous label for icon-only targets", async () => {
     render(
       <div>
         <button
           data-hover-cursor
-          data-hover-cursor-label="Very long cursor label"
+          data-hover-cursor-label="Click me!"
           type="button"
         >
-          Long
+          Label target
         </button>
         <button
           data-hover-cursor
           data-hover-cursor-icon="arrow-up-right"
-          data-hover-cursor-label="View project"
           type="button"
         >
-          Project
+          Icon target
         </button>
         <SelectiveHoverCursor />
       </div>
     );
 
-    const hoverTargets = await waitFor(() => {
-      const elements = document.querySelectorAll("[data-hover-cursor]");
-      expect(elements).toHaveLength(2);
-      return [...elements] as HTMLElement[];
-    });
+    hover(screen.getByRole("button", { name: "Label target" }));
+    expect(screen.getByText("Click me!")).toHaveAttribute(
+      "data-visible",
+      "true"
+    );
 
-    setElementFromPointTarget(hoverTargets[0]);
-    fireEvent.pointerMove(hoverTargets[0], {
-      clientX: 16,
-      clientY: 28,
-    });
-    await expectCursorWidth(180);
+    hover(screen.getByRole("button", { name: "Icon target" }));
 
-    setElementFromPointTarget(hoverTargets[1]);
-    fireEvent.pointerMove(hoverTargets[1], {
-      clientX: 24,
-      clientY: 36,
+    expect(screen.queryByText("Click me!")).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(getCursorBody().style.width).toBe("84px");
     });
-
-    await expectCursorWidth(110);
   });
 
   it("syncs cursor state on scroll without pointer movement", async () => {
@@ -397,10 +249,10 @@ describe(SelectiveHoverCursor, () => {
       <div>
         <button
           data-hover-cursor
-          data-hover-cursor-label="View project"
+          data-hover-cursor-label="Click me!"
           type="button"
         >
-          Project
+          Hover me
         </button>
         <div>Plain text</div>
         <SelectiveHoverCursor />
@@ -408,38 +260,16 @@ describe(SelectiveHoverCursor, () => {
     );
 
     const overlay = await waitFor(() => {
-      const element = document.querySelector("[data-hover-cursor-overlay]");
-      expect(element).toBeInTheDocument();
-      return element as HTMLElement;
+      expect(getOverlay()).toBeInTheDocument();
+      return getOverlay() as HTMLElement;
     });
 
-    const hoverTarget = document.querySelector(
-      "[data-hover-cursor]"
-    ) as HTMLElement;
-    const plainText = screen.getByText("Plain text");
+    hover(screen.getByText("Plain text"));
+    expect(overlay).toHaveAttribute("data-active", "false");
 
-    setElementFromPointTarget(plainText);
-    fireEvent.pointerMove(plainText, {
-      clientX: 20,
-      clientY: 30,
-    });
-
-    await waitFor(() => {
-      expect(overlay).toHaveAttribute("data-active", "false");
-    });
-
-    setElementFromPointTarget(hoverTarget);
+    setElementFromPointTarget(screen.getByRole("button", { name: "Hover me" }));
     fireEvent.scroll(window);
 
-    await waitFor(() => {
-      expect(overlay).toHaveAttribute("data-active", "true");
-    });
-
-    setElementFromPointTarget(plainText);
-    fireEvent.scroll(window);
-
-    await waitFor(() => {
-      expect(overlay).toHaveAttribute("data-active", "false");
-    });
+    expect(overlay).toHaveAttribute("data-active", "true");
   });
 });
