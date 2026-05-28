@@ -30,9 +30,9 @@
  */
 
 import { useTheme } from "next-themes";
-import { useSyncExternalStore } from "react";
 
 import { useAnimationPerformance } from "@/lib/hooks/animation/use-animation-performance";
+import { useHasHydrated } from "@/lib/hooks/ui/use-has-hydrated";
 
 const getStatusColor = (fpsValue: number) => {
   if (fpsValue < 30) {
@@ -43,20 +43,6 @@ const getStatusColor = (fpsValue: number) => {
   }
   return "text-green-500";
 };
-
-const unsubscribeFromHydration = () => {
-  // useSyncExternalStore needs a cleanup function; no subscription is opened.
-};
-const subscribeToHydration = () => unsubscribeFromHydration;
-const getClientSnapshot = () => true;
-const getServerSnapshot = () => false;
-
-const useHasHydrated = () =>
-  useSyncExternalStore(
-    subscribeToHydration,
-    getClientSnapshot,
-    getServerSnapshot
-  );
 
 const getThemeClasses = (theme?: string) => {
   if (theme === "dark") {

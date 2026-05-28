@@ -2,8 +2,10 @@
 
 import gsapCore from "gsap";
 import { useTheme } from "next-themes";
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef } from "react";
 import type { RefObject } from "react";
+
+import { useHasHydrated } from "@/lib/hooks/ui/use-has-hydrated";
 
 const DARK_PROFILE_IMAGE_SRC = "/benjamin.avif";
 const LIGHT_PROFILE_IMAGE_SRC = "/benjamin-light.avif";
@@ -12,20 +14,6 @@ interface UseProfileImageSourceOptions {
   animationRef?: RefObject<HTMLElement | null>;
   prefersReducedMotion?: boolean;
 }
-
-const unsubscribeFromHydration = () => {
-  // useSyncExternalStore needs a cleanup function; no subscription is opened.
-};
-const subscribeToHydration = () => unsubscribeFromHydration;
-const getClientSnapshot = () => true;
-const getServerSnapshot = () => false;
-
-const useHasHydrated = () =>
-  useSyncExternalStore(
-    subscribeToHydration,
-    getClientSnapshot,
-    getServerSnapshot
-  );
 
 const getProfileImageSource = (theme?: string) => {
   if (theme === "light") {
