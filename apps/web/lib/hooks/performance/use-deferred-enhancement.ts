@@ -15,6 +15,37 @@ const INTERACTION_EVENTS: (keyof WindowEventMap)[] = [
   "wheel",
 ];
 
+const scheduleDeferredActivation = (activate: () => void, delayMs: number) => {
+  const timeoutId = window.setTimeout(activate, delayMs);
+  const idleId =
+    "requestIdleCallback" in window
+      ? window.requestIdleCallback(activate, { timeout: delayMs })
+      : null;
+
+  return () => {
+    window.clearTimeout(timeoutId);
+
+    if (idleId !== null && "cancelIdleCallback" in window) {
+      window.cancelIdleCallback(idleId);
+    }
+  };
+};
+
+const subscribeToActivationInteraction = (activate: () => void) => {
+  for (const eventName of INTERACTION_EVENTS) {
+    window.addEventListener(eventName, activate, {
+      once: true,
+      passive: true,
+    });
+  }
+
+  return () => {
+    for (const eventName of INTERACTION_EVENTS) {
+      window.removeEventListener(eventName, activate);
+    }
+  };
+};
+
 export const useDeferredEnhancement = ({
   delayMs = 1200,
   activateOnInteraction = true,
@@ -26,42 +57,21 @@ export const useDeferredEnhancement = ({
       return;
     }
 
-    let timeoutId: number | null = null;
-    let idleId: number | null = null;
-
     const activate = () => {
       setIsActive(true);
     };
 
-    timeoutId = window.setTimeout(activate, delayMs);
-
-    if ("requestIdleCallback" in window) {
-      idleId = window.requestIdleCallback(activate, { timeout: delayMs });
-    }
-
-    if (activateOnInteraction) {
-      for (const eventName of INTERACTION_EVENTS) {
-        window.addEventListener(eventName, activate, {
-          once: true,
-          passive: true,
-        });
-      }
-    }
+    const cancelDeferredActivation = scheduleDeferredActivation(
+      activate,
+      delayMs
+    );
+    const unsubscribeFromInteraction = activateOnInteraction
+      ? subscribeToActivationInteraction(activate)
+      : undefined;
 
     return () => {
-      if (timeoutId) {
-        window.clearTimeout(timeoutId);
-      }
-
-      if (idleId && "cancelIdleCallback" in window) {
-        window.cancelIdleCallback(idleId);
-      }
-
-      if (activateOnInteraction) {
-        for (const eventName of INTERACTION_EVENTS) {
-          window.removeEventListener(eventName, activate);
-        }
-      }
+      cancelDeferredActivation();
+      unsubscribeFromInteraction?.();
     };
   }, [activateOnInteraction, delayMs, isActive]);
 
