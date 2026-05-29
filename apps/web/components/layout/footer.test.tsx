@@ -43,7 +43,7 @@ describe(Footer, () => {
   });
 
   it("omits the CTA when disabled", () => {
-    render(<Footer showCta={false} />);
+    const { container } = render(<Footer showCta={false} />);
 
     expect(
       screen.queryByRole("link", { name: "Contact Me" })
@@ -51,6 +51,7 @@ describe(Footer, () => {
     expect(
       screen.queryByRole("heading", { name: /have a question\?/i })
     ).not.toBeInTheDocument();
+    expect(container.querySelector(".border-t")).not.toBeInTheDocument();
   });
 
   it("renders the navigation, social, and legal links with expected destinations", () => {

@@ -7,6 +7,7 @@ import { Magnetic } from "@/components/effects/magnetic";
 import { ScrollLink } from "@/components/shared/scroll-link";
 import { ROUTES } from "@/lib/constants/navigation";
 import { CONTACT_INFO } from "@/lib/constants/socials";
+import { cn } from "@/lib/utils";
 
 interface FooterProps {
   showCta?: boolean;
@@ -110,7 +111,12 @@ export const Footer = ({ showCta = true }: FooterProps) => {
       <div className="container mx-auto px-4 sm:px-8">
         {showCta && <FooterCta />}
 
-        <div className="mb-24 grid grid-cols-1 gap-12 border-border/40 border-t pt-12 text-sm md:grid-cols-3 md:gap-8">
+        <div
+          className={cn(
+            "mb-24 grid grid-cols-1 gap-12 text-sm md:grid-cols-3 md:gap-8",
+            showCta && "border-border/40 border-t pt-12"
+          )}
+        >
           <FooterColumn title="Navigation">
             {NAV_LINKS.map((item) => (
               <ScrollLink
