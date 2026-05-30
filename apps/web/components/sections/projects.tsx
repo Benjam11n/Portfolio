@@ -2,7 +2,7 @@
 
 import { useMemo, useRef } from "react";
 
-import { ProjectCard } from "@/components/shared/project-card";
+import { ProjectCard } from "@/components/features/projects/project-card";
 import { SectionCard } from "@/components/shared/section-card";
 import { PROJECTS } from "@/lib/constants/projects";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";

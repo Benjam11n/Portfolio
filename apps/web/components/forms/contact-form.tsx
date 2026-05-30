@@ -6,14 +6,13 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { FormInput } from "@/components/forms/form-input";
+import { FormTextArea } from "@/components/forms/form-textarea";
 import { ShiftSubmitButton } from "@/components/shared/shift-submit-button";
 import { Form } from "@/components/ui/form";
 import { useContactFormSubmit } from "@/lib/hooks/forms/use-contact-form-submit";
 import { contactFormSchema } from "@/lib/validations/contact";
 import type { ContactFormValues } from "@/lib/validations/contact";
-
-import { FormInput } from "./form-input";
-import { FormTextArea } from "./form-textarea";
 
 const DynamicThankYouAnimation = dynamic(
   async () => {

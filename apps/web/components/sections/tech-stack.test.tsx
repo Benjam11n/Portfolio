@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@repo/testing/test-utils";
 import type { ComponentProps, ReactNode } from "react";
 
-import { TechStack } from "./tech-stack";
+import { TechStack } from "@/components/sections/tech-stack";
 
 vi.mock(import("next/dynamic") as unknown as string, () => ({
   default:
@@ -25,9 +25,8 @@ vi.mock(import("next/dynamic") as unknown as string, () => ({
       ) : null,
 }));
 
-vi.mock(import("framer-motion") as unknown as string, () => ({
-  AnimatePresence: ({ children }: { children: ReactNode }) => children,
-  motion: {
+vi.mock(import("framer-motion") as unknown as string, () => {
+  const motionMock = {
     div: ({
       animate: _animate,
       exit: _exit,
@@ -73,8 +72,16 @@ vi.mock(import("framer-motion") as unknown as string, () => ({
       layout?: unknown;
       transition?: unknown;
     }) => <span {...props}>{children}</span>,
-  },
-}));
+  };
+
+  return {
+    AnimatePresence: ({ children }: { children: ReactNode }) => children,
+    LazyMotion: ({ children }: { children: ReactNode }) => children,
+    domAnimation: {},
+    m: motionMock,
+    motion: motionMock,
+  };
+});
 
 vi.mock(
   import("@/components/shared/section-card") as unknown as string,
@@ -96,7 +103,7 @@ vi.mock(
 );
 
 vi.mock(
-  import("@/components/shared/tech-stack-item") as unknown as string,
+  import("@/components/features/tech-stack/tech-stack-item") as unknown as string,
   () => ({
     TechStackItem: ({
       onClick,

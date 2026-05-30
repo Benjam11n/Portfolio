@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useState } from "react";
 
-import { Card3D } from "@/components/effects/card-3d";
+import { Card3D } from "@/components/shared/effects/card-3d";
 import { LightweightMarkdown } from "@/components/shared/lightweight-markdown";
 import type { Certification } from "@/lib/types";
 import { formatMonthYear } from "@/lib/utils/format-month-year-range";

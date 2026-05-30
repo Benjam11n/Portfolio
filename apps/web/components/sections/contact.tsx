@@ -56,7 +56,7 @@ export const Contact = () => {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <item.icon className="h-5 w-5 text-foreground transition-transform duration-100 group-hover:-translate-y-1 group-hover:scale-110" />
+                <item.icon className="size-5 text-foreground transition-transform duration-100 group-hover:-translate-y-1 group-hover:scale-110" />
                 <span className="sr-only">{item.title}</span>
               </a>
             ))}

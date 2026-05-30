@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-import { ExperienceItem } from "@/components/shared/experience-item";
+import { ExperienceItem } from "@/components/features/experience/experience-item";
 import { SectionCard } from "@/components/shared/section-card";
 import { workExperiences } from "@/lib/constants/experience";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";

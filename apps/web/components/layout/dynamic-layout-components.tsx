@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 
 import type { ClickSparkProps } from "@/components/bits/click-spark";
 import type { DitherProps } from "@/components/bits/dither";
+import type { SmoothScrollProps } from "@/components/effects/smooth-scroll";
 
 export const DynamicNavbar = dynamic(
   async () => {
@@ -40,7 +41,7 @@ export const DynamicClickSpark = dynamic<ClickSparkProps>(
   { ssr: true }
 );
 
-export const DynamicSmoothScroll = dynamic(
+export const DynamicSmoothScroll = dynamic<SmoothScrollProps>(
   async () => {
     const mod = await import("@/components/effects/smooth-scroll");
     return mod.SmoothScroll;
@@ -50,7 +51,8 @@ export const DynamicSmoothScroll = dynamic(
 
 export const DynamicSelectiveHoverCursor = dynamic(
   async () => {
-    const mod = await import("@/components/effects/selective-hover-cursor");
+    const mod =
+      await import("@/components/shared/effects/selective-hover-cursor");
     return mod.SelectiveHoverCursor;
   },
   { ssr: false }
@@ -66,7 +68,7 @@ export const DynamicAnimationSkipProvider = dynamic(
 
 export const DynamicPerformanceMonitor = dynamic(
   async () => {
-    const mod = await import("@/components/dev/performance-monitor");
+    const mod = await import("@/components/shared/dev/performance-monitor");
     return mod.PerformanceMonitor;
   },
   { ssr: false }

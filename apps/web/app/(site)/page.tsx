@@ -1,3 +1,4 @@
+import { createMetadata } from "@repo/seo";
 import { JsonLd } from "@repo/seo/json-ld";
 
 import { About } from "@/components/sections/about";
@@ -7,10 +8,16 @@ import { Experience } from "@/components/sections/experience";
 import { Hero } from "@/components/sections/hero";
 import { Projects } from "@/components/sections/projects";
 import { TechStack } from "@/components/sections/tech-stack";
+import { SITE_METADATA } from "@/lib/constants/metadata";
+
+export const metadata = createMetadata({
+  description: SITE_METADATA.description,
+  title: SITE_METADATA.title,
+});
 
 export default function Home() {
   return (
-    <main className="mx-auto flex flex-col gap-4 px-2 py-2">
+    <main className="mx-auto flex flex-col gap-4 p-2">
       <JsonLd
         code={{
           "@context": "https://schema.org",

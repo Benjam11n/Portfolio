@@ -35,21 +35,54 @@ interface WaveParamsOptions {
   mousePos?: RefObject<Vector2>;
 }
 
-export const useWaveParams = (options: WaveParamsOptions = {}) => {
-  const {
-    waveSpeed = 0.05,
-    waveFrequency = 3,
-    waveAmplitude = 0.3,
-    waveColor = [0.5, 0.5, 0.5],
-    colorNum = 4,
-    pixelSize = 2,
-    enableMouseInteraction = true,
-    mouseRadius = 1,
-    disableAnimation = false,
-    isActive = true,
-    wakeUntilRef,
-    mousePos: externalMousePos,
-  } = options;
+const shouldAdvanceWaveTime = ({
+  disableAnimation,
+  wakeUntilRef,
+}: {
+  disableAnimation: boolean;
+  wakeUntilRef?: RefObject<number>;
+}) => {
+  if (disableAnimation) {
+    return false;
+  }
+
+  if (!wakeUntilRef) {
+    return true;
+  }
+
+  return performance.now() < wakeUntilRef.current;
+};
+
+const syncMouseUniform = ({
+  enableMouseInteraction,
+  mousePos,
+  uniforms,
+}: {
+  enableMouseInteraction: boolean;
+  mousePos?: RefObject<Vector2>;
+  uniforms: WaveUniforms;
+}) => {
+  if (!(enableMouseInteraction && mousePos?.current)) {
+    return;
+  }
+
+  uniforms.mousePos.value.copy(mousePos.current);
+};
+
+export const useWaveParams = ({
+  waveSpeed = 0.05,
+  waveFrequency = 3,
+  waveAmplitude = 0.3,
+  waveColor = [0.5, 0.5, 0.5],
+  colorNum = 4,
+  pixelSize = 2,
+  enableMouseInteraction = true,
+  mouseRadius = 1,
+  disableAnimation = false,
+  isActive = true,
+  wakeUntilRef,
+  mousePos: externalMousePos,
+}: WaveParamsOptions = {}) => {
   const [waveColorRed, waveColorGreen, waveColorBlue] = waveColor;
 
   const waveUniformsRef = useRef<WaveUniforms>({
@@ -110,18 +143,17 @@ export const useWaveParams = (options: WaveParamsOptions = {}) => {
       return;
     }
 
-    const u = waveUniformsRef.current;
-    const shouldAdvanceTime =
-      !disableAnimation &&
-      (wakeUntilRef ? performance.now() < wakeUntilRef.current : true);
+    const uniforms = waveUniformsRef.current;
 
-    if (shouldAdvanceTime) {
-      u.time.value += delta;
+    if (shouldAdvanceWaveTime({ disableAnimation, wakeUntilRef })) {
+      uniforms.time.value += delta;
     }
 
-    if (enableMouseInteraction && externalMousePos?.current) {
-      u.mousePos.value.copy(externalMousePos.current);
-    }
+    syncMouseUniform({
+      enableMouseInteraction,
+      mousePos: externalMousePos,
+      uniforms,
+    });
   });
 
   return {

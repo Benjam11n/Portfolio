@@ -1,15 +1,13 @@
 "use client";
 
-import { ArrowUpRight, BadgeCheck, Mail } from "lucide-react";
 import { useMemo, useRef } from "react";
 
-import { Magnetic } from "@/components/effects/magnetic";
-import { BorderedImage } from "@/components/shared/bordered-image";
+import { HeroActions } from "@/components/features/hero/hero-actions";
+import { HeroProfile } from "@/components/features/hero/hero-profile";
+import { HeroTitle } from "@/components/features/hero/hero-title";
 import { LightweightMarkdown } from "@/components/shared/lightweight-markdown";
 import { SectionCard } from "@/components/shared/section-card";
-import { ShiftButton } from "@/components/shared/shift-button";
 import { HERO_CONTENT } from "@/lib/constants/hero";
-import { ROUTES } from "@/lib/constants/navigation";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useHeroAnimation } from "@/lib/hooks/animation/use-hero-animation";
 import { useShouldSkipEntranceAnimation } from "@/lib/hooks/animation/use-should-skip-entrance-animation";
@@ -54,50 +52,9 @@ export const Hero = () => {
   return (
     <SectionCard id="hero">
       <div ref={containerRef}>
-        {/* Profile Image */}
-        <div
-          className="inline-block opacity-0"
-          ref={imageRef}
-          style={{ transform: "scale(0)" }}
-        >
-          <Magnetic strength={0.4}>
-            <BorderedImage
-              alt="Benjamin Wang"
-              colorDark="#464646ff"
-              colorLight="#3f3f3fff"
-              containerClassName="mb-6 h-[72px] w-[72px]"
-              fetchPriority="high"
-              height={72}
-              priority
-              src={profileImageSrc}
-              width={72}
-            />
-          </Magnetic>
-        </div>
+        <HeroProfile imageRef={imageRef} profileImageSrc={profileImageSrc} />
 
-        {/* Name and Badge */}
-        <div className="mb-2 flex items-center gap-2">
-          <h1 className="hero-name flex overflow-hidden font-bold text-foreground text-xl tracking-tight sm:text-2xl">
-            {heroNameCharacters.map(({ char, key }) => (
-              <span
-                className="char inline-block translate-y-full opacity-0"
-                key={key}
-              >
-                {char === " " ? "\u00A0" : char}
-              </span>
-            ))}
-          </h1>
-          <div className="hero-badge opacity-0">
-            <BadgeCheck
-              className="h-6 w-6"
-              strokeWidth={2.5}
-              style={{
-                color: "white",
-                fill: "#1DA1F2",
-              }}
-            />
-          </div>
-        </div>
+        <HeroTitle characters={heroNameCharacters} />
 
         {/* Role */}
         <h2 className="hero-text mb-6 translate-y-10 opacity-0 font-medium text-md text-muted-foreground">
@@ -111,31 +68,7 @@ export const Hero = () => {
           </LightweightMarkdown>
         </div>
 
-        {/* Buttons */}
-        <div className="flex flex-wrap gap-4" ref={buttonsRef}>
-          <div className="translate-y-5 opacity-0">
-            <Magnetic strength={0.2}>
-              <ShiftButton
-                href={ROUTES.CONTACT}
-                icon={<Mail className="h-4 w-4" />}
-                variant="primary"
-              >
-                Contact Me
-              </ShiftButton>
-            </Magnetic>
-          </div>
-          <div className="translate-y-5 opacity-0">
-            <Magnetic strength={0.2}>
-              <ShiftButton
-                href={ROUTES.PROJECTS}
-                icon={<ArrowUpRight className="h-4 w-4" />}
-                variant="secondary"
-              >
-                View Projects
-              </ShiftButton>
-            </Magnetic>
-          </div>
-        </div>
+        <HeroActions buttonsRef={buttonsRef} />
       </div>
     </SectionCard>
   );

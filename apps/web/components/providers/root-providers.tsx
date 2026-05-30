@@ -14,7 +14,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { clientEnv } from "@/lib/env/client";
 import { useDeferredEnhancement } from "@/lib/hooks/performance/use-deferred-enhancement";
 
-export const RootProviders = ({ children }: { children: ReactNode }) => {
+interface RootProvidersProps {
+  children: ReactNode;
+}
+
+export const RootProviders = ({ children }: RootProvidersProps) => {
   const enableCursor = useDeferredEnhancement({ delayMs: 1400 });
 
   return (

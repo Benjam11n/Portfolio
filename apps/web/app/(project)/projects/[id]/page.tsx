@@ -2,10 +2,10 @@ import { JsonLd } from "@repo/seo/json-ld";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { ProjectDetailsGrid } from "@/app/projects/[id]/_components/project-details-grid";
-import { ProjectHero } from "@/app/projects/[id]/_components/project-hero";
-import { ProjectOverview } from "@/app/projects/[id]/_components/project-overview";
-import { ProjectNavigation } from "@/components/shared/project-navigation";
+import { ProjectDetailsGrid } from "@/components/features/projects/project-details-grid";
+import { ProjectHero } from "@/components/features/projects/project-hero";
+import { ProjectNavigation } from "@/components/features/projects/project-navigation";
+import { ProjectOverview } from "@/components/features/projects/project-overview";
 import { SectionCard } from "@/components/shared/section-card";
 import { PROJECTS } from "@/lib/constants/projects";
 
@@ -47,7 +47,7 @@ export default async function ProjectPage({ params }: Props) {
   }
 
   return (
-    <main className="mx-auto flex flex-col gap-4 px-2 py-2">
+    <main className="mx-auto flex flex-col gap-4 p-2">
       <JsonLd
         code={{
           "@context": "https://schema.org",
