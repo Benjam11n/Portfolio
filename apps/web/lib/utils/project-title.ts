@@ -1,4 +1,4 @@
-export interface ProjectTitleParts {
+interface ProjectTitleParts {
   main: string;
   sub?: string;
 }
