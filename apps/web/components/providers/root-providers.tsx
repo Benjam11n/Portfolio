@@ -8,6 +8,7 @@ import {
   DynamicPerformanceMonitor,
   DynamicSelectiveHoverCursor,
 } from "@/components/layout/dynamic-layout-components";
+import { PersistentBackground } from "@/components/layout/persistent-background";
 import { ThemeProvider } from "@/components/shared/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -33,6 +34,7 @@ export const RootProviders = ({ children }: RootProvidersProps) => {
         disableTransitionOnChange
       >
         <DynamicAnimationSkipProvider>
+          <PersistentBackground />
           {enableCursor && <DynamicSelectiveHoverCursor />}
           <TooltipProvider delayDuration={60} skipDelayDuration={0}>
             {children}

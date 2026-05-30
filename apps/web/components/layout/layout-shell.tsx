@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 
 import {
   DynamicClickSpark,
-  DynamicDither,
   DynamicFooter,
   DynamicNavbar,
   DynamicSmoothScroll,
@@ -20,10 +19,6 @@ export const LayoutShell = ({
   children,
   footerShowCta = true,
 }: LayoutShellProps) => {
-  const enableDither = useDeferredEnhancement({
-    activateOnInteraction: false,
-    delayMs: 1600,
-  });
   const enableClickSpark = useDeferredEnhancement({ delayMs: 1400 });
   const enableSmoothScroll = useDeferredEnhancement({
     activateOnInteraction: false,
@@ -41,22 +36,6 @@ export const LayoutShell = ({
           sparkRadius={20}
           sparkSize={10}
         />
-      )}
-
-      {enableDither && (
-        <div className="fixed inset-0 z-0 h-full w-full opacity-70">
-          <DynamicDither
-            colorNum={3}
-            disableAnimation={false}
-            enableMouseInteraction
-            mouseRadius={0.6}
-            pixelSize={2}
-            waveAmplitude={0.2}
-            waveColor={undefined}
-            waveFrequency={2}
-            waveSpeed={0.04}
-          />
-        </div>
       )}
 
       <div className="relative z-50 mx-4 w-full max-w-2xl overflow-hidden rounded-xl border border-border/40 bg-card shadow-xl sm:mx-8">
