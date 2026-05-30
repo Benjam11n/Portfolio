@@ -13,11 +13,11 @@
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
-    "posthog-js": "^1.360.2"
+    "posthog-js": "^1.376.0"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "@types/node": "25.6.0",
+    "@types/node": "25.9.1",
     "@types/react": "19.2.14"
   },
   "peerDependencies": {
