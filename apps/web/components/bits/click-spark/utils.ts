@@ -33,7 +33,7 @@ export const getCanvasContext = (canvas: HTMLCanvasElement | null) => {
   return canvas && ctx ? { canvas, ctx } : null;
 };
 
-export const getSparkEase = (easing: ClickSparkEasing, progress: number) =>
+const getSparkEase = (easing: ClickSparkEasing, progress: number) =>
   EASING_FUNCTIONS[easing](progress);
 
 export const createSparks = (
