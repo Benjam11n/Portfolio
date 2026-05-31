@@ -55,6 +55,78 @@ const getFinalVars = (vars: RevealVars): RevealVars => {
   return finalVars;
 };
 
+const getScrollTrigger = (
+  containerRef: RefObject<HTMLElement | null>,
+  options: Required<Pick<ScrollRevealOptions, "start" | "toggleActions">>
+) => ({
+  start: options.start,
+  toggleActions: options.toggleActions,
+  trigger: containerRef.current,
+});
+
+const showTargets = (target: RevealTarget) => {
+  gsapCore.set(getTargets(target), {
+    autoAlpha: 1,
+    x: 0,
+    y: 0,
+  });
+};
+
+const revealTargets = (
+  containerRef: RefObject<HTMLElement | null>,
+  target: RevealTarget,
+  options: Required<ScrollRevealOptions>
+) => {
+  const targets = getTargets(target);
+
+  gsapCore.set(targets, {
+    autoAlpha: 0,
+    x: options.x,
+    y: options.y,
+  });
+
+  gsapCore.to(targets, {
+    autoAlpha: 1,
+    delay: options.delay,
+    duration: options.duration,
+    ease: options.ease,
+    scrollTrigger: getScrollTrigger(containerRef, options),
+    stagger: options.stagger,
+    x: 0,
+    y: 0,
+  });
+};
+
+const showTimeline = (steps: RevealStep[]) => {
+  for (const step of steps) {
+    gsapCore.set(getTargets(step.target), {
+      autoAlpha: 1,
+      ...getFinalVars(step.to),
+    });
+  }
+};
+
+const revealTimeline = (
+  containerRef: RefObject<HTMLElement | null>,
+  steps: RevealStep[],
+  options: Required<ScrollRevealOptions>
+) => {
+  for (const step of steps) {
+    if (step.from) {
+      gsapCore.set(getTargets(step.target), step.from);
+    }
+  }
+
+  const timeline = gsapCore.timeline({
+    defaults: { ease: options.ease },
+    scrollTrigger: getScrollTrigger(containerRef, options),
+  });
+
+  for (const step of steps) {
+    timeline.to(getTargets(step.target), step.to, step.position);
+  }
+};
+
 export const useScrollReveal = (
   containerRef: RefObject<HTMLElement | null>,
   targetSelector: RevealTarget | RevealStep[],
@@ -73,74 +145,38 @@ export const useScrollReveal = (
     toggleActions = "play none none none",
     skipAnimations = false,
   } = options;
+  const revealOptions = {
+    delay,
+    duration,
+    ease,
+    skipAnimations,
+    stagger,
+    start,
+    toggleActions,
+    x,
+    y,
+  };
 
   useGSAP(
     () => {
       const shouldSkip = prefersReducedMotion || skipAnimations;
 
       if (!isRevealTimeline(targetSelector)) {
-        const targets = getTargets(targetSelector);
-
         if (shouldSkip) {
-          gsapCore.set(targets, {
-            autoAlpha: 1,
-            x: 0,
-            y: 0,
-          });
+          showTargets(targetSelector);
           return;
         }
 
-        gsapCore.set(targets, {
-          autoAlpha: 0,
-          x,
-          y,
-        });
-
-        gsapCore.to(targets, {
-          autoAlpha: 1,
-          delay,
-          duration,
-          ease,
-          scrollTrigger: {
-            start,
-            toggleActions,
-            trigger: containerRef.current,
-          },
-          stagger,
-          x: 0,
-          y: 0,
-        });
+        revealTargets(containerRef, targetSelector, revealOptions);
         return;
       }
 
       if (shouldSkip) {
-        for (const step of targetSelector) {
-          gsapCore.set(getTargets(step.target), {
-            autoAlpha: 1,
-            ...getFinalVars(step.to),
-          });
-        }
+        showTimeline(targetSelector);
         return;
       }
 
-      for (const step of targetSelector) {
-        if (step.from) {
-          gsapCore.set(getTargets(step.target), step.from);
-        }
-      }
-
-      const timeline = gsapCore.timeline({
-        defaults: { ease },
-        scrollTrigger: {
-          start,
-          toggleActions,
-          trigger: containerRef.current,
-        },
-      });
-
-      for (const step of targetSelector) {
-        timeline.to(getTargets(step.target), step.to, step.position);
-      }
+      revealTimeline(containerRef, targetSelector, revealOptions);
     },
     {
       dependencies: [prefersReducedMotion, skipAnimations],

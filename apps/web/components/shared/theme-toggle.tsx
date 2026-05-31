@@ -7,13 +7,35 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
+const THEME_ICON_CONFIG = {
+  dark: {
+    Icon: Moon,
+    exitRotation: -180,
+    iconClassName: "text-primary",
+    initialRotation: 180,
+    key: "moon",
+    nextTheme: "light",
+  },
+  light: {
+    Icon: Sun,
+    exitRotation: 180,
+    iconClassName: "text-yellow-500",
+    initialRotation: -180,
+    key: "sun",
+    nextTheme: "dark",
+  },
+} as const;
+
 export const ThemeToggle = () => {
   const { setTheme, theme, systemTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const currentTheme = theme === "system" ? systemTheme : theme;
+  const themeMode = currentTheme === "light" ? "light" : "dark";
+  const iconConfig = THEME_ICON_CONFIG[themeMode];
+  const { Icon } = iconConfig;
   const handleThemeToggle = useCallback(() => {
-    setTheme(currentTheme === "light" ? "dark" : "light");
-  }, [currentTheme, setTheme]);
+    setTheme(iconConfig.nextTheme);
+  }, [iconConfig.nextTheme, setTheme]);
 
   // Prevent hydration mismatch
   useEffect(() => {
@@ -35,16 +57,14 @@ export const ThemeToggle = () => {
         <motion.div
           animate={{ rotate: 0, scale: 1 }}
           className="absolute inset-0 flex items-center justify-center"
-          exit={{ rotate: currentTheme === "light" ? 180 : -180, scale: 0 }}
-          initial={{ rotate: currentTheme === "light" ? -180 : 180, scale: 0 }}
-          key={currentTheme === "light" ? "sun" : "moon"}
+          exit={{ rotate: iconConfig.exitRotation, scale: 0 }}
+          initial={{ rotate: iconConfig.initialRotation, scale: 0 }}
+          key={iconConfig.key}
           transition={{ duration: 0.2, ease: "easeInOut" }}
         >
-          {currentTheme === "light" ? (
-            <Sun className="size-4 text-yellow-500 transition-transform group-hover:scale-110" />
-          ) : (
-            <Moon className="size-4 text-primary transition-transform group-hover:scale-110" />
-          )}
+          <Icon
+            className={`${iconConfig.iconClassName} size-4 transition-transform group-hover:scale-110`}
+          />
         </motion.div>
       </AnimatePresence>
       <span className="sr-only">Toggle theme</span>
