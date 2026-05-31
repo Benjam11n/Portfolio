@@ -3,10 +3,13 @@ import type { Page } from "@playwright/test";
 
 import { waitForPageReady } from "./fixtures";
 
+const MOBILE_VIEWPORT = { height: 844, width: 390 };
+
 const CONSOLE_ERROR_ALLOWLIST = [
   /favicon/i,
   /failed to load resource/i,
   /net::err_aborted/i,
+  /_vercel\/insights\/script\.js/i,
 ];
 
 const HOME_SECTION_HEADINGS = [
@@ -35,6 +38,20 @@ const routeChecks = [
     visibleText: "Page Not Found",
   },
 ];
+
+const assertHomeSectionsVisible = async (page: Page) => {
+  for (const heading of HOME_SECTION_HEADINGS) {
+    const sectionHeading = page.getByRole("heading", {
+      exact: true,
+      name: heading,
+    });
+    await sectionHeading.scrollIntoViewIfNeeded();
+    await expect(sectionHeading).toBeVisible();
+  }
+
+  await expect(page.locator(".experience-item").first()).toBeVisible();
+  await expect(page.locator(".project-card-item").first()).toBeVisible();
+};
 
 const expectNoAppErrors = (messages: string[]) => {
   const appErrors = messages.filter(
@@ -89,17 +106,88 @@ test.describe("Route smoke", () => {
     await page.goBack();
     await waitForPageReady(page);
 
-    for (const heading of HOME_SECTION_HEADINGS) {
-      const sectionHeading = page.getByRole("heading", {
-        exact: true,
-        name: heading,
-      });
-      await sectionHeading.scrollIntoViewIfNeeded();
-      await expect(sectionHeading).toBeVisible();
-    }
-
-    await expect(page.locator(".experience-item").first()).toBeVisible();
-    await expect(page.locator(".project-card-item").first()).toBeVisible();
+    await assertHomeSectionsVisible(page);
     expectNoAppErrors(messages);
   });
+
+  test("project route survives browser back and forward loops", async ({
+    page,
+  }) => {
+    const messages = watchAppErrors(page);
+
+    await page.goto("/");
+    await waitForPageReady(page);
+    await page.goto("/projects/zucchini");
+    await expect(page).toHaveURL(/\/projects\/zucchini$/);
+    await expect(page.getByRole("heading", { name: "Zucchini" })).toBeVisible();
+
+    await page.goBack();
+    await waitForPageReady(page);
+    await assertHomeSectionsVisible(page);
+
+    await page.goForward();
+    await waitForPageReady(page);
+    await expect(page).toHaveURL(/\/projects\/zucchini$/);
+    await expect(page.getByRole("heading", { name: "Zucchini" })).toBeVisible();
+
+    await page.goBack();
+    await waitForPageReady(page);
+    await assertHomeSectionsVisible(page);
+    expectNoAppErrors(messages);
+  });
+
+  test("reduced motion keeps home and project content visible", async ({
+    page,
+  }) => {
+    const messages = watchAppErrors(page);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+
+    await page.goto("/");
+    await waitForPageReady(page);
+    await assertHomeSectionsVisible(page);
+
+    await page.goto("/projects/zucchini");
+    await waitForPageReady(page);
+    await expect(page.getByRole("heading", { name: "Zucchini" })).toBeVisible();
+    await expect(
+      page.getByText(/local-first desktop habit tracker/i)
+    ).toBeVisible();
+    expectNoAppErrors(messages);
+  });
+
+  test("custom cursor appears over project cards", async ({ page }) => {
+    await page.goto("/");
+    await waitForPageReady(page);
+    await page.waitForTimeout(1600);
+
+    const projectCard = page
+      .locator(".project-card-item[data-hover-cursor]")
+      .first();
+    await projectCard.scrollIntoViewIfNeeded();
+    const cardBox = await projectCard.boundingBox();
+    expect(cardBox).not.toBeNull();
+    await page.mouse.move(
+      (cardBox?.x ?? 0) + (cardBox?.width ?? 0) / 2,
+      (cardBox?.y ?? 0) + (cardBox?.height ?? 0) / 2
+    );
+
+    const cursorOverlay = page.locator("[data-hover-cursor-overlay]");
+    await expect(cursorOverlay).toHaveAttribute("data-active", "true");
+    await expect(cursorOverlay.getByText("View project")).toBeVisible();
+  });
+});
+
+test.describe("Mobile route smoke", () => {
+  test.use({ viewport: MOBILE_VIEWPORT });
+
+  for (const route of routeChecks) {
+    test(`${route.path} renders on mobile`, async ({ page }) => {
+      const messages = watchAppErrors(page);
+
+      await page.goto(route.path);
+      await waitForPageReady(page);
+      await expect(page.getByText(route.visibleText).first()).toBeVisible();
+      expectNoAppErrors(messages);
+    });
+  }
 });
