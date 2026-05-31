@@ -80,17 +80,15 @@ const getHeroButtons = (buttonsRef: RefObject<HTMLDivElement | null>) =>
 const setSkippedHeroState = ({
   buttons,
   image,
-  imageOffset,
 }: {
   buttons: HTMLCollection | never[];
   image: HTMLDivElement | null;
-  imageOffset: number;
 }) => {
   gsapCore.set(image, {
     autoAlpha: 1,
     rotate: 0,
     scale: 1,
-    x: imageOffset,
+    x: 0,
   });
   gsapCore.set(".char", { autoAlpha: 1, y: 0 });
   gsapCore.set(".hero-badge", { autoAlpha: 1, scale: 1 });
@@ -224,7 +222,6 @@ export const useHeroAnimation = ({
             setSkippedHeroState({
               buttons,
               image: imageRef.current,
-              imageOffset: isDesktop ? 0 : offset,
             });
 
             stopAndLogHeroMetrics(

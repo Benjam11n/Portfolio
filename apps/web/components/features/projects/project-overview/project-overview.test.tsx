@@ -46,7 +46,7 @@ describe(ProjectOverview, () => {
     expect(screen.getByText(/overview of the project/i)).toBeInTheDocument();
   });
 
-  it("renders feature cards and drops the trailing odd feature", () => {
+  it("renders all feature cards when the feature count is odd", () => {
     render(
       <ProjectOverview
         project={{
@@ -56,10 +56,10 @@ describe(ProjectOverview, () => {
       />
     );
 
-    expect(screen.getAllByRole("listitem")).toHaveLength(2);
+    expect(screen.getAllByRole("listitem")).toHaveLength(3);
     expect(screen.getByText("Feature 1")).toBeInTheDocument();
     expect(screen.getByText("Feature 2")).toBeInTheDocument();
-    expect(screen.queryByText("Feature 3")).not.toBeInTheDocument();
+    expect(screen.getByText("Feature 3")).toBeInTheDocument();
   });
 
   it("renders known tech stack items and skips unknown ids", () => {

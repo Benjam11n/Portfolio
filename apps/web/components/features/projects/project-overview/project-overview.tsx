@@ -15,10 +15,6 @@ interface ProjectOverviewProps {
 
 export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const normalizedFeatures =
-    project.features?.length && project.features.length % 2 === 1
-      ? project.features.slice(0, -1)
-      : (project.features ?? []);
 
   const revealSteps = useMemo<RevealStep[]>(
     () => [
@@ -59,7 +55,7 @@ export const ProjectOverview = ({ project }: ProjectOverviewProps) => {
         </div>
       </div>
 
-      <ProjectFeatureList features={normalizedFeatures} />
+      <ProjectFeatureList features={project.features ?? []} />
       <ProjectTechStack techStack={project.techStack} />
     </div>
   );

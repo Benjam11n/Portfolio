@@ -6,29 +6,34 @@ export interface ProficiencyConfig {
   level: number;
   label: string;
   color: string;
+  barColor: string;
   description: string;
 }
 
 export const proficiencyConfig = {
   advanced: {
+    barColor: "#22c55e",
     color: "bg-green-500",
     description: "Deep understanding",
     label: "Advanced",
     level: 3,
   },
   beginner: {
+    barColor: "#eab308",
     color: "bg-yellow-500",
     description: "Familiar with basics",
     label: "Beginner",
     level: 1,
   },
   expert: {
+    barColor: "#a855f7",
     color: "bg-purple-500",
     description: "Mastery and leadership",
     label: "Expert",
     level: 4,
   },
   intermediate: {
+    barColor: "#3b82f6",
     color: "bg-blue-500",
     description: "Comfortable with daily use",
     label: "Intermediate",

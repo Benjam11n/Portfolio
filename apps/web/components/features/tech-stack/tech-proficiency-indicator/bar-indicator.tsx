@@ -32,23 +32,22 @@ export const BarIndicator = ({
           </span>
         </div>
       )}
-      <progress
+      <div
         aria-label={`${config.label} proficiency: ${percentage}%`}
+        aria-valuemax={100}
+        aria-valuemin={0}
+        aria-valuenow={percentage}
         className={cn(
-          "relative w-full overflow-hidden rounded-full bg-muted [&::-moz-progress-bar]:bg-transparent [&::-webkit-progress-bar]:bg-transparent [&::-webkit-progress-value]:bg-transparent",
+          "w-full overflow-hidden rounded-full bg-muted",
           barSizeClass[size]
         )}
-        max={100}
-        value={percentage}
+        role="progressbar"
       >
         <div
-          className={cn(
-            "h-full rounded-full transition-all duration-500 ease-out",
-            config.color
-          )}
-          style={{ width: `${percentage}%` }}
+          className="h-full rounded-full transition-all duration-500 ease-out"
+          style={{ backgroundColor: config.barColor, width: `${percentage}%` }}
         />
-      </progress>
+      </div>
     </div>
   );
 };

@@ -2,6 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsapCore from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { RefObject } from "react";
 
 import {
@@ -9,6 +10,10 @@ import {
   ANIMATION_EASING,
   ANIMATION_STAGGER,
 } from "@/lib/constants/animation";
+
+if (typeof window !== "undefined") {
+  gsapCore.registerPlugin(ScrollTrigger);
+}
 
 interface UseAboutAnimationOptions {
   containerRef: RefObject<HTMLDivElement | null>;
