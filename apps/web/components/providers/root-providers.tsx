@@ -3,6 +3,7 @@
 import { AnalyticsProvider } from "@repo/analytics";
 import type { ReactNode } from "react";
 
+import { BackgroundVisibilityProvider } from "@/components/layout/background-visibility";
 import {
   DynamicAnimationSkipProvider,
   DynamicPerformanceMonitor,
@@ -34,12 +35,14 @@ export const RootProviders = ({ children }: RootProvidersProps) => {
         disableTransitionOnChange
       >
         <DynamicAnimationSkipProvider>
-          <PersistentBackground />
-          {enableCursor && <DynamicSelectiveHoverCursor />}
-          <TooltipProvider delayDuration={60} skipDelayDuration={0}>
-            {children}
-          </TooltipProvider>
-          <Toaster />
+          <BackgroundVisibilityProvider>
+            <PersistentBackground />
+            {enableCursor && <DynamicSelectiveHoverCursor />}
+            <TooltipProvider delayDuration={60} skipDelayDuration={0}>
+              {children}
+            </TooltipProvider>
+            <Toaster />
+          </BackgroundVisibilityProvider>
         </DynamicAnimationSkipProvider>
       </ThemeProvider>
       <DynamicPerformanceMonitor />

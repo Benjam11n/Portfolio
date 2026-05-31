@@ -1,15 +1,17 @@
 "use client";
 
+import { useBackgroundVisibility } from "@/components/layout/background-visibility";
 import { DynamicDither } from "@/components/layout/dynamic-layout-components";
 import { useDeferredEnhancement } from "@/lib/hooks/performance/use-deferred-enhancement";
 
 export const PersistentBackground = () => {
+  const { isBackgroundDisabled } = useBackgroundVisibility();
   const enableDither = useDeferredEnhancement({
     activateOnInteraction: false,
     delayMs: 1600,
   });
 
-  if (!enableDither) {
+  if (!(enableDither && !isBackgroundDisabled)) {
     return null;
   }
 
