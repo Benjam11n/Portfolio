@@ -1,74 +1,83 @@
 # AGENTS.md
 
-## Workspace Overview
+## Repo
 
-- This repo is a `pnpm` + Turbo monorepo for a personal portfolio site.
-- `apps/web` is the main product: a Next.js App Router site with interactive
-  motion, 3D scenes, and contact flows.
-- `packages/*` holds shared support code only: config, SEO, security, logging,
-  testing, and TypeScript presets.
-- Keep app code in `apps/web` unless logic is clearly reused across packages or
-  runtime boundaries.
+- pnpm + Turbo monorepo for a personal portfolio.
+- `apps/web` is the product: Next.js App Router, motion, 3D, contact flows.
+- `packages/*` is shared infrastructure only: analytics, logger, SEO, security,
+  testing, Next config, TypeScript config.
+- Keep product code in `apps/web`; move code to packages only for real ongoing
+  reuse.
 
-## Communication Defaults
+## Communication
 
-- Use the `caveman` skill by default for user-facing responses in this
-  workspace.
-- Default intensity is `ultra`.
-- If the user explicitly asks for normal writing, formal writing, or more
-  explanation, suspend `caveman` until the request is complete.
-- Keep code, commit messages, PR text, and other durable project artifacts in
-  normal style unless the user explicitly asks otherwise.
+- Use `caveman` skill for user-facing responses by default, intensity `ultra`.
+- Suspend caveman when user asks for normal, formal, or fuller explanation.
+- Keep code, commits, PRs, docs, and other durable artifacts in normal writing.
 
-## Stable Workflow Rules
+## Commands
 
-- Run commands from the repository root with `pnpm`.
-- Prefer root scripts when they fit:
-  `pnpm build`, `pnpm lint`, `pnpm fix`, `pnpm typecheck`, `pnpm test:ci`.
-- Use filtered commands for app-specific work:
-  `pnpm --filter web dev|build|test|test:ci|test:e2e`.
-- Never start a dev server unless the user explicitly asks for it.
+- Run commands from repo root with `pnpm`.
+- Prefer root scripts: `pnpm build`, `pnpm lint`, `pnpm fix`,
+  `pnpm typecheck`, `pnpm test:ci`.
+- For app-only work use: `pnpm --filter web dev|build|test|test:ci|test:e2e`.
+- Never start a dev server unless explicitly asked.
 - Before finalizing code changes, run `pnpm fix`.
-- After meaningful changes, run the relevant checks for what changed. Minimum
-  default for app code: `pnpm lint` and `pnpm typecheck`.
+- For meaningful app changes, run at least `pnpm lint` and `pnpm typecheck`.
+- Use `pnpm knip` for dead-code/dependency cleanup.
+- Use `pnpm homepage:media-check` when touching homepage media or visual assets.
 
-## Monorepo Practices
+## Code
 
-- Treat `apps/web` as the source of product behavior and UI composition.
-- Treat `packages/seo`, `packages/security`, `packages/logger`,
-  `packages/testing`, `packages/next-config`, and
-  `packages/typescript-config` as focused shared infrastructure.
-- Do not move code into `packages/*` just to avoid small duplication.
-- Add shared packages only when reuse is real and ongoing.
-- Keep exports narrow. Avoid broad barrel files and vague utility buckets.
+- Prefer explicit types, small modules, and straightforward control flow.
+- Keep static content/data in constants.
+- Keep app-specific behavior close to where it is used.
+- Use existing `zod` / `createEnv` env patterns; avoid ad hoc `process.env`.
+- Preserve Vitest unit/component tests and Playwright e2e patterns.
 
-## Code Quality Defaults
+## UI
 
-- Optimize for readability and straightforward control flow first.
-- Prefer explicit types, validated boundaries, and small modules.
-- Keep content/data in constants when it is static; keep behavior close to where
-  it is used when it is app-specific.
-- Reuse existing env and validation patterns with `zod` and `createEnv` rather
-  than ad hoc `process.env` access.
-- Respect existing test shape: Vitest for unit/component coverage, Playwright
-  for end-to-end flows.
+- Preserve the current polished, minimal, motion-forward direction.
+- Reuse existing UI primitives, utilities, and theme tokens.
+- Use GSAP, Framer Motion, and Three.js intentionally, with reduced-motion
+  support.
+- Keep layouts responsive, readable, keyboard-accessible, and performant.
 
-## UI Defaults
+## Component Architecture
 
-- Preserve the current visual direction: polished, minimal, motion-forward, but
-  still readable and fast.
-- Use animation intentionally. GSAP, Framer Motion, and Three.js should support
-  hierarchy or delight, not distract from content.
-- Favor responsive layouts, sharp spacing, and obvious navigation over extra
-  decorative surfaces.
-- Reuse existing UI primitives, utility patterns, and theme tokens before
-  inventing new ones.
-- Keep accessibility in scope: semantic markup, keyboard support, reduced
-  motion awareness, and sensible fallbacks for heavy visual effects.
+- `components/sections/*` composes page sections only; keep section orchestration
+  thin.
+- `components/features/*` owns domain-specific UI and behavior.
+- `components/shared/*` is for genuinely reusable app components, not one-off
+  feature code.
+- `components/shared/effects/*` is for reusable visual/interaction effects.
+- `components/bits/*` is for low-level visual primitives and self-contained
+  animation bits.
+- `components/ui/*` is for unstyled or lightly styled base primitives.
+- Prefer feature-local `constants.ts`, `utils.ts`, hooks, tests, and small child
+  components when a component grows.
+- Use `index.ts` only as a narrow public entry for component folders; avoid broad
+  barrel files.
+- Do not leave root-level compatibility exports when moving components; update
+  imports directly.
+
+## Imports
+
+- Use `@/` aliases for app imports.
+- Import feature internals from their concrete file unless using that folder's
+  public `index.ts`.
+- Avoid cross-feature imports unless the dependency is truly shared; move it to
+  `shared` only after reuse is real.
+
+## Compatibility
+
+- Do not leave shims, aliases, compatibility wrappers, or backward-compatibility
+  paths just to reduce churn.
+- Prefer updating callers directly unless the old path is required by an active
+  external contract.
 
 ## Guardrails
 
-- Do not silently weaken security, env validation, or analytics wiring in shared
-  packages.
-- Do not bypass performance concerns when touching animation-heavy sections.
-- Avoid broad refactors unless they remove clear complexity or repeated pain.
+- Do not weaken security, env validation, analytics, or shared package wiring.
+- Do not ignore performance when changing animation-heavy sections.
+- Avoid broad refactors unless they remove clear complexity.
