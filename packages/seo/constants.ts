@@ -16,6 +16,7 @@ export const KEYWORDS = [
   "cs",
   "singapore",
   "swe",
+  "govtech",
   "aumovio",
   "cvwo",
   "software engineer",
