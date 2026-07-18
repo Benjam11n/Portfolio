@@ -5,16 +5,6 @@ import { Card3D } from "./card-3d";
 const usePrefersReducedMotionMock = vi.fn();
 const useMobileDetectionMock = vi.fn();
 
-vi.mock(import("@gsap/react") as unknown as string, () => ({
-  useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
-}));
-
-vi.mock(import("gsap") as unknown as string, () => ({
-  default: {
-    to: vi.fn(),
-  },
-}));
-
 vi.mock(
   import("@/lib/hooks/ui/use-prefers-reduced-motion") as unknown as string,
   () => ({

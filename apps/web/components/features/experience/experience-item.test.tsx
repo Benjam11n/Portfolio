@@ -3,16 +3,6 @@ import userEvent from "@testing-library/user-event";
 
 import { ExperienceItem } from "./experience-item";
 
-vi.mock(import("@gsap/react") as unknown as string, () => ({
-  useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
-}));
-
-vi.mock(import("gsap") as unknown as string, () => ({
-  default: {
-    to: vi.fn(),
-  },
-}));
-
 vi.mock(
   import("@/lib/hooks/utils/use-mobile-detection") as unknown as string,
   () => ({

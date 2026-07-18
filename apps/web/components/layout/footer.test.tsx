@@ -2,23 +2,6 @@ import { act, render, screen } from "@testing-library/react";
 
 import { Footer } from "./footer";
 
-vi.mock(import("@gsap/react") as unknown as string, () => ({
-  useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
-}));
-
-vi.mock(import("gsap/ScrollTrigger") as unknown as string, () => ({
-  ScrollTrigger: {},
-}));
-
-vi.mock(import("gsap") as unknown as string, () => ({
-  default: {
-    registerPlugin: vi.fn(),
-    timeline: () => ({
-      from: vi.fn().mockReturnThis(),
-    }),
-  },
-}));
-
 describe(Footer, () => {
   beforeEach(() => {
     vi.useFakeTimers();

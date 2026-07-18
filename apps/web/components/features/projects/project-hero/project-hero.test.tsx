@@ -4,21 +4,6 @@ import type { Project } from "@/lib/types";
 
 import { ProjectHero } from "./project-hero";
 
-vi.mock(import("@gsap/react") as unknown as string, () => ({
-  useGSAP: () => ({
-    contextSafe: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
-  }),
-}));
-
-vi.mock(import("gsap") as unknown as string, () => ({
-  default: {
-    set: vi.fn(),
-    timeline: () => ({
-      to: vi.fn().mockReturnThis(),
-    }),
-  },
-}));
-
 const mockProject: Project = {
   client: "Personal",
   description: "A **test** project description",

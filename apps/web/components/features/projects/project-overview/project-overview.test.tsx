@@ -4,26 +4,6 @@ import type { Project, TechId } from "@/lib/types";
 
 import { ProjectOverview } from "./project-overview";
 
-vi.mock(import("@gsap/react") as unknown as string, () => ({
-  useGSAP: () => ({
-    contextSafe: <T extends (...args: unknown[]) => unknown>(fn: T) => fn,
-  }),
-}));
-
-vi.mock(import("gsap") as unknown as string, () => ({
-  ScrollTrigger: {},
-  default: {
-    matchMedia: () => ({
-      add: vi.fn(),
-    }),
-    registerPlugin: vi.fn(),
-    set: vi.fn(),
-    timeline: () => ({
-      to: vi.fn().mockReturnThis(),
-    }),
-  },
-}));
-
 const mockProject: Project = {
   client: "Me",
   description: "Desc",

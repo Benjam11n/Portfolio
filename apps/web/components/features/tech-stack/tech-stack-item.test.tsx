@@ -8,16 +8,6 @@ import type { TechStack } from "@/lib/types";
 
 import { TechStackItem } from "./tech-stack-item";
 
-vi.mock(import("@gsap/react") as unknown as string, () => ({
-  useGSAP: () => ({ contextSafe: (fn: unknown) => fn }),
-}));
-
-vi.mock(import("gsap") as unknown as string, () => ({
-  default: {
-    to: vi.fn(),
-  },
-}));
-
 const mockStackItem: TechStack = {
   category: "Frontend" as const,
   colorDark: "#000",
