@@ -3,15 +3,24 @@
 import { useBackgroundVisibility } from "@/components/layout/background-visibility";
 import { DynamicDither } from "@/components/layout/dynamic-layout-components";
 import { useDeferredEnhancement } from "@/lib/hooks/performance/use-deferred-enhancement";
+import { useIsResourceConstrainedDevice } from "@/lib/hooks/performance/use-resource-constrained-device";
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 export const PersistentBackground = () => {
   const { isBackgroundDisabled } = useBackgroundVisibility();
+  const isResourceConstrainedDevice = useIsResourceConstrainedDevice();
+  const prefersReducedMotion = usePrefersReducedMotion();
   const enableDither = useDeferredEnhancement({
     activateOnInteraction: false,
     delayMs: 1600,
   });
 
-  if (!(enableDither && !isBackgroundDisabled)) {
+  if (
+    !enableDither ||
+    isBackgroundDisabled ||
+    prefersReducedMotion ||
+    isResourceConstrainedDevice
+  ) {
     return null;
   }
 
