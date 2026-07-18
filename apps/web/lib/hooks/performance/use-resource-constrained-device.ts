@@ -2,7 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 
-const MAX_CONSTRAINED_LOGICAL_CORES = 8;
+const MAX_CONSTRAINED_LOGICAL_CORES = 6;
 const MAX_CONSTRAINED_DEVICE_MEMORY_GB = 4;
 
 interface DevicePerformanceSignals {
