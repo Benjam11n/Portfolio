@@ -11,10 +11,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { NAVITEMS, ROUTES } from "@/lib/constants/navigation";
+import { useIsResourceConstrainedDevice } from "@/lib/hooks/performance/use-resource-constrained-device";
 import { useActiveSection } from "@/lib/hooks/ui/use-active-section";
 import { cn } from "@/lib/utils";
 
 export const Navbar = () => {
+  const isResourceConstrainedDevice = useIsResourceConstrainedDevice();
   const sectionIds = useMemo(
     () =>
       NAVITEMS.map((item) => {
@@ -30,7 +32,14 @@ export const Navbar = () => {
 
   return (
     <div className="site-navbar fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transition-opacity duration-200">
-      <nav className="flex items-center gap-1 rounded-xl border border-border/50 bg-secondary/80 p-2 shadow-xl ring-1 ring-black/5 backdrop-blur-lg">
+      <nav
+        className={cn(
+          "flex items-center gap-1 rounded-xl border border-border/50 p-2 shadow-xl ring-1 ring-black/5",
+          isResourceConstrainedDevice
+            ? "bg-secondary"
+            : "bg-secondary/80 backdrop-blur-lg"
+        )}
+      >
         {NAVITEMS.map((item) => {
           const isHome = item.href === ROUTES.HOME;
           const itemId = isHome ? "hero" : item.href.replace("#", "");

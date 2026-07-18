@@ -3,6 +3,14 @@ import { render, screen } from "@repo/testing/test-utils";
 import { Navbar } from "./navbar";
 
 const mockActiveSection = vi.fn();
+const mockIsResourceConstrainedDevice = vi.fn();
+
+vi.mock(
+  import("@/lib/hooks/performance/use-resource-constrained-device") as unknown as string,
+  () => ({
+    useIsResourceConstrainedDevice: () => mockIsResourceConstrainedDevice(),
+  })
+);
 
 vi.mock(
   import("@/lib/hooks/ui/use-active-section") as unknown as string,
@@ -25,6 +33,16 @@ vi.mock(import("@/components/effects/magnetic") as unknown as string, () => ({
 describe(Navbar, () => {
   beforeEach(() => {
     mockActiveSection.mockReturnValue("hero");
+    mockIsResourceConstrainedDevice.mockReturnValue(false);
+  });
+
+  it("removes backdrop blur on resource-constrained devices", () => {
+    mockIsResourceConstrainedDevice.mockReturnValue(true);
+
+    render(<Navbar />);
+
+    expect(screen.getByRole("navigation")).toHaveClass("bg-secondary");
+    expect(screen.getByRole("navigation")).not.toHaveClass("backdrop-blur-lg");
   });
 
   it("renders the navigation links and theme toggle", () => {
