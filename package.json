@@ -21,8 +21,8 @@
     "test:e2e": "turbo run test:e2e"
   },
   "devDependencies": {
-    "@commitlint/cli": "^21.0.1",
-    "@commitlint/config-conventional": "^21.2.0",
+    "@commitlint/cli": "^20.5.3",
+    "@commitlint/config-conventional": "^20.5.3",
     "@typescript/native-preview": "7.0.0-dev.20260423.1",
     "knip": "^6.3.0",
     "lefthook": "^2.1.4",
