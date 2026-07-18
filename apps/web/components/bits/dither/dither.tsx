@@ -9,7 +9,6 @@ import { useRef } from "react";
 import { DitheredWaves } from "@/components/bits/dither/dithered-waves";
 import { useDitherControls } from "@/components/bits/dither/use-dither-controls";
 import {
-  getDitherFrameLoop,
   getThemeWaveColor,
   shouldDisableDitherAnimation,
   shouldEnableDitherMouse,
@@ -58,8 +57,6 @@ export const Dither = ({
     shouldDisableAnimation,
     skipAnimations,
   });
-  const shouldAnimate = isActive && !isEffectivelyPaused;
-  const frameLoop = getDitherFrameLoop(shouldAnimate);
   const shouldEnableMouse = shouldEnableDitherMouse(
     enableMouseInteraction,
     isEffectivelyPaused
@@ -97,8 +94,8 @@ export const Dither = ({
       <div className="relative h-full w-full">
         <Canvas
           camera={{ position: [0, 0, 6] }}
-          dpr={[0.75, 1]}
-          frameloop={frameLoop}
+          dpr={0.45}
+          frameloop="demand"
           gl={{
             antialias: false,
             powerPreference: "low-power",

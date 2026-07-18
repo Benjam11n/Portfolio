@@ -267,9 +267,16 @@ describe(SelectiveHoverCursor, () => {
     hover(screen.getByText("Plain text"));
     expect(overlay).toHaveAttribute("data-active", "false");
 
+    const elementFromPointMock = vi.mocked(document.elementFromPoint);
+    elementFromPointMock.mockClear();
     setElementFromPointTarget(screen.getByRole("button", { name: "Hover me" }));
     fireEvent.scroll(window);
+    fireEvent.scroll(window);
+    fireEvent.scroll(window);
 
-    expect(overlay).toHaveAttribute("data-active", "true");
+    await waitFor(() => {
+      expect(overlay).toHaveAttribute("data-active", "true");
+      expect(elementFromPointMock.mock.calls).toHaveLength(1);
+    });
   });
 });

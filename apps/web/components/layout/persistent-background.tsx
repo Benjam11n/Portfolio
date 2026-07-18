@@ -20,9 +20,9 @@ export const PersistentBackground = () => {
       <DynamicDither
         colorNum={3}
         disableAnimation={false}
-        enableMouseInteraction
+        enableMouseInteraction={false}
         mouseRadius={0.6}
-        pixelSize={2}
+        pixelSize={1}
         waveAmplitude={0.2}
         waveColor={undefined}
         waveFrequency={2}

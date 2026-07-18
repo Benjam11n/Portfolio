@@ -107,18 +107,33 @@ export const useHoverCursorState = (enabled: boolean) => {
       updateCursor(latestPointer.x, latestPointer.y);
     };
 
+    let scrollFrameId: number | null = null;
+    const handleScroll = () => {
+      if (scrollFrameId !== null) {
+        return;
+      }
+
+      scrollFrameId = window.requestAnimationFrame(() => {
+        scrollFrameId = null;
+        syncFromLatestPointer();
+      });
+    };
+
     window.addEventListener("pointermove", handlePointerMove);
     window.addEventListener("resize", syncFromLatestPointer);
-    window.addEventListener("scroll", syncFromLatestPointer, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("mouseout", handleWindowMouseOut);
     window.addEventListener("blur", hideCursor);
 
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("resize", syncFromLatestPointer);
-      window.removeEventListener("scroll", syncFromLatestPointer);
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("mouseout", handleWindowMouseOut);
       window.removeEventListener("blur", hideCursor);
+      if (scrollFrameId !== null) {
+        window.cancelAnimationFrame(scrollFrameId);
+      }
     };
   }, [enabled]);
 

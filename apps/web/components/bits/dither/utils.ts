@@ -16,9 +16,6 @@ interface DitherAnimationOptions {
   skipAnimations: boolean;
 }
 
-export const getDitherFrameLoop = (shouldAnimate: boolean) =>
-  shouldAnimate ? "always" : "never";
-
 export const shouldEnableDitherMouse = (
   enableMouseInteraction: boolean,
   isEffectivelyPaused: boolean

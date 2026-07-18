@@ -66,31 +66,39 @@ describe(Dither, () => {
     });
   });
 
-  it("uses continuous rendering while the effect is visible and animated", () => {
+  it("uses demand rendering so frames can be capped", () => {
     render(<Dither />);
 
     expect(canvasMock).toHaveBeenCalledWith(
-      expect.objectContaining({ frameloop: "always" })
+      expect.objectContaining({ frameloop: "demand" })
     );
   });
 
-  it("stops rendering when the effect is hidden or reduced motion is preferred", () => {
+  it("stops scheduling frames when the effect is hidden", () => {
     vi.mocked(useElementVisibility).mockReturnValue(false);
 
     render(<Dither />);
 
     expect(canvasMock).toHaveBeenCalledWith(
-      expect.objectContaining({ frameloop: "never" })
+      expect.objectContaining({
+        children: expect.objectContaining({
+          props: expect.objectContaining({ isActive: false }),
+        }),
+      })
     );
   });
 
-  it("stops rendering when reduced motion is preferred", () => {
+  it("disables animation when reduced motion is preferred", () => {
     vi.mocked(usePrefersReducedMotion).mockReturnValue(true);
 
     render(<Dither />);
 
     expect(canvasMock).toHaveBeenCalledWith(
-      expect.objectContaining({ frameloop: "never" })
+      expect.objectContaining({
+        children: expect.objectContaining({
+          props: expect.objectContaining({ disableAnimation: true }),
+        }),
+      })
     );
   });
 
