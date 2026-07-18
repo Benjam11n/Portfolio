@@ -3,7 +3,7 @@ import { isResourceConstrainedDevice } from "./use-resource-constrained-device";
 describe(isResourceConstrainedDevice, () => {
   it("detects conservative resource constraints", () => {
     expect(
-      isResourceConstrainedDevice({ hardwareConcurrency: 3 })
+      isResourceConstrainedDevice({ hardwareConcurrency: 2 })
     ).toBeTruthy();
     expect(isResourceConstrainedDevice({ deviceMemory: 4 })).toBeTruthy();
     expect(isResourceConstrainedDevice({ saveData: true })).toBeTruthy();
