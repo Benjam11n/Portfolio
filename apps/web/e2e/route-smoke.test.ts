@@ -77,6 +77,11 @@ const watchAppErrors = (page: Page) => {
   return messages;
 };
 
+test.skip(
+  ({ browserName }) => browserName !== "chromium",
+  "Route smoke coverage stays Chromium-only"
+);
+
 test.describe("Route smoke", () => {
   test.describe.configure({ mode: "serial" });
 

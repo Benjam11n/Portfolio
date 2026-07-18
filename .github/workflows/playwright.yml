@@ -46,12 +46,12 @@ jobs:
           PLAYWRIGHT_ARTIFACTS_DIR: /tmp/portfolio-playwright/compatibility
         run: pnpm --filter web test:e2e navigation.test.ts contact-form.test.ts browser-compatibility.test.ts
 
-      - name: Run Chromium visual, smoke, and performance tests
+      - name: Run Chromium project, visual, smoke, and performance tests
         id: chromium
         continue-on-error: true
         env:
           PLAYWRIGHT_ARTIFACTS_DIR: /tmp/portfolio-playwright/chromium
-        run: pnpm --filter web test:e2e --project=chromium route-smoke.test.ts visual-regression.test.ts homepage-performance.test.ts
+        run: pnpm --filter web test:e2e --project=chromium projects.test.ts route-smoke.test.ts visual-regression.test.ts homepage-performance.test.ts
 
       - name: Upload Playwright Report
         if: ${{ steps.compatibility.outcome == 'failure' || steps.chromium.outcome == 'failure' }}

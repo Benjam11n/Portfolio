@@ -24,6 +24,20 @@ const prepareStablePage = async (page: Page) => {
     `,
   });
   await page.evaluate(() => document.fonts.ready);
+
+  if ((await page.locator("#hero").count()) > 0) {
+    await expect
+      .poll(() =>
+        page
+          .locator("#hero .opacity-0")
+          .evaluateAll((elements) =>
+            elements.every(
+              (element) => getComputedStyle(element).opacity === "1"
+            )
+          )
+      )
+      .toBe(true);
+  }
 };
 
 const setTheme = async (page: Page, theme: "dark" | "light") => {
