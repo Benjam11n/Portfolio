@@ -4,7 +4,7 @@ import { z } from "zod";
 export const keys = () =>
   createEnv({
     client: {
-      NEXT_PUBLIC_POSTHOG_HOST: z.string().url().optional(),
+      NEXT_PUBLIC_POSTHOG_HOST: z.url().optional(),
       NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
     },
     runtimeEnv: {

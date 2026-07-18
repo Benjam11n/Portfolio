@@ -83,14 +83,11 @@ export const useDitherControls = ({
   );
 
   const toggleManualPause = useCallback(() => {
-    setIsManuallyPaused((prev) => {
-      const nextState = !prev;
-      if (!nextState) {
-        resetIdleTimer();
-      }
-      return nextState;
-    });
-  }, [resetIdleTimer]);
+    if (isManuallyPaused) {
+      resetIdleTimer();
+    }
+    setIsManuallyPaused(!isManuallyPaused);
+  }, [isManuallyPaused, resetIdleTimer]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

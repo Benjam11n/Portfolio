@@ -10,9 +10,9 @@ export const serverEnv = createEnv({
     TO_EMAIL: process.env.TO_EMAIL,
   },
   server: {
-    FROM_EMAIL: z.string().email(),
+    FROM_EMAIL: z.email(),
     RESEND_API_KEY: z.string().min(1),
-    TO_EMAIL: z.string().email(),
+    TO_EMAIL: z.email(),
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
 });

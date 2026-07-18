@@ -2,7 +2,6 @@ import { z } from "zod";
 
 const contactSchema = z.object({
   email: z
-    .string()
     .email("Please enter a valid email address")
     .max(300, "Email must be at most 300 characters"),
   message: z
