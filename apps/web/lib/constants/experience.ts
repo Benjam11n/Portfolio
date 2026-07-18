@@ -3,14 +3,15 @@ import { experiencesArraySchema } from "@/lib/validations/constants";
 
 const rawWorkExperiences: Experience[] = [
   {
-    endDate: { month: 12, year: 2026 },
     icon: "/experiences/govtech-preview.mp4",
     iconBackgroundColor: "#fff",
     iconScale: 1.5,
     id: 5,
     name: "GovTech",
-    points: [],
-    pos: "Incoming Software Engineer Intern",
+    points: [
+      "Contributing to **APEX Cloud**, GovTech's API infrastructure supporting secure integrations across government agencies.",
+    ],
+    pos: "Software Engineer Intern",
     preview_video: "/experiences/govtech-preview.mp4",
     startDate: { month: 6, year: 2026 },
   },
@@ -24,9 +25,9 @@ const rawWorkExperiences: Experience[] = [
     points: [
       "Provisioned the project's **PostgreSQL database** using **Docker**, establishing a reproducible local development and deployment setup.",
       "Set up **LiteLLM middleware** for **LLM cost tracking**, giving the team clearer visibility into model usage and spend across the application.",
-      "Improved a key part of the application workflow, increasing **evaluation results by more than 30%** through iterative optimization and testing.",
+      "Improved **evaluation recall scores by more than 40%** through iterative filter tuning and repeated evaluation runs.",
     ],
-    pos: "AI Web Developer Intern",
+    pos: "AI Web Application Software Engineer Intern",
     startDate: { month: 1, year: 2026 },
   },
   {

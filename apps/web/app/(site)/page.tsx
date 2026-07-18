@@ -32,12 +32,12 @@ export default function Home() {
           sameAs: [
             "https://github.com/Benjam11n",
             "https://www.linkedin.com/in/benjaminwang-sg/",
-            "https://benjaminwjy.vercel.app",
+            "https://codedbyben.com",
           ],
           url: "https://codedbyben.com",
           worksFor: {
             "@type": "Organization",
-            name: "Aumovio",
+            name: "Government Technology Agency of Singapore (GovTech Singapore)",
           },
         }}
       />
