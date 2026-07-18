@@ -43,12 +43,7 @@ vi.mock(
   })
 );
 
-vi.mock(
-  import("@/lib/hooks/ui/use-prefers-reduced-motion") as unknown as string,
-  () => ({
-    usePrefersReducedMotion: vi.fn(),
-  })
-);
+vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"));
 
 describe(Dither, () => {
   beforeEach(async () => {

@@ -1,34 +1,20 @@
 import { render, screen } from "@testing-library/react";
 
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useIsSafari } from "@/lib/hooks/utils/use-is-safari";
+import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
+
 import { Card3D } from "./card-3d";
 
-const usePrefersReducedMotionMock = vi.fn();
-const useMobileDetectionMock = vi.fn();
-const useIsSafariMock = vi.fn();
-
-vi.mock(import("@/lib/hooks/utils/use-is-safari") as unknown as string, () => ({
-  useIsSafari: () => useIsSafariMock(),
-}));
-
-vi.mock(
-  import("@/lib/hooks/ui/use-prefers-reduced-motion") as unknown as string,
-  () => ({
-    usePrefersReducedMotion: () => usePrefersReducedMotionMock(),
-  })
-);
-
-vi.mock(
-  import("@/lib/hooks/utils/use-mobile-detection") as unknown as string,
-  () => ({
-    useMobileDetection: () => useMobileDetectionMock(),
-  })
-);
+vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"));
+vi.mock(import("@/lib/hooks/utils/use-is-safari"));
+vi.mock(import("@/lib/hooks/utils/use-mobile-detection"));
 
 describe(Card3D, () => {
   beforeEach(() => {
-    useIsSafariMock.mockReturnValue(false);
-    usePrefersReducedMotionMock.mockReturnValue(false);
-    useMobileDetectionMock.mockReturnValue(false);
+    vi.mocked(useIsSafari).mockReturnValue(false);
+    vi.mocked(useMobileDetection).mockReturnValue(false);
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(false);
   });
 
   it("renders children inside the interactive card surface", () => {
@@ -44,7 +30,7 @@ describe(Card3D, () => {
   });
 
   it("falls back to the static card presentation when reduced motion is preferred", () => {
-    usePrefersReducedMotionMock.mockReturnValue(true);
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(true);
 
     const { container } = render(
       <Card3D containerClassName="container-class">
@@ -59,7 +45,7 @@ describe(Card3D, () => {
   });
 
   it("falls back to the static card presentation in Apple WebKit browsers", () => {
-    useIsSafariMock.mockReturnValue(true);
+    vi.mocked(useIsSafari).mockReturnValue(true);
 
     const { container } = render(
       <Card3D>

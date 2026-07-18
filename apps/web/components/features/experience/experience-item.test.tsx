@@ -1,14 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
+
 import { ExperienceItem } from "./experience-item";
 
-vi.mock(
-  import("@/lib/hooks/utils/use-mobile-detection") as unknown as string,
-  () => ({
-    useMobileDetection: () => false,
-  })
-);
+vi.mock(import("@/lib/hooks/utils/use-mobile-detection"));
 
 const mockExperience = {
   icon: "/company-logo.png",
@@ -26,6 +23,10 @@ const TEXT_INTEGRATED = /Integrated/;
 const TEXT_IMPROVED = /improved performance by 50%/;
 
 describe(ExperienceItem, () => {
+  beforeEach(() => {
+    vi.mocked(useMobileDetection).mockReturnValue(false);
+  });
+
   it("renders experience details", () => {
     render(<ExperienceItem item={mockExperience} />);
     expect(screen.getByText("Test Company")).toBeDefined();

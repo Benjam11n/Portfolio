@@ -7,7 +7,9 @@ const mockShouldReduceEffects = vi.fn();
 
 vi.mock(
   import("@/lib/hooks/performance/use-deferred-enhancement") as unknown as string,
-  () => ({ useDeferredEnhancement: () => true })
+  () => ({
+    useDeferredEnhancement: () => true,
+  })
 );
 
 vi.mock(

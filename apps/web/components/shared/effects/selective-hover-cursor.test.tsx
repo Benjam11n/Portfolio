@@ -1,23 +1,13 @@
 import { render, screen, waitFor } from "@repo/testing/test-utils";
 import { fireEvent } from "@testing-library/react";
 
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useIsSafari } from "@/lib/hooks/utils/use-is-safari";
+
 import { SelectiveHoverCursor } from "./selective-hover-cursor";
 
-const mocks = vi.hoisted(() => ({
-  isSafari: false,
-  prefersReducedMotion: false,
-}));
-
-vi.mock(import("@/lib/hooks/utils/use-is-safari") as unknown as string, () => ({
-  useIsSafari: () => mocks.isSafari,
-}));
-
-vi.mock(
-  import("@/lib/hooks/ui/use-prefers-reduced-motion") as unknown as string,
-  () => ({
-    usePrefersReducedMotion: () => mocks.prefersReducedMotion,
-  })
-);
+vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"));
+vi.mock(import("@/lib/hooks/utils/use-is-safari"));
 
 let currentElementFromPointTarget: Element | null = null;
 let measuredScrollWidths = new Map<string, number>();
@@ -73,8 +63,8 @@ describe(SelectiveHoverCursor, () => {
   });
 
   beforeEach(() => {
-    mocks.isSafari = false;
-    mocks.prefersReducedMotion = false;
+    vi.mocked(useIsSafari).mockReturnValue(false);
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(false);
     setPointerSupport(true);
     setMeasuredScrollWidths({
       "Click me!": 44,
@@ -95,7 +85,7 @@ describe(SelectiveHoverCursor, () => {
   });
 
   it("does not render when reduced motion is enabled", async () => {
-    mocks.prefersReducedMotion = true;
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(true);
 
     render(<SelectiveHoverCursor />);
 
@@ -105,7 +95,7 @@ describe(SelectiveHoverCursor, () => {
   });
 
   it("uses the native cursor in Safari", async () => {
-    mocks.isSafari = true;
+    vi.mocked(useIsSafari).mockReturnValue(true);
 
     render(<SelectiveHoverCursor />);
 

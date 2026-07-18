@@ -1,37 +1,33 @@
 import { renderHook } from "@testing-library/react";
 
+import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+
 import { useShouldReduceEffects } from "./use-should-reduce-effects";
 
 const mocks = vi.hoisted(() => ({
   isResourceConstrainedDevice: false,
-  prefersReducedMotion: false,
 }));
 
-vi.mock(
-  import("./use-resource-constrained-device") as unknown as string,
-  () => ({
-    useIsResourceConstrainedDevice: () => mocks.isResourceConstrainedDevice,
-  })
-);
+vi.mock(import("./use-resource-constrained-device"), () => ({
+  useIsResourceConstrainedDevice: () => mocks.isResourceConstrainedDevice,
+}));
 
-vi.mock(
-  import("@/lib/hooks/ui/use-prefers-reduced-motion") as unknown as string,
-  () => ({
-    usePrefersReducedMotion: () => mocks.prefersReducedMotion,
-  })
-);
+vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"));
 
 describe(useShouldReduceEffects, () => {
   beforeEach(() => {
     mocks.isResourceConstrainedDevice = false;
-    mocks.prefersReducedMotion = false;
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(false);
   });
 
   it.each([
     { isResourceConstrainedDevice: true, prefersReducedMotion: false },
     { isResourceConstrainedDevice: false, prefersReducedMotion: true },
   ])("reduces effects when either signal is active", (signals) => {
-    Object.assign(mocks, signals);
+    mocks.isResourceConstrainedDevice = signals.isResourceConstrainedDevice;
+    vi.mocked(usePrefersReducedMotion).mockReturnValue(
+      signals.prefersReducedMotion
+    );
 
     const { result } = renderHook(useShouldReduceEffects);
 
