@@ -1,4 +1,3 @@
-import withBundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
 
 const IMAGE_QUALITIES = [75, 80, 90, 95];
@@ -24,6 +23,3 @@ export const config: NextConfig = {
   serverExternalPackages: ["pino", "thread-stream"],
   transpilePackages: ["@repo/ui", "@repo/analytics"],
 };
-
-export const withAnalyzer = (sourceConfig: NextConfig): NextConfig =>
-  withBundleAnalyzer()(sourceConfig);

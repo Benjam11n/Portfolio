@@ -8,7 +8,6 @@ export const keys = () =>
       NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
     },
     runtimeEnv: {
-      ANALYZE: process.env.ANALYZE,
       NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
       NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
       NEXT_RUNTIME: process.env.NEXT_RUNTIME,
@@ -19,7 +18,6 @@ export const keys = () =>
       VERCEL_URL: process.env.VERCEL_URL,
     },
     server: {
-      ANALYZE: z.string().optional(),
       // Added by Vercel
       NEXT_RUNTIME: z.enum(["nodejs", "edge"]).optional(),
       // Vercel environment variables
