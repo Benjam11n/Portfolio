@@ -94,7 +94,7 @@ export const Dither = ({
       <div className="relative h-full w-full">
         <Canvas
           camera={{ position: [0, 0, 6] }}
-          dpr={0.375}
+          dpr={0.35}
           frameloop="demand"
           gl={{
             antialias: false,
