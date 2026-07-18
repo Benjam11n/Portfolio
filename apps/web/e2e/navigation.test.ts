@@ -8,9 +8,10 @@ const SKIP_LINK_REGEX = /skip to main content/i;
 const TOGGLE_THEME_REGEX = /toggle theme/i;
 
 test.describe("Navigation", () => {
-  test("skip link appears on tab", async ({ page }) => {
+  test("skip link appears on tab", async ({ browserName, page }) => {
     await page.goto("/");
-    await page.keyboard.press("Tab");
+    await waitForPageReady(page);
+    await page.keyboard.press(browserName === "webkit" ? "Alt+Tab" : "Tab");
 
     const skipLink = page.getByRole("link", { name: SKIP_LINK_REGEX });
     await expect(skipLink).toBeVisible();
@@ -37,10 +38,10 @@ test.describe("Navigation", () => {
 
     await themeToggle.click();
 
-    const newIsDark = await page.evaluate(() =>
-      document.documentElement.classList.contains("dark")
-    );
-
-    expect(newIsDark).not.toBe(initialIsDark);
+    await expect
+      .poll(() =>
+        page.evaluate(() => document.documentElement.classList.contains("dark"))
+      )
+      .not.toBe(initialIsDark);
   });
 });

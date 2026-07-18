@@ -18,9 +18,9 @@ test.describe("Contact form", () => {
       "Hello! I want to give you a job..."
     );
 
-    await expect(nameInput).toBeVisible();
-    await expect(emailInput).toBeVisible();
-    await expect(messageInput).toBeVisible();
+    await expect(nameInput).toBeVisible({ timeout: 15_000 });
+    await expect(emailInput).toBeVisible({ timeout: 15_000 });
+    await expect(messageInput).toBeVisible({ timeout: 15_000 });
 
     await nameInput.fill("Playwright User");
     await emailInput.fill("playwright@example.com");

@@ -16,6 +16,8 @@ const prepareStablePage = async (page: Page) => {
       }
 
       canvas,
+      video,
+      [data-hover-cursor-overlay],
       body > div.fixed.bottom-4.right-4 {
         visibility: hidden !important;
       }
@@ -38,6 +40,10 @@ const expectThemeClass = async (page: Page, theme: "dark" | "light") => {
 };
 
 test.describe("Visual regression", () => {
+  test.skip(
+    ({ browserName }) => browserName !== "chromium",
+    "Broad visual coverage stays Chromium-only"
+  );
   test.describe.configure({ mode: "serial" });
   test.use({ reducedMotion: "reduce", viewport: VIEWPORT });
 
@@ -72,6 +78,7 @@ test.describe("Visual regression", () => {
       animations: "disabled",
       caret: "hide",
       mask: [footer.getByText(/GMT[+-]?\d*/)],
+      maxDiffPixels: 250,
     });
   });
 

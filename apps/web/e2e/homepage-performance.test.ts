@@ -12,6 +12,11 @@ const isHomepageMediaPath = (pathname: string) =>
   HOMEPAGE_MEDIA_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 
 test.describe("Homepage performance budgets", () => {
+  test.skip(
+    ({ browserName }) => browserName !== "chromium",
+    "Performance budgets use Chromium as the stable reference engine"
+  );
+
   test("keeps homepage media within route budget", async ({ page }) => {
     const responses: { bytes: number; pathname: string }[] = [];
 

@@ -18,6 +18,14 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+    },
+    {
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
+    },
   ],
   reporter: [
     [
@@ -39,7 +47,7 @@ export default defineConfig({
   },
   webServer: {
     command: `PLAYWRIGHT_TEST=1 PORT=${playwrightPort} pnpm dev`,
-    reuseExistingServer: false,
+    reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
     url: playwrightBaseURL,
   },
