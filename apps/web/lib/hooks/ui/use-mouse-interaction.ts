@@ -10,7 +10,7 @@ interface MouseInteractionOptions {
 }
 
 interface MouseInteractionReturn {
-  mousePos: React.MutableRefObject<Vector2>;
+  mousePos: React.RefObject<Vector2>;
 }
 
 /**
@@ -40,7 +40,11 @@ export const useMouseInteraction = (
 ): MouseInteractionReturn => {
   const { enabled, gl } = options;
 
-  const mousePos = useRef(new Vector2());
+  const mousePos = useRef<Vector2 | null>(null);
+  if (mousePos.current === null) {
+    mousePos.current = new Vector2();
+  }
+  const currentMousePos = mousePos.current;
 
   useEffect(() => {
     if (!enabled) {
@@ -50,7 +54,7 @@ export const useMouseInteraction = (
     const handleMouseMove = (e: MouseEvent) => {
       const rect = gl.domElement.getBoundingClientRect();
       const dpr = gl.getPixelRatio();
-      mousePos.current.set(
+      currentMousePos.set(
         (e.clientX - rect.left) * dpr,
         (e.clientY - rect.top) * dpr
       );
@@ -60,9 +64,9 @@ export const useMouseInteraction = (
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [enabled, gl]);
+  }, [currentMousePos, enabled, gl]);
 
   return {
-    mousePos,
+    mousePos: mousePos as React.RefObject<Vector2>,
   };
 };

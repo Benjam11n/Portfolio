@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Search } from "lucide-react";
 import { startTransition, useCallback } from "react";
 
@@ -86,7 +86,7 @@ export const TechStackSearchSort = <T extends string>({
           type="button"
           variant="outline"
         >
-          <motion.span
+          <m.span
             animate={{ rotate: sortRotation }}
             transition={
               skipAnimations
@@ -95,7 +95,7 @@ export const TechStackSearchSort = <T extends string>({
             }
           >
             <ActiveSortIcon className="h-4 w-4" />
-          </motion.span>
+          </m.span>
         </Button>
       </div>
     </div>

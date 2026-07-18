@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface TechStackFadeOverlayProps {
   skipAnimations: boolean;
@@ -7,7 +7,7 @@ interface TechStackFadeOverlayProps {
 export const TechStackFadeOverlay = ({
   skipAnimations,
 }: TechStackFadeOverlayProps) => (
-  <motion.div
+  <m.div
     animate={{ opacity: 1 }}
     aria-hidden="true"
     className="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-24 cursor-default bg-background/60 backdrop-blur-[2px] md:h-32"

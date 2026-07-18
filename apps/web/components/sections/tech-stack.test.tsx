@@ -78,6 +78,7 @@ vi.mock(import("framer-motion") as unknown as string, () => {
     AnimatePresence: ({ children }: { children: ReactNode }) => children,
     LazyMotion: ({ children }: { children: ReactNode }) => children,
     domAnimation: {},
+    domMax: {},
     m: motionMock,
     motion: motionMock,
   };

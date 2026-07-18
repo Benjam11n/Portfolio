@@ -1,5 +1,7 @@
 "use client";
 
+import { domMax, LazyMotion } from "framer-motion";
+
 import {
   TechStackControls,
   TechStackVisibilityToggle,
@@ -22,7 +24,7 @@ export const TechStack = () => {
   const filters = useTechStackFilters();
 
   return (
-    <>
+    <LazyMotion features={domMax}>
       <SectionCard
         className="relative isolate overflow-hidden"
         id="skills"
@@ -66,6 +68,6 @@ export const TechStack = () => {
         onClose={detail.handleCloseTechDetail}
         selectedTech={detail.selectedTech}
       />
-    </>
+    </LazyMotion>
   );
 };

@@ -1,4 +1,4 @@
-import { domAnimation, LazyMotion, m } from "framer-motion";
+import { m } from "framer-motion";
 import type { Transition } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
@@ -72,36 +72,34 @@ export const TechStackVisibilityToggle = ({
   const iconTransition = getTransition(skipAnimations, ICON_TRANSITION);
 
   return (
-    <LazyMotion features={domAnimation}>
-      <m.div
-        className="flex justify-center pt-1"
-        layout
-        transition={motionTransition}
+    <m.div
+      className="flex justify-center pt-1"
+      layout
+      transition={motionTransition}
+    >
+      <Button
+        aria-expanded={showAllTech}
+        className="h-9 rounded-full px-4 shadow-sm"
+        onClick={onToggle}
+        type="button"
       >
-        <Button
-          aria-expanded={showAllTech}
-          className="h-9 rounded-full px-4 shadow-sm"
-          onClick={onToggle}
-          type="button"
-        >
-          <span className="flex items-center gap-2">
-            <m.span
-              animate={{ opacity: 1, y: 0 }}
-              initial={false}
-              key={getLabelKey(showAllTech)}
-              transition={labelTransition}
-            >
-              {getToggleLabel(showAllTech, hiddenTechCount)}
-            </m.span>
-            <m.span
-              animate={{ rotate: getIconRotation(showAllTech) }}
-              transition={iconTransition}
-            >
-              <ChevronDown className="size-3.5" />
-            </m.span>
-          </span>
-        </Button>
-      </m.div>
-    </LazyMotion>
+        <span className="flex items-center gap-2">
+          <m.span
+            animate={{ opacity: 1, y: 0 }}
+            initial={false}
+            key={getLabelKey(showAllTech)}
+            transition={labelTransition}
+          >
+            {getToggleLabel(showAllTech, hiddenTechCount)}
+          </m.span>
+          <m.span
+            animate={{ rotate: getIconRotation(showAllTech) }}
+            transition={iconTransition}
+          >
+            <ChevronDown className="size-3.5" />
+          </m.span>
+        </span>
+      </Button>
+    </m.div>
   );
 };

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface TechStackEmptyStateProps {
   skipAnimations: boolean;
@@ -7,7 +7,7 @@ interface TechStackEmptyStateProps {
 export const TechStackEmptyState = ({
   skipAnimations,
 }: TechStackEmptyStateProps) => (
-  <motion.p
+  <m.p
     animate={{ opacity: 1, y: 0 }}
     className="col-span-full py-8 text-center text-muted-foreground text-sm"
     initial={{
@@ -17,5 +17,5 @@ export const TechStackEmptyState = ({
     layout
   >
     No technologies found.
-  </motion.p>
+  </m.p>
 );

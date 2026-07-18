@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, domAnimation, LazyMotion, m } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
@@ -49,39 +49,41 @@ export const ThemeToggle = () => {
   }
 
   return (
-    <Button
-      className="group relative size-11 hover:bg-transparent"
-      onClick={handleThemeToggle}
-      size="icon"
-      variant="ghost"
-    >
-      <AnimatePresence initial={false} mode="wait">
-        <motion.div
-          animate={{ rotate: 0, scale: 1 }}
-          className="absolute inset-0 flex items-center justify-center"
-          exit={
-            prefersReducedMotion
-              ? { rotate: 0, scale: 1 }
-              : { rotate: iconConfig.exitRotation, scale: 0 }
-          }
-          initial={
-            prefersReducedMotion
-              ? false
-              : { rotate: iconConfig.initialRotation, scale: 0 }
-          }
-          key={iconConfig.key}
-          transition={
-            prefersReducedMotion
-              ? { duration: 0 }
-              : { duration: 0.2, ease: "easeInOut" }
-          }
-        >
-          <Icon
-            className={`${iconConfig.iconClassName} size-4 transition-transform group-hover:scale-110`}
-          />
-        </motion.div>
-      </AnimatePresence>
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+    <LazyMotion features={domAnimation}>
+      <Button
+        className="group relative size-11 hover:bg-transparent"
+        onClick={handleThemeToggle}
+        size="icon"
+        variant="ghost"
+      >
+        <AnimatePresence initial={false} mode="wait">
+          <m.div
+            animate={{ rotate: 0, scale: 1 }}
+            className="absolute inset-0 flex items-center justify-center"
+            exit={
+              prefersReducedMotion
+                ? { rotate: 0, scale: 1 }
+                : { rotate: iconConfig.exitRotation, scale: 0 }
+            }
+            initial={
+              prefersReducedMotion
+                ? false
+                : { rotate: iconConfig.initialRotation, scale: 0 }
+            }
+            key={iconConfig.key}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: 0.2, ease: "easeInOut" }
+            }
+          >
+            <Icon
+              className={`${iconConfig.iconClassName} size-4 transition-transform group-hover:scale-110`}
+            />
+          </m.div>
+        </AnimatePresence>
+        <span className="sr-only">Toggle theme</span>
+      </Button>
+    </LazyMotion>
   );
 };
