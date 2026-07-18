@@ -4,6 +4,11 @@ import { Card3D } from "./card-3d";
 
 const usePrefersReducedMotionMock = vi.fn();
 const useMobileDetectionMock = vi.fn();
+const useIsSafariMock = vi.fn();
+
+vi.mock(import("@/lib/hooks/utils/use-is-safari") as unknown as string, () => ({
+  useIsSafari: () => useIsSafariMock(),
+}));
 
 vi.mock(
   import("@/lib/hooks/ui/use-prefers-reduced-motion") as unknown as string,
@@ -21,6 +26,7 @@ vi.mock(
 
 describe(Card3D, () => {
   beforeEach(() => {
+    useIsSafariMock.mockReturnValue(false);
     usePrefersReducedMotionMock.mockReturnValue(false);
     useMobileDetectionMock.mockReturnValue(false);
   });
@@ -50,6 +56,21 @@ describe(Card3D, () => {
     expect(
       container.querySelector("[role='presentation']")
     ).not.toBeInTheDocument();
+  });
+
+  it("falls back to the static card presentation in Apple WebKit browsers", () => {
+    useIsSafariMock.mockReturnValue(true);
+
+    const { container } = render(
+      <Card3D>
+        <span>Content</span>
+      </Card3D>
+    );
+
+    expect(
+      container.querySelector("[role='presentation']")
+    ).not.toBeInTheDocument();
+    expect(screen.getByText("Content")).toBeVisible();
   });
 
   it("uses subtle variant defaults without glare and lets explicit props override them", () => {

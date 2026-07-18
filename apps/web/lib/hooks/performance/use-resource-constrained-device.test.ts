@@ -5,6 +5,9 @@ describe(isResourceConstrainedDevice, () => {
     expect(
       isResourceConstrainedDevice({ hardwareConcurrency: 2 })
     ).toBeTruthy();
+    expect(
+      isResourceConstrainedDevice({ hardwareConcurrency: 4 })
+    ).toBeTruthy();
     expect(isResourceConstrainedDevice({ deviceMemory: 4 })).toBeTruthy();
     expect(isResourceConstrainedDevice({ saveData: true })).toBeTruthy();
   });
@@ -13,7 +16,7 @@ describe(isResourceConstrainedDevice, () => {
     expect(
       isResourceConstrainedDevice({
         deviceMemory: 8,
-        hardwareConcurrency: 4,
+        hardwareConcurrency: 8,
         saveData: false,
       })
     ).toBeFalsy();

@@ -11,6 +11,7 @@ import { StaticCard } from "@/components/shared/effects/card-3d/static-card";
 import type { Card3DVariant } from "@/components/shared/effects/card-3d/types";
 import { getCardSettings } from "@/components/shared/effects/card-3d/utils";
 import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useIsSafari } from "@/lib/hooks/utils/use-is-safari";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 
 interface Card3DProps {
@@ -42,8 +43,9 @@ export const Card3D = ({
 }: Card3DProps) => {
   const refs = useCardRefs();
   const prefersReducedMotion = usePrefersReducedMotion();
+  const isSafari = useIsSafari();
   const isMobile = useMobileDetection();
-  const shouldDisable3D = prefersReducedMotion || isMobile;
+  const shouldDisable3D = prefersReducedMotion || isMobile || isSafari;
   const settings = getCardSettings({
     glare,
     glareIntensity,
