@@ -11,12 +11,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { NAVITEMS, ROUTES } from "@/lib/constants/navigation";
-import { useIsResourceConstrainedDevice } from "@/lib/hooks/performance/use-resource-constrained-device";
+import { useShouldReduceEffects } from "@/lib/hooks/performance/use-should-reduce-effects";
 import { useActiveSection } from "@/lib/hooks/ui/use-active-section";
 import { cn } from "@/lib/utils";
 
 export const Navbar = () => {
-  const isResourceConstrainedDevice = useIsResourceConstrainedDevice();
+  const shouldReduceEffects = useShouldReduceEffects();
   const sectionIds = useMemo(
     () =>
       NAVITEMS.map((item) => {
@@ -35,7 +35,7 @@ export const Navbar = () => {
       <nav
         className={cn(
           "flex items-center gap-1 rounded-xl border border-border/50 p-2 shadow-xl ring-1 ring-black/5",
-          isResourceConstrainedDevice
+          shouldReduceEffects
             ? "bg-secondary"
             : "bg-secondary/80 backdrop-blur-lg"
         )}

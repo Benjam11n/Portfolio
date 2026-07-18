@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 import { LayoutShell } from "./layout-shell";
 
-const mockIsResourceConstrainedDevice = vi.fn();
+const mockShouldReduceEffects = vi.fn();
 
 vi.mock(
   import("@/lib/hooks/performance/use-deferred-enhancement") as unknown as string,
@@ -11,9 +11,9 @@ vi.mock(
 );
 
 vi.mock(
-  import("@/lib/hooks/performance/use-resource-constrained-device") as unknown as string,
+  import("@/lib/hooks/performance/use-should-reduce-effects") as unknown as string,
   () => ({
-    useIsResourceConstrainedDevice: () => mockIsResourceConstrainedDevice(),
+    useShouldReduceEffects: () => mockShouldReduceEffects(),
   })
 );
 
@@ -29,11 +29,11 @@ vi.mock(
 
 describe(LayoutShell, () => {
   beforeEach(() => {
-    mockIsResourceConstrainedDevice.mockReturnValue(false);
+    mockShouldReduceEffects.mockReturnValue(false);
   });
 
   it("does not mount click sparks on resource-constrained devices", () => {
-    mockIsResourceConstrainedDevice.mockReturnValue(true);
+    mockShouldReduceEffects.mockReturnValue(true);
 
     render(<LayoutShell>Content</LayoutShell>);
 

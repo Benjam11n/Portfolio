@@ -3,12 +3,12 @@ import { render, screen } from "@repo/testing/test-utils";
 import { Navbar } from "./navbar";
 
 const mockActiveSection = vi.fn();
-const mockIsResourceConstrainedDevice = vi.fn();
+const mockShouldReduceEffects = vi.fn();
 
 vi.mock(
-  import("@/lib/hooks/performance/use-resource-constrained-device") as unknown as string,
+  import("@/lib/hooks/performance/use-should-reduce-effects") as unknown as string,
   () => ({
-    useIsResourceConstrainedDevice: () => mockIsResourceConstrainedDevice(),
+    useShouldReduceEffects: () => mockShouldReduceEffects(),
   })
 );
 
@@ -33,11 +33,11 @@ vi.mock(import("@/components/effects/magnetic") as unknown as string, () => ({
 describe(Navbar, () => {
   beforeEach(() => {
     mockActiveSection.mockReturnValue("hero");
-    mockIsResourceConstrainedDevice.mockReturnValue(false);
+    mockShouldReduceEffects.mockReturnValue(false);
   });
 
   it("removes backdrop blur on resource-constrained devices", () => {
-    mockIsResourceConstrainedDevice.mockReturnValue(true);
+    mockShouldReduceEffects.mockReturnValue(true);
 
     render(<Navbar />);
 
