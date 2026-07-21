@@ -50,7 +50,7 @@ describe(Dither, () => {
       children: expect.objectContaining({
         props: expect.objectContaining({ framesPerSecond: 8 }),
       }),
-      dpr: 0.25,
+      dpr: 0.35,
     });
   });
 
