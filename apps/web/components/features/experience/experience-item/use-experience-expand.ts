@@ -8,11 +8,11 @@ import type { KeyboardEvent, MouseEvent } from "react";
 import { EXPERIENCE_EXPAND_ANIMATION } from "@/components/features/experience/experience-item/constants";
 
 interface UseExperienceExpandOptions {
-  prefersReducedMotion: boolean;
+  shouldReduceMotion: boolean;
 }
 
 export const useExperienceExpand = ({
-  prefersReducedMotion,
+  shouldReduceMotion,
 }: UseExperienceExpandOptions) => {
   const containerRef = useRef<HTMLButtonElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -34,7 +34,7 @@ export const useExperienceExpand = ({
       return;
     }
 
-    if (prefersReducedMotion) {
+    if (shouldReduceMotion) {
       contentRef.current.style.height = "auto";
       contentRef.current.style.opacity = "1";
       return;
@@ -58,7 +58,7 @@ export const useExperienceExpand = ({
       return;
     }
 
-    if (prefersReducedMotion) {
+    if (shouldReduceMotion) {
       contentRef.current.style.height = "0";
       contentRef.current.style.opacity = "0";
       restorePreviousFocus();

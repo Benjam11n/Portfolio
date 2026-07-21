@@ -1,12 +1,12 @@
 import { render, screen, waitFor } from "@repo/testing/test-utils";
 import { fireEvent } from "@testing-library/react";
 
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useIsSafari } from "@/lib/hooks/utils/use-is-safari";
 
 import { SelectiveHoverCursor } from "./selective-hover-cursor";
 
-vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"));
+vi.mock(import("@/lib/hooks/performance/use-should-reduce-motion"));
 vi.mock(import("@/lib/hooks/utils/use-is-safari"));
 
 let currentElementFromPointTarget: Element | null = null;
@@ -64,7 +64,7 @@ describe(SelectiveHoverCursor, () => {
 
   beforeEach(() => {
     vi.mocked(useIsSafari).mockReturnValue(false);
-    vi.mocked(usePrefersReducedMotion).mockReturnValue(false);
+    vi.mocked(useShouldReduceMotion).mockReturnValue(false);
     setPointerSupport(true);
     setMeasuredScrollWidths({
       "Click me!": 44,
@@ -85,7 +85,7 @@ describe(SelectiveHoverCursor, () => {
   });
 
   it("does not render when reduced motion is enabled", async () => {
-    vi.mocked(usePrefersReducedMotion).mockReturnValue(true);
+    vi.mocked(useShouldReduceMotion).mockReturnValue(true);
 
     render(<SelectiveHoverCursor />);
 

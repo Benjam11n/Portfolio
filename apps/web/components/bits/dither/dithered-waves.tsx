@@ -4,7 +4,6 @@ import { useThree } from "@react-three/fiber";
 import { createElement, useEffect, useRef } from "react";
 import type { Mesh } from "three";
 
-import { DITHER_FRAME_INTERVAL_MS } from "@/components/bits/dither/constants";
 import { waveFragmentShader, waveVertexShader } from "@/lib/constants/shaders";
 import { useWaveParams } from "@/lib/hooks/animation/use-wave-params";
 import { useMouseInteraction } from "@/lib/hooks/ui/use-mouse-interaction";
@@ -20,6 +19,7 @@ interface DitheredWavesProps {
   isActive: boolean;
   enableMouseInteraction: boolean;
   mouseRadius: number;
+  framesPerSecond: number;
 }
 
 export const DitheredWaves = ({
@@ -33,6 +33,7 @@ export const DitheredWaves = ({
   isActive,
   enableMouseInteraction,
   mouseRadius,
+  framesPerSecond,
 }: DitheredWavesProps) => {
   const mesh = useRef<Mesh>(null);
   const { viewport, size, gl, invalidate } = useThree();
@@ -61,10 +62,10 @@ export const DitheredWaves = ({
       return;
     }
 
-    const intervalId = window.setInterval(invalidate, DITHER_FRAME_INTERVAL_MS);
+    const intervalId = window.setInterval(invalidate, 1000 / framesPerSecond);
 
     return () => window.clearInterval(intervalId);
-  }, [disableAnimation, invalidate, isActive]);
+  }, [disableAnimation, framesPerSecond, invalidate, isActive]);
 
   useEffect(() => {
     const dpr = gl.getPixelRatio();

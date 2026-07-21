@@ -3,12 +3,12 @@ import { render, screen } from "@repo/testing/test-utils";
 import { Navbar } from "./navbar";
 
 const mockActiveSection = vi.fn();
-const mockShouldReduceEffects = vi.fn();
+const mockShouldReduceMotion = vi.fn();
 
 vi.mock(
-  import("@/lib/hooks/performance/use-should-reduce-effects") as unknown as string,
+  import("@/lib/hooks/performance/use-should-reduce-motion") as unknown as string,
   () => ({
-    useShouldReduceEffects: () => mockShouldReduceEffects(),
+    useShouldReduceMotion: () => mockShouldReduceMotion(),
   })
 );
 
@@ -33,11 +33,11 @@ vi.mock(import("@/components/effects/magnetic") as unknown as string, () => ({
 describe(Navbar, () => {
   beforeEach(() => {
     mockActiveSection.mockReturnValue("hero");
-    mockShouldReduceEffects.mockReturnValue(false);
+    mockShouldReduceMotion.mockReturnValue(false);
   });
 
-  it("removes backdrop blur on resource-constrained devices", () => {
-    mockShouldReduceEffects.mockReturnValue(true);
+  it("removes backdrop blur in the low visual-performance tier", () => {
+    mockShouldReduceMotion.mockReturnValue(true);
 
     render(<Navbar />);
 

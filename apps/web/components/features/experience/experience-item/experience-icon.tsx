@@ -7,16 +7,16 @@ import type { Experience } from "@/lib/types";
 
 interface ExperienceIconProps {
   item: Experience;
-  prefersReducedMotion: boolean;
+  shouldReduceMotion: boolean;
 }
 
 export const ExperienceIcon = ({
   item,
-  prefersReducedMotion,
+  shouldReduceMotion,
 }: ExperienceIconProps) => {
   const iconScale = item.iconScale ?? EXPERIENCE_DEFAULT_ICON_SCALE;
   const shouldAutoplayPreview =
-    Boolean(item.preview_video) && !prefersReducedMotion;
+    Boolean(item.preview_video) && !shouldReduceMotion;
 
   if (!shouldAutoplayPreview) {
     return (

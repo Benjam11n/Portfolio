@@ -29,16 +29,18 @@ reused.
 
 ## Reduced and skipped motion
 
-Read the OS preference with `usePrefersReducedMotion`. Reduced-motion users
-should see the final state immediately; disable parallax, tilt, particles, and
-continuous movement where practical.
+Use `useShouldReduceMotion` for the app-level motion decision. OS reduced-motion
+preference maps directly to the low visual-performance tier, so those users see
+the final state immediately. Disable parallax, tilt, particles, and continuous
+movement where practical.
 
 The global `AnimationSkipContext` toggles skipped animation with Escape.
 Features using it must render their final state and stop ongoing work when
 `skipAnimations` is true.
 
-Use `useShouldReduceEffects` when an effect should also be disabled on
-resource-constrained devices.
+Use `useVisualPerformanceTier` for tiered visual quality. Use
+`useShouldReduceMotion` when an animation only needs a binary stop-motion
+decision; it returns `true` for the low tier.
 
 ## Performance
 
@@ -48,9 +50,11 @@ resource-constrained devices.
 - Keep shader resolution and update frequency as low as visual quality allows.
 - Measure complex changes on representative desktop and mobile hardware.
 
-Current dither background uses demand rendering at `dpr={0.375}` and requests
-updates at 12 FPS. It pauses when inactive, disabled, reduced, or globally
-skipped. Run `pnpm homepage:media-check` when changing homepage visual assets.
+Current dither background uses demand rendering. High-tier devices render at
+`dpr={0.35}` and 12 FPS; medium-tier devices use `dpr={0.25}` and 8 FPS. The
+low tier does not mount the dither. It pauses when inactive, disabled, reduced,
+or globally skipped. Run `pnpm homepage:media-check` when changing homepage
+visual assets.
 
 ## Review checklist
 

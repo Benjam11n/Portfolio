@@ -17,7 +17,7 @@ if (typeof window !== "undefined") {
 
 interface UseAboutAnimationOptions {
   containerRef: RefObject<HTMLDivElement | null>;
-  prefersReducedMotion: boolean;
+  shouldReduceMotion: boolean;
   shouldSkipEntranceAnimation: boolean;
   skipAnimations: boolean;
 }
@@ -106,7 +106,7 @@ const animateAboutParallax = (
 
 export const useAboutAnimation = ({
   containerRef,
-  prefersReducedMotion,
+  shouldReduceMotion,
   shouldSkipEntranceAnimation,
   skipAnimations,
 }: UseAboutAnimationOptions) => {
@@ -123,7 +123,7 @@ export const useAboutAnimation = ({
           const { isDesktop } = context.conditions as { isDesktop: boolean };
 
           if (
-            prefersReducedMotion ||
+            shouldReduceMotion ||
             shouldSkipEntranceAnimation ||
             skipAnimations
           ) {
@@ -138,7 +138,7 @@ export const useAboutAnimation = ({
     },
     {
       dependencies: [
-        prefersReducedMotion,
+        shouldReduceMotion,
         shouldSkipEntranceAnimation,
         skipAnimations,
       ],

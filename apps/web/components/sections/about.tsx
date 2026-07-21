@@ -8,7 +8,7 @@ import { SectionCard } from "@/components/shared/section-card";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useAboutAnimation } from "@/lib/hooks/animation/use-about-animation";
 import { useShouldSkipEntranceAnimation } from "@/lib/hooks/animation/use-should-skip-entrance-animation";
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useProfileImageSource } from "@/lib/hooks/ui/use-profile-image-source";
 
 export const About = () => {
@@ -16,12 +16,12 @@ export const About = () => {
   const profileImageRef = useRef<HTMLDivElement>(null);
   const [image1Error, setImage1Error] = useState(false);
   const [image2Error, setImage2Error] = useState(false);
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const shouldSkipEntranceAnimation = useShouldSkipEntranceAnimation();
   const { skipAnimations } = useAnimationSkipContext();
   const profileImageSrc = useProfileImageSource({
     animationRef: profileImageRef,
-    prefersReducedMotion,
+    shouldReduceMotion,
   });
   const handleImage1Error = useCallback(() => {
     setImage1Error(true);
@@ -31,7 +31,7 @@ export const About = () => {
   }, []);
   useAboutAnimation({
     containerRef,
-    prefersReducedMotion,
+    shouldReduceMotion,
     shouldSkipEntranceAnimation,
     skipAnimations,
   });

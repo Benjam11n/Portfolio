@@ -17,7 +17,7 @@ interface AnimatedCardProps {
   className?: string;
   containerClassName?: string;
   handlers: ReturnType<typeof useCard3DHandlers>;
-  prefersReducedMotion: boolean;
+  shouldReduceMotion: boolean;
   refs: CardRefs;
   settings: CardSettings;
   shadow?: boolean;
@@ -29,7 +29,7 @@ export const AnimatedCard = ({
   className,
   containerClassName,
   handlers,
-  prefersReducedMotion,
+  shouldReduceMotion,
   refs,
   settings,
   shadow,
@@ -38,8 +38,8 @@ export const AnimatedCard = ({
   const primaryEdgeColor = sideColor || "hsl(var(--muted))";
   const secondaryEdgeColor = sideColor || "hsl(var(--muted-foreground) / 0.3)";
   const cardClassName = getAnimatedCardClassName({
-    prefersReducedMotion,
     shadow,
+    shouldReduceMotion,
   });
 
   return (

@@ -5,7 +5,7 @@ import gsapCore from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { RefObject } from "react";
 
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 
 if (typeof window !== "undefined") {
   gsapCore.registerPlugin(ScrollTrigger);
@@ -132,7 +132,7 @@ export const useScrollReveal = (
   targetSelector: RevealTarget | RevealStep[],
   options: ScrollRevealOptions = {}
 ) => {
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
 
   const {
     y = 30,
@@ -159,7 +159,7 @@ export const useScrollReveal = (
 
   useGSAP(
     () => {
-      const shouldSkip = prefersReducedMotion || skipAnimations;
+      const shouldSkip = shouldReduceMotion || skipAnimations;
 
       if (!isRevealTimeline(targetSelector)) {
         if (shouldSkip) {
@@ -179,7 +179,7 @@ export const useScrollReveal = (
       revealTimeline(containerRef, targetSelector, revealOptions);
     },
     {
-      dependencies: [prefersReducedMotion, skipAnimations],
+      dependencies: [shouldReduceMotion, skipAnimations],
       scope: containerRef,
     }
   );

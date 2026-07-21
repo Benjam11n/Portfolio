@@ -1,14 +1,14 @@
 import { render } from "@testing-library/react";
 
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 
 import { SmoothScroll } from "./smooth-scroll";
 
-vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"));
+vi.mock(import("@/lib/hooks/performance/use-should-reduce-motion"));
 
 describe(SmoothScroll, () => {
   beforeEach(() => {
-    vi.mocked(usePrefersReducedMotion).mockReturnValue(false);
+    vi.mocked(useShouldReduceMotion).mockReturnValue(false);
     document.documentElement.style.scrollBehavior = "";
   });
 
@@ -27,7 +27,7 @@ describe(SmoothScroll, () => {
       </SmoothScroll>
     );
 
-    vi.mocked(usePrefersReducedMotion).mockReturnValue(true);
+    vi.mocked(useShouldReduceMotion).mockReturnValue(true);
 
     rerender(
       <SmoothScroll>

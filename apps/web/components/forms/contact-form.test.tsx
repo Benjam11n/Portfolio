@@ -11,22 +11,8 @@ vi.mock(import("canvas-confetti") as unknown as string, () => ({
   default: vi.fn(),
 }));
 
-vi.mock(import("@/lib/actions/email.actions") as unknown as string, () => ({
-  sendEmailAction: vi.fn(),
-}));
-
-vi.mock(import("@repo/logger") as unknown as string, () => ({
-  logger: {
-    error: vi.fn(),
-  },
-}));
-
-vi.mock(import("sonner") as unknown as string, () => ({
-  toast: {
-    error: vi.fn(),
-    success: vi.fn(),
-  },
-}));
+vi.mock(import("@/lib/actions/email.actions"));
+vi.mock(import("sonner"));
 
 vi.mock(
   import("@/components/shared/shift-submit-button") as unknown as string,

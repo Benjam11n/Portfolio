@@ -5,7 +5,7 @@ import gsapCore from "gsap";
 import type React from "react";
 import { createElement, useMemo } from "react";
 
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { cn } from "@/lib/utils";
 
 interface ShiftTextProps {
@@ -87,10 +87,10 @@ export const useShiftAnimation = (
   scope: React.RefObject<HTMLElement | null>
 ) => {
   const { contextSafe } = useGSAP({ scope });
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
 
   const animateIn = contextSafe(() => {
-    if (prefersReducedMotion) {
+    if (shouldReduceMotion) {
       // Instant state change when reduced motion is preferred
       // Both primary and secondary move to -120% to swap visible text
       gsapCore.set(".shift-char-primary", {
@@ -117,7 +117,7 @@ export const useShiftAnimation = (
   });
 
   const animateOut = contextSafe(() => {
-    if (prefersReducedMotion) {
+    if (shouldReduceMotion) {
       // Instant state change when reduced motion is preferred
       gsapCore.set(".shift-char-primary", {
         y: "0%",

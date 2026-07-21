@@ -6,7 +6,7 @@ import {
   FINE_HOVER_MEDIA_QUERY,
   PROJECT_PREVIEW_DELAY_MS,
 } from "@/components/features/projects/project-card/constants";
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 
 interface UseProjectCardPreviewOptions {
@@ -17,7 +17,7 @@ export const useProjectCardPreview = ({
   hasPreviewVideo,
 }: UseProjectCardPreviewOptions) => {
   const isMobile = useMobileDetection();
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const previewTimeoutRef = useRef<number | null>(null);
   const previewVideoRef = useRef<HTMLVideoElement>(null);
   const [hasFineHover, setHasFineHover] = useState(false);
@@ -25,7 +25,7 @@ export const useProjectCardPreview = ({
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
 
   const canPreview =
-    hasPreviewVideo && !isMobile && !prefersReducedMotion && hasFineHover;
+    hasPreviewVideo && !isMobile && !shouldReduceMotion && hasFineHover;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(FINE_HOVER_MEDIA_QUERY);

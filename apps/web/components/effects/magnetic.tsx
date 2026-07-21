@@ -5,7 +5,7 @@ import gsapCore from "gsap";
 import { useRef } from "react";
 import type { ReactElement } from "react";
 
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 
 interface MagneticProps {
@@ -15,9 +15,9 @@ interface MagneticProps {
 
 export const Magnetic = ({ children, strength = 0.35 }: MagneticProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const isMobile = useMobileDetection();
-  const shouldDisable = prefersReducedMotion || isMobile;
+  const shouldDisable = shouldReduceMotion || isMobile;
 
   const gsapContext = useGSAP({ scope: ref });
   const contextSafe =

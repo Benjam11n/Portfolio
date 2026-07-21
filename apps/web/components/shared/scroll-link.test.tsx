@@ -1,16 +1,13 @@
 import { fireEvent, render, screen } from "@repo/testing/test-utils";
+import { usePathname } from "next/navigation";
 
 import { ScrollLink } from "./scroll-link";
 
-const mockUsePathname = vi.fn();
-
-vi.mock(import("next/navigation") as unknown as string, () => ({
-  usePathname: () => mockUsePathname(),
-}));
+vi.mock(import("next/navigation"));
 
 describe(ScrollLink, () => {
   it("does not intercept first-time same-page anchor clicks", () => {
-    mockUsePathname.mockReturnValue("/");
+    vi.mocked(usePathname).mockReturnValue("/");
     window.location.hash = "";
 
     const onClick = vi.fn();
@@ -29,7 +26,7 @@ describe(ScrollLink, () => {
   });
 
   it("scrolls to the target when clicking the current hash again", () => {
-    mockUsePathname.mockReturnValue("/");
+    vi.mocked(usePathname).mockReturnValue("/");
     window.location.hash = "#projects";
 
     const scrollIntoView = vi.fn();
@@ -53,7 +50,7 @@ describe(ScrollLink, () => {
   });
 
   it("does nothing when the current hash target does not exist", () => {
-    mockUsePathname.mockReturnValue("/");
+    vi.mocked(usePathname).mockReturnValue("/");
     window.location.hash = "#projects";
 
     const querySelectorSpy = vi
@@ -68,7 +65,7 @@ describe(ScrollLink, () => {
   });
 
   it("does not force smooth scrolling when the click was already prevented", () => {
-    mockUsePathname.mockReturnValue("/");
+    vi.mocked(usePathname).mockReturnValue("/");
     window.location.hash = "#projects";
 
     const onClick = vi.fn((event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -92,7 +89,7 @@ describe(ScrollLink, () => {
   });
 
   it("normalizes anchor hrefs when rendered off the home page", () => {
-    mockUsePathname.mockReturnValue("/projects/test");
+    vi.mocked(usePathname).mockReturnValue("/projects/test");
 
     render(<ScrollLink href="#contact">Contact</ScrollLink>);
 

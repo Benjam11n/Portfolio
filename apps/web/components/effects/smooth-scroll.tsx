@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import type { ReactNode } from "react";
 
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 
 export interface SmoothScrollProps {
   children: ReactNode;
@@ -14,7 +14,7 @@ export const SmoothScroll = ({
   children,
   enabled = true,
 }: SmoothScrollProps) => {
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
 
   useEffect(() => {
     if (!enabled) {
@@ -22,14 +22,14 @@ export const SmoothScroll = ({
       return;
     }
 
-    document.documentElement.style.scrollBehavior = prefersReducedMotion
+    document.documentElement.style.scrollBehavior = shouldReduceMotion
       ? "auto"
       : "smooth";
 
     return () => {
       document.documentElement.style.scrollBehavior = "auto";
     };
-  }, [enabled, prefersReducedMotion]);
+  }, [enabled, shouldReduceMotion]);
 
   return children;
 };

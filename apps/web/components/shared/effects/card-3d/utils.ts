@@ -43,12 +43,12 @@ export const getCardSettings = ({
 };
 
 interface AnimatedCardClassNameOptions {
-  prefersReducedMotion: boolean;
+  shouldReduceMotion: boolean;
   shadow?: boolean;
 }
 
 export const getAnimatedCardClassName = ({
-  prefersReducedMotion,
+  shouldReduceMotion,
   shadow,
 }: AnimatedCardClassNameOptions) => {
   if (!shadow) {
@@ -57,6 +57,6 @@ export const getAnimatedCardClassName = ({
 
   return cn(
     "relative h-full w-full rounded-xl transition-shadow",
-    prefersReducedMotion ? "shadow-xl" : "hover:shadow-2xl"
+    shouldReduceMotion ? "shadow-xl" : "hover:shadow-2xl"
   );
 };

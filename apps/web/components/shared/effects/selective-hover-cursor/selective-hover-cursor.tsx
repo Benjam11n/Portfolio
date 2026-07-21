@@ -13,16 +13,15 @@ import {
   getRenderedLabel,
   shouldShowLabel,
 } from "@/components/shared/effects/selective-hover-cursor/utils";
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useIsSafari } from "@/lib/hooks/utils/use-is-safari";
 
 export const SelectiveHoverCursor = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const supportsFinePointer = useFinePointer();
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const isSafari = useIsSafari();
-  const shouldEnable =
-    supportsFinePointer && !prefersReducedMotion && !isSafari;
+  const shouldEnable = supportsFinePointer && !shouldReduceMotion && !isSafari;
   const cursor = useHoverCursorState(shouldEnable);
   const cursorStyle = useCursorPresentation(cursor, contentRef);
   const renderedLabel = getRenderedLabel(cursor);

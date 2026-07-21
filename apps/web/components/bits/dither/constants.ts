@@ -1,3 +1,5 @@
 export const AUTO_PAUSE_AFTER_MS = 10_000;
-// 12 FPS requests one frame about every 83 milliseconds.
-export const DITHER_FRAME_INTERVAL_MS = 1000 / 12;
+export const HIGH_TIER_DITHER_FPS = 12;
+export const MEDIUM_TIER_DITHER_FPS = 8;
+export const HIGH_TIER_DITHER_DPR = 0.35;
+export const MEDIUM_TIER_DITHER_DPR = 0.25;

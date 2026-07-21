@@ -10,7 +10,7 @@ import {
 import { StaticCard } from "@/components/shared/effects/card-3d/static-card";
 import type { Card3DVariant } from "@/components/shared/effects/card-3d/types";
 import { getCardSettings } from "@/components/shared/effects/card-3d/utils";
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useIsSafari } from "@/lib/hooks/utils/use-is-safari";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 
@@ -42,10 +42,10 @@ export const Card3D = ({
   containerClassName,
 }: Card3DProps) => {
   const refs = useCardRefs();
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const isSafari = useIsSafari();
   const isMobile = useMobileDetection();
-  const shouldDisable3D = prefersReducedMotion || isMobile || isSafari;
+  const shouldDisable3D = shouldReduceMotion || isMobile || isSafari;
   const settings = getCardSettings({
     glare,
     glareIntensity,
@@ -77,7 +77,7 @@ export const Card3D = ({
       className={className}
       containerClassName={containerClassName}
       handlers={handlers}
-      prefersReducedMotion={prefersReducedMotion}
+      shouldReduceMotion={shouldReduceMotion}
       refs={refs}
       settings={settings}
       shadow={shadow}

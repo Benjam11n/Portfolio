@@ -8,7 +8,7 @@ interface ExperienceSummaryProps {
   headingId: string;
   isOpen: boolean;
   item: Experience;
-  prefersReducedMotion: boolean;
+  shouldReduceMotion: boolean;
 }
 
 export const ExperienceSummary = ({
@@ -17,11 +17,11 @@ export const ExperienceSummary = ({
   headingId,
   isOpen,
   item,
-  prefersReducedMotion,
+  shouldReduceMotion,
 }: ExperienceSummaryProps) => (
   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
     <div className="flex items-center gap-3">
-      <ExperienceIcon item={item} prefersReducedMotion={prefersReducedMotion} />
+      <ExperienceIcon item={item} shouldReduceMotion={shouldReduceMotion} />
       <div>
         <h3 className="font-bold text-base" id={headingId}>
           {item.name}

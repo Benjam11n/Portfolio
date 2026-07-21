@@ -3,17 +3,21 @@
 import { useBackgroundVisibility } from "@/components/layout/background-visibility";
 import { DynamicDither } from "@/components/layout/dynamic-layout-components";
 import { useDeferredEnhancement } from "@/lib/hooks/performance/use-deferred-enhancement";
-import { useShouldReduceEffects } from "@/lib/hooks/performance/use-should-reduce-effects";
+import { useVisualPerformanceTier } from "@/lib/hooks/performance/use-visual-performance-tier";
 
 export const PersistentBackground = () => {
   const { isBackgroundDisabled } = useBackgroundVisibility();
-  const shouldReduceEffects = useShouldReduceEffects();
+  const visualPerformanceTier = useVisualPerformanceTier();
   const enableDither = useDeferredEnhancement({
     activateOnInteraction: false,
     delayMs: 1600,
   });
 
-  if (!enableDither || isBackgroundDisabled || shouldReduceEffects) {
+  if (
+    !enableDither ||
+    isBackgroundDisabled ||
+    visualPerformanceTier === "low"
+  ) {
     return null;
   }
 

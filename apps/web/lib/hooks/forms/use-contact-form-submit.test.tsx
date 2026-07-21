@@ -1,3 +1,4 @@
+import { logger } from "@repo/logger";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { toast } from "sonner";
 
@@ -16,30 +17,9 @@ const TEST_VALUES = {
   website: "",
 } as const;
 
-const { mockLoggerError } = vi.hoisted(() => ({
-  mockLoggerError: vi.fn(),
-}));
-
-vi.mock(import("@/lib/actions/email.actions") as unknown as string, () => ({
-  sendEmailAction: vi.fn(),
-}));
-
-vi.mock(import("@/lib/analytics/conversion") as unknown as string, () => ({
-  trackContactFormError: vi.fn(),
-  trackContactFormSuccess: vi.fn(),
-}));
-
-vi.mock(import("@repo/logger") as unknown as string, () => ({
-  logger: {
-    error: mockLoggerError,
-  },
-}));
-
-vi.mock(import("sonner") as unknown as string, () => ({
-  toast: {
-    error: vi.fn(),
-  },
-}));
+vi.mock(import("@/lib/actions/email.actions"));
+vi.mock(import("@/lib/analytics/conversion"));
+vi.mock(import("sonner"));
 
 describe(useContactFormSubmit, () => {
   beforeEach(() => {
@@ -130,7 +110,7 @@ describe(useContactFormSubmit, () => {
         "main_form"
       );
       expect(toast.error).toHaveBeenCalledWith("An unexpected error occurred");
-      expect(mockLoggerError).toHaveBeenCalledWith(error);
+      expect(logger.error).toHaveBeenCalledWith(error);
     });
 
     expect(trackContactFormSuccess).not.toHaveBeenCalled();

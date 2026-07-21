@@ -15,7 +15,7 @@ interface UseHeroAnimationOptions {
   buttonsRef: RefObject<HTMLDivElement | null>;
   containerRef: RefObject<HTMLDivElement | null>;
   imageRef: RefObject<HTMLDivElement | null>;
-  prefersReducedMotion: boolean;
+  shouldReduceMotion: boolean;
   shouldSkipEntranceAnimation: boolean;
   skipAnimations: boolean;
 }
@@ -51,13 +51,13 @@ const mediumFastSeconds = ANIMATION_DURATION.MEDIUM_FAST / 1000;
 const quickSeconds = ANIMATION_DURATION.QUICK / 1000;
 
 const shouldUseStaticHeroState = ({
-  prefersReducedMotion,
+  shouldReduceMotion,
   shouldSkipEntranceAnimation,
   skipAnimations,
 }: Pick<
   UseHeroAnimationOptions,
-  "prefersReducedMotion" | "shouldSkipEntranceAnimation" | "skipAnimations"
->) => prefersReducedMotion || skipAnimations || shouldSkipEntranceAnimation;
+  "shouldReduceMotion" | "shouldSkipEntranceAnimation" | "skipAnimations"
+>) => shouldReduceMotion || skipAnimations || shouldSkipEntranceAnimation;
 
 const stopAndLogHeroMetrics = (
   label: string,
@@ -191,7 +191,7 @@ export const useHeroAnimation = ({
   buttonsRef,
   containerRef,
   imageRef,
-  prefersReducedMotion,
+  shouldReduceMotion,
   shouldSkipEntranceAnimation,
   skipAnimations,
 }: UseHeroAnimationOptions) => {
@@ -201,7 +201,7 @@ export const useHeroAnimation = ({
     () => {
       const mm = gsapCore.matchMedia();
       const shouldSkip = shouldUseStaticHeroState({
-        prefersReducedMotion,
+        shouldReduceMotion,
         shouldSkipEntranceAnimation,
         skipAnimations,
       });
@@ -247,7 +247,7 @@ export const useHeroAnimation = ({
     },
     {
       dependencies: [
-        prefersReducedMotion,
+        shouldReduceMotion,
         shouldSkipEntranceAnimation,
         skipAnimations,
       ],

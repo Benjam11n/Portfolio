@@ -5,14 +5,14 @@ export const getThemeWaveColor = (
 
 export const shouldDisableDitherAnimation = ({
   disableAnimation,
-  prefersReducedMotion,
+  shouldReduceMotion,
   skipAnimations,
 }: DitherAnimationOptions) =>
-  disableAnimation || prefersReducedMotion || skipAnimations;
+  disableAnimation || shouldReduceMotion || skipAnimations;
 
 interface DitherAnimationOptions {
   disableAnimation: boolean;
-  prefersReducedMotion: boolean;
+  shouldReduceMotion: boolean;
   skipAnimations: boolean;
 }
 

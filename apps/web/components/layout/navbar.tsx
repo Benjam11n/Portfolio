@@ -11,12 +11,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { NAVITEMS, ROUTES } from "@/lib/constants/navigation";
-import { useShouldReduceEffects } from "@/lib/hooks/performance/use-should-reduce-effects";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useActiveSection } from "@/lib/hooks/ui/use-active-section";
 import { cn } from "@/lib/utils";
 
 export const Navbar = () => {
-  const shouldReduceEffects = useShouldReduceEffects();
+  const shouldReduceMotion = useShouldReduceMotion();
   const sectionIds = useMemo(
     () =>
       NAVITEMS.map((item) => {
@@ -35,7 +35,7 @@ export const Navbar = () => {
       <nav
         className={cn(
           "flex items-center gap-1 rounded-xl border border-border/50 p-2 shadow-xl ring-1 ring-black/5",
-          shouldReduceEffects
+          shouldReduceMotion
             ? "bg-secondary"
             : "bg-secondary/80 backdrop-blur-lg"
         )}

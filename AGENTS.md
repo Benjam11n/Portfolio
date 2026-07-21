@@ -27,6 +27,15 @@
 - Use `pnpm knip` for dead-code/dependency cleanup.
 - Use `pnpm homepage:media-check` when touching homepage media or visual assets.
 
+## Testing
+
+- Put repeated infrastructure mocks in `apps/web/__mocks__`. External packages
+  resolve them through `vi.mock`; alias always-mocked workspace packages in
+  `apps/web/vitest.config.ts`.
+- Auto-mock internal hooks and functions with `vi.mock(import("..."))`, then
+  set explicit behavior in `beforeEach`.
+- Keep one-off component and scenario-specific mocks beside their tests.
+
 ## Code
 
 - Prefer explicit types, small modules, and straightforward control flow.

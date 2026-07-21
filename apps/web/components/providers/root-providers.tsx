@@ -15,6 +15,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { clientEnv } from "@/lib/env/client";
 import { useDeferredEnhancement } from "@/lib/hooks/performance/use-deferred-enhancement";
+import { useVisualPerformanceTier } from "@/lib/hooks/performance/use-visual-performance-tier";
 
 interface RootProvidersProps {
   children: ReactNode;
@@ -22,6 +23,7 @@ interface RootProvidersProps {
 
 export const RootProviders = ({ children }: RootProvidersProps) => {
   const enableCursor = useDeferredEnhancement({ delayMs: 1400 });
+  const visualPerformanceTier = useVisualPerformanceTier();
 
   return (
     <AnalyticsProvider
@@ -37,7 +39,9 @@ export const RootProviders = ({ children }: RootProvidersProps) => {
         <DynamicAnimationSkipProvider>
           <BackgroundVisibilityProvider>
             <PersistentBackground />
-            {enableCursor && <DynamicSelectiveHoverCursor />}
+            {enableCursor && visualPerformanceTier === "high" && (
+              <DynamicSelectiveHoverCursor />
+            )}
             <TooltipProvider delayDuration={60} skipDelayDuration={0}>
               {children}
             </TooltipProvider>

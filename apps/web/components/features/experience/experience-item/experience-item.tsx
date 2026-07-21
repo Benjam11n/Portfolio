@@ -11,7 +11,7 @@ import {
   getExperienceDurationLabel,
 } from "@/components/features/experience/experience-item/utils";
 import { Card3D } from "@/components/shared/effects/card-3d";
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 import type { Experience } from "@/lib/types";
 
@@ -20,12 +20,12 @@ interface ExperienceItemProps {
 }
 
 export const ExperienceItem = ({ item }: ExperienceItemProps) => {
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const isMobile = useMobileDetection();
   const hasPoints = item.points.length > 0;
   const durationLabel = getExperienceDurationLabel(item);
   const ids = useMemo(() => getExperienceAriaIds(item.id), [item.id]);
-  const expand = useExperienceExpand({ prefersReducedMotion });
+  const expand = useExperienceExpand({ shouldReduceMotion });
 
   const summary = (
     <ExperienceSummary
@@ -34,7 +34,7 @@ export const ExperienceItem = ({ item }: ExperienceItemProps) => {
       headingId={ids.headingId}
       isOpen={expand.isOpen}
       item={item}
-      prefersReducedMotion={prefersReducedMotion}
+      shouldReduceMotion={shouldReduceMotion}
     />
   );
 

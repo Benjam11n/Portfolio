@@ -5,8 +5,8 @@ import type { ReactNode } from "react";
 
 import { useClickSparkAnimation } from "@/components/bits/click-spark/hooks";
 import type { ClickSparkEasing } from "@/components/bits/click-spark/types";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 import { useCanvasResize } from "@/lib/hooks/utils/use-canvas-resize";
 import { cn } from "@/lib/utils";
 
@@ -37,10 +37,10 @@ export const ClickSpark = ({
 }: ClickSparkProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const isVisibleInViewport = useElementVisibility(containerRef);
   const canAnimate =
-    (listenOnDocument || isVisibleInViewport) && !prefersReducedMotion;
+    (listenOnDocument || isVisibleInViewport) && !shouldReduceMotion;
 
   useCanvasResize(canvasRef, 100);
 

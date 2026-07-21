@@ -2,6 +2,9 @@ import { render, screen, waitFor } from "@repo/testing/test-utils";
 import type { ComponentProps, ReactNode } from "react";
 
 import { TechStack } from "@/components/sections/tech-stack";
+import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
+
+vi.mock(import("@/lib/contexts/animation-skip-context"));
 
 vi.mock(import("next/dynamic") as unknown as string, () => ({
   default:
@@ -121,17 +124,6 @@ vi.mock(
 );
 
 vi.mock(
-  import("@/lib/contexts/animation-skip-context") as unknown as string,
-  () => ({
-    useAnimationSkipContext: () => ({
-      resetSkipAnimations: vi.fn(),
-      setSkipAnimations: vi.fn(),
-      skipAnimations: false,
-    }),
-  })
-);
-
-vi.mock(
   import("@/lib/hooks/ui/use-animation-skip-indicator") as unknown as string,
   () => ({
     useAnimationSkipIndicator: () => false,
@@ -139,6 +131,14 @@ vi.mock(
 );
 
 describe(TechStack, () => {
+  beforeEach(() => {
+    vi.mocked(useAnimationSkipContext).mockReturnValue({
+      resetSkipAnimations: vi.fn(),
+      setSkipAnimations: vi.fn(),
+      skipAnimations: false,
+    });
+  });
+
   const getRenderedTechButtons = () =>
     screen
       .getAllByRole("button")

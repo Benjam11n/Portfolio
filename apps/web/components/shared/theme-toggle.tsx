@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 
 const THEME_ICON_CONFIG = {
   dark: {
@@ -29,7 +29,7 @@ const THEME_ICON_CONFIG = {
 
 export const ThemeToggle = () => {
   const { setTheme, theme, systemTheme } = useTheme();
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const [mounted, setMounted] = useState(false);
   const currentTheme = theme === "system" ? systemTheme : theme;
   const themeMode = currentTheme === "light" ? "light" : "dark";
@@ -61,18 +61,18 @@ export const ThemeToggle = () => {
             animate={{ rotate: 0, scale: 1 }}
             className="absolute inset-0 flex items-center justify-center"
             exit={
-              prefersReducedMotion
+              shouldReduceMotion
                 ? { rotate: 0, scale: 1 }
                 : { rotate: iconConfig.exitRotation, scale: 0 }
             }
             initial={
-              prefersReducedMotion
+              shouldReduceMotion
                 ? false
                 : { rotate: iconConfig.initialRotation, scale: 0 }
             }
             key={iconConfig.key}
             transition={
-              prefersReducedMotion
+              shouldReduceMotion
                 ? { duration: 0 }
                 : { duration: 0.2, ease: "easeInOut" }
             }

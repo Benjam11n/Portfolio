@@ -6,6 +6,12 @@ import gsapCore from "gsap";
 import { useTheme } from "next-themes";
 import { useRef } from "react";
 
+import {
+  HIGH_TIER_DITHER_DPR,
+  HIGH_TIER_DITHER_FPS,
+  MEDIUM_TIER_DITHER_DPR,
+  MEDIUM_TIER_DITHER_FPS,
+} from "@/components/bits/dither/constants";
 import { DitheredWaves } from "@/components/bits/dither/dithered-waves";
 import { useDitherControls } from "@/components/bits/dither/use-dither-controls";
 import {
@@ -14,8 +20,8 @@ import {
   shouldEnableDitherMouse,
 } from "@/components/bits/dither/utils";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
+import { useVisualPerformanceTier } from "@/lib/hooks/performance/use-visual-performance-tier";
 import { useElementVisibility } from "@/lib/hooks/ui/use-element-visibility";
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 export interface DitherProps {
   waveSpeed?: number;
@@ -41,7 +47,16 @@ export const Dither = ({
   mouseRadius = 1,
 }: DitherProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const visualPerformanceTier = useVisualPerformanceTier();
+  const shouldReduceMotion = visualPerformanceTier === "low";
+  const ditherDpr =
+    visualPerformanceTier === "medium"
+      ? MEDIUM_TIER_DITHER_DPR
+      : HIGH_TIER_DITHER_DPR;
+  const framesPerSecond =
+    visualPerformanceTier === "medium"
+      ? MEDIUM_TIER_DITHER_FPS
+      : HIGH_TIER_DITHER_FPS;
   const { skipAnimations, setSkipAnimations } = useAnimationSkipContext();
   const isActive = useElementVisibility(containerRef);
   const { resolvedTheme } = useTheme();
@@ -49,7 +64,7 @@ export const Dither = ({
   const currentWaveColor = waveColor || getThemeWaveColor(resolvedTheme);
   const shouldDisableAnimation = shouldDisableDitherAnimation({
     disableAnimation,
-    prefersReducedMotion,
+    shouldReduceMotion,
     skipAnimations,
   });
   const { handleContainerClick, isEffectivelyPaused } = useDitherControls({
@@ -64,7 +79,7 @@ export const Dither = ({
 
   useGSAP(
     () => {
-      if (prefersReducedMotion || skipAnimations) {
+      if (shouldReduceMotion || skipAnimations) {
         if (containerRef.current) {
           containerRef.current.style.opacity = "1";
         }
@@ -79,7 +94,7 @@ export const Dither = ({
       });
     },
     {
-      dependencies: [prefersReducedMotion, skipAnimations],
+      dependencies: [shouldReduceMotion, skipAnimations],
       scope: containerRef,
     }
   );
@@ -94,7 +109,7 @@ export const Dither = ({
       <div className="relative h-full w-full">
         <Canvas
           camera={{ position: [0, 0, 6] }}
-          dpr={0.35}
+          dpr={ditherDpr}
           frameloop="demand"
           gl={{
             antialias: false,
@@ -106,6 +121,7 @@ export const Dither = ({
             colorNum={colorNum}
             disableAnimation={isEffectivelyPaused}
             enableMouseInteraction={shouldEnableMouse}
+            framesPerSecond={framesPerSecond}
             isActive={isActive}
             mouseRadius={mouseRadius}
             pixelSize={pixelSize}

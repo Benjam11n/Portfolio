@@ -1,13 +1,10 @@
 import { createMockIntersectionEntry } from "@repo/testing/test-types";
 import { act, renderHook, waitFor } from "@testing-library/react";
+import { usePathname } from "next/navigation";
 
 import { useActiveSection } from "./use-active-section";
 
-const mockUsePathname = vi.fn();
-
-vi.mock(import("next/navigation") as unknown as string, () => ({
-  usePathname: () => mockUsePathname(),
-}));
+vi.mock(import("next/navigation"));
 
 describe(useActiveSection, () => {
   let intersectionCallback: IntersectionObserverCallback;
@@ -15,7 +12,7 @@ describe(useActiveSection, () => {
   let disconnectSpy: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
-    mockUsePathname.mockReturnValue("/");
+    vi.mocked(usePathname).mockReturnValue("/");
     document.body.innerHTML = `
       <section id="section1"></section>
       <section id="section2"></section>
@@ -153,7 +150,7 @@ describe(useActiveSection, () => {
 
     expect(result.current).toBe("section2");
 
-    mockUsePathname.mockReturnValue("/projects/test");
+    vi.mocked(usePathname).mockReturnValue("/projects/test");
     rerender();
 
     expect(result.current).toBe("section1");

@@ -7,6 +7,14 @@ export default createVitestConfig({
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "./"),
+      "@repo/logger": path.resolve(
+        import.meta.dirname,
+        "./__mocks__/@repo/logger.ts"
+      ),
+      "@repo/security": path.resolve(
+        import.meta.dirname,
+        "./__mocks__/@repo/security.ts"
+      ),
     },
   },
   test: {

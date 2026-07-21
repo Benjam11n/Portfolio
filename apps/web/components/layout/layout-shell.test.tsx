@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 import { LayoutShell } from "./layout-shell";
 
-const mockShouldReduceEffects = vi.fn();
+const mockVisualPerformanceTier = vi.fn();
 
 vi.mock(
   import("@/lib/hooks/performance/use-deferred-enhancement") as unknown as string,
@@ -13,9 +13,9 @@ vi.mock(
 );
 
 vi.mock(
-  import("@/lib/hooks/performance/use-should-reduce-effects") as unknown as string,
+  import("@/lib/hooks/performance/use-visual-performance-tier") as unknown as string,
   () => ({
-    useShouldReduceEffects: () => mockShouldReduceEffects(),
+    useVisualPerformanceTier: () => mockVisualPerformanceTier(),
   })
 );
 
@@ -31,11 +31,11 @@ vi.mock(
 
 describe(LayoutShell, () => {
   beforeEach(() => {
-    mockShouldReduceEffects.mockReturnValue(false);
+    mockVisualPerformanceTier.mockReturnValue("high");
   });
 
-  it("does not mount click sparks on resource-constrained devices", () => {
-    mockShouldReduceEffects.mockReturnValue(true);
+  it("only mounts click sparks in the high tier", () => {
+    mockVisualPerformanceTier.mockReturnValue("medium");
 
     render(<LayoutShell>Content</LayoutShell>);
 

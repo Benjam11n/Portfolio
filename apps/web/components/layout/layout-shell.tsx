@@ -9,7 +9,7 @@ import {
   DynamicSmoothScroll,
 } from "@/components/layout/dynamic-layout-components";
 import { useDeferredEnhancement } from "@/lib/hooks/performance/use-deferred-enhancement";
-import { useShouldReduceEffects } from "@/lib/hooks/performance/use-should-reduce-effects";
+import { useVisualPerformanceTier } from "@/lib/hooks/performance/use-visual-performance-tier";
 
 interface LayoutShellProps {
   children: ReactNode;
@@ -20,7 +20,7 @@ export const LayoutShell = ({
   children,
   footerShowCta = true,
 }: LayoutShellProps) => {
-  const shouldReduceEffects = useShouldReduceEffects();
+  const visualPerformanceTier = useVisualPerformanceTier();
   const enableClickSpark = useDeferredEnhancement({ delayMs: 1400 });
   const enableSmoothScroll = useDeferredEnhancement({
     activateOnInteraction: false,
@@ -29,7 +29,7 @@ export const LayoutShell = ({
 
   return (
     <>
-      {enableClickSpark && !shouldReduceEffects && (
+      {enableClickSpark && visualPerformanceTier === "high" && (
         <DynamicClickSpark
           className="pointer-events-none fixed inset-0 z-50"
           duration={400}

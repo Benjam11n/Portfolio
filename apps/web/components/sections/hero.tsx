@@ -11,14 +11,14 @@ import { HERO_CONTENT } from "@/lib/constants/hero";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useHeroAnimation } from "@/lib/hooks/animation/use-hero-animation";
 import { useShouldSkipEntranceAnimation } from "@/lib/hooks/animation/use-should-skip-entrance-animation";
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useProfileImageSource } from "@/lib/hooks/ui/use-profile-image-source";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const shouldSkipEntranceAnimation = useShouldSkipEntranceAnimation({
     thresholdMs: 900,
   });
@@ -38,13 +38,13 @@ export const Hero = () => {
   }, []);
   const profileImageSrc = useProfileImageSource({
     animationRef: imageRef,
-    prefersReducedMotion,
+    shouldReduceMotion,
   });
   useHeroAnimation({
     buttonsRef,
     containerRef,
     imageRef,
-    prefersReducedMotion,
+    shouldReduceMotion,
     shouldSkipEntranceAnimation,
     skipAnimations,
   });

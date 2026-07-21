@@ -1,4 +1,5 @@
 import { act, renderHook } from "@testing-library/react";
+import { useTheme } from "next-themes";
 import { createRef } from "react";
 
 import { useProfileImageSource } from "./use-profile-image-source";
@@ -8,9 +9,7 @@ const mocks = vi.hoisted(() => ({
   resolvedTheme: "dark" as string | undefined,
 }));
 
-vi.mock(import("next-themes") as unknown as string, () => ({
-  useTheme: () => ({ resolvedTheme: mocks.resolvedTheme }),
-}));
+vi.mock(import("next-themes"));
 
 vi.mock(import("gsap") as unknown as string, () => ({
   default: {
@@ -22,6 +21,10 @@ describe(useProfileImageSource, () => {
   beforeEach(() => {
     mocks.fromTo.mockClear();
     mocks.resolvedTheme = "dark";
+    vi.mocked(useTheme).mockImplementation(
+      () =>
+        ({ resolvedTheme: mocks.resolvedTheme }) as ReturnType<typeof useTheme>
+    );
   });
 
   it("uses the dark image by default", () => {
@@ -77,7 +80,7 @@ describe(useProfileImageSource, () => {
     animationRef.current = document.createElement("div");
 
     const { rerender } = renderHook(() =>
-      useProfileImageSource({ animationRef, prefersReducedMotion: true })
+      useProfileImageSource({ animationRef, shouldReduceMotion: true })
     );
 
     act(() => {

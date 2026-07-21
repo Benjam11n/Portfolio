@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
 
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useIsSafari } from "@/lib/hooks/utils/use-is-safari";
 import { useMobileDetection } from "@/lib/hooks/utils/use-mobile-detection";
 
 import { Card3D } from "./card-3d";
 
-vi.mock(import("@/lib/hooks/ui/use-prefers-reduced-motion"));
+vi.mock(import("@/lib/hooks/performance/use-should-reduce-motion"));
 vi.mock(import("@/lib/hooks/utils/use-is-safari"));
 vi.mock(import("@/lib/hooks/utils/use-mobile-detection"));
 
@@ -14,7 +14,7 @@ describe(Card3D, () => {
   beforeEach(() => {
     vi.mocked(useIsSafari).mockReturnValue(false);
     vi.mocked(useMobileDetection).mockReturnValue(false);
-    vi.mocked(usePrefersReducedMotion).mockReturnValue(false);
+    vi.mocked(useShouldReduceMotion).mockReturnValue(false);
   });
 
   it("renders children inside the interactive card surface", () => {
@@ -30,7 +30,7 @@ describe(Card3D, () => {
   });
 
   it("falls back to the static card presentation when reduced motion is preferred", () => {
-    vi.mocked(usePrefersReducedMotion).mockReturnValue(true);
+    vi.mocked(useShouldReduceMotion).mockReturnValue(true);
 
     const { container } = render(
       <Card3D containerClassName="container-class">

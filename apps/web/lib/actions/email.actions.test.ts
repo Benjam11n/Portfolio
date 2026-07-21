@@ -1,20 +1,11 @@
+import { secure } from "@repo/security";
+
 import { sendEmailAction } from "./email.actions";
 
-const { mockLoggerError, mockResendSend, mockSecure } = vi.hoisted(() => ({
-  mockLoggerError: vi.fn(),
+const { mockResendSend } = vi.hoisted(() => ({
   mockResendSend: vi.fn(),
-  mockSecure: vi.fn(),
 }));
-
-vi.mock(import("@repo/security") as unknown as string, () => ({
-  secure: mockSecure,
-}));
-
-vi.mock(import("@repo/logger") as unknown as string, () => ({
-  logger: {
-    error: mockLoggerError,
-  },
-}));
+const secureMock = vi.mocked(secure);
 
 vi.mock(import("@/lib/email/resend") as unknown as string, () => ({
   fromEmail: "portfolio@example.com",
@@ -34,7 +25,7 @@ vi.mock(import("@/lib/env/server") as unknown as string, () => ({
 describe(sendEmailAction, () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockSecure.mockImplementation(async () => {});
+    secureMock.mockResolvedValue();
     delete process.env.PLAYWRIGHT_TEST;
   });
 
@@ -55,7 +46,7 @@ describe(sendEmailAction, () => {
       data: { id: "email-id" },
       success: true,
     });
-    expect(mockSecure).toHaveBeenCalledWith([]);
+    expect(secureMock).toHaveBeenCalledWith([]);
     expect(mockResendSend).toHaveBeenCalledWith(
       expect.objectContaining({
         from: "portfolio@example.com",
@@ -113,7 +104,7 @@ describe(sendEmailAction, () => {
   });
 
   it("returns a friendly error for rate-limited requests", async () => {
-    mockSecure.mockRejectedValue(
+    secureMock.mockRejectedValue(
       new Error("You are sending too many requests. Please try again later.")
     );
 
@@ -157,7 +148,7 @@ describe(sendEmailAction, () => {
 
     expect(result.error).toBe("Invalid form data");
     expect(result.details).toBeDefined();
-    expect(mockSecure).not.toHaveBeenCalled();
+    expect(secureMock).not.toHaveBeenCalled();
     expect(mockResendSend).not.toHaveBeenCalled();
   });
 
@@ -175,12 +166,12 @@ describe(sendEmailAction, () => {
       data: { id: "playwright-contact-form" },
       success: true,
     });
-    expect(mockSecure).not.toHaveBeenCalled();
+    expect(secureMock).not.toHaveBeenCalled();
     expect(mockResendSend).not.toHaveBeenCalled();
   });
 
   it("returns internal server error for unexpected failures", async () => {
-    mockSecure.mockRejectedValue(new Error("Unexpected failure"));
+    secureMock.mockRejectedValue(new Error("Unexpected failure"));
 
     const result = await sendEmailAction({
       email: "john@example.com",

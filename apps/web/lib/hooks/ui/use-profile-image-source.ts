@@ -12,7 +12,7 @@ const LIGHT_PROFILE_IMAGE_SRC = "/benjamin-light.avif";
 
 interface UseProfileImageSourceOptions {
   animationRef?: RefObject<HTMLElement | null>;
-  prefersReducedMotion?: boolean;
+  shouldReduceMotion?: boolean;
 }
 
 const getProfileImageSource = (theme?: string) => {
@@ -26,18 +26,18 @@ const getProfileImageSource = (theme?: string) => {
 const shouldAnimateThemeChange = ({
   animationRef,
   currentTheme,
-  prefersReducedMotion,
+  shouldReduceMotion,
   previousTheme,
 }: {
   animationRef?: RefObject<HTMLElement | null>;
   currentTheme: string;
-  prefersReducedMotion: boolean;
+  shouldReduceMotion: boolean;
   previousTheme: string | null;
 }) =>
   Boolean(animationRef?.current) &&
   Boolean(previousTheme) &&
   previousTheme !== currentTheme &&
-  !prefersReducedMotion;
+  !shouldReduceMotion;
 
 const animateProfileImageThemeChange = (element: HTMLElement) => {
   gsapCore.fromTo(
@@ -60,7 +60,7 @@ const animateProfileImageThemeChange = (element: HTMLElement) => {
 
 export const useProfileImageSource = ({
   animationRef,
-  prefersReducedMotion = false,
+  shouldReduceMotion = false,
 }: UseProfileImageSourceOptions = {}) => {
   const { resolvedTheme } = useTheme();
   const hasHydrated = useHasHydrated();
@@ -80,15 +80,15 @@ export const useProfileImageSource = ({
       !shouldAnimateThemeChange({
         animationRef,
         currentTheme,
-        prefersReducedMotion,
         previousTheme,
+        shouldReduceMotion,
       })
     ) {
       return;
     }
 
     animateProfileImageThemeChange(animationRef?.current as HTMLElement);
-  }, [animationRef, hasHydrated, prefersReducedMotion, resolvedTheme]);
+  }, [animationRef, hasHydrated, shouldReduceMotion, resolvedTheme]);
 
   if (!hasHydrated) {
     return DARK_PROFILE_IMAGE_SRC;

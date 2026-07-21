@@ -9,23 +9,19 @@ import { SectionCard } from "@/components/shared/section-card";
 import { CERTIFICATIONS } from "@/lib/constants/certifications";
 import { useAnimationSkipContext } from "@/lib/contexts/animation-skip-context";
 import { useShouldSkipEntranceAnimation } from "@/lib/hooks/animation/use-should-skip-entrance-animation";
+import { useShouldReduceMotion } from "@/lib/hooks/performance/use-should-reduce-motion";
 import { useAnimationSkipIndicator } from "@/lib/hooks/ui/use-animation-skip-indicator";
-import { usePrefersReducedMotion } from "@/lib/hooks/ui/use-prefers-reduced-motion";
 
 export const Certifications = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const shouldReduceMotion = useShouldReduceMotion();
   const { skipAnimations } = useAnimationSkipContext();
   const shouldSkipEntranceAnimation = useShouldSkipEntranceAnimation();
   const showSkipIndicator = useAnimationSkipIndicator(skipAnimations);
 
   useGSAP(
     () => {
-      if (
-        prefersReducedMotion ||
-        shouldSkipEntranceAnimation ||
-        skipAnimations
-      ) {
+      if (shouldReduceMotion || shouldSkipEntranceAnimation || skipAnimations) {
         gsapCore.set(".cert-card", {
           opacity: 1,
           y: 0,
@@ -50,7 +46,7 @@ export const Certifications = () => {
     },
     {
       dependencies: [
-        prefersReducedMotion,
+        shouldReduceMotion,
         shouldSkipEntranceAnimation,
         skipAnimations,
       ],
